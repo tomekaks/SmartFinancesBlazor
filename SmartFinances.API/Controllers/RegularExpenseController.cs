@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SmartFinances.Application.CQRS.RegularExpense.Requests.Commands;
-using SmartFinances.Application.CQRS.RegularExpense.Requests.Queries;
-using SmartFinances.Application.Dto.RegularExpenseDtos;
+using SmartFinances.Application.Features.RegularExpenses.Dtos;
+using SmartFinances.Application.Features.RegularExpenses.Requests.Commands;
+using SmartFinances.Application.Features.RegularExpenses.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {

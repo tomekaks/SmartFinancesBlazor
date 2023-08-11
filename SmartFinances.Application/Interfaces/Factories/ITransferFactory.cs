@@ -1,4 +1,4 @@
-﻿using SmartFinances.Application.Dto.TransferDtos;
+﻿using SmartFinances.Application.Features.Transfers.Dtos;
 using SmartFinances.Core.Data;
 using System;
 using System.Collections.Generic;

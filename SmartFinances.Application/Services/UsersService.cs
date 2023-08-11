@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using SmartFinances.Application.CQRS.Account.Requests.Queries;
-using SmartFinances.Application.CQRS.User.Requests.Commands;
-using SmartFinances.Application.Dto.Users;
+using SmartFinances.Application.Features.Accounts.Requests.Queries;
+using SmartFinances.Application.Features.Users.Dtos;
+using SmartFinances.Application.Features.Users.Requests.Commands;
 using SmartFinances.Application.Interfaces.Services;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Services
 {

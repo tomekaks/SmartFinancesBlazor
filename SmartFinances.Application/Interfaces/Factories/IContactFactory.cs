@@ -1,4 +1,4 @@
-﻿using SmartFinances.Application.Dto.ContactDtos;
+﻿using SmartFinances.Application.Features.Contacts.Dtos;
 using SmartFinances.Core.Data;
 using System;
 using System.Collections.Generic;

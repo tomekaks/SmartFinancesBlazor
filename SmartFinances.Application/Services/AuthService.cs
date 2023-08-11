@@ -3,19 +3,15 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SmartFinances.Application.CQRS.Account.Requests.Commands;
 using SmartFinances.Application.Dto;
-using SmartFinances.Application.Dto.Users;
 using SmartFinances.Application.Exceptions;
+using SmartFinances.Application.Features.Accounts.Requests.Commands;
+using SmartFinances.Application.Features.Users.Dtos;
 using SmartFinances.Application.Interfaces.Services;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Services
 {

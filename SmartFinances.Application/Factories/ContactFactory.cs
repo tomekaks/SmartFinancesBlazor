@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SmartFinances.Application.Dto.ContactDtos;
+using SmartFinances.Application.Features.Contacts.Dtos;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Core.Data;
 using System;

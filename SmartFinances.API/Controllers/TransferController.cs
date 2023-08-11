@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SmartFinances.Application.CQRS.Transfer.Requests.Queries;
-using SmartFinances.Application.Dto.AccountDtos;
-using SmartFinances.Application.Dto.TransferDtos;
+using SmartFinances.Application.Features.Accounts.Dtos;
+using SmartFinances.Application.Features.Transfers.Dtos;
+using SmartFinances.Application.Features.Transfers.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {

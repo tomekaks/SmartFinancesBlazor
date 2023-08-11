@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SmartFinances.Application.Dto.ExpenseDtos;
+using SmartFinances.Application.Features.Expenses.Dtos;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Core.Data;
 using System;
