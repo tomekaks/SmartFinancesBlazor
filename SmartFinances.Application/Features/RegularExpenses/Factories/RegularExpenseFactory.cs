@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Application.Factories
+namespace SmartFinances.Application.Features.RegularExpenses.Factories
 {
     public class RegularExpenseFactory : IRegularExpenseFactory
     {
