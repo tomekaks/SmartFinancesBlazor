@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Application.Factories
+namespace SmartFinances.Application.Features.Accounts.Factories
 {
     public class AccountFactory : IAccountFactory
     {
@@ -21,7 +21,7 @@ namespace SmartFinances.Application.Factories
 
         public Account CreateAccount(AccountDto accountDto)
         {
-            return _mapper.Map<Account>(accountDto); 
+            return _mapper.Map<Account>(accountDto);
         }
 
         public Account CreateAccount(string userId, string accountName)
@@ -41,7 +41,7 @@ namespace SmartFinances.Application.Factories
 
         public Account MapToModel(AccountDto accountDto, Account model)
         {
-           return _mapper.Map(accountDto, model);
+            return _mapper.Map(accountDto, model);
         }
 
         public Account MapToModel(UpdateAccountDto accountDto, Account model)

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Application.Factories
+namespace SmartFinances.Application.Features.Transfers.Factories
 {
     public class TransferFactory : ITransferFactory
     {
