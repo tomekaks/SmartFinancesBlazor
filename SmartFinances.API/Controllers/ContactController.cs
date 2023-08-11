@@ -1,10 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SmartFinances.Application.CQRS.Contact.Requests.Commands;
-using SmartFinances.Application.CQRS.Contact.Requests.Queries;
-using SmartFinances.Application.Dto.ContactDtos;
-using System.Runtime.CompilerServices;
-
+using SmartFinances.Application.Features.Contacts.Dtos;
+using SmartFinances.Application.Features.Contacts.Requests.Commands;
+using SmartFinances.Application.Features.Contacts.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {

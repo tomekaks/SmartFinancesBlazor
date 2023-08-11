@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SmartFinances.Application.Dto.Users;
+using SmartFinances.Application.Features.Users.Dtos;
 using SmartFinances.Application.Interfaces.Services;
 
 namespace SmartFinances.API.Controllers

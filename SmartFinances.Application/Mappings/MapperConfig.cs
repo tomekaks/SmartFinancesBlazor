@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
-using SmartFinances.Application.Dto.Users;
-using SmartFinances.Application.Dto.Enums;
 using SmartFinances.Core.Data;
 using SmartFinances.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SmartFinances.Application.Dto.ExpenseDtos;
-using SmartFinances.Application.Dto.AccountDtos;
-using SmartFinances.Application.Dto.RegularExpenseDtos;
-using SmartFinances.Application.Dto.TransferDtos;
-using SmartFinances.Application.Dto.ContactDtos;
+using SmartFinances.Application.Features.Accounts.Dtos;
+using SmartFinances.Application.Features.Contacts.Dtos;
+using SmartFinances.Application.Features.Expenses.Dtos;
+using SmartFinances.Application.Features.RegularExpenses.Dtos;
+using SmartFinances.Application.Features.Transfers.Dtos;
+using SmartFinances.Application.Features.Users.Dtos;
 
 namespace SmartFinances.Application.Mappings
 {
@@ -24,8 +18,6 @@ namespace SmartFinances.Application.Mappings
             CreateMap<AccountDto, Account>()
                 .ForMember(src => src.Number, opt => opt.Ignore());
             CreateMap<Account, UpdateAccountDto>().ReverseMap();
-
-            CreateMap<ExpenseType, ExpenseTypeDto>().ReverseMap();
 
             CreateMap<Expense, ExpenseDto>().ReverseMap();
             CreateMap<Expense, EditExpenseDto>().ReverseMap();
