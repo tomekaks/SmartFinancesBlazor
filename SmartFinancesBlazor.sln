@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFinancesBlazorUI", "SmartFinancesBlazorUI\SmartFinancesBlazorUI.csproj", "{0BB0B86D-408F-4EB3-AA4A-B4F4B92B6496}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartFinancesBlazorUI", "SmartFinancesBlazorUI\SmartFinancesBlazorUI.csproj", "{0BB0B86D-408F-4EB3-AA4A-B4F4B92B6496}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFinances.Core", "SmartFinances.Core\SmartFinances.Core.csproj", "{73C2FA52-C1EB-458A-B03F-2E5E0CCE9F7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartFinances.Core", "SmartFinances.Core\SmartFinances.Core.csproj", "{73C2FA52-C1EB-458A-B03F-2E5E0CCE9F7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFinances.Infrastructure", "SmartFinances.Infrastructure\SmartFinances.Infrastructure.csproj", "{97D56D38-91CC-4AF1-BE9F-E77599E67D10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartFinances.Infrastructure", "SmartFinances.Infrastructure\SmartFinances.Infrastructure.csproj", "{97D56D38-91CC-4AF1-BE9F-E77599E67D10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFinances.Application", "SmartFinances.Application\SmartFinances.Application.csproj", "{03699794-6B60-4D20-8B48-0FC783C758A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartFinances.Application", "SmartFinances.Application\SmartFinances.Application.csproj", "{03699794-6B60-4D20-8B48-0FC783C758A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFinances.API", "SmartFinances.API\SmartFinances.API.csproj", "{369ACC55-A390-4124-8E69-252E243B7291}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartFinances.API", "SmartFinances.API\SmartFinances.API.csproj", "{369ACC55-A390-4124-8E69-252E243B7291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
