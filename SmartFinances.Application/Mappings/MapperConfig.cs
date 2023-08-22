@@ -29,6 +29,7 @@ namespace SmartFinances.Application.Mappings
 
             CreateMap<RegularExpense, RegularExpenseDto>().ReverseMap();
 
+            CreateMap<Transfer, TransferDto>().ReverseMap();
             CreateMap<Transfer, OutgoingTransferDto>().ReverseMap();
             CreateMap<Transfer, IncomingTransferDto>()
                 .ForMember(dest => dest.SenderName, opt => opt.MapFrom(src => src.Account.Name))

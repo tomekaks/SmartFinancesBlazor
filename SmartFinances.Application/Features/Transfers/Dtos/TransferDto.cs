@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SmartFinances.Application.Features.Accounts.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Core.Data
+namespace SmartFinances.Application.Features.Transfers.Dtos
 {
-    public class Transfer
+    public class TransferDto
     {
         public int Id { get; set; }
         public decimal Amount { get; set; }
@@ -15,7 +16,7 @@ namespace SmartFinances.Core.Data
         public string ReceiverName { get; set; }
         public string ReceiverAccountNumber { get; set; }
         public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public AccountDto AccountDto { get; set; }
         public int SenderId { get; set; }
         public string SenderName { get; set; }
         public string SenderAccountNumber { get; set; }

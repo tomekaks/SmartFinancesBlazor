@@ -28,6 +28,15 @@ namespace SmartFinances.Application.Features.Transfers.Factories
         {
             return _mapper.Map<OutgoingTransferDto>(transfer);
         }
+        public Transfer CreateTransfer(TransferDto transferDto)
+        {
+            return _mapper.Map<Transfer>(transferDto);
+        }
+
+        public TransferDto CreateTransferDto(Transfer transfer)
+        {
+            return _mapper.Map<TransferDto>(transfer);
+        }
 
         public List<OutgoingTransferDto> CreateTransferDtoList(List<Transfer> transfers)
         {
