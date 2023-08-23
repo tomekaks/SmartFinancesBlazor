@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.Transfers.Handlers.Queries
 {
-    public class GetTransferRequestHandler : IRequestHandler<GetTransferRequest, OutgoingTransferDto>
+    public class GetTransferRequestHandler : IRequestHandler<GetTransferRequest, TransferDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITransferFactory _transferFactory;
@@ -23,7 +23,7 @@ namespace SmartFinances.Application.Features.Transfers.Handlers.Queries
             _transferFactory = transferFactory;
         }
 
-        public async Task<OutgoingTransferDto> Handle(GetTransferRequest request, CancellationToken cancellationToken)
+        public async Task<TransferDto> Handle(GetTransferRequest request, CancellationToken cancellationToken)
         {
             var transfer = await _unitOfWork.Transfers.GetByIdAsync(request.TransferId);
             return _transferFactory.CreateTransferDto(transfer);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.Transfers.Requests.Queries
 {
-    public class GetTransferRequest : IRequest<OutgoingTransferDto>
+    public class GetTransferRequest : IRequest<TransferDto>
     {
         public int TransferId { get; set; }
     }

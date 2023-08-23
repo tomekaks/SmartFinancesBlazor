@@ -34,6 +34,7 @@ namespace SmartFinances.Application.Mappings
             CreateMap<Transfer, IncomingTransferDto>()
                 .ForMember(dest => dest.SenderName, opt => opt.MapFrom(src => src.Account.Name))
                 .ForMember(dest => dest.SenderAccountNumber, opt => opt.MapFrom(src => src.Account.Number));
+            CreateMap<CreateTransferDto, Transfer>();
 
             CreateMap<Contact, ContactDto>().ReverseMap();
         }

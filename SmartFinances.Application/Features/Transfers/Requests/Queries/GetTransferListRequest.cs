@@ -10,6 +10,6 @@ namespace SmartFinances.Application.Features.Transfers.Requests.Queries
 {
     public class GetTransferListRequest : IRequest<List<TransferDto>>
     {
-        public int AccountId { get; set; }
+        public string AccountNumber { get; set; }
     }
 }
