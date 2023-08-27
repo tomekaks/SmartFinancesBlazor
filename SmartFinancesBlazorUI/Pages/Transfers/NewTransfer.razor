@@ -1,0 +1,55 @@
+﻿
+
+<h1>New Transfer</h1>
+<hr />
+
+<p>
+    <a asp-action="Contacts" class="btn btn-secondary">Contacts</a>
+</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="NewTransfer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ReceiverName" class="control-label"></label>
+                <input asp-for="ReceiverName" class="form-control" />
+                <span asp-validation-for="ReceiverName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReceiverAccountNumber" class="control-label"></label>
+                <input asp-for="ReceiverAccountNumber" class="form-control" />
+                <span asp-validation-for="ReceiverAccountNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="AddToContacts">
+                            <input asp-for="AddToContacts" />
+                        @Html.DisplayNameFor(m => m.AddToContacts)
+                        </label>
+                    </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+
+@code {
+
+}
