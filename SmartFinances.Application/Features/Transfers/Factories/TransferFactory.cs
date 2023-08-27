@@ -19,19 +19,6 @@ namespace SmartFinances.Application.Features.Transfers.Factories
             _mapper = mapper;
         }
 
-        public Transfer CreateTransfer(OutgoingTransferDto transferDto)
-        {
-            return _mapper.Map<Transfer>(transferDto);
-        }
-
-        public OutgoingTransferDto CreateOutgoingTransferDto(Transfer transfer)
-        {
-            return _mapper.Map<OutgoingTransferDto>(transfer);
-        }
-        public Transfer CreateTransfer(TransferDto transferDto)
-        {
-            return _mapper.Map<Transfer>(transferDto);
-        }
         public Transfer CreateTransfer(CreateTransferDto createTransferDto)
         {
             return _mapper.Map<Transfer>(createTransferDto);
@@ -42,21 +29,14 @@ namespace SmartFinances.Application.Features.Transfers.Factories
             return _mapper.Map<TransferDto>(transfer);
         }
 
-        public List<OutgoingTransferDto> CreateOutgoingTransferDtoList(List<Transfer> transfers)
-        {
-            return _mapper.Map<List<OutgoingTransferDto>>(transfers);
-        }
-        public List<IncomingTransferDto> CreateIncomingTransferDtoList(List<Transfer> transfers)
-        {
-            return _mapper.Map<List<IncomingTransferDto>>(transfers);
-        }
         public List<TransferDto> CreateTransferDtoList(List<Transfer> transfers)
         {
             return _mapper.Map<List<TransferDto>>(transfers);
         }
-        public Transfer MapToModel(OutgoingTransferDto transferDto, Transfer model)
+
+        public Transfer MapToModel(UpdateTransferDto updateTransferDto, Transfer transfer)
         {
-            return _mapper.Map(transferDto, model);
+            return _mapper.Map(updateTransferDto, transfer);
         }
     }
 }

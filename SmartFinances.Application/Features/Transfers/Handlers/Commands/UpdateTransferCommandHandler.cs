@@ -25,6 +25,7 @@ namespace SmartFinances.Application.Features.Transfers.Handlers.Commands
             var transfer = await _unitOfWork.Transfers.GetByIdAsync(request.TransferDto.Id);
             transfer = _transferFactory.MapToModel(request.TransferDto, transfer);
             _unitOfWork.Transfers.Update(transfer);
+            await _unitOfWork.SaveAsync();
 
             return;
         }

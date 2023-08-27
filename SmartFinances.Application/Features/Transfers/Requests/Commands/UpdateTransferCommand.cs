@@ -10,6 +10,6 @@ namespace SmartFinances.Application.Features.Transfers.Requests.Commands
 {
     public class UpdateTransferCommand : IRequest
     {
-        public OutgoingTransferDto TransferDto { get; set; }
+        public UpdateTransferDto TransferDto { get; set; }
     }
 }

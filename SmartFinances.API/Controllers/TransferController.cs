@@ -20,19 +20,6 @@ namespace SmartFinances.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("getincomingtransfers")]
-        public async Task<ActionResult<List<IncomingTransferDto>>> GetIncomingTransfers(AccountDto accountDto)
-        {
-            var incomingTransfers = await _mediator.Send(new GetIncomingTransfersRequest { AccountNumber = accountDto.Number });
-            return Ok(incomingTransfers);
-        }
-
-        [HttpGet("getoutgoingtransfers")]
-        public async Task<ActionResult<List<OutgoingTransferDto>>> GetOutgoigTransfers(AccountDto accountDto)
-        {
-            var outgoingTransfers = await _mediator.Send(new GetOutgoingTransfersRequest { AccountId = accountDto.Id });
-            return Ok(outgoingTransfers);
-        }
 
         [HttpGet("getalltransfers")]
         public async Task<ActionResult<List<TransferDto>>> GetAllTransfers(AccountDto accountDto)
