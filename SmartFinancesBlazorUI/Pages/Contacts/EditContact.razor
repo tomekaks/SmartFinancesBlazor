@@ -1,12 +1,14 @@
-﻿
+﻿@page "/contacts/editcontact"
+@inject NavigationManager NavigationManager
 
-<h1>Create Contact</h1>
+<h1>Edit Contact</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateContact">
+        <form asp-action="EditContact">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -18,16 +20,19 @@
                 <span asp-validation-for="AccountNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="submit" value="Edit" class="btn btn-info" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Contacts" class="btn btn-primary">Back</a>
+    <button class="btn btn-primary" @onclick="NavigateToContacts">Back to List</button>
 </div>
 
 @code {
-
+    private void NavigateToContacts()
+    {
+        NavigationManager.NavigateTo("/contacts/contacts");
+    }
 }
