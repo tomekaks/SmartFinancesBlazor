@@ -5,5 +5,7 @@ namespace SmartFinancesBlazorUI.Contracts
     public interface ITransfersService
     {
         Task<List<TransferVM>> GetTransfers(string accountNumber);
+        Task<bool> CreateTransfer(NewTransferVM transferVM);
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/contacts/createcontact"
 @inject NavigationManager NavigationManager
+@inject IContactsService ContactService
 
 <h1>Create Contact</h1>
 
@@ -7,7 +8,6 @@
     <div class="col-md-4">
         <EditForm Model="@contact" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
-            <ValidationSummary />
 
             <div class="form-group">
                 <label for="Name">Name</label>
@@ -41,9 +41,13 @@
         NavigationManager.NavigateTo("/contacts/contacts");
     }
 
-    private void HandleSubmit()
+    private async Task HandleSubmit()
     {
-        //TODO
+        bool response = await ContactService.CreateContact(contact);
+        if (response)
+        {
+            NavigateToContacts();
+        }
     }
 }
 

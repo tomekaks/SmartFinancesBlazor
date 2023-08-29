@@ -47,12 +47,20 @@
 </div>
 
 @code {
+    private string userId;
     private List<ContactVM> contacts = new List<ContactVM>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // contacts = ContactsService.GetContacts(userId);
+    }
 
     private void NavigateToCreateContact()
     {
         NavigationManager.NavigateTo("/contacts/createcontact");
     }
+
     private void NavigateToNewTransfer()
     {
         NavigationManager.NavigateTo("/transfers/newtransfer");

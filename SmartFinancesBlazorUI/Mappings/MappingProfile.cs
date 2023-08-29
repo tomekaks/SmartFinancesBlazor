@@ -10,8 +10,10 @@ namespace SmartFinancesBlazorUI.Mappings
         public MappingProfile()
         {
             CreateMap<TransferDto, TransferVM>().ReverseMap();
+            CreateMap<NewTransferVM, TransferDto>();
 
             CreateMap<ContactDto, ContactVM>().ReverseMap();
+            CreateMap<NewContactVM, ContactDto>();
         }
     }
 }

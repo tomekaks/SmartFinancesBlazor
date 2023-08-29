@@ -32,5 +32,19 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<List<TransferVM>>(transfers);
         }
 
+        public async Task<bool> CreateTransfer(NewTransferVM transferVM)
+        {
+            var transferDto = _mapper.Map<TransferDto>(transferVM);
+
+            var response = await _httpClient.PostAsJsonAsync("api/transfers", transferDto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return false;
+            }
+            return true;
+        }
+
     }
 }

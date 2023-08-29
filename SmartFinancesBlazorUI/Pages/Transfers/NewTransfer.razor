@@ -1,6 +1,6 @@
 ﻿@page "/transfers/newtransfer"
-@using SmartFinancesBlazorUI.Models.Transfers;
 @inject NavigationManager NavigationManager
+@inject ITransfersService TransferService
 
 <h1>New Transfer</h1>
 
@@ -11,27 +11,36 @@
 <div class="row">
     <div class="col-md-4">
         <EditForm Model="@transferModel" OnValidSubmit="@HandleSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+            <DataAnnotationsValidator />            
 
-            <label for="ReceiverName">Receiver name</label>
-            <InputText id="ReceiverName" @bind-Value="transferModel.ReceiverName" class="form-control" />
-            <ValidationMessage For="@(() => transferModel.ReceiverName)" />
+            <div class="form-group">
+                <label for="ReceiverName">Receiver name</label>
+                <InputText id="ReceiverName" @bind-Value="transferModel.ReceiverName" class="form-control" />
+                <ValidationMessage For="@(() => transferModel.ReceiverName)" />
+            </div>
+            
+            <div class="form-group">
+                <label for="ReceiverAccountNumber">Receiver account number</label>
+                <InputText id="ReceiverAccountNumber" @bind-Value="transferModel.ReceiverAccountNumber" class="form-control" />
+                <ValidationMessage For="@(() => transferModel.ReceiverAccountNumber)" />
+            </div>
 
-            <label for="ReceiverAccountNumber">Receiver account number</label>
-            <InputText id="ReceiverAccountNumber" @bind-Value="transferModel.ReceiverAccountNumber" class="form-control" />
-            <ValidationMessage For="@(() => transferModel.ReceiverAccountNumber)" />
+            <div class="form-group">
+                <label for="Amount">Amount</label>
+                <InputNumber id="Amount" @bind-Value="transferModel.Amount" class="form-control" />
+                <ValidationMessage For="@(() => transferModel.Amount)" />
+            </div>
 
-            <label for="Amount">Amount</label>
-            <InputNumber id="Amount" @bind-Value="transferModel.Amount" class="form-control" />
-            <ValidationMessage For="@(() => transferModel.Amount)" />
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <InputText id="Title" @bind-Value="transferModel.Title" class="form-control" />
+                <ValidationMessage For="@(() => transferModel.Title)" />
+            </div>
 
-            <label for="Title">Title</label>
-            <InputText id="Title" @bind-Value="transferModel.Title" class="form-control" />
-            <ValidationMessage For="@(() => transferModel.Title)" />
-
-            <InputCheckbox id="AddToContacts" @bind-Value="addToContacts" />
-            <label for="AddToContacts">Add To Contacts</label>
+            <div class="form-group">
+                <InputCheckbox id="AddToContacts" @bind-Value="addToContacts" />
+                <label for="AddToContacts">Add To Contacts</label>
+            </div>
 
             <button type="submit" class="btn btn-success">Send</button>
         </EditForm>
@@ -53,12 +62,18 @@
 
     private void NavigateToTransfers()
     {
-        NavigationManager.NavigateTo("/transfers/alltransfers");
+        NavigationManager.NavigateTo("/transfers/transfers");
     }
 
-    private void HandleSubmit()
+    private async Task HandleSubmit()
     {
- 
+        bool response = await TransferService.CreateTransfer(transferModel);
+
+        if(response)
+        {
+            NavigateToTransfers(); 
+        }
+
     }
 }
 
