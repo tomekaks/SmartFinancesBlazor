@@ -1,0 +1,61 @@
+﻿@page "/budgetplanner/editexpense"
+@inject NavigationManager NavigationManager
+@inject IBudgetPlannerService BudgetPlannerService
+
+<h3>@model.Name</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <input type="hidden" @bind="model.Id" />
+            <input type="hidden" @bind="model.Name" />
+
+            <div class="form-group">
+                <label for="Amount">Amount</label>
+                <InputNumber id="Amount" @bind-Value="model.Amount" class="form-control" />
+                <ValidationMessage For="@(() => model.Amount)" />
+            </div>
+
+            <div class="form-group">
+                <label for="Type">Type</label>
+                <InputSelect id="Type" @bind-Value="model.Type" class="form-control">
+                    @foreach (var type in Enum.GetValues(typeof(ExpenseType)))
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => model.Type)" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-info">Save</button>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-primary" @onclick="NavigateToIndex">Back to Planner</a>
+</div>
+
+@code 
+{
+    private EditExpenseVM model = new EditExpenseVM();
+
+    private async Task HandleSubmit()
+    {
+        var response = await BudgetPlannerService.EditExpense(model);
+        if(response)
+        {
+            NavigateToIndex();
+        }
+    }
+
+    private void NavigateToIndex()
+    {
+        NavigationManager.NavigateTo("/budgetplanner/index");
+    }
+}

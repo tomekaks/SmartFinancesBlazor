@@ -24,7 +24,7 @@ namespace SmartFinances.API.Controllers
             return Ok(contacts);
         }
 
-        [HttpGet("get")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<ContactDto>> Get(int id)
         {
             var contact = await _mediator.Send(new GetContactRequest { Id = id });

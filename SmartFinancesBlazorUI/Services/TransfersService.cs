@@ -18,8 +18,6 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-
-
         public async Task<List<TransferVM>> GetTransfers(string accountNumber)
         {
             var response = await _httpClient.GetAsync($"api/transfers/{accountNumber}");

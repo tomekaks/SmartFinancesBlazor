@@ -1,0 +1,29 @@
+﻿@page "/budgetplanner/setbudget"
+
+<h3>SetBudget</h3>
+
+@code {
+
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SetBudget">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Budget" class="control-label"></label>
+                <input asp-for="Budget" class="form-control" />
+                <span asp-validation-for="Budget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-dark" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
