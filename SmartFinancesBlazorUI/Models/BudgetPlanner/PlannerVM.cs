@@ -4,7 +4,7 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
     public class PlannerVM
     {
-        public List<ExpenseDto> Expenses { get; set; }
+        public List<ExpenseDto> Expenses { get; set; } = new List<ExpenseDto>();
         public decimal Budget { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal HousingAmount { get => GetTotalAmountByExpenseType(ExpenseType.Housing); }

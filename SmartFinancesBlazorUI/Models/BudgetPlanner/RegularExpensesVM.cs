@@ -2,6 +2,6 @@
 {
     public class RegularExpensesVM
     {
-        public List<RegularExpenseDto> RegularExpenses { get; set; }
+        public List<RegularExpenseDto> RegularExpenses { get; set; } = new List<RegularExpenseDto>();
     }
 }

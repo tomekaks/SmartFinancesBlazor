@@ -5,45 +5,49 @@
 
 <h1>Transfers</h1>
 
-<button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
+<div>
+    <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Sender</th>
-            <th>Receiver</th>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Send date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var transfer in transfers)
-        {
-            if(transfer.SenderAccountNumber.Equals(accountNumber))
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Send date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transfer in transfers)
             {
-                <tr>
-                    <td>@transfer.SenderName</td>
-                    <td>@transfer.ReceiverName</td>
-                    <td>@transfer.Title</td>
-                    <td>-@transfer.Amount</td>
-                    <td>@transfer.SendTime.ToShortDateString()</td>
-                </tr>
+                if (transfer.SenderAccountNumber.Equals(accountNumber))
+                {
+                    <tr>
+                        <td>@transfer.SenderName</td>
+                        <td>@transfer.ReceiverName</td>
+                        <td>@transfer.Title</td>
+                        <td>-@transfer.Amount</td>
+                        <td>@transfer.SendTime.ToShortDateString()</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@transfer.SenderName</td>
+                        <td>@transfer.ReceiverName</td>
+                        <td>@transfer.Title</td>
+                        <td>@transfer.Amount</td>
+                        <td>@transfer.SendTime.ToShortDateString()</td>
+                    </tr>
+                }
             }
-            else
-            {
-                <tr>
-                    <td>@transfer.SenderName</td>
-                    <td>@transfer.ReceiverName</td>
-                    <td>@transfer.Title</td>
-                    <td>@transfer.Amount</td>
-                    <td>@transfer.SendTime.ToShortDateString()</td>
-                </tr>
-            }
+        </tbody>
+    </table>
+</div>
 
-        }
-    </tbody>
-</table>
 
 @code {
     private string accountNumber;

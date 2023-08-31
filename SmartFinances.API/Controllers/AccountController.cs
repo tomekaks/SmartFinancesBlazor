@@ -17,7 +17,7 @@ namespace SmartFinances.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<AccountDto>> Get(string id)
         {
             var account = await _mediator.Send(new GetAccountRequest { UserId = id });

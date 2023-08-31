@@ -32,6 +32,21 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
+        public async Task<bool> SetBudget(SetBudgetVM setBudgetVM)
+        {
+            var account = await GetAccount();
+            account.Budget = setBudgetVM.Budget;
+
+            var response = await _httpClient.PutAsJsonAsync("api/account", account);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                return false;
+            }
+            return true;
+        }
+
         private async Task<List<ExpenseDto>> GetExpenses()
         {
             var request = await _httpClient.GetAsync("api/expenses/getall");

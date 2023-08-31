@@ -4,20 +4,19 @@
 
 <h1>Add Expense</h1>
 
-<hr />
 <div class="row">
     <div class="col-md-4">
         <EditForm Model="@expense" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
 
             <div class="form-group">
-                <label for="Name" class="control-label"></label>
+                <label for="Name" class="control-label">Name</label>
                 <InputText id="Name" @bind-Value="expense.Name" class="form-control" />
                 <ValidationMessage For="@(() => expense.Name)" />
             </div>
 
             <div class="form-group">
-                <label for="Amount" class="control-label"></label>
+                <label for="Amount" class="control-label">Amout</label>
                 <InputNumber id="Amount" @bind-Value="expense.Amount" class="form-control" />
                 <ValidationMessage For="@(() => expense.Amount)" />
             </div>

@@ -24,7 +24,7 @@ namespace SmartFinances.API.Controllers
             return Ok(expenses);
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ExpenseDto>> Get(int id)
         {
             var expense = await _mediator.Send(new GetExpenseRequest { Id = id });

@@ -1,29 +1,45 @@
 ﻿@page "/budgetplanner/setbudget"
+@inject IBudgetPlannerService BudgetPlannerService
+@inject NavigationManager NavigationManager
 
 <h3>SetBudget</h3>
 
-@code {
-
-}
-
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SetBudget">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <EditForm Model="model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+
             <div class="form-group">
-                <label asp-for="Budget" class="control-label"></label>
-                <input asp-for="Budget" class="form-control" />
-                <span asp-validation-for="Budget" class="text-danger"></span>
+                <label for="Budget" class="control-label"></label>
+                <InputNumber for="Budget" @bind-Value="model.Budget" class="form-control" />
+                <ValidationMessage For="@(() => model.Budget)" />
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-dark" />
             </div>
-        </form>
+        </EditForm>
     </div>
 </div>
 
-<br />
 <div>
-    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    <button class="btn btn-primary" @onclick="NavigateToPlanner">Back to Planner</button>
 </div>
+
+@code {
+    private SetBudgetVM model = new SetBudgetVM();
+
+    private async Task HandleSubmit()
+    {
+        bool result = await BudgetPlannerService.SetBudget(model);
+        if(result)
+        {
+            NavigateToPlanner();
+        }
+    }
+
+    private void NavigateToPlanner()
+    {
+        NavigationManager.NavigateTo("/budgetplanner/index");
+    }
+}

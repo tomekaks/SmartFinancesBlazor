@@ -25,22 +25,22 @@ namespace SmartFinances.API.Controllers
             return Ok(transfers);
         }
 
-        [HttpGet("gettransfer")]
-        public async Task<ActionResult<TransferDto>> GetTransfer(int transferId)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TransferDto>> GetTransfer(int id)
         {
-            var transfers = await _mediator.Send(new GetTransferRequest { TransferId = transferId});
+            var transfers = await _mediator.Send(new GetTransferRequest { TransferId = id});
             return Ok(transfers);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateTransferDto createTransferDto)
+        public async Task<IActionResult> Create([FromBody]CreateTransferDto createTransferDto)
         {
             await _mediator.Send(new CreateTransferCommand { TransferDto = createTransferDto });
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(CreateTransferDto createTransferDto)
+        public async Task<IActionResult> Update([FromBody] CreateTransferDto createTransferDto)
         {
             await _mediator.Send(new CreateTransferCommand { TransferDto = createTransferDto });
             return Ok();

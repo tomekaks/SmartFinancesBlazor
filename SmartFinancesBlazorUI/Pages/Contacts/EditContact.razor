@@ -3,26 +3,29 @@
 
 <h1>Edit Contact</h1>
 
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditContact">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <EditForm Model="@model" OnInvalidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
             <input hidden asp-for="Id" />
+
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label for="Name" class="control-label">Name</label>
+                <InputText id="Name" @bind-Value="@model.Name" class="form-control" />
+                <ValidationMessage For="@(() => model.Name)" />
             </div>
+
             <div class="form-group">
-                <label asp-for="AccountNumber" class="control-label"></label>
-                <input asp-for="AccountNumber" class="form-control" />
-                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                <label for="AccountNumber" class="control-label">Account number</label>
+                <InputText id="AccountNumber" @bind-Value="@model.AccountNumber" class="form-control" />
+                <ValidationMessage For="@(() => model.AccountNumber)" />
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-info" />
+                <button type="submit" class="btn btn-info">Save</button>
             </div>
-        </form>
+
+        </EditForm>
     </div>
 </div>
 
@@ -31,6 +34,13 @@
 </div>
 
 @code {
+    private EditContactVM model = new EditContactVM();
+
+    private void HandleSubmit()
+    {
+        
+    }
+
     private void NavigateToContacts()
     {
         NavigationManager.NavigateTo("/contacts/contacts");

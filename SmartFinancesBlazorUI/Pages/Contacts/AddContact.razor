@@ -1,4 +1,4 @@
-﻿@page "/contacts/createcontact"
+﻿@page "/contacts/addcontact"
 @inject NavigationManager NavigationManager
 @inject IContactsService ContactService
 
@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-success">Create</button>
+                <button type="submit" class="btn btn-success">Add</button>
             </div>
 
         </EditForm>
@@ -30,7 +30,7 @@
 </div>
 
 <div>
-    <button class="btn btn-primary" @onclick="NavigateToContacts">Back</button>
+    <button class="btn btn-primary" @onclick="NavigateToContacts">Back to Contacts</button>
 </div>
 
 @code {
