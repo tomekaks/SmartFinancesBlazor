@@ -1,0 +1,32 @@
+﻿@page "/dashboard/dashboard"
+@inject NavigationManager NavigationManager
+
+<PageTitle>Dashboard</PageTitle>
+
+<h3>Dashboard</h3>
+
+<div>Account number: @model.CurrentAccount.Number</div>
+
+<div>Balance: @model.CurrentAccount.Balance</div>
+
+<div>
+    <button class="btn btn-success" @onclick="AddFunds">Add funds</button>
+</div>
+
+<div>
+    <button class="btn btn-info" @onclick="NavigateToChangeAccount">Change account</button>
+</div>
+
+@code {
+    private DashboardVM model = new DashboardVM();
+
+    private void AddFunds()
+    {
+
+    }
+
+    private void NavigateToChangeAccount()
+    {
+        NavigationManager.NavigateTo("/dashboard/changeaccount");
+    }
+}

@@ -2,7 +2,6 @@
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Transfers;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Json;
 
 namespace SmartFinancesBlazorUI.Services
@@ -28,6 +27,31 @@ namespace SmartFinancesBlazorUI.Services
 
             var transfers = await response.Content.ReadFromJsonAsync<List<TransferDto>>();
             return _mapper.Map<List<TransferVM>>(transfers);
+        }
+
+        public List<TransferVM> GetTransfers()
+        {
+            return new List<TransferVM>()
+            {
+                new TransferVM()
+                {
+                    Amount = 100,
+                    SenderName = "AAA1234AAAA",
+                    SenderAccountNumber = "AAA1234AAAA",
+                    ReceiverName = "DDDD1234DDDD",
+                    ReceiverAccountNumber = "DDDD1234DDDD",
+                    Title = "test"
+                },
+                new TransferVM()
+                {
+                    Amount = 200,
+                    SenderName = "DDDD1234DDDD",
+                    SenderAccountNumber = "DDDD1234DDDD",
+                    ReceiverName = "AAA1234AAAA",
+                    ReceiverAccountNumber = "AAA1234AAAA",
+                    Title = "test2"
+                }
+            };
         }
 
         public async Task<bool> CreateTransfer(NewTransferVM transferVM)

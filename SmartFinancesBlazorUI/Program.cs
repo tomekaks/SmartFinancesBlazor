@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.JSInterop;
 using SmartFinancesBlazorUI;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Services;

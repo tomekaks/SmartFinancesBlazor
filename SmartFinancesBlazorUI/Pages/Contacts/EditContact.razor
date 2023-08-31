@@ -1,4 +1,5 @@
 ﻿@page "/contacts/editcontact"
+@page "/contacts/editcontact/{Name}/{AccountNumber}"
 @inject NavigationManager NavigationManager
 
 <h1>Edit Contact</h1>
@@ -34,7 +35,19 @@
 </div>
 
 @code {
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+    [Parameter]
+    public string AccountNumber { get; set; } = string.Empty;
+
     private EditContactVM model = new EditContactVM();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        model.Name = Name;
+        model.AccountNumber = AccountNumber;
+    }
 
     private void HandleSubmit()
     {

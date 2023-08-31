@@ -32,6 +32,23 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public List<ContactVM> GetContactsTemp()
+        {
+            return new List<ContactVM>()
+            {
+                new ContactVM()
+                {
+                    Name = "contac1",
+                    AccountNumber = "AAAA1234AAAA"
+                },
+                new ContactVM()
+                {
+                    Name = "contac2",
+                    AccountNumber = "BBBB1234BBBB"
+                }
+            };
+        }
+
         public async Task<ContactVM> GetContact(int contactId)
         {
             var response = await _httpClient.GetAsync($"api/contacts/{contactId}");

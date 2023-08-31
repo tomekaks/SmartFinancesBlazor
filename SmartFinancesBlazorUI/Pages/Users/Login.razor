@@ -1,0 +1,43 @@
+﻿@page "/users/login"
+
+<h3>Login</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="UserName">User name</label>
+                <InputText id="UserName" @bind-Value="model.UserName" class="form-control" />
+                <ValidationMessage For="@(() => model.UserName)" />
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <InputText id="Password" @bind-Value="model.Password" class="form-control" />
+                <ValidationMessage For="@(() => model.Password)" />
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <InputCheckbox @bind-Value="model.RememberMe" id="RememberMe" />
+                    <label for="RememberMe">Remember me?</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private LoginVM model = new LoginVM();
+
+    private void HandleSubmit()
+    {
+        
+    }
+}
