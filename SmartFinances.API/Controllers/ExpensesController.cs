@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Features.Expenses.Dtos;
 using SmartFinances.Application.Features.Expenses.Requests.Commands;
@@ -8,6 +9,7 @@ namespace SmartFinances.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ExpensesController : ControllerBase
     {
         private readonly IMediator _mediator;

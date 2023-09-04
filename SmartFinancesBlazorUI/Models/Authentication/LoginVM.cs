@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartFinancesBlazorUI.Models.Users
+namespace SmartFinancesBlazorUI.Models.Authentication
 {
     public class LoginVM
     {

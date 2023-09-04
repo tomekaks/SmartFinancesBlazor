@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
@@ -12,7 +13,7 @@ namespace SmartFinancesBlazorUI.Services
         private readonly IMapper _mapper;
         private int _accountId;
         private string _accountNumber;
-        public BudgetPlannerService(IClient client, IMapper mapper): base(client)
+        public BudgetPlannerService(IClient client, IMapper mapper, ILocalStorageService localStorage): base(client, localStorage)
         {
             _mapper = mapper;
         }
@@ -42,6 +43,7 @@ namespace SmartFinancesBlazorUI.Services
                 Budget = setBudgetVM.Budget
             };
 
+            await AddBearerToken();
             await _client.AccountsPUTAsync(updateAccount);
 
             return true;
@@ -49,6 +51,7 @@ namespace SmartFinancesBlazorUI.Services
 
         private async Task<List<ExpenseDto>> GetExpenses()
         {
+            await AddBearerToken();
             var expenses = await _client.ExpensesAllAsync(_accountId);
 
             return expenses.ToList() ?? new List<ExpenseDto>();
@@ -59,6 +62,7 @@ namespace SmartFinancesBlazorUI.Services
 
             //TODO
 
+            await AddBearerToken();
             var account = await _client.AccountsGET2Async(_accountNumber);
 
             return account ?? new AccountDto();
@@ -68,6 +72,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
 
+            await AddBearerToken();
             await _client.ExpensesPOSTAsync(expenseDto);
 
             return true;
@@ -77,6 +82,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var expenseDto = _mapper.Map<EditExpenseDto>(editExpenseVM);
 
+            await AddBearerToken();
             await _client.ExpensesPUTAsync(expenseDto);
 
             return true;
@@ -86,6 +92,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(editRegularExpenseVM);
 
+            await AddBearerToken();
             await _client.RegularExpensesPUTAsync(regularExpenseDto);
 
             return true;

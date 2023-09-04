@@ -31,7 +31,7 @@ namespace SmartFinances.Application.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<AuthResponseDto> Login(LoginDto loginDto)
+        public async Task<AuthResponse> Login(LoginRequest loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.UserName);
             if (user == null) 
@@ -47,7 +47,7 @@ namespace SmartFinances.Application.Services
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
-            var response = new AuthResponseDto()
+            var response = new AuthResponse()
             {
                 Id = user.Id,
                 Email = user.Email,
@@ -59,20 +59,24 @@ namespace SmartFinances.Application.Services
         }
 
 
-        public async Task<bool> Register(RegisterDto registerDto)
+        public async Task<RegistrationResponse> Register(RegisterRequest registerDto)
         {
             var user = _mapper.Map<ApplicationUser>(registerDto);
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
             if (!result.Succeeded)
             {
-                return false;
+                return new RegistrationResponse();
             }
 
             await _userManager.AddToRoleAsync(user, "User");
 
             await _mediator.Send(new CreateAccountCommand { UserId = user.Id, AccountName = registerDto.UserName });    
-            return true;
+
+            return new RegistrationResponse()
+            {
+                UserId = user.Id
+            };
         }
 
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)

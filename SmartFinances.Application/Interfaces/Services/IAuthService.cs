@@ -9,7 +9,7 @@ namespace SmartFinances.Application.Interfaces.Services
 {
     public interface IAuthService
     {
-        Task<AuthResponseDto> Login(LoginDto loginDto);
-        Task<bool> Register(RegisterDto registerDto);   
+        Task<AuthResponse> Login(LoginRequest loginDto);
+        Task<RegistrationResponse> Register(RegisterRequest registerDto);   
     }
 }

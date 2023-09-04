@@ -7,11 +7,11 @@ namespace SmartFinances.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IAuthService _authService;
 
-        public UsersController(IAuthService authService)
+        public AuthenticationController(IAuthService authService)
         {
             _authService = authService;
         }
@@ -21,11 +21,11 @@ namespace SmartFinances.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> RegisterAsync([FromBody] RegisterDto registerDto)
+        public async Task<ActionResult<RegistrationResponse>> RegisterAsync([FromBody] RegisterRequest registerDto)
         {
-            await _authService.Register(registerDto);
+            var response = await _authService.Register(registerDto);
 
-            return Ok();
+            return Ok(response);
         }
 
         [HttpPost]
@@ -33,7 +33,7 @@ namespace SmartFinances.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> LoginAsync([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<AuthResponse>> LoginAsync([FromBody] LoginRequest loginDto)
         {
             var response = await _authService.Login(loginDto);
 

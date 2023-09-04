@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Services.Base;
@@ -10,7 +11,7 @@ namespace SmartFinancesBlazorUI.Services
     {
         private readonly IMapper _mapper;
 
-        public ContactsService(IClient client, IMapper mapper) : base(client)
+        public ContactsService(IClient client, IMapper mapper, ILocalStorageService localStorage) : base(client, localStorage)
         {
             _mapper = mapper;
         }
@@ -19,6 +20,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var contactDto = _mapper.Map<ContactDto>(contact);
 
+            await AddBearerToken();
             await _client.ContactsPOSTAsync(contactDto);
 
             return true;
@@ -26,6 +28,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<ContactVM> GetContact(int contactId)
         {
+            await AddBearerToken();
             var contact = await _client.ContactsGETAsync(contactId);
 
             return _mapper.Map<ContactVM>(contact);
@@ -33,6 +36,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<ContactVM>> GetContacts(string accountNumber)
         {
+            await AddBearerToken();
             var contacts = await _client.ContactsAllAsync(accountNumber);
 
             var contactList = _mapper.Map<List<ContactVM>>(contacts);
@@ -44,6 +48,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var contactDto = _mapper.Map<ContactDto>(contact);
 
+            await AddBearerToken();
             await _client.ContactsPUTAsync(contactDto);
 
             return true;
@@ -51,6 +56,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> DeleteContact(int contactId)
         {
+            await AddBearerToken();
             await _client.ContactsDELETEAsync(contactId);
 
             return true;

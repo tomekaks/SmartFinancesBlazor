@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.Users.Dtos
 {
-    public class LoginDto
+    public class RegistrationResponse
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string UserId { get; set; }
     }
-
 }

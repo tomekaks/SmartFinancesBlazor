@@ -53,8 +53,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        // contacts = ContactsService.GetContacts(userId);
-        contacts = ContactsService.GetContactsTemp();
+        contacts = ContactsService.GetContacts(userId).Result;
     }
 
     private async Task ConfirmUseContact(ContactVM contactVM)
@@ -84,7 +83,7 @@
 
     private void DeleteContact(int id)
     {
-
+        ContactsService.DeleteContact(id);
     }
 
     private void NavigateToEditContact(ContactVM contactVM)
