@@ -1,4 +1,6 @@
-﻿namespace SmartFinancesBlazorUI.Models.BudgetPlanner
+﻿using SmartFinancesBlazorUI.Services.Base;
+
+namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
     public class RegularExpensesVM
     {

@@ -21,7 +21,7 @@ namespace SmartFinances.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<ActionResult> RegisterAsync([FromBody] RegisterDto registerDto)
         {
             await _authService.Register(registerDto);
 
@@ -33,7 +33,7 @@ namespace SmartFinances.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<ActionResult> LoginAsync([FromBody] LoginDto loginDto)
         {
             var response = await _authService.Login(loginDto);
 

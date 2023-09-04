@@ -1,4 +1,4 @@
-﻿using SmartFinancesBlazorUI.Models;
+﻿using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Contracts
 {

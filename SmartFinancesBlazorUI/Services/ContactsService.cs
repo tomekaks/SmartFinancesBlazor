@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
 using SmartFinancesBlazorUI.Contracts;
-using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Contacts;
-using System.Net.Http;
+using SmartFinancesBlazorUI.Services.Base;
 using System.Net.Http.Json;
 
 namespace SmartFinancesBlazorUI.Services
 {
-    public class ContactsService : IContactsService
+    public class ContactsService : BaseHttpService, IContactsService
     {
-        private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
 
-        public ContactsService(HttpClient httpClient, IMapper mapper)
+        public ContactsService(IClient client, IMapper mapper) : base(client)
         {
-            _httpClient = httpClient;
             _mapper = mapper;
         }
 
@@ -22,80 +19,40 @@ namespace SmartFinancesBlazorUI.Services
         {
             var contactDto = _mapper.Map<ContactDto>(contact);
 
-            var response = await _httpClient.PostAsJsonAsync("api/contacts", contactDto);
+            await _client.ContactsPOSTAsync(contactDto);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
             return true;
-        }
-
-        public List<ContactVM> GetContactsTemp()
-        {
-            return new List<ContactVM>()
-            {
-                new ContactVM()
-                {
-                    Name = "contac1",
-                    AccountNumber = "AAAA1234AAAA"
-                },
-                new ContactVM()
-                {
-                    Name = "contac2",
-                    AccountNumber = "BBBB1234BBBB"
-                }
-            };
         }
 
         public async Task<ContactVM> GetContact(int contactId)
         {
-            var response = await _httpClient.GetAsync($"api/contacts/{contactId}");
-            if (!response.IsSuccessStatusCode)
-            {
-                return new ContactVM();
-            }
+            var contact = await _client.ContactsGETAsync(contactId);
 
-            var contact = await response.Content.ReadFromJsonAsync<ContactVM>();
             return _mapper.Map<ContactVM>(contact);
         }
 
         public async Task<List<ContactVM>> GetContacts(string accountNumber)
         {
-            var response = await _httpClient.GetAsync($"api/contacts/{accountNumber}");
-            if (!response.IsSuccessStatusCode)
-            {
-                return new List<ContactVM>();
-            }
+            var contacts = await _client.ContactsAllAsync(accountNumber);
 
-            var contacts = await response.Content.ReadFromJsonAsync<List<ContactVM>>();
-            return _mapper.Map<List<ContactVM>>(contacts);
+            var contactList = _mapper.Map<List<ContactVM>>(contacts);
+
+            return contactList ?? new List<ContactVM>();
         }
 
         public async Task<bool> UpdateContact(NewContactVM contact)
         {
             var contactDto = _mapper.Map<ContactDto>(contact);
 
-            var response = await _httpClient.PutAsJsonAsync("api/contact", contactDto);
+            await _client.ContactsPUTAsync(contactDto);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
             return true;
         }
 
         public async Task<bool> DeleteContact(int contactId)
         {
-            var response = await _httpClient.DeleteAsync($"api/contact/{contactId}");
+            await _client.ContactsDELETEAsync(contactId);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
             return true;
         }
     }

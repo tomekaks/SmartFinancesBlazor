@@ -8,31 +8,31 @@ namespace SmartFinances.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContactController : ControllerBase
+    public class ContactsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ContactController(IMediator mediator)
+        public ContactsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet("getall")]
-        public async Task<ActionResult<List<ContactDto>>> GetAll(string userId)
+        [HttpGet]
+        public async Task<ActionResult<List<ContactDto>>> GetAllAsync(string userId)
         {
             var contacts = await _mediator.Send(new GetContactListRequest { UserId = userId });
             return Ok(contacts);
         }
 
-        [HttpGet("get/{id}")]
-        public async Task<ActionResult<ContactDto>> Get(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ContactDto>> GetAsync(int id)
         {
             var contact = await _mediator.Send(new GetContactRequest { Id = id });
             return Ok(contact);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ContactDto contactDto)
+        public async Task<IActionResult> AddAsync([FromBody] ContactDto contactDto)
         {
             await _mediator.Send(new CreateContactCommand { ContactDto = contactDto });
             return Ok();

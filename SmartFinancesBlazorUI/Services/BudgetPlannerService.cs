@@ -2,18 +2,18 @@
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
+using SmartFinancesBlazorUI.Services.Base;
 using System.Net.Http.Json;
 
 namespace SmartFinancesBlazorUI.Services
 {
-    public class BudgetPlannerService : IBudgetPlannerService
+    public class BudgetPlannerService : BaseHttpService ,IBudgetPlannerService
     {
-        private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
-
-        public BudgetPlannerService(HttpClient httpClient, IMapper mapper)
+        private int _accountId;
+        private string _accountNumber;
+        public BudgetPlannerService(IClient client, IMapper mapper): base(client)
         {
-            _httpClient = httpClient;
             _mapper = mapper;
         }
 
@@ -35,41 +35,32 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<bool> SetBudget(SetBudgetVM setBudgetVM)
         {
             var account = await GetAccount();
-            account.Budget = setBudgetVM.Budget;
 
-            var response = await _httpClient.PutAsJsonAsync("api/account", account);
-
-            if (!response.IsSuccessStatusCode)
+            var updateAccount = new UpdateAccountDto()
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
+                Id = account.Id,
+                Budget = setBudgetVM.Budget
+            };
+
+            await _client.AccountsPUTAsync(updateAccount);
+
             return true;
         }
 
         private async Task<List<ExpenseDto>> GetExpenses()
         {
-            var request = await _httpClient.GetAsync("api/expenses/getall");
+            var expenses = await _client.ExpensesAllAsync(_accountId);
 
-            if (!request.IsSuccessStatusCode)
-            {
-                return new List<ExpenseDto>();
-            }
-
-            var expenses = await request.Content.ReadFromJsonAsync<List<ExpenseDto>>();
-            return expenses ?? new List<ExpenseDto>();
+            return expenses.ToList() ?? new List<ExpenseDto>();
         }
 
         private async Task<AccountDto> GetAccount()
         {
-            var request = await _httpClient.GetAsync("api/account");
 
-            if (!request.IsSuccessStatusCode)
-            {
-                return new AccountDto();
-            }
+            //TODO
 
-            var account = await request.Content.ReadFromJsonAsync<AccountDto>();
+            var account = await _client.AccountsGET2Async(_accountNumber);
+
             return account ?? new AccountDto();
         }
 
@@ -77,27 +68,17 @@ namespace SmartFinancesBlazorUI.Services
         {
             var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
 
-            var response = await _httpClient.PostAsJsonAsync("api/expense", expenseDto);
+            await _client.ExpensesPOSTAsync(expenseDto);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
             return true;
         }
 
         public async Task<bool> EditExpense(EditExpenseVM editExpenseVM)
         {
-            var expenseDto = _mapper.Map<ExpenseDto>(editExpenseVM);
+            var expenseDto = _mapper.Map<EditExpenseDto>(editExpenseVM);
 
-            var response = await _httpClient.PutAsJsonAsync("api/expense", expenseDto);
+            await _client.ExpensesPUTAsync(expenseDto);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
             return true;
         }
 
@@ -105,13 +86,8 @@ namespace SmartFinancesBlazorUI.Services
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(editRegularExpenseVM);
 
-            var response = await _httpClient.PutAsJsonAsync("api/regularexpense", regularExpenseDto);
+            await _client.RegularExpensesPUTAsync(regularExpenseDto);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                return false;
-            }
             return true;
         }
     }

@@ -8,24 +8,31 @@ namespace SmartFinances.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public AccountController(IMediator mediator)
+        public AccountsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AccountDto>> Get(string id)
+        public async Task<ActionResult<AccountDto>> GetAsync(string id)
         {
             var account = await _mediator.Send(new GetAccountRequest { UserId = id });
             return Ok(account);
         }
 
+        [HttpGet("{accountNumber}")]
+        public async Task<ActionResult<AccountDto>> GetByNumberAsync(string accountNumber)
+        {
+            var account = await _mediator.Send(new GetAccountByNumberRequest { AccountNumber = accountNumber });
+            return Ok(account);
+        }
+
         [HttpPut]
-        public async Task<IActionResult> Update(UpdateAccountDto accountDto)
+        public async Task<IActionResult> UpdateAsync(UpdateAccountDto accountDto)
         {
             await _mediator.Send(new UpdateAccountCommand { UpdateAccountDto = accountDto });
             return Ok();

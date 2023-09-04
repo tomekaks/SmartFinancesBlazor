@@ -1,9 +1,6 @@
-﻿using SmartFinances.Application.Features.Accounts.Dtos;
-using SmartFinances.Core.Enums;
-
-namespace SmartFinances.Application.Features.Expenses.Dtos
+﻿namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
-    public class ExpenseDto
+    public class ExpenseVM
     {
         public int Id { get; set; }
         public string Name { get; set; }

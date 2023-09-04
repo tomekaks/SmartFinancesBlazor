@@ -6,6 +6,6 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
     {
         public string Name { get; set; }
         public decimal Amount { get; set; }
-        public ExpenseType Type { get; set; }
+        public ExpenseTypeVM Type { get; set; }
     }
 }

@@ -1,16 +1,14 @@
-﻿using SmartFinances.Core.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Application.Features.Expenses.Dtos
+namespace SmartFinances.Core.Data
 {
-    public class EditExpenseDto
+    public class ExpenseType
     {
         public int Id { get; set; }
-        public decimal Amount { get; set; }
         public string Type { get; set; }
     }
 }

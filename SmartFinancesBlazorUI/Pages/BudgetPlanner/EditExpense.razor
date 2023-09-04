@@ -21,7 +21,7 @@
             <div class="form-group">
                 <label for="Type">Type</label>
                 <InputSelect id="Type" @bind-Value="model.Type" class="form-control">
-                    @foreach (var type in Enum.GetValues(typeof(ExpenseType)))
+                    @foreach (var type in Enum.GetValues(typeof(ExpenseTypeVM)))
                     {
                         <option value="@type">@type</option>
                     }

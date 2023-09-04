@@ -8,45 +8,45 @@ namespace SmartFinances.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegularExpenseController : ControllerBase
+    public class RegularExpensesController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public RegularExpenseController(IMediator mediator)
+        public RegularExpensesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpGet("getall")]
-        public async Task<ActionResult<List<RegularExpenseDto>>> GetAll(int accuntId)
+        [HttpGet]
+        public async Task<ActionResult<List<RegularExpenseDto>>> GetAllAsync(int accuntId)
         {
             var regularExpenses = await _mediator.Send(new GetRegularExpenseListRequest { AccountId = accuntId });
             return Ok(regularExpenses);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RegularExpenseDto>> Get(int id)
+        public async Task<ActionResult<RegularExpenseDto>> GetAsync(int id)
         {
             var regularExpense = await _mediator.Send(new GetRegularExpenseRequest { Id = id });
             return Ok(regularExpense);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RegularExpenseDto regularExpenseDto)
+        public async Task<IActionResult> CreateAsync(RegularExpenseDto regularExpenseDto)
         {
             await _mediator.Send(new CreateRegularExpenseCommand { RegularExpenseDto = regularExpenseDto });
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(RegularExpenseDto regularExpenseDto)
+        public async Task<IActionResult> UpdateAsync(RegularExpenseDto regularExpenseDto)
         {
             await _mediator.Send(new UpdateRegularExpenseCommand { RegularExpenseDto = regularExpenseDto });
             return Ok();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             await _mediator.Send(new DeleteRegularExpenseCommand { Id = id });
             return Ok();

@@ -1,4 +1,6 @@
-﻿namespace SmartFinancesBlazorUI.Models.Dashboard
+﻿using SmartFinancesBlazorUI.Services.Base;
+
+namespace SmartFinancesBlazorUI.Models.Dashboard
 {
     public class DashboardVM
     {

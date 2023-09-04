@@ -1,6 +1,6 @@
 ﻿namespace SmartFinancesBlazorUI.Models.Enum
 {
-    public enum ExpenseType
+    public enum ExpenseTypeVM
     {
         Housing,
         Utilities,

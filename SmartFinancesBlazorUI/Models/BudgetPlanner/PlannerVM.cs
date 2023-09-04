@@ -1,22 +1,23 @@
 ﻿using SmartFinancesBlazorUI.Models.Enum;
+using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
     public class PlannerVM
     {
         public List<ExpenseDto> Expenses { get; set; } = new List<ExpenseDto>();
-        public decimal Budget { get; set; }
-        public decimal TotalAmount { get; set; }
-        public decimal HousingAmount { get => GetTotalAmountByExpenseType(ExpenseType.Housing); }
-        public decimal UtilitiesAmount { get => GetTotalAmountByExpenseType(ExpenseType.Utilities); }
-        public decimal FoodAmount { get => GetTotalAmountByExpenseType(ExpenseType.Food); }
-        public decimal ClothesAmount { get => GetTotalAmountByExpenseType(ExpenseType.Clothes); }
-        public decimal HealthAmount { get => GetTotalAmountByExpenseType(ExpenseType.Health); }
-        public decimal EntertainmentAmount { get => GetTotalAmountByExpenseType(ExpenseType.Entertainment); }
-        public decimal ElectronicsAmount { get => GetTotalAmountByExpenseType(ExpenseType.Electronics); }
-        public decimal HouseholdAmount { get => GetTotalAmountByExpenseType(ExpenseType.Household); }
-        public decimal TransportationAmount { get => GetTotalAmountByExpenseType(ExpenseType.Transportation); }
-        public decimal PersonalAmount { get => GetTotalAmountByExpenseType(ExpenseType.Personal); }
+        public double Budget { get; set; }
+        public double TotalAmount { get; set; }
+        public double HousingAmount { get => GetTotalAmountByExpenseType(Constants.HOUSING); }
+        public double UtilitiesAmount { get => GetTotalAmountByExpenseType(Constants.UTILITIES); }
+        public double FoodAmount { get => GetTotalAmountByExpenseType(Constants.FOOD); }
+        public double ClothesAmount { get => GetTotalAmountByExpenseType(Constants.CLOTHES); }
+        public double HealthAmount { get => GetTotalAmountByExpenseType(Constants.HEALTH); }
+        public double EntertainmentAmount { get => GetTotalAmountByExpenseType(Constants.ENTERTAINMENT); }
+        public double ElectronicsAmount { get => GetTotalAmountByExpenseType(Constants.ELECTRONICS); }
+        public double HouseholdAmount { get => GetTotalAmountByExpenseType(Constants.HOUSEHOLD); }
+        public double TransportationAmount { get => GetTotalAmountByExpenseType(Constants.TRANSPORTATION); }
+        public double PersonalAmount { get => GetTotalAmountByExpenseType(Constants.PERSONAL); }
 
         private void GetTotalAmount()
         {
@@ -26,10 +27,10 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
             }
         }
 
-        private decimal GetTotalAmountByExpenseType(ExpenseType expenseType)
+        private double GetTotalAmountByExpenseType(string expenseType)
         {
             var expenses = Expenses.FindAll(q => q.Type == expenseType);
-            decimal amount = 0;
+            double amount = 0;
 
             foreach (var item in expenses)
             {
