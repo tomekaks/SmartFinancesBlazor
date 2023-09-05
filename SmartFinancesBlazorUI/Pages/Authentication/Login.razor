@@ -1,27 +1,34 @@
-﻿@page "/authenticaiton/login"
+﻿@page "/authentication/login"
+@inject NavigationManager NavigationManager
+@inject IAuthenticationService AuthenticationService
 
 <h3>Login</h3>
 
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div class="alert alert-danger">@Message</div>   
+}
+
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@model" OnValidSubmit="HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
 
             <div class="form-group">
                 <label for="UserName">User name</label>
-                <InputText id="UserName" @bind-Value="model.UserName" class="form-control" />
-                <ValidationMessage For="@(() => model.UserName)" />
+                <InputText id="userName" @bind-Value="Model.UserName" class="form-control" />
+                <ValidationMessage For="@(() => Model.UserName)" />
             </div>
 
             <div class="form-group">
                 <label for="Password">Password</label>
-                <InputText id="Password" @bind-Value="model.Password" class="form-control" />
-                <ValidationMessage For="@(() => model.Password)" />
+                <InputText type="password" id="password" @bind-Value="Model.Password" class="form-control" />
+                <ValidationMessage For="@(() => Model.Password)" />
             </div>
 
             <div class="form-group">
                 <div class="checkbox">
-                    <InputCheckbox @bind-Value="model.RememberMe" id="RememberMe" />
+                    <InputCheckbox @bind-Value="Model.RememberMe" id="RememberMe" />
                     <label for="RememberMe">Remember me?</label>
                 </div>
             </div>
@@ -34,10 +41,15 @@
 </div>
 
 @code {
-    private LoginVM model = new LoginVM();
+    public LoginVM Model { get; set; } = new LoginVM();
+    public string Message { get; set; } = string.Empty;
 
-    private void HandleSubmit()
+    private async void HandleSubmit()
     {
-        
+        if (await AuthenticationService.LoginAsync(Model))
+        {
+            NavigationManager.NavigateTo("dashboard/dashboard");
+        }
+        Message = "Username/password combination is unknown";
     }
 }

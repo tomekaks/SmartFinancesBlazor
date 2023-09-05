@@ -1,14 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.DataBase.Configurations
 {
-    public class RegularExpenseConfiguration
+    public class RegularExpenseConfiguration : IEntityTypeConfiguration<RegularExpense>
     {
         public void Configure(EntityTypeBuilder<RegularExpense> builder)
         {
@@ -19,8 +15,7 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .IsRequired();
 
             builder.Property(p => p.Type)
-                   .IsRequired()
-                   .HasConversion<string>();
+                   .IsRequired();
 
             builder.HasOne(r => r.Account)
                    .WithMany(a => a.RegularExpenses)

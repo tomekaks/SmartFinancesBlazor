@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.DataBase.Configurations
 {
@@ -20,8 +15,7 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .IsRequired();
 
             builder.Property(p => p.Type)
-                   .IsRequired()
-                   .HasConversion<string>();
+                   .IsRequired();
 
             builder.HasOne(e => e.Account)
                    .WithMany(a => a.Expenses)
