@@ -19,7 +19,7 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.Property(q => q.Balance)
                    .IsRequired();
 
-            builder.Property(q => q.Name)
+            builder.Property(q => q.Type)
                    .IsRequired();
 
             builder.HasOne(a => a.User)

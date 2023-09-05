@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Application.Features.Transfers.Handlers.Validators
+namespace SmartFinances.Application.Features.Transfers.Validators
 {
     public class CreateTransferCommandValidator : AbstractValidator<CreateTransferCommand>
     {

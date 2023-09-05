@@ -30,7 +30,7 @@ namespace SmartFinancesBlazorUI.Services
 
                 if (authResponse.Token != string.Empty)
                 {
-                    await _localStorageService.SetItemAsync("token", authResponse.Token);
+                    await _localStorage.SetItemAsync("token", authResponse.Token);
 
                     await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedIn();
 

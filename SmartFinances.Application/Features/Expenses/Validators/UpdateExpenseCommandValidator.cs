@@ -16,7 +16,7 @@ namespace SmartFinances.Application.Features.Expenses.Validators
                 .NotEmpty().WithMessage("{PropertyName} is required");
 
             RuleFor(q => q.ExpenseDto.Type)
-                .IsInEnum();
+                .NotEmpty().WithMessage("{PropertyName} is required");
         }
     }
 }

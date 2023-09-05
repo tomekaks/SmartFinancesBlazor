@@ -24,23 +24,6 @@ namespace SmartFinances.Application.Features.Accounts.Handlers.Commands
             _accountFactory = accountFactory;
         }
 
-        //public async Task<Unit> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
-        //{
-        //    CreateAccountCommandValidator validator = new();
-        //    var validationResult = validator.Validate(request);
-
-        //    if (!validationResult.IsValid)
-        //    {
-        //        throw new ValidationException(validationResult);
-        //    }
-
-        //    var account = _accountFactory.CreateAccount(request.UserId, request.AccountName);
-        //    await _unitOfWork.Accounts.AddAsync(account);
-        //    await _unitOfWork.SaveAsync();
-
-        //    return Unit.Value;
-        //}
-
         public async Task Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             CreateAccountCommandValidator validator = new();
@@ -51,7 +34,7 @@ namespace SmartFinances.Application.Features.Accounts.Handlers.Commands
                 throw new ValidationException(validationResult);
             }
 
-            var account = _accountFactory.CreateAccount(request.UserId, request.AccountName);
+            var account = _accountFactory.CreateFirstAccount(request.UserId);
             await _unitOfWork.Accounts.AddAsync(account);
             await _unitOfWork.SaveAsync();
 

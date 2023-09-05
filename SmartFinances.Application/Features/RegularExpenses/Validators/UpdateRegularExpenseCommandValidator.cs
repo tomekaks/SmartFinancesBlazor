@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartFinances.Application.Features.RegularExpenses.Handlers.Validators
+namespace SmartFinances.Application.Features.RegularExpenses.Validators
 {
     public class UpdateRegularExpenseCommandValidator : AbstractValidator<UpdateRegularExpenseCommand>
     {
@@ -20,7 +20,7 @@ namespace SmartFinances.Application.Features.RegularExpenses.Handlers.Validators
                 .NotEmpty().WithMessage("{PropertyName} is required");
 
             RuleFor(q => q.RegularExpenseDto.Type)
-                .IsInEnum();
+                .NotEmpty().WithMessage("{PropertyName} is required");
         }
     }
 }

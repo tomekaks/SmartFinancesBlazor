@@ -11,7 +11,7 @@ namespace SmartFinances.Application.Interfaces.Factories
     public interface IAccountFactory
     {
         Account CreateAccount(AccountDto accountDto);
-        Account CreateAccount(string userId, string accountName);
+        Account CreateFirstAccount(string userId);
         AccountDto CreateAccountDto(Account account);
         Account MapToModel(AccountDto accountDto, Account model);
         Account MapToModel(UpdateAccountDto accountDto, Account model);

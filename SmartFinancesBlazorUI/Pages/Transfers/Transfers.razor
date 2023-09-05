@@ -9,61 +9,59 @@
 {
     <div>Loading...</div>
 }
-else
-{
-        <div>
-        <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
-    </div>
 
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Sender</th>
-                    <th>Receiver</th>
-                    <th>Title</th>
-                    <th>Amount</th>
-                    <th>Send date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var transfer in transfers)
+<div>
+    <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
+</div>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Send date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transfer in transfers)
+            {
+                if (transfer.SenderAccountNumber.Equals(accountNumber))
                 {
-                    if (transfer.SenderAccountNumber.Equals(accountNumber))
-                    {
-                        <tr>
-                            <td>@transfer.SenderName</td>
-                            <td>@transfer.ReceiverName</td>
-                            <td>@transfer.Title</td>
-                            <td>-@transfer.Amount</td>
-                            <td>@transfer.SendTime.ToShortDateString()</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>@transfer.SenderName</td>
-                            <td>@transfer.ReceiverName</td>
-                            <td>@transfer.Title</td>
-                            <td>@transfer.Amount</td>
-                            <td>@transfer.SendTime.ToShortDateString()</td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@transfer.SenderName</td>
+                        <td>@transfer.ReceiverName</td>
+                        <td>@transfer.Title</td>
+                        <td>-@transfer.Amount</td>
+                        <td>@transfer.SendTime.ToShortDateString()</td>
+                    </tr>
                 }
-            </tbody>
-        </table>
-    </div>
-}
+                else
+                {
+                    <tr>
+                        <td>@transfer.SenderName</td>
+                        <td>@transfer.ReceiverName</td>
+                        <td>@transfer.Title</td>
+                        <td>@transfer.Amount</td>
+                        <td>@transfer.SendTime.ToShortDateString()</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
 
 
 
 @code {
     private string accountNumber = "";
-    private List<TransferVM> transfers = new List<TransferVM>();
+    private List<TransferVM> transfers;
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         transfers = TransferService.GetTransfers(accountNumber).Result;
     }
 

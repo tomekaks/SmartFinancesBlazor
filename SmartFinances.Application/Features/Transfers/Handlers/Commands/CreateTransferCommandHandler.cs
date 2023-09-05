@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SmartFinances.Application.Exceptions;
-using SmartFinances.Application.Features.Transfers.Handlers.Validators;
 using SmartFinances.Application.Features.Transfers.Requests.Commands;
+using SmartFinances.Application.Features.Transfers.Validators;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Application.Interfaces.Repositories;
 

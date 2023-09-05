@@ -1,7 +1,4 @@
-﻿using SmartFinances.Application.Features.Accounts.Dtos;
-using SmartFinances.Core.Enums;
-
-namespace SmartFinances.Application.Features.RegularExpenses.Dtos
+﻿namespace SmartFinances.Application.Features.RegularExpenses.Dtos
 {
     public class RegularExpenseDto
     {

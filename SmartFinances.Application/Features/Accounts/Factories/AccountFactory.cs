@@ -24,12 +24,12 @@ namespace SmartFinances.Application.Features.Accounts.Factories
             return _mapper.Map<Account>(accountDto);
         }
 
-        public Account CreateAccount(string userId, string accountName)
+        public Account CreateFirstAccount(string userId)
         {
             return new Account()
             {
                 UserId = userId,
-                Name = accountName,
+                Type = "Main",
                 Number = GenerateAccountNumber()
             };
         }

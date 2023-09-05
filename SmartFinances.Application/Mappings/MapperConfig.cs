@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using SmartFinances.Core.Data;
-using SmartFinances.Core.Enums;
 using SmartFinances.Application.Features.Accounts.Dtos;
 using SmartFinances.Application.Features.Contacts.Dtos;
 using SmartFinances.Application.Features.Expenses.Dtos;

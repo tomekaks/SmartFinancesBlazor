@@ -31,15 +31,15 @@ namespace SmartFinances.Application.Services
             _jwtSettings = jwtSettings.Value;
         }
 
-        public async Task<AuthResponse> Login(LoginRequest loginDto)
+        public async Task<AuthResponse> Login(LoginRequest loginRequest)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.UserName);
+            var user = await _userManager.FindByNameAsync(loginRequest.UserName);
             if (user == null) 
             {
-                throw new NotFoundException(loginDto.UserName, loginDto.UserName);
+                throw new NotFoundException(loginRequest.UserName, loginRequest.UserName);
             }
 
-            bool isPasswordValid = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+            bool isPasswordValid = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
             if (!isPasswordValid)
             {
                 throw new BadRequestException("Invalid Credentials");
@@ -59,10 +59,11 @@ namespace SmartFinances.Application.Services
         }
 
 
-        public async Task<RegistrationResponse> Register(RegisterRequest registerDto)
+        public async Task<RegistrationResponse> Register(RegisterRequest registerRequest)
         {
-            var user = _mapper.Map<ApplicationUser>(registerDto);
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
+            var user = _mapper.Map<ApplicationUser>(registerRequest);
+            user.NumberOfAccounts = 1;
+            var result = await _userManager.CreateAsync(user, registerRequest.Password);
 
             if (!result.Succeeded)
             {
@@ -71,7 +72,7 @@ namespace SmartFinances.Application.Services
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            await _mediator.Send(new CreateAccountCommand { UserId = user.Id, AccountName = registerDto.UserName });    
+            await _mediator.Send(new CreateAccountCommand { UserId = user.Id, AccountName = registerRequest.UserName });    
 
             return new RegistrationResponse()
             {

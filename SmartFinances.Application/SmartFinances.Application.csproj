@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Users\Handlers\Queries\" />
-    <Folder Include="Features\Users\Requests\Queries\" />
+    <Compile Remove="Features\Users\Handlers\Queries\**" />
+    <Compile Remove="Features\Users\Requests\Queries\**" />
+    <EmbeddedResource Remove="Features\Users\Handlers\Queries\**" />
+    <EmbeddedResource Remove="Features\Users\Requests\Queries\**" />
+    <None Remove="Features\Users\Handlers\Queries\**" />
+    <None Remove="Features\Users\Requests\Queries\**" />
   </ItemGroup>
 
   <ItemGroup>
