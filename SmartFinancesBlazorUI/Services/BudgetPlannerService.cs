@@ -8,7 +8,7 @@ using System.Net.Http.Json;
 
 namespace SmartFinancesBlazorUI.Services
 {
-    public class BudgetPlannerService : BaseHttpService ,IBudgetPlannerService
+    public class BudgetPlannerService : BaseHttpService, IBudgetPlannerService
     {
         private readonly IMapper _mapper;
         private int _accountId;
@@ -23,7 +23,7 @@ namespace SmartFinancesBlazorUI.Services
             //var expenses = await GetExpenses();
             //var account = await GetAccount();
 
-            var expenses = new List<ExpenseDto>();
+            var expenses = new List<ExpenseVM>();
            
 
             return new PlannerVM()
@@ -63,7 +63,7 @@ namespace SmartFinancesBlazorUI.Services
             //TODO
 
             await AddBearerToken();
-            var account = await _client.AccountsGET2Async(_accountNumber);
+            var account = await _client.AccountsGetByNumberAsync(_accountNumber);
 
             return account ?? new AccountDto();
         }

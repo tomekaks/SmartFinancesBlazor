@@ -19,7 +19,7 @@ namespace SmartFinances.Application.Features.Transfers.Handlers.Queries
 
         public async Task<List<TransferDto>> Handle(GetTransferListRequest request, CancellationToken cancellationToken)
         {
-            var transfers = await _unitOfWork.Transfers.GetAllAsync(q => q.SenderAccountNumber == request.AccountNumber || q.SenderAccountNumber == request.AccountNumber);
+            var transfers = await _unitOfWork.Transfers.GetAllAsync(q => q.SenderAccountNumber == request.AccountNumber || q.ReceiverAccountNumber == request.AccountNumber);
             
             if (!transfers.Any()) 
             {

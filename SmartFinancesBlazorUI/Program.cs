@@ -19,9 +19,11 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7146"));
 
 builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+builder.Services.AddAuthorizationCore();
 
+
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<ITransfersService, TransfersService>();
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IBudgetPlannerService, BudgetPlannerService>();

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Contacts;
-using SmartFinancesBlazorUI.Models.Enum;
+using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Models.Transfers;
 using SmartFinancesBlazorUI.Services.Base;
 
@@ -12,12 +11,15 @@ namespace SmartFinancesBlazorUI.Mappings
     {
         public MappingProfile()
         {
+            CreateMap<AccountDto, AccountVM>().ReverseMap();
+
             CreateMap<TransferDto, TransferVM>().ReverseMap();
             CreateMap<NewTransferVM, CreateTransferDto>();
 
             CreateMap<ContactDto, ContactVM>().ReverseMap();
             CreateMap<NewContactVM, ContactDto>();
 
+            CreateMap<ExpenseDto, ExpenseVM>().ReverseMap();
             CreateMap<AddExpenseVM, ExpenseDto>();
             CreateMap<EditExpenseVM, EditExpenseDto>();
 

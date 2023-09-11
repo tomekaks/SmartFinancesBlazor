@@ -25,6 +25,27 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.HasOne(a => a.User)
                    .WithMany(u => u.Accounts)
                    .HasForeignKey(a => a.UserId);
+
+            builder.HasData(
+                new Account()
+                {
+                    Id = - 1,
+                    Number = "11AAAA111111",
+                    Type = "Main",
+                    UserId = "9ef201b2-999c-4161-8f2b-d7994971e5ee",
+                    Balance = 2000,
+                    Budget = 0
+                },
+                new Account()
+                {
+                    Id = - 2,
+                    Number = "22BBBB222222",
+                    Type = "Main",
+                    UserId = "8f095269-a72b-4427-bcaf-d860249770c9",
+                    Balance = 2000,
+                    Budget = 0
+                });
+
         }
     }
 }

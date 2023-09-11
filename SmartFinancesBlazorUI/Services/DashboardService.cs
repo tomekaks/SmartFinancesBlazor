@@ -1,40 +1,25 @@
-﻿using SmartFinancesBlazorUI.Contracts;
+﻿using AutoMapper;
+using Blazored.LocalStorage;
+using SmartFinancesBlazorUI.Contracts;
+using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Services
 {
-    public class DashboardService : IDashboardService
+    public class DashboardService : BaseHttpService, IDashboardService
     {
-        //public List<AccountDto> GetAccounts()
-        //{
-        //    return new List<AccountDto>();
-        //}
-
-        public List<AccountDto> GetAccounts()
+        private readonly IMapper _mapper;
+        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper) : base(client, localStorage)
         {
-            return new List<AccountDto>()
-            {
-                new AccountDto()
-                {
-                    Number = "AAAA1234AAAA",
-                    Balance = 10000,
-                    Budget = 1000
-                },
+            _mapper = mapper;
+        }
 
-                new AccountDto()
-                {
-                    Number = "BBBB1234BBBB",
-                    Balance = 10000,
-                    Budget = 2000
-                },
+        public async Task<AccountVM> GetAccount()
+        {
+            await AddBearerToken();
+            var account = await _client.AccountsGetMainAccountAsync();
+            return _mapper.Map<AccountVM>(account);
 
-                new AccountDto()
-                {
-                    Number = "CCCC1234CCCC",
-                    Balance = 10000,
-                    Budget = 1500
-                },
-            };
         }
     }
 }

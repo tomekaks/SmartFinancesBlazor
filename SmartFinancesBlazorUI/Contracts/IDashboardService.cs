@@ -1,9 +1,10 @@
-﻿using SmartFinancesBlazorUI.Services.Base;
+﻿using SmartFinancesBlazorUI.Models.Dashboard;
+using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IDashboardService
     {
-        List<AccountDto> GetAccounts();
+        Task<AccountVM> GetAccount();
     }
 }

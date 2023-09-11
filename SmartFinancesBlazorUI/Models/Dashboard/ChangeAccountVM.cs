@@ -4,6 +4,6 @@ namespace SmartFinancesBlazorUI.Models.Dashboard
 {
     public class ChangeAccountVM
     {
-        public List<AccountDto> Accounts { get; set; } = new List<AccountDto>();
+        public List<AccountVM> Accounts { get; set; } = new List<AccountVM>();
     }
 }

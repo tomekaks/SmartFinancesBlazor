@@ -5,7 +5,7 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
     public class PlannerVM
     {
-        public List<ExpenseDto> Expenses { get; set; } = new List<ExpenseDto>();
+        public List<ExpenseVM> Expenses { get; set; } = new List<ExpenseVM>();
         public double Budget { get; set; }
         public double TotalAmount { get; set; }
         public double HousingAmount { get => GetTotalAmountByExpenseType(Constants.HOUSING); }

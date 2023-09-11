@@ -60,9 +60,9 @@
     private string accountNumber = "";
     private List<TransferVM> transfers;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        transfers = TransferService.GetTransfers(accountNumber).Result;
+        transfers = await TransferService.GetTransfers(accountNumber);
     }
 
     private void NavigateToNewTransfer()

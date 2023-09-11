@@ -1,13 +1,14 @@
 ﻿@page "/dashboard/dashboard"
 @inject NavigationManager NavigationManager
+@inject IDashboardService DashboardService
 
 <PageTitle>Dashboard</PageTitle>
 
 <h3>Dashboard</h3>
 
-<div>Account number: @model.CurrentAccount.Number</div>
+<div>Account number: @Model.CurrentAccount.Number</div>
 
-<div>Balance: @model.CurrentAccount.Balance</div>
+<div>Balance: @Model.CurrentAccount.Balance</div>
 
 <div>
     <button class="btn btn-success" @onclick="AddFunds">Add funds</button>
@@ -18,7 +19,13 @@
 </div>
 
 @code {
-    private DashboardVM model = new DashboardVM();
+    public DashboardVM Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = new DashboardVM();
+        Model.CurrentAccount = await DashboardService.GetAccount();
+    }
 
     private void AddFunds()
     {

@@ -50,10 +50,9 @@
     private string userId;
     private List<ContactVM> contacts = new List<ContactVM>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-        contacts = ContactsService.GetContacts(userId).Result;
+        contacts = await ContactsService.GetContacts(userId);
     }
 
     private async Task ConfirmUseContact(ContactVM contactVM)
