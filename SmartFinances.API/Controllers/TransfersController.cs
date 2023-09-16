@@ -20,7 +20,8 @@ namespace SmartFinances.API.Controllers
         }
 
 
-        [HttpGet("{accountnumber}")]
+        [HttpGet]
+        [Route("transfersGetAll/{accountNumber}")]
         public async Task<ActionResult<List<TransferDto>>> GetAllAsync(string accountNumber)
         {
             var transfers = await _mediator.Send(new GetTransferListRequest { AccountNumber = accountNumber });

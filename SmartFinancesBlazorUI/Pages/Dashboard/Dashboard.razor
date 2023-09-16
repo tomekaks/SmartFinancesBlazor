@@ -19,12 +19,11 @@
 </div>
 
 @code {
-    public DashboardVM Model { get; set; }
+    public DashboardVM Model { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Model = new DashboardVM();
-        Model.CurrentAccount = await DashboardService.GetAccount();
+        Model.CurrentAccount = await DashboardService.GetAccountAsync();
     }
 
     private void AddFunds()

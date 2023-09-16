@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
+using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
+using System.Reflection.Metadata;
 
 namespace SmartFinancesBlazorUI.Services
 {
@@ -14,12 +16,13 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task<AccountVM> GetAccount()
+        public async Task<AccountVM> GetAccountAsync()
         {
             await AddBearerToken();
             var account = await _client.AccountsGetMainAccountAsync();
-            return _mapper.Map<AccountVM>(account);
+            await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, account.Number);
 
+            return _mapper.Map<AccountVM>(account);
         }
     }
 }

@@ -43,7 +43,7 @@
 
     private async Task HandleSubmit()
     {
-        bool response = await ContactService.CreateContact(contact);
+        bool response = await ContactService.CreateContactAsync(contact);
         if (response)
         {
             NavigateToContacts();

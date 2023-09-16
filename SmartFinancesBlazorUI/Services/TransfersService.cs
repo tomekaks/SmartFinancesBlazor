@@ -16,10 +16,12 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task<List<TransferVM>> GetTransfers(string accountNumber)
+        public async Task<List<TransferVM>> GetTransfersAsync()
         {
+            string currentAccount = await _localStorage.GetItemAsync<string>(Constants.CURRENTACCOUNT);
+
             await AddBearerToken();
-            var transfers = await _client.TransfersAllAsync(accountNumber);
+            var transfers = await _client.TransfersGetAllAsync(currentAccount);
 
             if(transfers == null)
             {
@@ -31,14 +33,21 @@ namespace SmartFinancesBlazorUI.Services
             return transferList ?? new List<TransferVM>();
         }
 
-        public async Task<bool> CreateTransfer(NewTransferVM transferVM)
+        public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
         {
+            transferVM.SendTime= DateTime.Now;
             var transferDto = _mapper.Map<CreateTransferDto>(transferVM);
+            transferDto.SenderAccountNumber = await GetCurrentAccountNumberAsync();
 
             await AddBearerToken();
             await _client.TransfersPOSTAsync(transferDto);
 
             return true;
+        }
+
+        public async Task<string> GetCurrentAccountNumberAsync()
+        {
+            return await _localStorage.GetItemAsync<string>(Constants.CURRENTACCOUNT);
         }
 
     }

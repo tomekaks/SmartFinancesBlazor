@@ -33,6 +33,9 @@ namespace SmartFinances.Application.Features.Transfers.Handlers.Commands
             var receiverAccount = await _unitOfWork.Accounts.GetAsync(q => q.Number == transfer.ReceiverAccountNumber);
             var senderAccount = await _unitOfWork.Accounts.GetAsync(q =>q.Number == transfer.SenderAccountNumber);
 
+            transfer.SenderId = senderAccount.Id;
+            transfer.ReceiverId= receiverAccount.Id;
+
             if (receiverAccount != null && senderAccount.Balance >= request.TransferDto.Amount)
             {
                 receiverAccount.Balance += request.TransferDto.Amount;

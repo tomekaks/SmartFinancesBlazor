@@ -47,12 +47,11 @@
 </div>
 
 @code {
-    private string userId;
     private List<ContactVM> contacts = new List<ContactVM>();
 
     protected override async Task OnInitializedAsync()
     {
-        contacts = await ContactsService.GetContacts(userId);
+        contacts = await ContactsService.GetContactsAsync();
     }
 
     private async Task ConfirmUseContact(ContactVM contactVM)
@@ -82,7 +81,7 @@
 
     private void DeleteContact(int id)
     {
-        ContactsService.DeleteContact(id);
+        ContactsService.DeleteContactAsync(id);
     }
 
     private void NavigateToEditContact(ContactVM contactVM)

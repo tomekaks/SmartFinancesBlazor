@@ -8,8 +8,6 @@
         public int ReceiverId { get; set; }
         public string ReceiverName { get; set; }
         public string ReceiverAccountNumber { get; set; }
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
         public int SenderId { get; set; }
         public string SenderName { get; set; }
         public string SenderAccountNumber { get; set; }

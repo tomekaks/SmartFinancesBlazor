@@ -25,12 +25,15 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.Property(q => q.ReceiverAccountNumber)
                    .IsRequired();
 
-            builder.Property(q => q.ReceiverName)
+            builder.Property(q => q.ReceiverId)
                    .IsRequired();
 
-            builder.HasOne(t => t.Account)
-                   .WithMany(a => a.Transfers)
-                   .HasForeignKey(t => t.AccountId);
+            builder.Property(q => q.SenderAccountNumber)
+                   .IsRequired();
+
+            builder.Property(q => q.SenderId)
+                   .IsRequired();
+
         }
     }
 }

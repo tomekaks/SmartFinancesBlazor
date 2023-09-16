@@ -12,5 +12,7 @@
         public const string HOUSEHOLD = "Household";
         public const string TRANSPORTATION = "Transportation";
         public const string PERSONAL = "Personal";
+
+        public const string CURRENTACCOUNT = "CurrentAccount";
     }
 }

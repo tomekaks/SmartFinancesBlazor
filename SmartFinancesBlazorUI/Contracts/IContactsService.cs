@@ -4,10 +4,10 @@ namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IContactsService
     {
-        Task<ContactVM> GetContact(int contactId);
-        Task<List<ContactVM>> GetContacts(string accountNumber);
-        Task<bool> CreateContact(NewContactVM contact);
-        Task<bool> UpdateContact(NewContactVM contact);
-        Task<bool> DeleteContact(int contactId);
+        Task<ContactVM> GetContactAsync(int contactId);
+        Task<List<ContactVM>> GetContactsAsync();
+        Task<bool> CreateContactAsync(NewContactVM contact);
+        Task<bool> UpdateContactAsync(NewContactVM contact);
+        Task<bool> DeleteContactAsync(int contactId);
     }
 }

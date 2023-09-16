@@ -75,12 +75,12 @@
 
     private void NavigateToTransfers()
     {
-        NavigationManager.NavigateTo("/transfers/transfers");
+        NavigationManager.NavigateTo("/transfers");
     }
 
     private async Task HandleSubmit()
     {
-        bool response = await TransferService.CreateTransfer(transferModel);
+        bool response = await TransferService.CreateTransferAsync(transferModel);
 
         if(response)
         {

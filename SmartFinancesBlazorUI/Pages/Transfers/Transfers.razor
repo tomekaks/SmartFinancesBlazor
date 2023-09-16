@@ -1,5 +1,5 @@
-﻿@page "/transfers/transfers"
-@inject ITransfersService TransferService
+﻿@page "/transfers"
+@inject ITransfersService TransfersService
 @inject NavigationManager NavigationManager
 
 
@@ -9,60 +9,61 @@
 {
     <div>Loading...</div>
 }
+else
+{
+        <div>
+        <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
+    </div>
 
-<div>
-    <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
-</div>
-
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>Title</th>
-                <th>Amount</th>
-                <th>Send date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var transfer in transfers)
-            {
-                if (transfer.SenderAccountNumber.Equals(accountNumber))
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Send date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transfer in transfers)
                 {
-                    <tr>
-                        <td>@transfer.SenderName</td>
-                        <td>@transfer.ReceiverName</td>
-                        <td>@transfer.Title</td>
-                        <td>-@transfer.Amount</td>
-                        <td>@transfer.SendTime.ToShortDateString()</td>
-                    </tr>
+                    if (transfer.SenderAccountNumber.Equals(accountNumber))
+                    {
+                        <tr>
+                            <td>@transfer.SenderName</td>
+                            <td>@transfer.ReceiverName</td>
+                            <td>@transfer.Title</td>
+                            <td>-@transfer.Amount</td>
+                            <td>@transfer.SendTime.ToShortDateString()</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@transfer.SenderName</td>
+                            <td>@transfer.ReceiverName</td>
+                            <td>@transfer.Title</td>
+                            <td>@transfer.Amount</td>
+                            <td>@transfer.SendTime.ToShortDateString()</td>
+                        </tr>
+                    }
                 }
-                else
-                {
-                    <tr>
-                        <td>@transfer.SenderName</td>
-                        <td>@transfer.ReceiverName</td>
-                        <td>@transfer.Title</td>
-                        <td>@transfer.Amount</td>
-                        <td>@transfer.SendTime.ToShortDateString()</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-</div>
-
-
+            </tbody>
+        </table>
+    </div>
+}
 
 
 @code {
-    private string accountNumber = "";
-    private List<TransferVM> transfers;
+    private List<TransferVM> transfers = new();
+    private string accountNumber = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        transfers = await TransferService.GetTransfers(accountNumber);
+        transfers = await TransfersService.GetTransfersAsync();
+        accountNumber = await TransfersService.GetCurrentAccountNumberAsync();
     }
 
     private void NavigateToNewTransfer()

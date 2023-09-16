@@ -15,8 +15,6 @@ namespace SmartFinances.Application.Features.Transfers.Dtos
         public int ReceiverId { get; set; }
         public string ReceiverName { get; set; }
         public string ReceiverAccountNumber { get; set; }
-        public int AccountId { get; set; }
-        public AccountDto AccountDto { get; set; }
         public int SenderId { get; set; }
         public string SenderName { get; set; }
         public string SenderAccountNumber { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartFinances.Infrastructure.DataBase;
 
@@ -11,9 +12,10 @@ using SmartFinances.Infrastructure.DataBase;
 namespace SmartFinances.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230913101211_ChangesInTransferModel")]
+    partial class ChangesInTransferModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,21 @@ namespace SmartFinances.Infrastructure.Migrations
                         new
                         {
                             Id = "abebd04b-4c91-40ca-a99e-8577ff0f262e",
-                            ConcurrencyStamp = "25e8f60d-842a-4f6d-8337-e7ac443399e5",
+                            ConcurrencyStamp = "a6b145ca-da78-4d25-9dc0-1e44755f207e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "dea03c83-9eae-4ce3-9560-7b3aec0f1b00",
-                            ConcurrencyStamp = "f7f956cf-ec3c-446b-8cc9-5c7944b063f1",
+                            ConcurrencyStamp = "c72436ac-efd3-4b55-b02a-f6d83a564bff",
                             Name = "TestUser",
                             NormalizedName = "TESTUSER"
                         },
                         new
                         {
                             Id = "ee6ef51f-eaf9-406e-863e-b8012bd7045a",
-                            ConcurrencyStamp = "241b38eb-6de3-449c-be31-51abf75dd69a",
+                            ConcurrencyStamp = "b65fb1c8-4fc8-49e5-9e0f-a247f8ce4dcc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -331,7 +333,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "5330c916-053d-41e6-8a44-b9fe25cf27bf",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31ae1810-7742-4067-b392-fd3e6f634056",
+                            ConcurrencyStamp = "a9858349-dda3-4e1b-a739-253ad13ba5d5",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -341,9 +343,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAECKWD9hFbQyyOgJNqfsCTiDm4uArmHVaSJHfLFu6+i7qp67LBUCesXrTEXAbOjpnBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMQgChw4L2q2M5Ng+Gp4q4rqKxyKtZpexpEgNplWVC1pDwfRwDZmtVpJf5xsHMBl2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cac1551a-fc51-4d5d-9050-a96a099bb852",
+                            SecurityStamp = "49041d5c-6a92-4294-ac1a-d6e348d61e1e",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
@@ -351,7 +353,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "9ef201b2-999c-4161-8f2b-d7994971e5ee",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a0ad147f-fe35-44f5-91b7-5cd5458fb216",
+                            ConcurrencyStamp = "8214ad36-9057-48e0-a7ba-441cae22dd79",
                             Email = "sarahconor@skynet.com",
                             EmailConfirmed = true,
                             FirstName = "Sarah",
@@ -361,9 +363,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "SARAHCONNOR@SKYNET.COM",
                             NormalizedUserName = "ILIKEROBOTS",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEFN1QN6+Z8paGXXQtlYDmS89YI/4xIWgBffxZScNexovfSZyKZLN8O9VLEexztgYbw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI5JeQWFrk+ihMLEpPfLMM6fva3a2d0gJY8+k3q1JRT/QawiP17/PUhnkeijsH1zmA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "866bc2a5-b550-4109-84a8-ca7215f8c7a2",
+                            SecurityStamp = "af915c2a-9d59-4d80-8531-67cfd7445281",
                             TwoFactorEnabled = false,
                             UserName = "ILikeRobots"
                         },
@@ -371,7 +373,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "8f095269-a72b-4427-bcaf-d860249770c9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9086c218-6a38-44c0-abd8-2b4953b7967c",
+                            ConcurrencyStamp = "63dd4016-e33d-4881-8657-da3475a4e4c3",
                             Email = "tylerdurden@fightclub.com",
                             EmailConfirmed = true,
                             FirstName = "Tyler",
@@ -381,9 +383,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "TYLERDURDEN@FIGHTCLUB.COM",
                             NormalizedUserName = "FIRSTRULE",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEBGhMCi0SoS/x8A2fHifpEubN+Ak/HmLIY4koSHA2cbpYztK0QfOJ3FuGaiWw2378w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEUEBaEy7vnNeQi3vfkQ77CYgKBWXuKvgQBIKPv9Noyg4ISfqn0yfN6xC5LLD8kjIg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9f02f617-46b6-430f-9ee7-b7bad90b407d",
+                            SecurityStamp = "64b9786b-088d-4567-a401-6b0d77c564d8",
                             TwoFactorEnabled = false,
                             UserName = "FirstRule"
                         });
@@ -495,6 +497,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ReceiverName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SendTime")
@@ -508,6 +511,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SenderName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
