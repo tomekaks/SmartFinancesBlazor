@@ -23,7 +23,13 @@ namespace SmartFinances.Application.Features.Contacts.Handlers.Queries
         }
         public async Task<List<ContactDto>> Handle(GetContactListRequest request, CancellationToken cancellationToken)
         {
-            var contacts = await _unitOfWork.Contacts.GetAllAsync(q => q.UserId == request.UserId);
+            var contacts = (await _unitOfWork.Contacts.GetAllAsync(q => q.UserId == request.UserId)).ToList();
+
+            if (contacts is null || contacts.Count < 1)
+            {
+                return new List<ContactDto>();
+            }
+
             return _contactFactory.CreateContactDtoList(contacts.ToList());
         }
     }

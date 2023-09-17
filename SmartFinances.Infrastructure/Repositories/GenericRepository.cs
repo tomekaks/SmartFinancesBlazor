@@ -28,7 +28,7 @@ namespace SmartFinances.Infrastructure.Repositories
 
         public void Delete(T entity)
         {
-            _context.Remove(entity);
+            _db.Remove(entity);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression = null, string includeProperties = null)

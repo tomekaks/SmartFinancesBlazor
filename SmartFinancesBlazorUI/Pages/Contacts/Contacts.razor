@@ -1,4 +1,4 @@
-﻿@page "/contacts/contacts"
+﻿@page "/contacts"
 @inject IContactsService ContactsService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
@@ -17,7 +17,6 @@
                 <th>Account number</th>
                 <th></th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,10 +26,7 @@
                     <td>@contact.Name</td>
                     <td>@contact.AccountNumber</td>
                     <td>
-                        <button @onclick="() => ConfirmUseContact(contact)" class="btn btn-success">Use</button>
-                    </td>
-                    <td>
-                        <button @onclick="() => NavigateToEditContact(contact)" class="btn btn-info">Edit</button>
+                        <button @onclick="() => NavigateToEditContact(contact.Id)" class="btn btn-info">Edit</button>
                     </td>
                     <td>
                         <button @onclick="() => ConfirmDeleteContact(contact.Id)" class="btn btn-danger">Delete</button>
@@ -42,10 +38,6 @@
 </div>
 
 
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToNewTransfer">Back to Transfers</button>
-</div>
-
 @code {
     private List<ContactVM> contacts = new List<ContactVM>();
 
@@ -54,53 +46,34 @@
         contacts = await ContactsService.GetContactsAsync();
     }
 
-    private async Task ConfirmUseContact(ContactVM contactVM)
-    {
-        var result = await JSRuntime.InvokeAsync<bool>("confirm", "Do you want to use this contact?");
-
-        if (result)
-        {
-            UseContact(contactVM);
-        }
-    }
-
-    private void UseContact(ContactVM contactVM)
-    {
-        NavigateToNewTransferWithParams(contactVM);
-    }
-
     private async Task ConfirmDeleteContact(int id)
     {
         var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
 
         if (result)
         {
-            DeleteContact(id);
+            await DeleteContact(id);
+            StateHasChanged();
         }
     }
 
-    private void DeleteContact(int id)
+    private async Task DeleteContact(int id)
     {
-        ContactsService.DeleteContactAsync(id);
+        await ContactsService.DeleteContactAsync(id);
+        contacts = await ContactsService.GetContactsAsync();
     }
 
     private void NavigateToEditContact(ContactVM contactVM)
     {
         NavigationManager.NavigateTo($"/contacts/editcontact/{contactVM.Name}/{contactVM.AccountNumber}");
     }
+    private void NavigateToEditContact(int id)
+    {
+        NavigationManager.NavigateTo($"/contacts/editcontact/{id}");
+    }
 
     private void NavigateToAddContact()
     {
         NavigationManager.NavigateTo("/contacts/addcontact");
-    }
-
-    private void NavigateToNewTransfer()
-    {
-        NavigationManager.NavigateTo("/transfers/newtransfer");
-    }
-
-    private void NavigateToNewTransferWithParams(ContactVM contactVM)
-    {
-        NavigationManager.NavigateTo($"/transfers/newtransfer/{contactVM.Name}/{contactVM.AccountNumber}");
     }
 }

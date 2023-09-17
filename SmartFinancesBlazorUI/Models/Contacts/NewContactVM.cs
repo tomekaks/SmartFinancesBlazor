@@ -6,7 +6,6 @@ namespace SmartFinancesBlazorUI.Models.Contacts
     {
         [Required]
         public string Name { get; set; }
-
         [Required]
         [Display(Name = "Account number")]
         public string AccountNumber { get; set; }

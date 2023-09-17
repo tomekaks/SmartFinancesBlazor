@@ -11,5 +11,6 @@ namespace SmartFinances.Application.Features.Contacts.Requests.Commands
     public class CreateContactCommand : IRequest
     {
         public ContactDto ContactDto { get; set; }
+        public string UserId { get; set; }
     }
 }

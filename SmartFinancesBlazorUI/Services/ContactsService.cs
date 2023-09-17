@@ -16,9 +16,17 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateContactAsync(NewContactVM contact)
+        public async Task<bool> CreateContactAsync(NewContactVM newContact)
         {
-            var contactDto = _mapper.Map<ContactDto>(contact);
+            var contacts = await GetContactsAsync();
+
+            var result = contacts.FirstOrDefault(q => q.Name == newContact.Name);
+            if (result != null)
+            {
+                return true;
+            }
+
+            var contactDto = _mapper.Map<ContactDto>(newContact);
 
             await AddBearerToken();
             await _client.ContactsPOSTAsync(contactDto);
@@ -30,6 +38,11 @@ namespace SmartFinancesBlazorUI.Services
         {
             await AddBearerToken();
             var contact = await _client.ContactsGETAsync(contactId);
+
+            if (contact == null)
+            {
+                return new ContactVM();
+            }
 
             return _mapper.Map<ContactVM>(contact);
         }
@@ -44,7 +57,7 @@ namespace SmartFinancesBlazorUI.Services
             return contactList ?? new List<ContactVM>();
         }
 
-        public async Task<bool> UpdateContactAsync(NewContactVM contact)
+        public async Task<bool> UpdateContactAsync(ContactVM contact)
         {
             var contactDto = _mapper.Map<ContactDto>(contact);
 

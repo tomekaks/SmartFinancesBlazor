@@ -2,6 +2,7 @@
 @page "/transfers/newtransfer/{Name}/{AccountNumber}"
 @inject NavigationManager NavigationManager
 @inject ITransfersService TransferService
+@inject IContactsService ContactsService
 
 <h1>New Transfer</h1>
 
@@ -11,31 +12,31 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@transferModel" OnValidSubmit="@HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />            
 
             <div class="form-group">
                 <label for="ReceiverName">Receiver name</label>
-                <InputText id="ReceiverName" @bind-Value="transferModel.ReceiverName" class="form-control" />
-                <ValidationMessage For="@(() => transferModel.ReceiverName)" />
+                <InputText id="ReceiverName" @bind-Value="Model.ReceiverName" class="form-control" />
+                <ValidationMessage For="@(() => Model.ReceiverName)" />
             </div>
             
             <div class="form-group">
                 <label for="ReceiverAccountNumber">Receiver account number</label>
-                <InputText id="ReceiverAccountNumber" @bind-Value="transferModel.ReceiverAccountNumber" class="form-control" />
-                <ValidationMessage For="@(() => transferModel.ReceiverAccountNumber)" />
+                <InputText id="ReceiverAccountNumber" @bind-Value="Model.ReceiverAccountNumber" class="form-control" />
+                <ValidationMessage For="@(() => Model.ReceiverAccountNumber)" />
             </div>
 
             <div class="form-group">
                 <label for="Amount">Amount</label>
-                <InputNumber id="Amount" @bind-Value="transferModel.Amount" class="form-control" />
-                <ValidationMessage For="@(() => transferModel.Amount)" />
+                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
+                <ValidationMessage For="@(() => Model.Amount)" />
             </div>
 
             <div class="form-group">
                 <label for="Title">Title</label>
-                <InputText id="Title" @bind-Value="transferModel.Title" class="form-control" />
-                <ValidationMessage For="@(() => transferModel.Title)" />
+                <InputText id="Title" @bind-Value="Model.Title" class="form-control" />
+                <ValidationMessage For="@(() => Model.Title)" />
             </div>
 
             <div class="form-group">
@@ -58,19 +59,19 @@
     [Parameter]
     public string AccountNumber { get; set; } = string.Empty;
 
-    private NewTransferVM transferModel = new NewTransferVM();
+    private NewTransferVM Model = new NewTransferVM();
     private bool addToContacts;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        transferModel.ReceiverName = Name;
-        transferModel.ReceiverAccountNumber = AccountNumber;
+        Model.ReceiverName = Name;
+        Model.ReceiverAccountNumber = AccountNumber;
     }
 
     private void NavigateToContacts()
     {
-        NavigationManager.NavigateTo("/contacts/contacts");
+        NavigationManager.NavigateTo("/transfers/contactbook");
     }
 
     private void NavigateToTransfers()
@@ -80,7 +81,17 @@
 
     private async Task HandleSubmit()
     {
-        bool response = await TransferService.CreateTransferAsync(transferModel);
+        if (addToContacts == true)
+        {
+            var newContact = new NewContactVM()
+            {
+                Name = Model.ReceiverName,
+                AccountNumber = Model.ReceiverAccountNumber
+            };
+            await ContactsService.CreateContactAsync(newContact);
+        }
+
+        bool response = await TransferService.CreateTransferAsync(Model);
 
         if(response)
         {

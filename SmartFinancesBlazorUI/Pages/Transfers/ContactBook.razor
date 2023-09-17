@@ -1,0 +1,65 @@
+﻿@page "/transfers/contactbook"
+@inject IContactsService ContactsService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Saved Contacts</PageTitle>
+
+<h3>Saved Contacts</h3>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Account number</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Contacts)
+            {
+                    <tr>
+                        <td>@contact.Name</td>
+                        <td>@contact.AccountNumber</td>
+                        <td>
+                            <button @onclick="() => ConfirmUseContact(contact)" class="btn btn-success">Use</button>
+                        </td>                        
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <button class="btn btn-primary" @onclick="NavigateToNewTransfer">Back</button>
+</div>
+
+@code {
+    private List<ContactVM> Contacts = new List<ContactVM>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Contacts = await ContactsService.GetContactsAsync();
+    }
+
+    private async Task ConfirmUseContact(ContactVM contactVM)
+    {
+        var result = await JSRuntime.InvokeAsync<bool>("confirm", "Do you want to use this contact?");
+
+        if (result)
+        {
+            UseContact(contactVM);
+        }
+    }
+
+    private void UseContact(ContactVM contactVM)
+    {
+        NavigationManager.NavigateTo($"/transfers/newtransfer/{contactVM.Name}/{contactVM.AccountNumber}");
+    }
+
+    private void NavigateToNewTransfer()
+    {
+        NavigationManager.NavigateTo("/transfers/newtransfer");
+    }
+}

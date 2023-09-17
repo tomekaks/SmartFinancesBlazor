@@ -1,25 +1,27 @@
 ﻿@page "/contacts/editcontact"
 @page "/contacts/editcontact/{Name}/{AccountNumber}"
+@page "/contacts/editcontact/{Id:int}"
 @inject NavigationManager NavigationManager
+@inject IContactsService ContactService
 
 <h1>Edit Contact</h1>
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@model" OnInvalidSubmit="HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="HandleSubmitAsync">
             <DataAnnotationsValidator />
             <input hidden asp-for="Id" />
 
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <InputText id="Name" @bind-Value="@model.Name" class="form-control" />
-                <ValidationMessage For="@(() => model.Name)" />
+                <InputText id="Name" @bind-Value="@Model.Name" class="form-control" />
+                <ValidationMessage For="@(() => Model.Name)" />
             </div>
 
             <div class="form-group">
                 <label for="AccountNumber" class="control-label">Account number</label>
-                <InputText id="AccountNumber" @bind-Value="@model.AccountNumber" class="form-control" />
-                <ValidationMessage For="@(() => model.AccountNumber)" />
+                <InputText id="AccountNumber" @bind-Value="@Model.AccountNumber" class="form-control" />
+                <ValidationMessage For="@(() => Model.AccountNumber)" />
             </div>
 
             <div class="form-group">
@@ -31,31 +33,36 @@
 </div>
 
 <div>
-    <button class="btn btn-primary" @onclick="NavigateToContacts">Back to List</button>
+    <button class="btn btn-primary" @onclick="NavigateToContacts">Back to Contacts</button>
 </div>
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
     [Parameter]
     public string Name { get; set; } = string.Empty;
     [Parameter]
     public string AccountNumber { get; set; } = string.Empty;
 
-    private EditContactVM model = new EditContactVM();
+    private ContactVM Model = new ContactVM();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-        model.Name = Name;
-        model.AccountNumber = AccountNumber;
+        Model = await ContactService.GetContactAsync(Id);
     }
 
-    private void HandleSubmit()
+    private async Task HandleSubmitAsync()
     {
-        
+        bool result = await ContactService.UpdateContactAsync(Model);
+
+        if(result)
+        {
+            NavigateToContacts();
+        }
     }
 
     private void NavigateToContacts()
     {
-        NavigationManager.NavigateTo("/contacts/contacts");
+        NavigationManager.NavigateTo("/contacts");
     }
 }

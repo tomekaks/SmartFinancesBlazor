@@ -36,20 +36,21 @@ namespace SmartFinances.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] ContactDto contactDto)
         {
-            await _mediator.Send(new CreateContactCommand { ContactDto = contactDto });
+            await _mediator.Send(new CreateContactCommand { ContactDto = contactDto, UserId = CurrentUserId });
             return Ok();
         }
 
         [HttpPut]
-        public void Update([FromBody] ContactDto contactDto)
+        public async Task Update([FromBody] ContactDto contactDto)
         {
-            _mediator.Send(new UpdateContactCommand { ContactDto = contactDto });
+            contactDto.UserId = CurrentUserId;
+            await _mediator.Send(new UpdateContactCommand { ContactDto = contactDto });
         }
 
         [HttpDelete]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _mediator.Send(new DeleteContactCommand { Id = id });
+            await _mediator.Send(new DeleteContactCommand { Id = id });
         }
     }
 }

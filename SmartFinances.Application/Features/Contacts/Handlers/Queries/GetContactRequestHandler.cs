@@ -25,6 +25,12 @@ namespace SmartFinances.Application.Features.Contacts.Handlers.Queries
         public async Task<ContactDto> Handle(GetContactRequest request, CancellationToken cancellationToken)
         {
             var contact = await _unitOfWork.Contacts.GetByIdAsync(request.Id);
+
+            if (contact == null)
+            {
+                return new ContactDto();
+            }
+
             return _contactFactory.CreateContactDto(contact);
         }
 

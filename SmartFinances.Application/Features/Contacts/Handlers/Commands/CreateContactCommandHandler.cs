@@ -29,6 +29,7 @@ namespace SmartFinances.Application.Features.Contacts.Handlers.Commands
             }
 
             var contact = _contactFactory.CreateContact(request.ContactDto);
+            contact.UserId = request.UserId;
 
             await _unitOfWork.Contacts.AddAsync(contact);
             await _unitOfWork.SaveAsync();

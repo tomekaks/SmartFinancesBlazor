@@ -28,10 +28,13 @@ namespace SmartFinances.Application.Features.Contacts.Handlers.Commands
             }
 
             var contact = await _unitOfWork.Contacts.GetByIdAsync(request.ContactDto.Id);
-            contact = _contactFactory.MapToModel(request.ContactDto, contact);
 
-            _unitOfWork.Contacts.Update(contact);
-            await _unitOfWork.SaveAsync();
+            if (contact != null)
+            {
+                contact = _contactFactory.MapToModel(request.ContactDto, contact);
+                _unitOfWork.Contacts.Update(contact);
+                await _unitOfWork.SaveAsync();
+            }
 
             return;
         }
