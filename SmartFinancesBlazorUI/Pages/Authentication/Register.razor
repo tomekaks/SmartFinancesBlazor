@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@Model" OnInvalidSubmit="HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
 
             <div class="form-group">
@@ -30,13 +30,13 @@
 
             <div class="form-group">
                 <label for="Password">Password</label>
-                <InputText id="Password" @bind-Value="Model.Password" class="form-control" />
+                <InputText type="password" id="Password" @bind-Value="Model.Password" class="form-control" />
                 <ValidationMessage For="@(() => Model.Password)" />
             </div>
 
             <div class="form-group">
                 <label for="ConfirmPassword">Confirm password</label>
-                <InputText id="ConfirmPassword" @bind-Value="Model.ConfirmPassword" class="form-control" />
+                <InputText type="password" id="ConfirmPassword" @bind-Value="Model.ConfirmPassword" class="form-control" />
                 <ValidationMessage For="@(() => Model.ConfirmPassword)" />
             </div>
 
@@ -49,7 +49,7 @@
     public RegisterVM Model { get; set; } = new();
     public string Message { get; set; } = string.Empty;
 
-    private async void HandleSubmit()
+    private async Task HandleSubmit()
     {
         var result = await AuthenticationService.RegisterAsync(Model);
 

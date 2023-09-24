@@ -35,7 +35,8 @@ namespace SmartFinances.API.Controllers
             return Ok(account);
         }
 
-        [HttpGet("{accountNumber}")]
+        [HttpGet]
+        [Route("GetByAccountNumber/{accountNumber}")]
         [SwaggerOperation(OperationId = "AccountsGetByNumber")]
         public async Task<ActionResult<AccountDto>> GetByNumberAsync(string accountNumber)
         {

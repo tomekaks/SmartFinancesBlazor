@@ -3,6 +3,7 @@ using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
+using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
 using System.Net.Http.Json;
 
@@ -11,35 +12,30 @@ namespace SmartFinancesBlazorUI.Services
     public class BudgetPlannerService : BaseHttpService, IBudgetPlannerService
     {
         private readonly IMapper _mapper;
-        private int _accountId;
-        private string _accountNumber;
         public BudgetPlannerService(IClient client, IMapper mapper, ILocalStorageService localStorage): base(client, localStorage)
         {
             _mapper = mapper;
         }
 
+        public AccountVM CurrentAccount { get; set; } = new();
+
         public async Task<PlannerVM> GetPlannerVM()
         {
-            //var expenses = await GetExpenses();
-            //var account = await GetAccount();
-
-            var expenses = new List<ExpenseVM>();
-           
+            CurrentAccount = await GetAccount();
+            var expenses = await GetExpenses();           
 
             return new PlannerVM()
             {
                 Expenses = expenses,
-                Budget = 2000
+                Budget = CurrentAccount.Budget
             };
         }
 
         public async Task<bool> SetBudget(SetBudgetVM setBudgetVM)
         {
-            var account = await GetAccount();
-
             var updateAccount = new UpdateAccountDto()
             {
-                Id = account.Id,
+                Id = CurrentAccount.Id,
                 Budget = setBudgetVM.Budget
             };
 
@@ -49,28 +45,36 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        private async Task<List<ExpenseDto>> GetExpenses()
+        public async Task<List<ExpenseVM>> GetExpenses()
         {
             await AddBearerToken();
-            var expenses = await _client.ExpensesAllAsync(_accountId);
+            var expensesDto = await _client.ExpensesAllAsync(CurrentAccount.Id);
 
-            return expenses.ToList() ?? new List<ExpenseDto>();
+            if (expensesDto == null)
+            {
+                return new List<ExpenseVM>();
+            }
+
+            return _mapper.Map<List<ExpenseVM>>(expensesDto);
         }
-
-        private async Task<AccountDto> GetAccount()
+        
+        public async Task<EditExpenseVM> GetExpense(int id)
         {
-
-            //TODO
-
             await AddBearerToken();
-            var account = await _client.AccountsGetByNumberAsync(_accountNumber);
+            var expenseDto = await _client.ExpensesGETAsync(id);
 
-            return account ?? new AccountDto();
+            if (expenseDto == null)
+            {
+                return new EditExpenseVM();
+            }
+
+            return _mapper.Map<EditExpenseVM>(expenseDto);
         }
 
         public async Task<bool> AddExpense(AddExpenseVM addExpenseVM)
         {
             var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
+            expenseDto.AccountId = CurrentAccount.Id;
 
             await AddBearerToken();
             await _client.ExpensesPOSTAsync(expenseDto);
@@ -88,6 +92,24 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task<bool> DeleteExpense(int id)
+        {
+            await _client.ExpensesDELETEAsync(id);
+
+            return true;
+        }
+
+        public async Task<bool> AddRegularExpense(AddRegularExpenseVM addRegularExpenseVM)
+        {
+            var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addRegularExpenseVM);
+            regularExpenseDto.AccountId = CurrentAccount.Id;
+
+            await AddBearerToken();
+            await _client.RegularExpensesPOSTAsync(regularExpenseDto);
+
+            return true;
+        }
+
         public async Task<bool> EditRegularExpense(EditRegularExpenseVM editRegularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(editRegularExpenseVM);
@@ -96,6 +118,18 @@ namespace SmartFinancesBlazorUI.Services
             await _client.RegularExpensesPUTAsync(regularExpenseDto);
 
             return true;
+        }
+
+        private async Task<AccountVM> GetAccount()
+        {
+            var accountNumber = await GetCurrentAccountNumberAsync();
+
+            await AddBearerToken();
+            var accountDto = await _client.AccountsGetByNumberAsync(accountNumber);
+
+            var accountVM = _mapper.Map<AccountVM>(accountDto);
+
+            return accountVM ?? new AccountVM();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace SmartFinances.Infrastructure.DataBase
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<RegularExpense> RegularExpenses { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<ExpenseType> ExpenseTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

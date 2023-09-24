@@ -16,23 +16,6 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task<List<TransferVM>> GetTransfersAsync()
-        {
-            string currentAccount = await _localStorage.GetItemAsync<string>(Constants.CURRENTACCOUNT);
-
-            await AddBearerToken();
-            var transfers = await _client.TransfersGetAllAsync(currentAccount);
-
-            if(transfers == null)
-            {
-                return new List<TransferVM>();
-            }
-
-            var transferList = _mapper.Map<List<TransferVM>>(transfers);
-
-            return transferList ?? new List<TransferVM>();
-        }
-
         public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
         {
             transferVM.SendTime= DateTime.Now;
@@ -45,10 +28,32 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<string> GetCurrentAccountNumberAsync()
+        public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM()
         {
-            return await _localStorage.GetItemAsync<string>(Constants.CURRENTACCOUNT);
+            string currentAccount = await GetCurrentAccountNumberAsync();
+
+            var transfersVM = await GetTransfersAsync(currentAccount);
+
+            return new TransfersOverviewVM()
+            {
+                Transfers = transfersVM,
+                AccountNumber = currentAccount
+            };
         }
 
+        private async Task<List<TransferVM>> GetTransfersAsync(string currentAccount)
+        {
+            await AddBearerToken();
+            var transfers = await _client.TransfersGetAllAsync(currentAccount);
+
+            if (transfers == null || transfers.Count < 1)
+            {
+                return new List<TransferVM>();
+            }
+
+            var transferList = _mapper.Map<List<TransferVM>>(transfers);
+
+            return transferList;
+        }
     }
 }

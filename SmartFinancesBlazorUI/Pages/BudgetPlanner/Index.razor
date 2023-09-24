@@ -1,6 +1,7 @@
-﻿@page "/budgetplanner/index"
+﻿@page "/budgetplanner"
 @inject IBudgetPlannerService BudgetPlannerService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Budget planner</PageTitle>
 
@@ -28,20 +29,21 @@
                 <th>Amount</th>
                 <th>Type</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in model.Expenses)
+            @foreach (var expense in model.Expenses)
             {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Amount</td>
-                    <td>@item.Type</td>
+                    <td>@expense.Name</td>
+                    <td>@expense.Amount</td>
+                    <td>@expense.Type</td>
                     <td>
-                        <form asp-action="DeleteExpense" asp-route-id="@item.Id">
-                            <a asp-action="EditExpense" asp-route-id="@item.Id" class="btn btn-info">Edit</a> |
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this?')" class="btn btn-danger">Delete</button>
-                        </form>
+                        <button @onclick="() => NavigateToEditExpense(expense.Id)" class="btn btn-info">Edit</button>
+                    </td>
+                    <td>
+                        <button @onclick="() => ConfirmDeleteExpense(expense.Id)" class="btn btn-danger">Delete</button>
                     </td>
                 </tr>
             }
@@ -86,10 +88,9 @@
 @code {
     private PlannerVM model = new PlannerVM();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-        model = BudgetPlannerService.GetPlannerVM().Result;
+        model = await BudgetPlannerService.GetPlannerVM();
     }
 
     private void NavigateToSetBudget()
@@ -105,6 +106,28 @@
     private void NavigateToRegularExpenses()
     {
         NavigationManager.NavigateTo("/budgetplanner/regularexpenses");
+    }
+
+    private void NavigateToEditExpense(int id)
+    {
+        NavigationManager.NavigateTo($"/budgetplanner/editexpense/{id}");
+    }
+
+    private async Task ConfirmDeleteExpense(int id)
+    {
+        var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
+
+        if (result)
+        {
+            await DeleteExpense(id);
+            StateHasChanged();
+        }
+    }
+
+    private async Task DeleteExpense(int id)
+    {
+        await BudgetPlannerService.DeleteExpense(id);
+        model = await BudgetPlannerService.GetPlannerVM();
     }
 }
 

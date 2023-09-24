@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using SmartFinancesBlazorUI.Models;
 using System.Net.Http.Headers;
 
 namespace SmartFinancesBlazorUI.Services.Base
@@ -20,6 +21,11 @@ namespace SmartFinancesBlazorUI.Services.Base
                 _client.HttpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", await
                     _localStorage.GetItemAsync<string>("token"));
+        }
+
+        protected async Task<string> GetCurrentAccountNumberAsync()
+        {
+            return await _localStorage.GetItemAsync<string>(Constants.CURRENTACCOUNT);
         }
     }
 }

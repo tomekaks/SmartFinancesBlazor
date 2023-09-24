@@ -21,6 +21,7 @@ namespace SmartFinancesBlazorUI.Mappings
             CreateMap<EditContactVM, ContactDto>();
 
             CreateMap<ExpenseDto, ExpenseVM>().ReverseMap();
+            CreateMap<ExpenseDto, EditExpenseVM>().ReverseMap();
             CreateMap<AddExpenseVM, ExpenseDto>();
             CreateMap<EditExpenseVM, EditExpenseDto>();
 

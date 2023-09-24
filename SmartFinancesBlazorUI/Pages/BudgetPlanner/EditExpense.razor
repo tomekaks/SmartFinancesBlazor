@@ -1,32 +1,34 @@
-﻿@page "/budgetplanner/editexpense"
+﻿@page "/budgetplanner/editexpense/{Id:int}"
 @inject NavigationManager NavigationManager
 @inject IBudgetPlannerService BudgetPlannerService
 
-<h3>@model.Name</h3>
+<PageTitle>Edit expense</PageTitle>
+
+<h3>@Model.Name</h3>
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
 
-            <input type="hidden" @bind="model.Id" />
-            <input type="hidden" @bind="model.Name" />
+            <input type="hidden" @bind="Model.Id" />
+            <input type="hidden" @bind="Model.Name" />
 
             <div class="form-group">
                 <label for="Amount">Amount</label>
-                <InputNumber id="Amount" @bind-Value="model.Amount" class="form-control" />
-                <ValidationMessage For="@(() => model.Amount)" />
+                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
+                <ValidationMessage For="@(() => Model.Amount)" />
             </div>
 
             <div class="form-group">
                 <label for="Type">Type</label>
-                <InputSelect id="Type" @bind-Value="model.Type" class="form-control">
+                <InputSelect id="Type" @bind-Value="Model.Type" class="form-control">
                     @foreach (var type in Enum.GetValues(typeof(ExpenseTypeVM)))
                     {
                         <option value="@type">@type</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => model.Type)" />
+                <ValidationMessage For="@(() => Model.Type)" />
             </div>
 
             <div class="form-group">
@@ -43,11 +45,19 @@
 
 @code 
 {
-    private EditExpenseVM model = new EditExpenseVM();
+    public EditExpenseVM Model { get; set; } = new();
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await BudgetPlannerService.GetExpense(Id);
+    }
 
     private async Task HandleSubmit()
     {
-        var response = await BudgetPlannerService.EditExpense(model);
+        var response = await BudgetPlannerService.EditExpense(Model);
         if(response)
         {
             NavigateToIndex();
@@ -56,6 +66,6 @@
 
     private void NavigateToIndex()
     {
-        NavigationManager.NavigateTo("/budgetplanner/index");
+        NavigationManager.NavigateTo("/budgetplanner");
     }
 }

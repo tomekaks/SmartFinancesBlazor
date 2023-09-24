@@ -2,7 +2,9 @@
 @inject NavigationManager NavigationManager
 @inject IBudgetPlannerService BudgetPlannerService
 
-<h1>Add Expense</h1>
+<PageTitle>Add expense</PageTitle>
+
+<h1>Add expense</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -63,7 +65,7 @@
 
     private void NavigateToIndex()
     {
-        NavigationManager.NavigateTo("/budgetplanner/index");
+        NavigationManager.NavigateTo("/budgetplanner");
     }
 }
 

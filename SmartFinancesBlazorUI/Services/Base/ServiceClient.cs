@@ -453,7 +453,7 @@ namespace SmartFinancesBlazorUI.Services.Base
                 throw new System.ArgumentNullException("accountNumber");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Accounts/{accountNumber}");
+            urlBuilder_.Append("api/Accounts/GetByAccountNumber/{accountNumber}");
             urlBuilder_.Replace("{accountNumber}", System.Uri.EscapeDataString(ConvertToString(accountNumber, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -2714,16 +2714,6 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string ReceiverAccountNumber { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accountId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int AccountId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accountDto")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public AccountDto AccountDto { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("senderId")]
 

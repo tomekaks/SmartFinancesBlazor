@@ -5,13 +5,12 @@
 
 <h1>Transfers</h1>
 
-@if(transfers is null)
+@if(Model.Transfers is null)
 {
     <div>Loading...</div>
 }
-else
-{
-        <div>
+
+    <div>
         <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
     </div>
 
@@ -27,43 +26,39 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var transfer in transfers)
+            @foreach (var transfer in Model.Transfers)
+            {
+                if (transfer.SenderAccountNumber.Equals(Model.AccountNumber))
                 {
-                    if (transfer.SenderAccountNumber.Equals(accountNumber))
-                    {
-                        <tr>
-                            <td>@transfer.SenderName</td>
-                            <td>@transfer.ReceiverName</td>
-                            <td>@transfer.Title</td>
-                            <td>-@transfer.Amount</td>
-                            <td>@transfer.SendTime.ToShortDateString()</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>@transfer.SenderName</td>
-                            <td>@transfer.ReceiverName</td>
-                            <td>@transfer.Title</td>
-                            <td>@transfer.Amount</td>
-                            <td>@transfer.SendTime.ToShortDateString()</td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@transfer.SenderName</td>
+                        <td>@transfer.ReceiverName</td>
+                        <td>@transfer.Title</td>
+                        <td>-@transfer.Amount</td>
+                        <td>@transfer.SendTime.ToShortDateString()</td>
+                    </tr>
                 }
+                else
+                {
+                    <tr>
+                        <td>@transfer.SenderName</td>
+                        <td>@transfer.ReceiverName</td>
+                        <td>@transfer.Title</td>
+                        <td>@transfer.Amount</td>
+                        <td>@transfer.SendTime.ToShortDateString()</td>
+                    </tr>
+                }
+            }
             </tbody>
         </table>
     </div>
-}
-
 
 @code {
-    private List<TransferVM> transfers = new();
-    private string accountNumber = string.Empty;
+    private TransfersOverviewVM Model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        transfers = await TransfersService.GetTransfersAsync();
-        accountNumber = await TransfersService.GetCurrentAccountNumberAsync();
+        Model = await TransfersService.GenerateTransfersOverviewVM();
     }
 
     private void NavigateToNewTransfer()

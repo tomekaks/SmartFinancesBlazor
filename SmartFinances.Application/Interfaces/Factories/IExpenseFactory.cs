@@ -14,7 +14,6 @@ namespace SmartFinances.Application.Interfaces.Factories
         ExpenseDto CreateExpenseDto(Expense expense);
         Expense MapToModel(ExpenseDto expenseDto, Expense model);
         Expense MapToModel(EditExpenseDto expenseDto, Expense model);
-
         List<ExpenseDto> CreateExpenseDtoList(List<Expense> expenses);
     }
 }
