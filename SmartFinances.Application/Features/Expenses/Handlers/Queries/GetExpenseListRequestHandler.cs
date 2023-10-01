@@ -3,11 +3,6 @@ using SmartFinances.Application.Features.Expenses.Dtos;
 using SmartFinances.Application.Features.Expenses.Requests.Queries;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Application.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.Expenses.Handlers.Queries
 {
@@ -24,7 +19,7 @@ namespace SmartFinances.Application.Features.Expenses.Handlers.Queries
 
         public async Task<List<ExpenseDto>> Handle(GetExpenseListRequest request, CancellationToken cancellationToken)
         {
-            var expenses = await _unitOfWork.Expenses.GetAllAsync(q => q.AccountId == request.AccountId);
+            var expenses = await _unitOfWork.Expenses.GetAllAsync(q => q.AccountId == request.AccountId, includeProperties: "ExpenseType");
 
             return _expenseFactory.CreateExpenseDtoList(expenses.ToList());
         }

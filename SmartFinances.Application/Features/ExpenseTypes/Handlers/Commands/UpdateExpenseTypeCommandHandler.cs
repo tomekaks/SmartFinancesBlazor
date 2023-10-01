@@ -38,6 +38,8 @@ namespace SmartFinances.Application.Features.ExpenseTypes.Handlers.Commands
             expenseType = _expenseTypeFactory.MapToModel(request.EditExpenseTypeDto, expenseType);
             _unitOfWork.ExpenseTypes.Update(expenseType);
             await _unitOfWork.SaveAsync();
+
+            return;
         }
     }
 }

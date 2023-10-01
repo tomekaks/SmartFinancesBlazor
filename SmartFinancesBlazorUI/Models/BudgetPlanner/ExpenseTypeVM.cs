@@ -1,6 +1,6 @@
-﻿namespace SmartFinances.Application.Features.ExpenseTypes.Dtos
+﻿namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
-    public class ExpenseTypeDto
+    public class ExpenseTypeVM
     {
         public int Id { get; set; }
         public string Name { get; set; }

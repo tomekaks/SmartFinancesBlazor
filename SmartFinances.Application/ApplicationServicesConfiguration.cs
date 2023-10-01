@@ -7,6 +7,7 @@ using SmartFinances.Application.Dto;
 using SmartFinances.Application.Features.Accounts.Factories;
 using SmartFinances.Application.Features.Contacts.Factories;
 using SmartFinances.Application.Features.Expenses.Factories;
+using SmartFinances.Application.Features.ExpenseTypes.Factories;
 using SmartFinances.Application.Features.RegularExpenses.Factories;
 using SmartFinances.Application.Features.Transfers.Factories;
 using SmartFinances.Application.Interfaces.Factories;
@@ -32,6 +33,7 @@ namespace SmartFinances.Application
             services.AddScoped<IRegularExpenseFactory, RegularExpenseFactory>();
             services.AddScoped<ITransferFactory, TransferFactory>();
             services.AddScoped<IContactFactory, ContactFactory>();
+            services.AddScoped<IExpenseTypeFactory, ExpenseTypeFactory>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsersService, UsersService>();

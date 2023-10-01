@@ -6,6 +6,7 @@ using SmartFinances.Application.Features.Expenses.Dtos;
 using SmartFinances.Application.Features.RegularExpenses.Dtos;
 using SmartFinances.Application.Features.Transfers.Dtos;
 using SmartFinances.Application.Features.Users.Dtos;
+using SmartFinances.Application.Features.ExpenseTypes.Dtos;
 
 namespace SmartFinances.Application.Mappings
 {
@@ -18,7 +19,12 @@ namespace SmartFinances.Application.Mappings
                 .ForMember(src => src.Number, opt => opt.Ignore());
             CreateMap<Account, UpdateAccountDto>().ReverseMap();
 
-            CreateMap<Expense, ExpenseDto>().ReverseMap();
+            CreateMap<ExpenseType, ExpenseTypeDto>().ReverseMap();
+            CreateMap<EditExpenseTypeDto, ExpenseType>();
+
+            CreateMap<Expense, ExpenseDto>()
+                .ForMember(dest => dest.ExpenseTypeDto, opt => opt.MapFrom(src => src.ExpenseType));
+            CreateMap<ExpenseDto, Expense>();
             CreateMap<Expense, EditExpenseDto>().ReverseMap();
 
             CreateMap<ApplicationUser, RegisterRequest>().ReverseMap();

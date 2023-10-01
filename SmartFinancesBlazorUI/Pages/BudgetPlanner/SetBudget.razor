@@ -33,7 +33,7 @@
 
     private async Task HandleSubmit()
     {
-        bool result = await BudgetPlannerService.SetBudget(model);
+        bool result = await BudgetPlannerService.SetBudgetAsync(model);
         if(result)
         {
             NavigateToPlanner();

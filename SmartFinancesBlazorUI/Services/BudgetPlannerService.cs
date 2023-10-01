@@ -19,10 +19,10 @@ namespace SmartFinancesBlazorUI.Services
 
         public AccountVM CurrentAccount { get; set; } = new();
 
-        public async Task<PlannerVM> GetPlannerVM()
+        public async Task<PlannerVM> GetPlannerVMAsync()
         {
-            CurrentAccount = await GetAccount();
-            var expenses = await GetExpenses();           
+            CurrentAccount = await GetAccountAsync();
+            var expenses = await GetExpensesAsync();           
 
             return new PlannerVM()
             {
@@ -31,7 +31,7 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
-        public async Task<bool> SetBudget(SetBudgetVM setBudgetVM)
+        public async Task<bool> SetBudgetAsync(SetBudgetVM setBudgetVM)
         {
             var updateAccount = new UpdateAccountDto()
             {
@@ -45,7 +45,7 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<List<ExpenseVM>> GetExpenses()
+        public async Task<List<ExpenseVM>> GetExpensesAsync()
         {
             await AddBearerToken();
             var expensesDto = await _client.ExpensesAllAsync(CurrentAccount.Id);
@@ -58,7 +58,7 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<List<ExpenseVM>>(expensesDto);
         }
         
-        public async Task<EditExpenseVM> GetExpense(int id)
+        public async Task<EditExpenseVM> GetExpenseAsync(int id)
         {
             await AddBearerToken();
             var expenseDto = await _client.ExpensesGETAsync(id);
@@ -71,9 +71,49 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<EditExpenseVM>(expenseDto);
         }
 
-        public async Task<bool> AddExpense(AddExpenseVM addExpenseVM)
+        public async Task<List<RegularExpenseVM>> GetRegularExpensesAsync()
+        {
+            await AddBearerToken();
+            var regularExpensesDto = await _client.RegularExpensesAllAsync(CurrentAccount.Id);
+
+            if (regularExpensesDto == null)
+            {
+                return new List<RegularExpenseVM>();
+            }
+
+            return _mapper.Map<List<RegularExpenseVM>>(regularExpensesDto);
+        }
+
+        public async Task<EditRegularExpenseVM> GetRegularExpenseAsync(int id)
+        {
+            await AddBearerToken();
+            var regularExpenseDto = await _client.RegularExpensesGETAsync(id);
+
+            if (regularExpenseDto == null)
+            {
+                return new EditRegularExpenseVM();
+            }
+
+            return _mapper.Map<EditRegularExpenseVM>(regularExpenseDto);
+        }
+
+        public async Task<List<ExpenseTypeVM>> GetExpenseTypesAsync()
+        {
+            await AddBearerToken();
+            var expenseTypesDto = await _client.ExpenseTypesAllAsync();
+
+            if (expenseTypesDto == null || !expenseTypesDto.Any())
+            {
+                return new List<ExpenseTypeVM>();
+            }
+
+            return _mapper.Map<List<ExpenseTypeVM>>(expenseTypesDto);
+        }
+
+        public async Task<bool> AddExpenseAsync(AddExpenseVM addExpenseVM)
         {
             var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
+            expenseDto.ExpenseTypeId = addExpenseVM.ExpenseTypeId;
             expenseDto.AccountId = CurrentAccount.Id;
 
             await AddBearerToken();
@@ -82,7 +122,7 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<bool> EditExpense(EditExpenseVM editExpenseVM)
+        public async Task<bool> EditExpenseAsync(EditExpenseVM editExpenseVM)
         {
             var expenseDto = _mapper.Map<EditExpenseDto>(editExpenseVM);
 
@@ -92,14 +132,14 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<bool> DeleteExpense(int id)
+        public async Task<bool> DeleteExpenseAsync(int id)
         {
             await _client.ExpensesDELETEAsync(id);
 
             return true;
         }
 
-        public async Task<bool> AddRegularExpense(AddRegularExpenseVM addRegularExpenseVM)
+        public async Task<bool> AddRegularExpenseAsync(AddRegularExpenseVM addRegularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addRegularExpenseVM);
             regularExpenseDto.AccountId = CurrentAccount.Id;
@@ -110,7 +150,7 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<bool> EditRegularExpense(EditRegularExpenseVM editRegularExpenseVM)
+        public async Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(editRegularExpenseVM);
 
@@ -120,16 +160,28 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        private async Task<AccountVM> GetAccount()
+        public async Task<bool> DeleteRegularExpenseAsync(int id)
+        {
+            await _client.RegularExpensesDELETEAsync(id);
+
+            return true;
+        }
+
+        private async Task<AccountVM> GetAccountAsync()
         {
             var accountNumber = await GetCurrentAccountNumberAsync();
 
             await AddBearerToken();
             var accountDto = await _client.AccountsGetByNumberAsync(accountNumber);
 
-            var accountVM = _mapper.Map<AccountVM>(accountDto);
+            if(accountDto == null)
+            {
+                throw new Exception("Something went wrong");
+            }
 
-            return accountVM ?? new AccountVM();
+            return _mapper.Map<AccountVM>(accountDto);
         }
+
+
     }
 }

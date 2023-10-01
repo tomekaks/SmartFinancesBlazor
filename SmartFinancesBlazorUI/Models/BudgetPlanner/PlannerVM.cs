@@ -1,7 +1,4 @@
-﻿using SmartFinancesBlazorUI.Models.Enum;
-using SmartFinancesBlazorUI.Services.Base;
-
-namespace SmartFinancesBlazorUI.Models.BudgetPlanner
+﻿namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
     public class PlannerVM
     {
@@ -37,7 +34,7 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 
         private decimal GetTotalAmountByExpenseType(string expenseType)
         {
-            var expenses = Expenses.FindAll(q => q.Type == expenseType);
+            var expenses = Expenses.FindAll(q => q.ExpenseTypeVM.Name == expenseType);
             decimal amount = 0;
 
             foreach (var item in expenses)

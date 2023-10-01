@@ -1,4 +1,5 @@
-﻿using SmartFinances.Core.Data;
+﻿using SmartFinances.Application.Features.ExpenseTypes.Dtos;
+using SmartFinances.Core.Data;
 
 namespace SmartFinances.Application.Features.Expenses.Dtos
 {
@@ -6,6 +7,6 @@ namespace SmartFinances.Application.Features.Expenses.Dtos
     {
         public int Id { get; set; }
         public decimal Amount { get; set; }
-        public ExpenseType ExpenseType { get; set; }
+        public ExpenseTypeDto ExpenseTypeDto { get; set; }
     }
 }

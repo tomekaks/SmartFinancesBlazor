@@ -17,6 +17,7 @@ namespace SmartFinances.Infrastructure.Repositories
             Accounts = new AccountRepository(context);
             Transfers = new TransferRepository(context);
             Expenses = new ExpenseRepositiory(context);
+            ExpenseTypes = new ExpenseTypeRepository(context);
             RegularExpenses = new RegularExpenseRepository(context);
             Contacts = new ContactRepository(context);
             Users = new UserRepository(context);
@@ -25,6 +26,7 @@ namespace SmartFinances.Infrastructure.Repositories
         public IAccountRepository Accounts { get; private set; }
         public ITransferRepository Transfers { get; private set; }
         public IExpenseRepository Expenses { get; private set; }
+        public IExpenseTypeRepository ExpenseTypes { get; private set; }
         public IRegularExpenseRepository RegularExpenses { get; private set; }
         public IContactRepository Contacts { get; private set; }
         public IUserRepository Users { get; private set; }

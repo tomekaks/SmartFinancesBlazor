@@ -4,13 +4,17 @@ namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IBudgetPlannerService
     {
-        Task<PlannerVM> GetPlannerVM();
-        Task<bool> SetBudget(SetBudgetVM setBudgetVM);
-        Task<EditExpenseVM> GetExpense(int id);
-        Task<bool> AddExpense(AddExpenseVM addExpenseVM);
-        Task<bool> EditExpense(EditExpenseVM editExpenseVM);
-        Task<bool> DeleteExpense(int id);
-        Task<bool> AddRegularExpense(AddRegularExpenseVM addRegularExpenseVM);
-        Task<bool> EditRegularExpense(EditRegularExpenseVM editRegularExpenseVM);
+        Task<PlannerVM> GetPlannerVMAsync();
+        Task<bool> SetBudgetAsync(SetBudgetVM setBudgetVM);
+        Task<EditExpenseVM> GetExpenseAsync(int id);
+        Task<List<RegularExpenseVM>> GetRegularExpensesAsync();
+        Task<EditRegularExpenseVM> GetRegularExpenseAsync(int id);
+        Task<List<ExpenseTypeVM>> GetExpenseTypesAsync();
+        Task<bool> AddExpenseAsync(AddExpenseVM addExpenseVM);
+        Task<bool> EditExpenseAsync(EditExpenseVM editExpenseVM);
+        Task<bool> DeleteExpenseAsync(int id);
+        Task<bool> AddRegularExpenseAsync(AddRegularExpenseVM addRegularExpenseVM);
+        Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM);
+        Task<bool> DeleteRegularExpenseAsync(int id);
     }
 }

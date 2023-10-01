@@ -8,13 +8,13 @@
 <h1>Budget Planner</h1>
 <br />
 
-<h4>Your monthly budget: @model.Budget</h4>
+<h4>Your monthly budget: @Model.Budget</h4>
 
 <div>
     <button class="btn btn-dark" @onclick="NavigateToSetBudget">Set budget</button>
 </div>
 
-<h4>Your monthly expenses: @model.TotalAmount</h4>
+<h4>Your monthly expenses: @Model.TotalAmount</h4>
 
 <div>
     <button class="btn btn-success" @onclick="NavigateToAddExpense">Add expense</button> |
@@ -33,12 +33,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var expense in model.Expenses)
+            @foreach (var expense in Model.Expenses)
             {
                 <tr>
                     <td>@expense.Name</td>
                     <td>@expense.Amount</td>
-                    <td>@expense.Type</td>
+                    <td>@expense.ExpenseTypeVM.Name</td>
                     <td>
                         <button @onclick="() => NavigateToEditExpense(expense.Id)" class="btn btn-info">Edit</button>
                     </td>
@@ -69,16 +69,16 @@
         </thead>
         <tbody>
             <tr>
-                <td>@model.HousingAmount</td>
-                <td>@model.UtilitiesAmount</td>
-                <td>@model.FoodAmount</td>
-                <td>@model.ClothesAmount</td>
-                <td>@model.HealthAmount</td>
-                <td>@model.EntertainmentAmount</td>
-                <td>@model.ElectronicsAmount</td>
-                <td>@model.HouseholdAmount</td>
-                <td>@model.TransportationAmount</td>
-                <td>@model.PersonalAmount</td>
+                <td>@Model.HousingAmount</td>
+                <td>@Model.UtilitiesAmount</td>
+                <td>@Model.FoodAmount</td>
+                <td>@Model.ClothesAmount</td>
+                <td>@Model.HealthAmount</td>
+                <td>@Model.EntertainmentAmount</td>
+                <td>@Model.ElectronicsAmount</td>
+                <td>@Model.HouseholdAmount</td>
+                <td>@Model.TransportationAmount</td>
+                <td>@Model.PersonalAmount</td>
             </tr>
         </tbody>
     </table>
@@ -86,11 +86,11 @@
 
 
 @code {
-    private PlannerVM model = new PlannerVM();
+    private PlannerVM Model = new PlannerVM();
 
     protected override async Task OnInitializedAsync()
     {
-        model = await BudgetPlannerService.GetPlannerVM();
+        Model = await BudgetPlannerService.GetPlannerVMAsync();
     }
 
     private void NavigateToSetBudget()
@@ -126,8 +126,8 @@
 
     private async Task DeleteExpense(int id)
     {
-        await BudgetPlannerService.DeleteExpense(id);
-        model = await BudgetPlannerService.GetPlannerVM();
+        await BudgetPlannerService.DeleteExpenseAsync(id);
+        Model = await BudgetPlannerService.GetPlannerVMAsync();
     }
 }
 

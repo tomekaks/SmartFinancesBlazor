@@ -24,7 +24,7 @@ namespace SmartFinances.Application.Features.Expenses.Handlers.Queries
 
         public async Task<ExpenseDto> Handle(GetExpenseRequest request, CancellationToken cancellationToken)
         {
-            var expense = await _unitOfWork.Expenses.GetAsync(q => q.Id == request.Id);
+            var expense = await _unitOfWork.Expenses.GetAsync(q => q.Id == request.Id, includeProperties: "ExpenseType");
             return _expenseFactory.CreateExpenseDto(expense);
         }
     }

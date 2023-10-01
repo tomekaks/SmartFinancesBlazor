@@ -15,7 +15,7 @@ namespace SmartFinances.Application.Features.Expenses.Validators
             RuleFor(q => q.ExpenseDto.Amount)
                 .NotEmpty().WithMessage("{PropertyName} is required");
 
-            RuleFor(q => q.ExpenseDto.ExpenseType)
+            RuleFor(q => q.ExpenseDto.ExpenseTypeDto)
                 .NotEmpty().WithMessage("{PropertyName} is required");
         }
     }

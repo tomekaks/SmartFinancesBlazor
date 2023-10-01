@@ -1,5 +1,4 @@
-﻿using SmartFinancesBlazorUI.Models.Enum;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
@@ -11,6 +10,8 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
         [Required]
         public decimal Amount { get; set; }
         [Required]
-        public ExpenseTypeVM Type { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a valid type")]
+        public int ExpenseTypeId { get; set; }
+        public List<ExpenseTypeVM> ExpenseTypes { get; set; }
     }
 }

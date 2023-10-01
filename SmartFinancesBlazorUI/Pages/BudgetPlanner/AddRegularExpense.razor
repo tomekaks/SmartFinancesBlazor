@@ -8,30 +8,31 @@
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@expense" OnValidSubmit="@HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
 
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <InputText id="Name" @bind-Value="expense.Name" class="form-control" />
-                <ValidationMessage For="@(() => expense.Name)" />
+                <InputText id="Name" @bind-Value="Model.Name" class="form-control" />
+                <ValidationMessage For="@(() => Model.Name)" />
             </div>
 
             <div class="form-group">
                 <label for="Amount" class="control-label">Amount</label>
-                <InputNumber id="Amount" @bind-Value="expense.Amount" class="form-control" />
-                <ValidationMessage For="@(() => expense.Amount)" />
+                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
+                <ValidationMessage For="@(() => Model.Amount)" />
             </div>
 
             <div class="form-group">
                 <label for="Type" class="control-label">Type</label>
-                <InputSelect id="Type" @bind-Value="expense.Type" class="form-control">
-                    @foreach (var type in Enum.GetValues(typeof(ExpenseTypeVM)))
+                <InputSelect id="Type" @bind-Value="Model.ExpenseTypeId" class="form-control">
+                    <option value="0">Select an expense type</option>
+                    @foreach (var type in Model.ExpenseTypes)
                     {
-                        <option value="@type">@type</option>
+                        <option value="@type.Id">@type.Name</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => expense.Type)" />
+                <ValidationMessage For="@(() => Model.ExpenseTypeId)" />
             </div>
 
             <div class="form-group">
@@ -46,15 +47,20 @@
 </div>
 
 @code {
-    private AddRegularExpenseVM expense = new AddRegularExpenseVM();
+    private AddRegularExpenseVM Model = new AddRegularExpenseVM();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
+    }
 
     private async Task HandleSubmit()
     {
-        // bool response = await BudgetPlannerService.AddExpense(expense);
-        // if (response)
-        // {
-        //     NavigateToIndex();
-        // }
+        bool response = await BudgetPlannerService.AddRegularExpenseAsync(Model);
+         if (response)
+         {
+             NavigateToRegularExpenses();
+         }
     }
 
     private void NavigateToRegularExpenses()

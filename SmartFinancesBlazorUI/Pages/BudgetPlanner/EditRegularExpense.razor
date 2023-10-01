@@ -1,32 +1,33 @@
-﻿@page "/budgetplanner/editregularexpense"
+﻿@page "/budgetplanner/editregularexpense/{Id:int}"
 @inject NavigationManager NavigationManager
 @inject IBudgetPlannerService BudgetPlannerService
 
-<h3>@model.Name</h3>
+<h3>@Model.Name</h3>
 
 <div class="row">
     <div class="col-md-4">
-        <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
 
-            <input type="hidden" @bind="model.Id" />
-            <input type="hidden" @bind="model.Name" />
+            <input type="hidden" @bind="Model.Id" />
+            <input type="hidden" @bind="Model.Name" />
 
             <div class="form-group">
                 <label for="Amount">Amount</label>
-                <InputNumber id="Amount" @bind-Value="model.Amount" class="form-control" />
-                <ValidationMessage For="@(() => model.Amount)" />
+                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
+                <ValidationMessage For="@(() => Model.Amount)" />
             </div>
 
             <div class="form-group">
-                <label for="Type">Type</label>
-                <InputSelect id="Type" @bind-Value="model.Type" class="form-control">
-                    @foreach (var type in Enum.GetValues(typeof(ExpenseTypeVM)))
+                <label for="Type" class="control-label">Expense Type</label>
+                <InputSelect id="Type" @bind-Value="Model.ExpenseTypeId" class="form-control">
+                    <option value="0">Select an expense type</option>
+                    @foreach (var type in Model.ExpenseTypes)
                     {
-                        <option value="@type">@type</option>
+                            <option value="@type.Id">@type.Name</option>
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => model.Type)" />
+                <ValidationMessage For="@(() => Model.ExpenseTypeId)" />
             </div>
 
             <div class="form-group">
@@ -43,11 +44,20 @@
 
 @code 
 {
-    private EditRegularExpenseVM model = new EditRegularExpenseVM();
+    private EditRegularExpenseVM Model = new EditRegularExpenseVM();
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await BudgetPlannerService.GetRegularExpenseAsync(Id);
+        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
+    }
+
 
     private async Task HandleSubmit()
     {
-        var response = await BudgetPlannerService.EditRegularExpense(model);
+        var response = await BudgetPlannerService.EditRegularExpenseAsync(Model);
         if(response)
         {
             NavigateToIndex();
@@ -56,7 +66,7 @@
 
     private void NavigateToIndex()
     {
-        NavigationManager.NavigateTo("/budgetplanner/index");
+        NavigationManager.NavigateTo("/budgetplanner");
     }
 }
 
