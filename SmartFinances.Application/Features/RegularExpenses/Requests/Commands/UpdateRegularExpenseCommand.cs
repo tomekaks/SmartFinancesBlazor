@@ -5,6 +5,6 @@ namespace SmartFinances.Application.Features.RegularExpenses.Requests.Commands
 {
     public class UpdateRegularExpenseCommand : IRequest
     {
-        public RegularExpenseDto RegularExpenseDto { get; set; }
+        public EditRegularExpenseDto RegularExpenseDto { get; set; }
     }
 }

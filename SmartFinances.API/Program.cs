@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using SmartFinances.Application;
 using SmartFinances.Infrastructure;
 
@@ -8,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(opt => opt.EnableAnnotations());
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.EnableAnnotations();
+    opt.MapType<decimal>(() => new OpenApiSchema { Type = "number", Format = "decimal" });
+});
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureInfractructureServices(builder.Configuration);

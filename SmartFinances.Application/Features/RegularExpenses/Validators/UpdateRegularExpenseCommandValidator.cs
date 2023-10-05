@@ -12,11 +12,10 @@ namespace SmartFinances.Application.Features.RegularExpenses.Validators
     {
         public UpdateRegularExpenseCommandValidator()
         {
-            RuleFor(q => q.RegularExpenseDto.Name)
-                .NotEmpty().WithMessage("{PropertyName} is required")
-                .MaximumLength(50).WithMessage("{PropertyName} can't be longer than 50 characters");
-
             RuleFor(q => q.RegularExpenseDto.Amount)
+                .NotEmpty().WithMessage("{PropertyName} is required");
+
+            RuleFor(q => q.RegularExpenseDto.ExpenseTypeId)
                 .NotEmpty().WithMessage("{PropertyName} is required");
         }
     }

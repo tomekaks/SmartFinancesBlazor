@@ -2,6 +2,6 @@
 {
     public class SetBudgetVM
     {
-        public double Budget { get; set; }
+        public decimal Budget { get; set; }
     }
 }

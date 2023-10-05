@@ -31,6 +31,14 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
+        public async Task<SetBudgetVM> GetBudgetVMAsync()
+        {
+            return new SetBudgetVM()
+            {
+                Budget = CurrentAccount.Budget
+            };
+        }
+
         public async Task<bool> SetBudgetAsync(SetBudgetVM setBudgetVM)
         {
             var updateAccount = new UpdateAccountDto()
@@ -152,7 +160,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM)
         {
-            var regularExpenseDto = _mapper.Map<RegularExpenseDto>(editRegularExpenseVM);
+            var regularExpenseDto = _mapper.Map<EditRegularExpenseDto>(editRegularExpenseVM);
 
             await AddBearerToken();
             await _client.RegularExpensesPUTAsync(regularExpenseDto);

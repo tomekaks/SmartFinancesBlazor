@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using SmartFinances.Application.Features.RegularExpenses.Dtos;
 using SmartFinances.Application.Features.RegularExpenses.Requests.Queries;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Application.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.RegularExpenses.Handlers.Queries
 {

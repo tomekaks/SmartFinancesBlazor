@@ -38,5 +38,10 @@ namespace SmartFinances.Application.Features.RegularExpenses.Factories
         {
             return _mapper.Map(regularExpenseDto, model);
         }
+
+        public RegularExpense MapToModel(EditRegularExpenseDto regularExpenseDto, RegularExpense model)
+        {
+            return _mapper.Map(regularExpenseDto, model);
+        }
     }
 }

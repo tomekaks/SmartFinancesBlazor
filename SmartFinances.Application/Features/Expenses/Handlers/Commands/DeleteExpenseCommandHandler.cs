@@ -21,9 +21,12 @@ namespace SmartFinances.Application.Features.Expenses.Handlers.Commands
         public async Task Handle(DeleteExpenseCommand request, CancellationToken cancellationToken)
         {
             var expense = await _unitOfWork.Expenses.GetAsync(q => q.Id == request.Id);
-            _unitOfWork.Expenses.Delete(expense);
-            await _unitOfWork.SaveAsync();
 
+            if (expense != null)
+            {
+                _unitOfWork.Expenses.Delete(expense);
+                await _unitOfWork.SaveAsync();
+            }
             return;
         }
     }

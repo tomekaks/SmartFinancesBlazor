@@ -41,7 +41,7 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(RegularExpenseDto regularExpenseDto)
+        public async Task<IActionResult> UpdateAsync(EditRegularExpenseDto regularExpenseDto)
         {
             await _mediator.Send(new UpdateRegularExpenseCommand { RegularExpenseDto = regularExpenseDto });
             return Ok();

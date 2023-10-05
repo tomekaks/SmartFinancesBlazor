@@ -240,12 +240,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RegularExpensesPUTAsync(RegularExpenseDto body);
+        System.Threading.Tasks.Task RegularExpensesPUTAsync(EditRegularExpenseDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task RegularExpensesPUTAsync(RegularExpenseDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task RegularExpensesPUTAsync(EditRegularExpenseDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -2159,7 +2159,7 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task RegularExpensesPUTAsync(RegularExpenseDto body)
+        public virtual System.Threading.Tasks.Task RegularExpensesPUTAsync(EditRegularExpenseDto body)
         {
             return RegularExpensesPUTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -2167,7 +2167,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task RegularExpensesPUTAsync(RegularExpenseDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task RegularExpensesPUTAsync(EditRegularExpenseDto body, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/RegularExpenses");
@@ -2781,62 +2781,6 @@ namespace SmartFinancesBlazorUI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Account
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("number")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Number { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("type")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Type { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("balance")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Balance { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("userId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string UserId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("user")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public ApplicationUser User { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("expenses")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<Expense> Expenses { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("regularExpenses")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<RegularExpense> RegularExpenses { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("transfers")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<Transfer> Transfers { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("budget")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Budget { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class AccountDto
     {
 
@@ -2858,7 +2802,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("balance")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Balance { get; set; }
+        public decimal Balance { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
 
@@ -2878,123 +2822,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("budget")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Budget { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ApplicationUser
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("userName")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string UserName { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("normalizedUserName")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string NormalizedUserName { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("email")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Email { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("normalizedEmail")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string NormalizedEmail { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("emailConfirmed")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public bool EmailConfirmed { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("passwordHash")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string PasswordHash { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("securityStamp")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string SecurityStamp { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("concurrencyStamp")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string ConcurrencyStamp { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("phoneNumber")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string PhoneNumber { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("phoneNumberConfirmed")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public bool PhoneNumberConfirmed { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("twoFactorEnabled")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public bool TwoFactorEnabled { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("lockoutEnd")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.DateTime? LockoutEnd { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("lockoutEnabled")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public bool LockoutEnabled { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accessFailedCount")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int AccessFailedCount { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string FirstName { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("lastName")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string LastName { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accounts")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<Account> Accounts { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("contacts")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<Contact> Contacts { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("isSuspended")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public bool IsSuspended { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("suspensionReason")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string SuspensionReason { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("numberOfAccounts")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int NumberOfAccounts { get; set; }
+        public decimal Budget { get; set; }
 
     }
 
@@ -3021,37 +2849,6 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public string Token { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Contact
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Name { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accountNumber")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string AccountNumber { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("userId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string UserId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("user")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public ApplicationUser User { get; set; }
 
     }
 
@@ -3088,7 +2885,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("amount")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("sendTime")]
 
@@ -3134,12 +2931,12 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("amount")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("expenseType")]
+        [System.Text.Json.Serialization.JsonPropertyName("expenseTypeId")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public ExpenseType ExpenseType { get; set; }
+        public int ExpenseTypeId { get; set; }
 
     }
 
@@ -3165,7 +2962,7 @@ namespace SmartFinancesBlazorUI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Expense
+    public partial class EditRegularExpenseDto
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
@@ -3173,35 +2970,15 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public int Id { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Name { get; set; }
-
         [System.Text.Json.Serialization.JsonPropertyName("amount")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("expenseTypeId")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public int ExpenseTypeId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("expenseType")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public ExpenseType ExpenseType { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accountId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int AccountId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("account")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public Account Account { get; set; }
 
     }
 
@@ -3222,7 +2999,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("amount")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("expenseTypeId")]
 
@@ -3243,32 +3020,6 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
         public bool IsRegular { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class ExpenseType
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Name { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("description")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Description { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("expenses")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.Collections.Generic.ICollection<Expense> Expenses { get; set; }
 
     }
 
@@ -3382,42 +3133,6 @@ namespace SmartFinancesBlazorUI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class RegularExpense
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("name")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Name { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("amount")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("type")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Type { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("accountId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int AccountId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("account")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public Account Account { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class RegularExpenseDto
     {
 
@@ -3434,7 +3149,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("amount")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("expenseTypeId")]
 
@@ -3454,62 +3169,6 @@ namespace SmartFinancesBlazorUI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Transfer
-    {
-
-        [System.Text.Json.Serialization.JsonPropertyName("id")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("amount")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("sendTime")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public System.DateTime SendTime { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("receiverId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int ReceiverId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("receiverName")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string ReceiverName { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("receiverAccountNumber")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string ReceiverAccountNumber { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("senderId")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public int SenderId { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("senderName")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string SenderName { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("senderAccountNumber")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string SenderAccountNumber { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("title")]
-
-        [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public string Title { get; set; }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class TransferDto
     {
 
@@ -3521,7 +3180,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("amount")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("sendTime")]
 
@@ -3577,12 +3236,12 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("balance")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Balance { get; set; }
+        public decimal Balance { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("budget")]
 
         [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]   
-        public double Budget { get; set; }
+        public decimal Budget { get; set; }
 
     }
 

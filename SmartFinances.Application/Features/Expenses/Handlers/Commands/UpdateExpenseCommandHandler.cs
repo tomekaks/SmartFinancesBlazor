@@ -29,11 +29,14 @@ namespace SmartFinances.Application.Features.Expenses.Handlers.Commands
             }
 
             var expense = await _unitOfWork.Expenses.GetByIdAsync(request.ExpenseDto.Id);
-            expense = _expenseFactory.MapToModel(request.ExpenseDto, expense);
 
-            _unitOfWork.Expenses.Update(expense);
-            await _unitOfWork.SaveAsync();
-
+            if (expense != null)
+            {
+                expense = _expenseFactory.MapToModel(request.ExpenseDto, expense);
+                _unitOfWork.Expenses.Update(expense);
+                await _unitOfWork.SaveAsync();
+            }
+            
             return;
         }
     }

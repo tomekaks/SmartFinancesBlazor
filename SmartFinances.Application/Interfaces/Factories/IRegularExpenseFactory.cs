@@ -13,6 +13,7 @@ namespace SmartFinances.Application.Interfaces.Factories
         RegularExpense CreateRegularExpense(RegularExpenseDto regularExpenseDto);
         RegularExpenseDto CreateRegularExpenseDto(RegularExpense regularExpense);
         RegularExpense MapToModel(RegularExpenseDto regularExpenseDto, RegularExpense model);
+        RegularExpense MapToModel(EditRegularExpenseDto regularExpenseDto, RegularExpense model);
         List<RegularExpenseDto> CreateRegularExpenseDtoList(List<RegularExpense> regularExpenses);
     }
 }
