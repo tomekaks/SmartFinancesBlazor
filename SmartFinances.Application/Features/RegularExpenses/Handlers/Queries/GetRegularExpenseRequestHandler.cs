@@ -20,6 +20,12 @@ namespace SmartFinances.Application.Features.RegularExpenses.Handlers.Queries
         public async Task<RegularExpenseDto> Handle(GetRegularExpenseRequest request, CancellationToken cancellationToken)
         {
             var regularExpense = await _unitOfWork.RegularExpenses.GetAsync(q => q.Id == request.Id);
+
+            if (regularExpense == null)
+            {
+                return new RegularExpenseDto();
+            }
+
             return _regularExpenseFactory.CreateRegularExpenseDto(regularExpense);
         }
     }

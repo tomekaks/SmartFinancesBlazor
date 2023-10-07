@@ -24,6 +24,10 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .WithOne(e => e.ExpenseType)
                    .HasForeignKey(e => e.ExpenseTypeId);
 
+            builder.HasMany(et => et.RegularExpenses)
+                   .WithOne(re => re.ExpenseType)
+                   .HasForeignKey(re => re.ExpenseTypeId);
+
             builder.HasData(
                 new ExpenseType { Id = 1, Name = "Housing"},
                 new ExpenseType { Id = 2, Name = "Utilities" },

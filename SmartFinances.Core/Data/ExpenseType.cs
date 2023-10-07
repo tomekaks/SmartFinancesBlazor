@@ -12,5 +12,6 @@ namespace SmartFinances.Core.Data
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Expense> Expenses { get; set; }
+        public List<RegularExpense> RegularExpenses { get; set; }
     }
 }

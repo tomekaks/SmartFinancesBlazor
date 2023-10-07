@@ -14,7 +14,9 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.Property(p => p.Amount)
                    .IsRequired();
 
-            builder.Property(p => p.Type)
+            builder.HasOne(re => re.ExpenseType)
+                   .WithMany(et => et.RegularExpenses)
+                   .HasForeignKey(re => re.ExpenseTypeId)
                    .IsRequired();
 
             builder.HasOne(r => r.Account)
