@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartFinances.Infrastructure.DataBase;
 
@@ -11,9 +12,10 @@ using SmartFinances.Infrastructure.DataBase;
 namespace SmartFinances.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021143740_SeedDataAgain")]
+    partial class SeedDataAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,21 @@ namespace SmartFinances.Infrastructure.Migrations
                         new
                         {
                             Id = "abebd04b-4c91-40ca-a99e-8577ff0f262e",
-                            ConcurrencyStamp = "5e28ea23-b28f-4910-abe3-7c65463d93c3",
+                            ConcurrencyStamp = "64487dc0-f202-44ed-ac93-1217d7d1a1b6",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "dea03c83-9eae-4ce3-9560-7b3aec0f1b00",
-                            ConcurrencyStamp = "6d7f4618-4b62-4e1c-b091-7c58f267d22e",
+                            ConcurrencyStamp = "de929e7e-8463-456f-bb32-18be75a368bf",
                             Name = "TestUser",
                             NormalizedName = "TESTUSER"
                         },
                         new
                         {
                             Id = "ee6ef51f-eaf9-406e-863e-b8012bd7045a",
-                            ConcurrencyStamp = "4e65cc54-6a89-4531-9692-3f951223fa57",
+                            ConcurrencyStamp = "43eaeca9-bf6d-41a2-aff4-d00232f42751",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -243,24 +245,6 @@ namespace SmartFinances.Infrastructure.Migrations
                             Number = "22BBBB222222",
                             Type = 1,
                             UserId = "8f095269-a72b-4427-bcaf-d860249770c9"
-                        },
-                        new
-                        {
-                            Id = -3,
-                            Balance = 2000m,
-                            Budget = 0m,
-                            Number = "33CCCC333333",
-                            Type = 2,
-                            UserId = "9ef201b2-999c-4161-8f2b-d7994971e5ee"
-                        },
-                        new
-                        {
-                            Id = -4,
-                            Balance = 2000m,
-                            Budget = 0m,
-                            Number = "44DDDD444444",
-                            Type = 3,
-                            UserId = "8f095269-a72b-4427-bcaf-d860249770c9"
                         });
                 });
 
@@ -348,7 +332,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "5330c916-053d-41e6-8a44-b9fe25cf27bf",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b6b9fcb9-1a6d-4a19-8114-0d29a9c3e1d9",
+                            ConcurrencyStamp = "8693463e-043a-48f4-ae88-6b6f97dd717f",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -358,9 +342,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEFRIAkFYI6LQPMClkXwLejIFuMIfa3KEINjPxa5olTjrjxKO4z4r/UbMt8/+ijX8JQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA1Do+WSW83eoJ4uRouf86dSbGMNcBYvdxtGhxGy9gxkfmf89L+ng6FKjvkpDaVPhg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "aaec16bd-6053-4b97-901f-77d0c5c25094",
+                            SecurityStamp = "c40035e8-3757-4350-a15f-8cee30a4ff56",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
@@ -368,7 +352,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "9ef201b2-999c-4161-8f2b-d7994971e5ee",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "182a75fa-1cc0-4a8d-b024-940fe81ff72f",
+                            ConcurrencyStamp = "49b3945c-0b1f-48fc-a2bc-af6809108348",
                             Email = "sarahconor@skynet.com",
                             EmailConfirmed = true,
                             FirstName = "Sarah",
@@ -378,9 +362,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "SARAHCONNOR@SKYNET.COM",
                             NormalizedUserName = "ILIKEROBOTS",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEKXw8VyV6GEhPy8AyTc5aP+FdFTFGXZe9mNKG3QVpf0KP/gk4Wcn5lFQ/zcdUbv7Hg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMT5UQTCKm+NIDmaBsXKsixcgMzjIEVqep93EP8IIgjs+EOFRQcg3fx2WPb88432lw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f2abdcfd-d8de-4c33-a9b4-454d06d65bca",
+                            SecurityStamp = "dfde8a92-52f4-4692-8c5e-c8b73be648d3",
                             TwoFactorEnabled = false,
                             UserName = "ILikeRobots"
                         },
@@ -388,7 +372,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "8f095269-a72b-4427-bcaf-d860249770c9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e6109c1e-3514-496e-bd82-3695953627bb",
+                            ConcurrencyStamp = "688d64a0-b347-4d42-bc64-3bd4ad6c48f9",
                             Email = "tylerdurden@fightclub.com",
                             EmailConfirmed = true,
                             FirstName = "Tyler",
@@ -398,9 +382,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "TYLERDURDEN@FIGHTCLUB.COM",
                             NormalizedUserName = "FIRSTRULE",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEIC9EMxB3NWprqPHT4kUE/b43+Lu24uuBngGNVo+4PE97hz8kW1hCtSVACfwAwFTqQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJRuCA72xmaDNGx+zHM+gPRKzj3zKqzZvLJzkCkwnJp7QHh3d4nvWne9JLzd/1gPrQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9527b3e6-f36b-4a16-903c-c0eadef42ed1",
+                            SecurityStamp = "02d06423-2b32-40b2-b29b-8cb2bdae6d16",
                             TwoFactorEnabled = false,
                             UserName = "FirstRule"
                         });

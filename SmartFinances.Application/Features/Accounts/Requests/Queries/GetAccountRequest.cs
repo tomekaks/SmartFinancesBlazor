@@ -10,6 +10,6 @@ namespace SmartFinances.Application.Features.Accounts.Requests.Queries
 {
     public class GetAccountRequest : IRequest<AccountDto>
     {
-        public string UserId { get; set; }
+        public int AccountId { get; set; }
     }
 }

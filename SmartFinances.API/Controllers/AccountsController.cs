@@ -21,9 +21,9 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AccountDto>> GetAsync(string id)
+        public async Task<ActionResult<AccountDto>> GetAsync(int id)
         {
-            var account = await _mediator.Send(new GetAccountRequest { UserId = id });
+            var account = await _mediator.Send(new GetAccountRequest { AccountId = id });
             return Ok(account);
         }
 
@@ -31,7 +31,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "AccountsGetMainAccount")]
         public async Task<ActionResult<AccountDto>> GetMainAccountAsync()
         {
-            var account = await _mediator.Send(new GetAccountRequest { UserId = CurrentUserId });
+            var account = await _mediator.Send(new GetMainAccountRequest { UserId = CurrentUserId });
             return Ok(account);
         }
 
@@ -56,6 +56,18 @@ namespace SmartFinances.API.Controllers
         public async Task<IActionResult> UpdateAsync(UpdateAccountDto accountDto)
         {
             await _mediator.Send(new UpdateAccountCommand { UpdateAccountDto = accountDto });
+            return Ok();
+        }
+
+        [HttpPost("{type}")]
+        public async Task<IActionResult> CreateAsync(int type)
+        {
+            var createAccountDto = new CreateAccountDto()
+            {
+                Type = type,
+                UserId = CurrentUserId
+            };
+            await _mediator.Send(new CreateAccountCommand { CreateAccountDto = createAccountDto });
             return Ok();
         }
     }

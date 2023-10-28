@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartFinancesBlazorUI.Models.Accounts;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Models.Dashboard;
@@ -11,7 +12,8 @@ namespace SmartFinancesBlazorUI.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<AccountDto, AccountVM>().ReverseMap();
+            CreateMap<AccountDto, AccountVM>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (AccountType)src.Type));
 
             CreateMap<TransferDto, TransferVM>().ReverseMap();
             CreateMap<NewTransferVM, CreateTransferDto>();

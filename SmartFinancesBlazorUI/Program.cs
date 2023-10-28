@@ -27,6 +27,7 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<ITransfersService, TransfersService>();
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IBudgetPlannerService, BudgetPlannerService>();
+builder.Services.AddScoped<IAccountsService, AccountsService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

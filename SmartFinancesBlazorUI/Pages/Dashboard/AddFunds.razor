@@ -1,0 +1,48 @@
+﻿@page "/dashboard/addfunds"
+@inject NavigationManager NavManager
+@inject IDashboardService DashboardService
+
+<PageTitle>Add funds</PageTitle>
+
+<h3>AddFunds</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="Amount">Amount</label>
+                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
+                <ValidationMessage For="@(() => Model.Amount)" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Add</button>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <button class="btn btn-primary" @onclick="NavigateToDashboard">Back to Dashboard</button>
+</div>
+
+@code {
+    private AddFundsVM Model = new AddFundsVM();
+
+    private async Task HandleSubmit()
+    {
+        bool response = await DashboardService.AddFundsAsync(Model);
+        if (response)
+        {
+            NavigateToDashboard();
+        }
+    }
+
+    private void NavigateToDashboard()
+    {
+        NavManager.NavigateTo("/dashboard");
+    }
+}

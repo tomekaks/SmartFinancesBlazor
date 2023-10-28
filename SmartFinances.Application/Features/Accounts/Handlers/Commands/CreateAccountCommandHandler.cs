@@ -4,12 +4,6 @@ using SmartFinances.Application.Features.Accounts.Requests.Commands;
 using SmartFinances.Application.Features.Accounts.Validators;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Application.Interfaces.Repositories;
-using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.Accounts.Handlers.Commands
 {
@@ -34,7 +28,7 @@ namespace SmartFinances.Application.Features.Accounts.Handlers.Commands
                 throw new ValidationException(validationResult);
             }
 
-            var account = _accountFactory.CreateFirstAccount(request.UserId);
+            var account = _accountFactory.CreateAccount(request.CreateAccountDto);
             await _unitOfWork.Accounts.AddAsync(account);
             await _unitOfWork.SaveAsync();
 

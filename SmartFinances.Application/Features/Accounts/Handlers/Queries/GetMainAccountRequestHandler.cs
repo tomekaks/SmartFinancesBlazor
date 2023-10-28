@@ -4,28 +4,23 @@ using SmartFinances.Application.Features.Accounts.Dtos;
 using SmartFinances.Application.Features.Accounts.Requests.Queries;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Application.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Features.Accounts.Handlers.Queries
 {
-    public class GetAccountRequestHandler : IRequestHandler<GetAccountRequest, AccountDto>
+    public class GetMainAccountRequestHandler : IRequestHandler<GetMainAccountRequest, AccountDto>
     {
         private readonly IAccountFactory _accountFactory;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetAccountRequestHandler(IUnitOfWork unitOfWork, IAccountFactory accountFactory)
+        public GetMainAccountRequestHandler(IAccountFactory accountFactory, IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             _accountFactory = accountFactory;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<AccountDto> Handle(GetAccountRequest request, CancellationToken cancellationToken)
+        public async Task<AccountDto> Handle(GetMainAccountRequest request, CancellationToken cancellationToken)
         {
-            var account = await _unitOfWork.Accounts.GetByIdAsync(request.AccountId);
+            var account = await _unitOfWork.Accounts.GetAsync(q => q.UserId == request.UserId && q.Type == 1);
 
             if (account == null)
             {

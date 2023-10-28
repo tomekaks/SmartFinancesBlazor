@@ -12,7 +12,7 @@ namespace SmartFinances.Application.Features.Accounts.Dtos
     {
         public int Id { get; set; }
         public string Number { get; set; }
-        public string Type { get; set; }
+        public int Type { get; set; }
         public decimal Balance { get; set; }
         public string UserId { get; set; }
         public List<ExpenseDto> Expenses { get; set; }

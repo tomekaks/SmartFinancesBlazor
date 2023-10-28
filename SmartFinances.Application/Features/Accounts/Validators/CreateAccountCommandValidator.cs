@@ -12,9 +12,12 @@ namespace SmartFinances.Application.Features.Accounts.Validators
     {
         public CreateAccountCommandValidator()
         {
-            RuleFor(q => q.AccountName)
-                    .NotEmpty().WithMessage("{PropertyName} is required")
-                    .MaximumLength(50).WithMessage("{PropertyName} can't be longer than 50 characters");
+            RuleFor(q => q.CreateAccountDto.Type)
+                .GreaterThanOrEqualTo(1);
+
+            RuleFor(q => q.CreateAccountDto.UserId)
+                .NotEmpty().WithMessage("Account needs to have an assigned userId");
+
         }
     }
 }

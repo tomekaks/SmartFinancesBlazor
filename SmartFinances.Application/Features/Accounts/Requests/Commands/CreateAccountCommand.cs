@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SmartFinances.Application.Dto;
+using SmartFinances.Application.Features.Accounts.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace SmartFinances.Application.Features.Accounts.Requests.Commands
 {
     public class CreateAccountCommand : IRequest
     {
-        public string UserId { get; set; }
-        public string AccountName { get; set; }
+        public CreateAccountDto CreateAccountDto { get; set; }
     }
 }

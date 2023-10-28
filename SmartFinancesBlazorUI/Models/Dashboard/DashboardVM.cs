@@ -1,4 +1,5 @@
-﻿using SmartFinancesBlazorUI.Services.Base;
+﻿using SmartFinancesBlazorUI.Models.Accounts;
+using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Models.Dashboard
 {

@@ -1,7 +1,61 @@
 ﻿@page "/accounts"
+@inject NavigationManager NavManager
+@inject IAccountsService AccountsService
 
-<h3>Accounts</h3>
+<PageTitle>Accounts</PageTitle>
+
+<div class="container mt-5">
+    <h3 class="mb-4">Accounts</h3>
+
+    <div class="row mt-4">
+        @foreach(var account in Model.Accounts)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        @account.Type.ToString()
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@account.Number</h5>
+                        <p class="card-text">Balance: @account.Balance.ToString()</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success btn-sm" @onclick="() => SetAsCurrentAccount(account.Number)">Set as current</button>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <button class="btn btn-secondary" @onclick="NavigateToRequestNewAccount">Request new account</button>
+        </div>
+    </div>
+</div>
 
 @code {
+    private AccountsVM Model = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Model.Accounts = await AccountsService.GetAllAccountsAsync();
+    }
+
+    private async Task SetAsCurrentAccount(string accountNumber)
+    {
+        await AccountsService.ChangeAccountAsync(accountNumber);
+        NavigateToDashboard();
+    }
+
+    private void NavigateToRequestNewAccount()
+    {
+        NavManager.NavigateTo("/accounts/requestnewaccount");
+    }
+
+    private void NavigateToDashboard()
+    {
+        NavManager.NavigateTo("/dashboard");
+    }
 }

@@ -2,6 +2,7 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
+using SmartFinancesBlazorUI.Models.Accounts;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;

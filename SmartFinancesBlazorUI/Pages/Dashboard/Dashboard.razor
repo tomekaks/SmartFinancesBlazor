@@ -23,12 +23,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model.CurrentAccount = await DashboardService.GetAccountAsync();
+        Model.CurrentAccount = await DashboardService.GetMainAccountAsync();
     }
 
     private void AddFunds()
     {
-
+        NavigationManager.NavigateTo("/dashboard/addfunds");
     }
 
     private void NavigateToChangeAccount()

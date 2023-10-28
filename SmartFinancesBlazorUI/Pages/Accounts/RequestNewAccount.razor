@@ -1,0 +1,50 @@
+﻿@page "/accounts/requestnewaccount"
+@inject NavigationManager NavigationManager
+@inject IAccountsService AccountsService
+
+<PageTitle>Request a New Account</PageTitle>
+
+<h3>Request a New Account</h3>
+
+<EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label for="AccountType" class="control-label">Account Type</label>
+        <InputSelect id="AccountType" @bind-Value="Model.AccountType">
+            @foreach (AccountType type in Enum.GetValues(typeof(AccountType)))
+            {
+                if (type != AccountType.Main)
+                {
+                    <option value="@type">@type</option>
+                }
+            }
+        </InputSelect>
+    </div>
+    <div class="form-group mb-2">
+        <input type="submit" value="Request" class="btn btn-success" />
+    </div>
+</EditForm>
+
+<div>
+    <button class="btn btn-primary" @onclick="NavigateToAccounts">Back</button>
+</div>
+
+@code {
+    private NewAccountVM Model = new();
+
+    private async Task HandleSubmit()
+    {
+        var response = await AccountsService.RequestNewAccountAsync(Model);
+        if (response)
+        {
+            NavigateToAccounts();
+        }
+    }
+
+    private void NavigateToAccounts()
+    {
+        NavigationManager.NavigateTo("/accounts");
+    }
+
+}

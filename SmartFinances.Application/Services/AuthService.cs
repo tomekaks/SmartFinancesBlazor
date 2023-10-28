@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SmartFinances.Application.Dto;
 using SmartFinances.Application.Exceptions;
+using SmartFinances.Application.Features.Accounts.Dtos;
 using SmartFinances.Application.Features.Accounts.Requests.Commands;
 using SmartFinances.Application.Features.Users.Dtos;
 using SmartFinances.Application.Interfaces.Services;
@@ -72,7 +73,13 @@ namespace SmartFinances.Application.Services
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            await _mediator.Send(new CreateAccountCommand { UserId = user.Id, AccountName = registerRequest.UserName });    
+            var createAccountDto = new CreateAccountDto()
+            {
+                UserId = user.Id,
+                Type = 1
+            };
+
+            await _mediator.Send(new CreateAccountCommand { CreateAccountDto = createAccountDto});    
 
             return new RegistrationResponse()
             {
