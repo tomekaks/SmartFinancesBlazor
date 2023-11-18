@@ -4,7 +4,7 @@
 
 <PageTitle>Login</PageTitle>
 
-<h3>Login</h3>
+<h3 class="mb-3">Login</h3>
 
 @if (!string.IsNullOrEmpty(Message))
 {
@@ -16,19 +16,19 @@
         <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
 
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <label for="UserName">User name</label>
                 <InputText id="userName" @bind-Value="Model.UserName" class="form-control" />
                 <ValidationMessage For="@(() => Model.UserName)" />
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <label for="Password">Password</label>
                 <InputText type="password" id="password" @bind-Value="Model.Password" class="form-control" />
                 <ValidationMessage For="@(() => Model.Password)" />
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <div class="checkbox">
                     <InputCheckbox @bind-Value="Model.RememberMe" id="RememberMe" />
                     <label for="RememberMe">Remember me?</label>

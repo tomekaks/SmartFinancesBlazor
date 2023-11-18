@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using MudBlazor.Services;
 using SmartFinancesBlazorUI;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Providers;
@@ -19,8 +20,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7146"));
 
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddMudServices();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 builder.Services.AddAuthorizationCore();
+
 
 
 builder.Services.AddScoped<IDashboardService, DashboardService>();

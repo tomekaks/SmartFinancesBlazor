@@ -17,6 +17,19 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
+        public async Task<AccountVM> LoadCurrentAccountAsync()
+        {
+            bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
+
+            if (!isCurrentAccountSet)
+            {
+                return await GetMainAccountAsync();
+            }
+
+            var accountDto = await GetAccountAsync();
+            return _mapper.Map<AccountVM>(accountDto);
+        }
+
         public async Task<AccountVM> GetMainAccountAsync()
         {
             await AddBearerToken();

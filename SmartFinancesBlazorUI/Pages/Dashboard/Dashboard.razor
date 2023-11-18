@@ -4,35 +4,31 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-<h3>Dashboard</h3>
+<div class="container mt-2">
+    <h3>Dashboard</h3>
 
-<div>Account number: @Model.CurrentAccount.Number</div>
+    <div>Account number: @Model.CurrentAccount.Number</div>
 
-<div>Balance: @Model.CurrentAccount.Balance</div>
+    <div>Balance: @Model.CurrentAccount.Balance</div>
 
-<div>
-    <button class="btn btn-success" @onclick="AddFunds">Add funds</button>
+    <div>
+        <button class="btn btn-success" @onclick="AddFunds">Add funds</button>
+    </div>
 </div>
 
-<div>
-    <button class="btn btn-info" @onclick="NavigateToChangeAccount">Change account</button>
-</div>
+
+
 
 @code {
     public DashboardVM Model { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Model.CurrentAccount = await DashboardService.GetMainAccountAsync();
+        Model.CurrentAccount = await DashboardService.LoadCurrentAccountAsync();
     }
 
     private void AddFunds()
     {
         NavigationManager.NavigateTo("/dashboard/addfunds");
-    }
-
-    private void NavigateToChangeAccount()
-    {
-        NavigationManager.NavigateTo("/dashboard/changeaccount");
     }
 }

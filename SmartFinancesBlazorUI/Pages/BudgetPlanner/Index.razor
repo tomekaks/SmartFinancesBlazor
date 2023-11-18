@@ -5,8 +5,22 @@
 
 <PageTitle>Budget planner</PageTitle>
 
-<h1>Budget Planner</h1>
-<br />
+<h1 class="mb-3">Budget Planner</h1>
+
+
+<MudCard>
+    <MudCardContent>
+        <MudText Class="">Your monthly budget: @Model.Budget</MudText>
+        <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+</MudCard>
+
+
+
+
 
 <h4>Your monthly budget: @Model.Budget</h4>
 

@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using SmartFinancesBlazorUI.Contracts;
+using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Authentication;
 using SmartFinancesBlazorUI.Providers;
 using SmartFinancesBlazorUI.Services.Base;
@@ -48,6 +49,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task Logout()
         {
+            await _localStorage.RemoveItemAsync(Constants.CURRENTACCOUNT);
             await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedOut();
         }
 

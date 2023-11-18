@@ -4,10 +4,10 @@
 
 <PageTitle>Accounts</PageTitle>
 
-<div class="container mt-5">
+<div class="container mt-2">
     <h3 class="mb-4">Accounts</h3>
 
-    <div class="row mt-4">
+    <div class="row">
         @foreach(var account in Model.Accounts)
         {
             <div class="col-md-4 mb-4">
@@ -30,7 +30,7 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <button class="btn btn-secondary" @onclick="NavigateToRequestNewAccount">Request new account</button>
+            <button class="btn btn-secondary" @onclick="NavigateToRequestNewAccount">Request a new account</button>
         </div>
     </div>
 </div>

@@ -7,6 +7,7 @@ namespace SmartFinancesBlazorUI.Contracts
     public interface IDashboardService
     {
         Task<AccountVM> GetMainAccountAsync();
+        Task<AccountVM> LoadCurrentAccountAsync();
         Task<bool> AddFundsAsync(AddFundsVM addFundsVM);
     }
 }
