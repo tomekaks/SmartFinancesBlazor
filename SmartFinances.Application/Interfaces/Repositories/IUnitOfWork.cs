@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartFinances.Application.Interfaces.Repositories
+﻿namespace SmartFinances.Application.Interfaces.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
@@ -15,6 +9,8 @@ namespace SmartFinances.Application.Interfaces.Repositories
         public IRegularExpenseRepository RegularExpenses { get; }
         public IContactRepository Contacts { get; }
         public IUserRepository Users { get; }
+        public IMonthlySummaryRepository MonthlySummaries { get; }
+        public IYearlySummaryRepository YearlySummaries { get; }
         Task SaveAsync();
     }
 }

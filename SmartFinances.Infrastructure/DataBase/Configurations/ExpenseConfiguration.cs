@@ -19,9 +19,9 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .HasForeignKey(e => e.ExpenseTypeId)
                    .IsRequired();
 
-            builder.HasOne(e => e.Account)
-                   .WithMany(a => a.Expenses)
-                   .HasForeignKey(e => e.AccountId)
+            builder.HasOne(e => e.MonthlySummary)
+                   .WithMany(m => m.Expenses)
+                   .HasForeignKey(e => e.MonthlySummaryId)
                    .IsRequired();
         }
     }

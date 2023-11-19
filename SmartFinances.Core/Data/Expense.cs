@@ -7,7 +7,7 @@
         public decimal Amount { get; set; }
         public int ExpenseTypeId { get; set; }
         public ExpenseType ExpenseType { get; set; }
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public int MonthlySummaryId { get; set; }
+        public MonthlySummary MonthlySummary { get; set; }
     }
 }

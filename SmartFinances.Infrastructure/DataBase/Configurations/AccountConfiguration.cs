@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.DataBase.Configurations
 {
@@ -25,6 +20,10 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.HasOne(a => a.User)
                    .WithMany(u => u.Accounts)
                    .HasForeignKey(a => a.UserId);
+
+            builder.HasMany(a => a.YearlySummaries)
+                   .WithOne(y => y.Account)
+                   .HasForeignKey(y => y.AccountId);
 
             builder.HasData(
                 new Account()

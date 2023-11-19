@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.DataBase
 {
@@ -22,6 +17,8 @@ namespace SmartFinances.Infrastructure.DataBase
         public DbSet<RegularExpense> RegularExpenses { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ExpenseType> ExpenseTypes { get; set; }
+        public DbSet<MonthlySummary> MonthlySummaries { get; set; }
+        public DbSet<YearlySummary> YearlySummaries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,10 +1,5 @@
 ﻿using SmartFinances.Application.Interfaces.Repositories;
 using SmartFinances.Infrastructure.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.Repositories
 {
@@ -21,6 +16,8 @@ namespace SmartFinances.Infrastructure.Repositories
             RegularExpenses = new RegularExpenseRepository(context);
             Contacts = new ContactRepository(context);
             Users = new UserRepository(context);
+            MonthlySummaries = new MonthlySummaryRepository(context);
+            YearlySummaries = new YearlySummaryRepository(context);
         }
 
         public IAccountRepository Accounts { get; private set; }
@@ -30,6 +27,8 @@ namespace SmartFinances.Infrastructure.Repositories
         public IRegularExpenseRepository RegularExpenses { get; private set; }
         public IContactRepository Contacts { get; private set; }
         public IUserRepository Users { get; private set; }
+        public IMonthlySummaryRepository MonthlySummaries { get; private set; }
+        public IYearlySummaryRepository YearlySummaries { get; private set; }
 
 
         public void Dispose()
