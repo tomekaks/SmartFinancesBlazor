@@ -1,6 +1,4 @@
-﻿using SmartFinances.Application.Features.MonthlySummaries.Dtos;
-
-namespace SmartFinances.Application.Features.YearlySummaries.Dtos
+﻿namespace SmartFinances.Application.Features.YearlySummaries.Dtos
 {
     public class UpdateYearlySummaryDto
     {

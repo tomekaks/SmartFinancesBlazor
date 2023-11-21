@@ -32,13 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\MonthlySummaries\Factories\" />
     <Folder Include="Features\MonthlySummaries\Handlers\" />
     <Folder Include="Features\MonthlySummaries\Validators\" />
     <Folder Include="Features\MonthlySummaries\Requests\" />
-    <Folder Include="Features\YearlySummaries\Handlers\" />
-    <Folder Include="Features\YearlySummaries\Validators\" />
-    <Folder Include="Features\YearlySummaries\Requests\" />
   </ItemGroup>
 
 </Project>
