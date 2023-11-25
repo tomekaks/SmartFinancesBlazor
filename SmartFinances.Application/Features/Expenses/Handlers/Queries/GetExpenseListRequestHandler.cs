@@ -19,7 +19,7 @@ namespace SmartFinances.Application.Features.Expenses.Handlers.Queries
 
         public async Task<List<ExpenseDto>> Handle(GetExpenseListRequest request, CancellationToken cancellationToken)
         {
-            var expenses = await _unitOfWork.Expenses.GetAllAsync(q => q.AccountId == request.AccountId, includeProperties: "ExpenseType");
+            var expenses = await _unitOfWork.Expenses.GetAllAsync(q => q.MonthlySummaryId == request.MonthlySummaryId, includeProperties: "ExpenseType");
 
             return _expenseFactory.CreateExpenseDtoList(expenses.ToList());
         }

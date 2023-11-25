@@ -31,10 +31,4 @@
     <ProjectReference Include="..\SmartFinances.Core\SmartFinances.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\MonthlySummaries\Handlers\" />
-    <Folder Include="Features\MonthlySummaries\Validators\" />
-    <Folder Include="Features\MonthlySummaries\Requests\" />
-  </ItemGroup>
-
 </Project>
