@@ -1,9 +1,6 @@
-﻿using SmartFinances.Application.Features.Expenses.Dtos;
-using SmartFinances.Application.Features.YearlySummaries.Dtos;
-
-namespace SmartFinances.Application.Features.MonthlySummaries.Dtos
+﻿namespace SmartFinancesBlazorUI.Models.BudgetPlanner
 {
-    public class MonthlySummaryDto
+    public class MonthlySummaryVM
     {
         public int Id { get; set; }
         public int Month { get; set; }
@@ -11,7 +8,7 @@ namespace SmartFinances.Application.Features.MonthlySummaries.Dtos
         public decimal Budget { get; set; }
         public decimal AmountSpent { get; set; }
         public decimal AmountSaved { get; set; }
-        public List<ExpenseDto> Expenses { get; set; }
         public int YearlySummaryId { get; set; }
+        public List<ExpenseVM> Expenses { get; set; }
     }
 }

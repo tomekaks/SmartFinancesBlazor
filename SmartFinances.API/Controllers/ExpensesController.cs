@@ -20,9 +20,9 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ExpenseDto>>> GetAllAsync(int accuntId)
+        public async Task<ActionResult<List<ExpenseDto>>> GetAllAsync(int monthlySummaryId)
         {
-            var expenses = await _mediator.Send(new GetExpenseListRequest { AccountId = accuntId });
+            var expenses = await _mediator.Send(new GetExpenseListRequest { MonthlySummaryId = monthlySummaryId });
             return Ok(expenses);
         }
 

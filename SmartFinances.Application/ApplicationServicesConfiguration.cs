@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -8,17 +7,15 @@ using SmartFinances.Application.Features.Accounts.Factories;
 using SmartFinances.Application.Features.Contacts.Factories;
 using SmartFinances.Application.Features.Expenses.Factories;
 using SmartFinances.Application.Features.ExpenseTypes.Factories;
+using SmartFinances.Application.Features.MonthlySummaries.Factories;
 using SmartFinances.Application.Features.RegularExpenses.Factories;
 using SmartFinances.Application.Features.Transfers.Factories;
+using SmartFinances.Application.Features.YearlySummaries.Factories;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Application.Interfaces.Services;
 using SmartFinances.Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Application
 {
@@ -34,6 +31,8 @@ namespace SmartFinances.Application
             services.AddScoped<ITransferFactory, TransferFactory>();
             services.AddScoped<IContactFactory, ContactFactory>();
             services.AddScoped<IExpenseTypeFactory, ExpenseTypeFactory>();
+            services.AddScoped<IYearlySummaryFactory, YearlySummaryFactory>();
+            services.AddScoped<IMonthlySummaryFactory, MonthlySummaryFactory>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsersService, UsersService>();

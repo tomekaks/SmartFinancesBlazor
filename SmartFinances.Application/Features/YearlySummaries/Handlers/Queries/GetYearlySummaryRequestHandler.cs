@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SmartFinances.Application.Exceptions;
 using SmartFinances.Application.Features.YearlySummaries.Dtos;
 using SmartFinances.Application.Features.YearlySummaries.Requests.Queries;
 using SmartFinances.Application.Interfaces.Factories;
@@ -24,7 +25,7 @@ namespace SmartFinances.Application.Features.YearlySummaries.Handlers.Queries
 
             if (yearlySummary == null)
             {
-                throw new Exception("Yearly summary does not exist");
+                throw new NotFoundException("YearlySummary", request.AccountId);
             }
 
             var yearlySummaryDto = _yearlySummaryFactory.CreateYearlySummaryDto(yearlySummary);

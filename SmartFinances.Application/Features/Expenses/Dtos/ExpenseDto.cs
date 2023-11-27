@@ -9,7 +9,7 @@ namespace SmartFinances.Application.Features.Expenses.Dtos
         public decimal Amount { get; set; }
         public int ExpenseTypeId { get; set; }
         public ExpenseTypeDto ExpenseTypeDto { get; set; }
-        public int AccountId { get; set; }
+        public int MonthlySummaryId { get; set; }
         public bool IsRegular { get; set; }
     }
 }

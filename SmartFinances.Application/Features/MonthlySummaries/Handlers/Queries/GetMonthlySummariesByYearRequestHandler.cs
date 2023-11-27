@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SmartFinances.Application.Exceptions;
 using SmartFinances.Application.Features.MonthlySummaries.Dtos;
 using SmartFinances.Application.Features.MonthlySummaries.Requests.Queries;
 using SmartFinances.Application.Interfaces.Factories;
@@ -19,11 +20,12 @@ namespace SmartFinances.Application.Features.MonthlySummaries.Handlers.Queries
 
         public async Task<List<MonthlySummaryDto>> Handle(GetMonthlySymmariesByYearRequest request, CancellationToken cancellationToken)
         {
-            var monthlySummaries = await _unitOfWork.MonthlySummaries.GetAllAsync(q => q.YearlySummaryId == request.YearlySummaryId);
+            var monthlySummaries = await _unitOfWork.MonthlySummaries.GetAllAsync(q => q.YearlySummaryId == request.YearlySummaryId,
+                                                                                       includeProperties: "Expenses");
 
-            if (monthlySummaries == null || !monthlySummaries.Any())
+            if (monthlySummaries == null || monthlySummaries.Count() > 12 )
             {
-                return new List<MonthlySummaryDto>();
+                throw new NotFoundException("MonthlySummaries", request.YearlySummaryId);
             }
 
             var monthlySummariesDto = _monthlySummaryFactory.CreateMonthlySummaryDtoList(monthlySummaries.ToList());
