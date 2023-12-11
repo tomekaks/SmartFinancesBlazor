@@ -10,9 +10,6 @@ namespace SmartFinances.Application.Features.MonthlySummaries.Validators
             RuleFor(q => q.MonthlySummaryDto)
                 .NotEmpty().WithMessage("{PropertyName} can't be empty");
 
-            RuleFor(q => q.MonthlySummaryDto.YearlySummaryId)
-                .NotEmpty().WithMessage("{PropertyName} can't be empty");
-
             RuleFor(q => q.MonthlySummaryDto.Budget)
                 .GreaterThanOrEqualTo(0).WithMessage("Budget can't be less than 0");
         }

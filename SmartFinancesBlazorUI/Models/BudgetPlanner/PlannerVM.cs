@@ -4,12 +4,13 @@
     {
         public PlannerVM()
         {
-            GetTotalAmount();
+            
         }
 
-        public List<ExpenseVM> Expenses { get; set; } = new List<ExpenseVM>();
+        public YearlySummaryVM? YearlySummary { get; set; }
+        public MonthlySummaryVM? CurrentMonthlySummary { get; set; }
         public decimal Budget { get; set; }
-        public decimal TotalAmount { get; set; }
+        public decimal TotalAmount { get => GetTotalAmount(); }
         public decimal HousingAmount { get => GetTotalAmountByExpenseType(Constants.HOUSING); }
         public decimal UtilitiesAmount { get => GetTotalAmountByExpenseType(Constants.UTILITIES); }
         public decimal FoodAmount { get => GetTotalAmountByExpenseType(Constants.FOOD); }
@@ -21,20 +22,23 @@
         public decimal TransportationAmount { get => GetTotalAmountByExpenseType(Constants.TRANSPORTATION); }
         public decimal PersonalAmount { get => GetTotalAmountByExpenseType(Constants.PERSONAL); }
 
-        private void GetTotalAmount()
+        private decimal GetTotalAmount()
         {
-            if (Expenses != null && Expenses.Count > 0)
-            {
-                foreach (var item in Expenses)
+            decimal totalAmount = 0;
+
+            if (CurrentMonthlySummary.Expenses != null && CurrentMonthlySummary.Expenses.Count > 0)
+            {    
+                foreach (var item in CurrentMonthlySummary.Expenses)
                 {
-                    TotalAmount += item.Amount;
+                    totalAmount += item.Amount;
                 }
-            }    
+            }
+            return totalAmount;
         }
 
         private decimal GetTotalAmountByExpenseType(string expenseType)
         {
-            var expenses = Expenses.FindAll(q => q.ExpenseTypeVM.Name == expenseType);
+            var expenses = CurrentMonthlySummary.Expenses.FindAll(q => q.ExpenseTypeVM.Name == expenseType);
             decimal amount = 0;
 
             foreach (var item in expenses)

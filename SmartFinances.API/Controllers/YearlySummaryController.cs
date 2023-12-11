@@ -20,10 +20,15 @@ namespace SmartFinances.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{accountid:int}/{year:int}")]
+        [HttpGet("{accountId:int}/{year:int}")]
         public async Task<ActionResult<YearlySummaryDto>> GetAsync(int accountId, int year)
         {
             var yearlySummaryDto = await _mediator.Send(new GetYearlySummaryRequest { AccountId = accountId, Year = year });
+            if(yearlySummaryDto == null)
+            {
+                return NotFound();
+            }
+
             return Ok(yearlySummaryDto);
         }
 

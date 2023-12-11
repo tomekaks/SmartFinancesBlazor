@@ -7,7 +7,7 @@ using SmartFinances.Application.Interfaces.Repositories;
 
 namespace SmartFinances.Application.Features.MonthlySummaries.Handlers.Queries
 {
-    public class GetMonthlySummariesByYearRequestHandler : IRequestHandler<GetMonthlySymmariesByYearRequest, List<MonthlySummaryDto>>
+    public class GetMonthlySummariesByYearRequestHandler : IRequestHandler<GetMonthlySummariesByYearRequest, List<MonthlySummaryDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMonthlySummaryFactory _monthlySummaryFactory;
@@ -18,7 +18,7 @@ namespace SmartFinances.Application.Features.MonthlySummaries.Handlers.Queries
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<MonthlySummaryDto>> Handle(GetMonthlySymmariesByYearRequest request, CancellationToken cancellationToken)
+        public async Task<List<MonthlySummaryDto>> Handle(GetMonthlySummariesByYearRequest request, CancellationToken cancellationToken)
         {
             var monthlySummaries = await _unitOfWork.MonthlySummaries.GetAllAsync(q => q.YearlySummaryId == request.YearlySummaryId,
                                                                                        includeProperties: "Expenses");

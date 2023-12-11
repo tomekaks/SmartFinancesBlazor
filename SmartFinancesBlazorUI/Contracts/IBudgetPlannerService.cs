@@ -4,7 +4,7 @@ namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IBudgetPlannerService
     {
-        Task<PlannerVM> GetPlannerVMAsync();
+        Task<PlannerVM?> GetPlannerVMAsync();
         Task<SetBudgetVM> GetBudgetVMAsync();
         Task<bool> SetBudgetAsync(SetBudgetVM setBudgetVM);
         Task<EditExpenseVM> GetExpenseAsync(int id);
@@ -17,5 +17,9 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<bool> AddRegularExpenseAsync(AddRegularExpenseVM addRegularExpenseVM);
         Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM);
         Task<bool> DeleteRegularExpenseAsync(int id);
+        Task<YearlySummaryVM> GetYearlySummaryAsync();
+        Task StartNewYearlySummary();
+        Task<MonthlySummaryVM> GetMonthlySummaryAsync(int id);
+        Task<List<MonthlySummaryVM>> GetMonthlySummariesByYearAsync(int yearlySummaryId);
     }
 }

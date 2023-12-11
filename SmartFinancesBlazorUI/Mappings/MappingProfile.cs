@@ -34,6 +34,10 @@ namespace SmartFinancesBlazorUI.Mappings
             CreateMap<EditRegularExpenseVM, EditRegularExpenseDto>();
 
             CreateMap<ExpenseTypeDto, ExpenseTypeVM>().ReverseMap();
+
+            CreateMap<YearlySummaryDto, YearlySummaryVM>().ReverseMap();
+
+            CreateMap<MonthlySummaryDto, MonthlySummaryVM>().ReverseMap();
         }
     }
 }

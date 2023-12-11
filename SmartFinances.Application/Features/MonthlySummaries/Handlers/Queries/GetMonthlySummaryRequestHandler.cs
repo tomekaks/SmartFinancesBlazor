@@ -20,7 +20,8 @@ namespace SmartFinances.Application.Features.MonthlySummaries.Handlers.Queries
 
         public async Task<MonthlySummaryDto> Handle(GetMonthlySummaryRequest request, CancellationToken cancellationToken)
         {
-            var monthlySummary = await _unitOfWork.MonthlySummaries.GetByIdAsync(request.MonthlySummaryId);
+            var monthlySummary = await _unitOfWork.MonthlySummaries.GetAsync(q => q.Id == request.MonthlySummaryId,
+                                                                             includeProperties: "Expenses");
 
             if (monthlySummary == null)
             {

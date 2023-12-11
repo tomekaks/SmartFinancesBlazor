@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Features.MonthlySummaries.Dtos;
 using SmartFinances.Application.Features.MonthlySummaries.Requests.Commands;
 using SmartFinances.Application.Features.MonthlySummaries.Requests.Queries;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
@@ -22,6 +23,14 @@ namespace SmartFinances.API.Controllers
         {
             var monthlySummaryDto = await _mediator.Send(new GetMonthlySummaryRequest { MonthlySummaryId = id });
             return Ok(monthlySummaryDto);
+        }
+
+        [HttpGet("byyear/{id}")]
+        [SwaggerOperation(OperationId = "MonthlySummaryGetByYear")]
+        public async Task<ActionResult<List<MonthlySummaryDto>>> GetAllByYearAsync(int id)
+        {
+            var monthlySummariesDto = await _mediator.Send(new GetMonthlySummariesByYearRequest { YearlySummaryId = id });
+            return Ok(monthlySummariesDto);
         }
 
         [HttpPost]

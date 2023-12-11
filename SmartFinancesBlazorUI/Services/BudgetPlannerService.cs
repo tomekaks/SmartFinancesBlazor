@@ -19,37 +19,98 @@ namespace SmartFinancesBlazorUI.Services
         }
 
         public AccountVM CurrentAccount { get; set; } = new();
+        public YearlySummaryVM CurrentYearlySummary { get; set; }
+        public MonthlySummaryVM CurrentMonthlySummary { get; set; }
+        public int CurrentYear { get; set; } = DateTime.Now.Year;
+        public int CurrentMonth { get; set; } = DateTime.Now.Month;
 
         public async Task<PlannerVM> GetPlannerVMAsync()
         {
             CurrentAccount = await GetAccountAsync();
-            var expenses = await GetExpensesAsync();           
+            CurrentYearlySummary = await GetYearlySummaryAsync();
+
+            if(CurrentYearlySummary == null)
+            {
+                return new PlannerVM();
+            }
+
+            CurrentYearlySummary.MonthlySummaries = await GetMonthlySummariesByYearAsync(CurrentYearlySummary.Id);
+
+            CurrentMonthlySummary = GetCurrentMonthlySummary();
 
             return new PlannerVM()
             {
-                Expenses = expenses,
-                Budget = CurrentAccount.Budget
+                YearlySummary = CurrentYearlySummary,
+                CurrentMonthlySummary = this.CurrentMonthlySummary,
+                Budget = CurrentMonthlySummary.Budget
             };
+
+        }
+
+        public async Task<YearlySummaryVM> GetYearlySummaryAsync()
+        {
+            try
+            {
+                await AddBearerToken();
+                var yearlySummaryDto = await _client.YearlySummaryGETAsync(CurrentAccount.Id, CurrentYear);
+
+                var yearlySummaryVM = _mapper.Map<YearlySummaryVM>(yearlySummaryDto);
+                return yearlySummaryVM;
+            }
+            catch (ApiException ex) when (ex.StatusCode == 404)
+            {
+                return null;
+            }
+        }
+
+        public async Task StartNewYearlySummary()
+        {
+            var createYearlySummaryDto = new CreateYearlySummaryDto()
+            {
+                Year = CurrentYear,
+                AccountId = CurrentAccount.Id
+            };
+
+            await AddBearerToken();
+            await _client.YearlySummaryPOSTAsync(createYearlySummaryDto);
+        }
+
+        public async Task<MonthlySummaryVM> GetMonthlySummaryAsync(int id)
+        {
+            await AddBearerToken();
+            var monthlySumaryDto = await _client.MonthlySummaryGETAsync(id);
+
+            var monthlySummaryVM = _mapper.Map<MonthlySummaryVM>(monthlySumaryDto);
+            return monthlySummaryVM;
+        }
+
+        public async Task<List<MonthlySummaryVM>> GetMonthlySummariesByYearAsync(int yearlySummaryId)
+        {
+            await AddBearerToken();
+            var monthlySummariesDto = await _client.MonthlySummaryGetByYearAsync(yearlySummaryId);
+
+            var monthlySummariesVM = _mapper.Map<List<MonthlySummaryVM>>(monthlySummariesDto);
+            return monthlySummariesVM;
         }
 
         public async Task<SetBudgetVM> GetBudgetVMAsync()
         {
             return new SetBudgetVM()
             {
-                Budget = CurrentAccount.Budget
+                Budget = CurrentMonthlySummary.Budget
             };
         }
 
         public async Task<bool> SetBudgetAsync(SetBudgetVM setBudgetVM)
         {
-            var updateAccount = new UpdateAccountDto()
+            var updateDto = new UpdateMonthlySummaryDto()
             {
                 Id = CurrentAccount.Id,
                 Budget = setBudgetVM.Budget
             };
 
             await AddBearerToken();
-            await _client.AccountsPUTAsync(updateAccount);
+            await _client.MonthlySummaryPUTAsync(updateDto);
 
             return true;
         }
@@ -57,7 +118,7 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<List<ExpenseVM>> GetExpensesAsync()
         {
             await AddBearerToken();
-            var expensesDto = await _client.ExpensesAllAsync(CurrentAccount.Id);
+            var expensesDto = await _client.ExpensesAllAsync(CurrentMonthlySummary.Id);
 
             if (expensesDto == null)
             {
@@ -123,7 +184,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
             expenseDto.ExpenseTypeId = addExpenseVM.ExpenseTypeId;
-            expenseDto.AccountId = CurrentAccount.Id;
+            expenseDto.MonthlySummaryId = CurrentMonthlySummary.Id;
 
             await AddBearerToken();
             await _client.ExpensesPOSTAsync(expenseDto);
@@ -176,6 +237,8 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+
+
         private async Task<AccountVM> GetAccountAsync()
         {
             var accountNumber = await GetCurrentAccountNumberAsync();
@@ -183,14 +246,18 @@ namespace SmartFinancesBlazorUI.Services
             await AddBearerToken();
             var accountDto = await _client.AccountsGetByNumberAsync(accountNumber);
 
-            if(accountDto == null)
-            {
-                throw new Exception("Something went wrong");
-            }
-
             return _mapper.Map<AccountVM>(accountDto);
         }
 
+        private MonthlySummaryVM GetCurrentMonthlySummary()
+        {
+            var currentMonthlySummary = CurrentYearlySummary.MonthlySummaries.FirstOrDefault(q => q.Month == CurrentMonth);
+            if (currentMonthlySummary == null)
+            {
+                return new MonthlySummaryVM();
+            }
+            return currentMonthlySummary;
+        }
 
     }
 }
