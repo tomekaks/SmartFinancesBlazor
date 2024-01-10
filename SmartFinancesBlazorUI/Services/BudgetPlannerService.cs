@@ -5,6 +5,7 @@ using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Accounts;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Dashboard;
+using SmartFinancesBlazorUI.Pages.BudgetPlanner;
 using SmartFinancesBlazorUI.Services.Base;
 using System.Net.Http.Json;
 
@@ -89,28 +90,6 @@ namespace SmartFinancesBlazorUI.Services
 
             var monthlySummariesVM = _mapper.Map<List<MonthlySummaryVM>>(monthlySummariesDto);
             return monthlySummariesVM;
-        }
-
-        public async Task<SetBudgetVM> GetBudgetVMAsync()
-        {
-            return new SetBudgetVM()
-            {
-                Budget = CurrentMonthlySummary.Budget
-            };
-        }
-
-        public async Task<bool> SetBudgetAsync(SetBudgetVM setBudgetVM)
-        {
-            var updateDto = new UpdateMonthlySummaryDto()
-            {
-                Id = CurrentMonthlySummary.Id,
-                Budget = setBudgetVM.Budget
-            };
-
-            await AddBearerToken();
-            await _client.MonthlySummaryPUTAsync(updateDto);
-
-            return true;
         }
 
         public async Task<bool> SetBudgetAsync(decimal budget)
@@ -248,9 +227,30 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM)
+        {
+            var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addExpenseVM);
+            regularExpenseDto.AccountId = CurrentAccount.Id;
+
+            await AddBearerToken();
+            await _client.RegularExpensesPOSTAsync(regularExpenseDto);
+
+            return true;
+        }
+
         public async Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<EditRegularExpenseDto>(editRegularExpenseVM);
+
+            await AddBearerToken();
+            await _client.RegularExpensesPUTAsync(regularExpenseDto);
+
+            return true;
+        }
+
+        public async Task<bool> EditRegularExpenseAsync(RegularExpenseVM regularExpenseVM)
+        {
+            var regularExpenseDto = _mapper.Map<EditRegularExpenseDto>(regularExpenseVM);
 
             await AddBearerToken();
             await _client.RegularExpensesPUTAsync(regularExpenseDto);

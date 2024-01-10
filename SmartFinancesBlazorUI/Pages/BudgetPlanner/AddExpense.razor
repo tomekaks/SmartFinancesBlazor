@@ -63,6 +63,12 @@
     private async Task HandleSubmit()
     {
         bool response = await BudgetPlannerService.AddExpenseAsync(Model);
+
+        if (Model.IsRegular)
+        {
+            await BudgetPlannerService.AddRegularExpenseAsync(Model);
+        }
+
         if(response)
         {
             NavigateToIndex();

@@ -69,10 +69,6 @@ else
                             <MudText Typo="Typo.h5">Your monthly expenses: @Model.TotalAmount</MudText>
                             <MudText Typo="Typo.h5">Saved: @Model.Saved</MudText>
                         </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddExpense">Add expense</MudButton> |
-                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToRegularExpenses">Regular expenses</MudButton>
-                        </MudCardActions>
                     </MudCard>
                 </div>       
         </div>
@@ -80,6 +76,12 @@ else
             <div class="col-10">
                 <MudDataGrid T="ExpenseVM" Items="Model.CurrentMonthlySummary.Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
                     Bordered="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Expenses</MudText>
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddExpense">Add expense</MudButton> |
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToRegularExpenses">Regular expenses</MudButton>
+                    </ToolBarContent>
                     <Columns>
                         <PropertyColumn Property="q => q.Name"></PropertyColumn>
                         <PropertyColumn Property="q => q.Amount"></PropertyColumn>
@@ -97,7 +99,7 @@ else
                         <TemplateColumn>
                             <CellTemplate>
                                 <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync"></MudIconButton>
-                                <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Delete" OnClick="() => DeleteExpenseMud(context.Item.Id)"></MudIconButton>
+                                <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteExpense(context.Item.Id)"></MudIconButton>
                             </CellTemplate>
                         </TemplateColumn>
                     </Columns>
@@ -168,7 +170,7 @@ else
         await BudgetPlannerService.EditExpenseAsync(expenseVM);
     }
 
-    private async Task DeleteExpenseMud(int id)
+    private async Task ConfirmDeleteExpense(int id)
     {
         var parameters = new DialogParameters<Dialog>();
         parameters.Add(x => x.ContentText, "Do you really want to delete this expense?");
@@ -180,21 +182,9 @@ else
         var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
         var result = await dialog.Result;
 
-        if(!result.Canceled)
+        if (!result.Canceled)
         {
             await DeleteExpense(id);
-        }
-
-    }
-
-    private async Task ConfirmDeleteExpense(int id)
-    {
-        var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
-
-        if (result)
-        {
-            await DeleteExpense(id);
-            StateHasChanged();
         }
     }
 
@@ -229,11 +219,6 @@ else
         _settingBudget = false;
     }
 
-    private void NavigateToSetBudget()
-    {
-        NavigationManager.NavigateTo("/budgetplanner/setbudget");
-    }
-
     private void NavigateToAddExpense()
     {
         NavigationManager.NavigateTo("/budgetplanner/addexpense");
@@ -250,33 +235,15 @@ else
     }
 
     // OnClick="() => ConfirmDeleteExpense(context.Item.Id)"
+    // private async Task ConfirmDeleteExpense(int id)
+    // {
+    //     var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
+
+    //     if (result)
+    //     {
+    //         await DeleteExpense(id);
+    //         StateHasChanged();
+    //     }
+    // }
 }
 
-
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Type</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var expense in Model.CurrentMonthlySummary.Expenses)
-        {
-            <tr>
-                <td>@expense.Name</td>
-                <td>@expense.Amount</td>
-                <td>@expense.ExpenseTypeVM.Name</td>
-                <td>
-                    <button @onclick="() => NavigateToEditExpense(expense.Id)" class="btn btn-info">Edit</button>
-                </td>
-                <td>
-                    <button @onclick="() => ConfirmDeleteExpense(expense.Id)" class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@

@@ -14,6 +14,6 @@ namespace SmartFinancesBlazorUI.Models.BudgetPlanner
         public int ExpenseTypeId { get; set; }
         public List<ExpenseTypeVM> ExpenseTypes { get; set; } = new List<ExpenseTypeVM>();
         [DisplayName("Regular expense")]
-        public bool IsRegular { get; set; }
+        public bool IsRegular { get; set; } = false;
     }
 }
