@@ -2,10 +2,9 @@
 @inject IBudgetPlannerService BudgetPlannerService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@inject IDialogService DialogService
 
 <PageTitle>Budget planner</PageTitle>
-
-<h1 class="mb-3">Budget Planner</h1>
 
 
 @if(Model == null)
@@ -25,86 +24,128 @@ else if(Model.YearlySummary == null)
 }
 else
 {
-   
-    <h4>Your monthly budget: @Model.Budget</h4>
+    <div class="container mt-4">
+        <div class="row mb-2">
+            <div class="col-10">
+                <div class="d-flex justify-content-center align-items-center text-black p-2">
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousMonth"></MudButton>
 
-    <div>
-        <button class="btn btn-dark" @onclick="NavigateToSetBudget">Set budget</button>
-    </div>
+                    <MudButton Variant="Variant.Filled" Disabled>
+                        Your Budget Planner For: @Model.CurrentMonthlySummary.Month/@Model.CurrentMonthlySummary.Year
+                    </MudButton>
 
-    <h4>Your monthly expenses: @Model.TotalAmount</h4>
-
-    <div>
-        <button class="btn btn-success" @onclick="NavigateToAddExpense">Add expense</button> |
-        <button class="btn btn-secondary" @onclick="NavigateToRegularExpenses">Regular expenses</button>
-    </div>
-
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var expense in Model.CurrentMonthlySummary.Expenses)
-                {
+                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowForward" OnClick="NextMonth"></MudButton>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-5">
+                <MudCard>
+                    <MudCardContent>
+                        @if(_settingBudget)
+                        {
+                            <MudTextField Label="Set Budget" @bind-Value="_settingBudgetValue" />
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.h5">Your monthly budget: @Model.CurrentMonthlySummary.Budget</MudText>           
+                        }
+                    </MudCardContent>
+                    <MudCardActions>
+                        @if(_settingBudget)
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="ConfirmBudget">Confirm budget</MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="SetBudget">Set budget</MudButton>
+                        }
+                    </MudCardActions>
+                </MudCard>
+            </div>
+                <div class="col-5">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h5">Your monthly expenses: @Model.TotalAmount</MudText>
+                            <MudText Typo="Typo.h5">Saved: @Model.Saved</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddExpense">Add expense</MudButton> |
+                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToRegularExpenses">Regular expenses</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </div>       
+        </div>
+        <div class="row mb-5">
+            <div class="col-10">
+                <MudDataGrid T="ExpenseVM" Items="Model.CurrentMonthlySummary.Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
+                    Bordered="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
+                    <Columns>
+                        <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                        <PropertyColumn Property="q => q.Amount"></PropertyColumn>
+                        <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type">
+                            <EditTemplate>
+                                    <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type." 
+                                        Placeholder="@context.Item.ExpenseTypeVM.Name">
+                                    @foreach(var expType in Model.ExpenseTypes)
+                                    {
+                                        <MudSelectItem Value="expType">@expType.Name</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </EditTemplate>
+                        </PropertyColumn>
+                        <TemplateColumn>
+                            <CellTemplate>
+                                <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync"></MudIconButton>
+                                <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Delete" OnClick="() => DeleteExpenseMud(context.Item.Id)"></MudIconButton>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+                    
+            </div>          
+        </div>
+        <div class="row mb-5">
+            <div class="col-10">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>@expense.Name</td>
-                            <td>@expense.Amount</td>
-                            <td>@expense.ExpenseTypeVM.Name</td>
-                            <td>
-                                <button @onclick="() => NavigateToEditExpense(expense.Id)" class="btn btn-info">Edit</button>
-                            </td>
-                            <td>
-                                <button @onclick="() => ConfirmDeleteExpense(expense.Id)" class="btn btn-danger">Delete</button>
-                            </td>
+                            <th>Housing</th>
+                            <th>Utilities</th>
+                            <th>Food</th>
+                            <th>Clothes</th>
+                            <th>Health</th>
+                            <th>Entertainment</th>
+                            <th>Electronics</th>
+                            <th>Household</th>
+                            <th>Transportation</th>
+                            <th>Personal</th>
                         </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Housing</th>
-                    <th>Utilities</th>
-                    <th>Food</th>
-                    <th>Clothes</th>
-                    <th>Health</th>
-                    <th>Entertainment</th>
-                    <th>Electronics</th>
-                    <th>Household</th>
-                    <th>Transportation</th>
-                    <th>Personal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Model.HousingAmount</td>
-                    <td>@Model.UtilitiesAmount</td>
-                    <td>@Model.FoodAmount</td>
-                    <td>@Model.ClothesAmount</td>
-                    <td>@Model.HealthAmount</td>
-                    <td>@Model.EntertainmentAmount</td>
-                    <td>@Model.ElectronicsAmount</td>
-                    <td>@Model.HouseholdAmount</td>
-                    <td>@Model.TransportationAmount</td>
-                    <td>@Model.PersonalAmount</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.HousingAmount</td>
+                            <td>@Model.UtilitiesAmount</td>
+                            <td>@Model.FoodAmount</td>
+                            <td>@Model.ClothesAmount</td>
+                            <td>@Model.HealthAmount</td>
+                            <td>@Model.EntertainmentAmount</td>
+                            <td>@Model.ElectronicsAmount</td>
+                            <td>@Model.HouseholdAmount</td>
+                            <td>@Model.TransportationAmount</td>
+                            <td>@Model.PersonalAmount</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>            
+    </div>  
 }
 
 @code {
     private PlannerVM? Model;
+    private bool _settingBudget = false;
+    private decimal _settingBudgetValue;
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,6 +156,35 @@ else
     {
         await BudgetPlannerService.StartNewYearlySummary();
         StateHasChanged();
+    }
+
+    private async Task StartedEditingItem()
+    {
+        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
+    }
+
+    private async Task CommittedItemChanges(ExpenseVM expenseVM)
+    {
+        await BudgetPlannerService.EditExpenseAsync(expenseVM);
+    }
+
+    private async Task DeleteExpenseMud(int id)
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ContentText, "Do you really want to delete this expense?");
+        parameters.Add(x => x.ButtonText, "Delete");
+        parameters.Add(x => x.Color, Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if(!result.Canceled)
+        {
+            await DeleteExpense(id);
+        }
+
     }
 
     private async Task ConfirmDeleteExpense(int id)
@@ -132,6 +202,31 @@ else
     {
         await BudgetPlannerService.DeleteExpenseAsync(id);
         Model = await BudgetPlannerService.GetPlannerVMAsync();
+    }
+
+    private async Task PreviousMonth()
+    {
+        BudgetPlannerService.MoveMonthBack();
+        Model = await BudgetPlannerService.GetPlannerVMAsync();
+    }
+
+    private async Task NextMonth()
+    {
+        BudgetPlannerService.MoveMonthForward();
+        Model = await BudgetPlannerService.GetPlannerVMAsync();
+    }
+
+    private void SetBudget()
+    {
+        _settingBudgetValue = Model.CurrentMonthlySummary.Budget;
+        _settingBudget = true;
+    }
+
+    private async Task ConfirmBudget()
+    {
+        await BudgetPlannerService.SetBudgetAsync(_settingBudgetValue);
+        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        _settingBudget = false;
     }
 
     private void NavigateToSetBudget()
@@ -153,6 +248,35 @@ else
     {
         NavigationManager.NavigateTo($"/budgetplanner/editexpense/{id}");
     }
+
+    // OnClick="() => ConfirmDeleteExpense(context.Item.Id)"
 }
 
 
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var expense in Model.CurrentMonthlySummary.Expenses)
+        {
+            <tr>
+                <td>@expense.Name</td>
+                <td>@expense.Amount</td>
+                <td>@expense.ExpenseTypeVM.Name</td>
+                <td>
+                    <button @onclick="() => NavigateToEditExpense(expense.Id)" class="btn btn-info">Edit</button>
+                </td>
+                <td>
+                    <button @onclick="() => ConfirmDeleteExpense(expense.Id)" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@

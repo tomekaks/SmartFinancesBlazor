@@ -20,8 +20,10 @@ namespace SmartFinances.Application.Features.YearlySummaries.Handlers.Queries
 
         public async Task<YearlySummaryDto> Handle(GetYearlySummaryRequest request, CancellationToken cancellationToken)
         {
-            var yearlySummary = await _unitOfWork.YearlySummaries.GetAsync(q => q.AccountId == request.AccountId &&
-                                                                                q.Year == request.Year);
+            var yearlySummary = await _unitOfWork.YearlySummaries.GetYearlySummaryWithChildren(request.AccountId, request.Year);
+
+            //var yearlySummary = await _unitOfWork.YearlySummaries.GetAsync(q => q.AccountId == request.AccountId &&
+            //                                                                    q.Year == request.Year);
 
             if (yearlySummary == null)
             {

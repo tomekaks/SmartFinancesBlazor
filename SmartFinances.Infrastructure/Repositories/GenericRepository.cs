@@ -1,19 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartFinances.Application.Interfaces.Repositories;
 using SmartFinances.Infrastructure.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly ApplicationDbContext _context;
-        private readonly DbSet<T> _db;
+        protected readonly DbSet<T> _db;
 
         public GenericRepository(ApplicationDbContext context)
         {

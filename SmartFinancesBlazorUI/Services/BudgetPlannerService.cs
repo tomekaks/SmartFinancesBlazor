@@ -19,8 +19,8 @@ namespace SmartFinancesBlazorUI.Services
         }
 
         public AccountVM CurrentAccount { get; set; } = new();
-        public YearlySummaryVM CurrentYearlySummary { get; set; }
-        public MonthlySummaryVM CurrentMonthlySummary { get; set; }
+        public YearlySummaryVM? CurrentYearlySummary { get; set; }
+        public MonthlySummaryVM? CurrentMonthlySummary { get; set; }
         public int CurrentYear { get; set; } = DateTime.Now.Year;
         public int CurrentMonth { get; set; } = DateTime.Now.Month;
 
@@ -34,9 +34,7 @@ namespace SmartFinancesBlazorUI.Services
                 return new PlannerVM();
             }
 
-            CurrentYearlySummary.MonthlySummaries = await GetMonthlySummariesByYearAsync(CurrentYearlySummary.Id);
-
-            CurrentMonthlySummary = GetCurrentMonthlySummary();
+            CurrentMonthlySummary = SetCurrentMonthlySummary();
 
             return new PlannerVM()
             {
@@ -105,8 +103,22 @@ namespace SmartFinancesBlazorUI.Services
         {
             var updateDto = new UpdateMonthlySummaryDto()
             {
-                Id = CurrentAccount.Id,
+                Id = CurrentMonthlySummary.Id,
                 Budget = setBudgetVM.Budget
+            };
+
+            await AddBearerToken();
+            await _client.MonthlySummaryPUTAsync(updateDto);
+
+            return true;
+        }
+
+        public async Task<bool> SetBudgetAsync(decimal budget)
+        {
+            var updateDto = new UpdateMonthlySummaryDto()
+            {
+                Id = CurrentMonthlySummary.Id,
+                Budget = budget
             };
 
             await AddBearerToken();
@@ -202,6 +214,22 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task<bool> EditExpenseAsync(ExpenseVM expenseVM)
+        {
+            var editExpenseDto = new EditExpenseDto()
+            {
+                Id = expenseVM.Id,
+                Name = expenseVM.Name,
+                Amount = expenseVM.Amount,
+                ExpenseTypeId = expenseVM.ExpenseTypeVM.Id
+            };
+
+            await AddBearerToken();
+            await _client.ExpensesPUTAsync(editExpenseDto);
+
+            return true;
+        }
+
         public async Task<bool> DeleteExpenseAsync(int id)
         {
             await _client.ExpensesDELETEAsync(id);
@@ -237,7 +265,21 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public void MoveMonthForward()
+        {
+            if (CurrentMonth < 12)
+            {
+                CurrentMonth++;
+            }
+        }
 
+        public void MoveMonthBack()
+        {
+            if (CurrentMonth > 1)
+            {  
+                CurrentMonth--;
+            }
+        }
 
         private async Task<AccountVM> GetAccountAsync()
         {
@@ -249,7 +291,7 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<AccountVM>(accountDto);
         }
 
-        private MonthlySummaryVM GetCurrentMonthlySummary()
+        private MonthlySummaryVM SetCurrentMonthlySummary()
         {
             var currentMonthlySummary = CurrentYearlySummary.MonthlySummaries.FirstOrDefault(q => q.Month == CurrentMonth);
             if (currentMonthlySummary == null)

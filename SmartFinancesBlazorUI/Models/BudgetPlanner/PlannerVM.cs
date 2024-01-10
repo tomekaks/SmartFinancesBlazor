@@ -2,15 +2,12 @@
 {
     public class PlannerVM
     {
-        public PlannerVM()
-        {
-            
-        }
-
         public YearlySummaryVM? YearlySummary { get; set; }
         public MonthlySummaryVM? CurrentMonthlySummary { get; set; }
+        public List<ExpenseTypeVM> ExpenseTypes { get; set; } = new();
         public decimal Budget { get; set; }
         public decimal TotalAmount { get => GetTotalAmount(); }
+        public decimal Saved { get => Budget - TotalAmount; }
         public decimal HousingAmount { get => GetTotalAmountByExpenseType(Constants.HOUSING); }
         public decimal UtilitiesAmount { get => GetTotalAmountByExpenseType(Constants.UTILITIES); }
         public decimal FoodAmount { get => GetTotalAmountByExpenseType(Constants.FOOD); }
@@ -38,12 +35,15 @@
 
         private decimal GetTotalAmountByExpenseType(string expenseType)
         {
-            var expenses = CurrentMonthlySummary.Expenses.FindAll(q => q.ExpenseTypeVM.Name == expenseType);
             decimal amount = 0;
+            var expenses = CurrentMonthlySummary.Expenses.FindAll(q => q.ExpenseTypeVM.Name == expenseType);
 
-            foreach (var item in expenses)
+            if(expenses != null && expenses.Any())
             {
-                amount += item.Amount;
+                foreach (var item in expenses)
+                {
+                    amount += item.Amount;
+                }
             }
 
             return amount;
