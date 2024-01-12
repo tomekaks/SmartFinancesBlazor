@@ -1,10 +1,10 @@
-﻿using SmartFinancesBlazorUI.Models.Accounts;
-using SmartFinancesBlazorUI.Services.Base;
+﻿using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Models.Dashboard
 {
     public class DashboardVM
     {
+        public List<AccountVM> Accounts { get; set; }
         public AccountVM CurrentAccount { get; set; } = new AccountVM();
     }
 }

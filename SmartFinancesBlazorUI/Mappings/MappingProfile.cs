@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SmartFinancesBlazorUI.Models.Accounts;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Models.Dashboard;

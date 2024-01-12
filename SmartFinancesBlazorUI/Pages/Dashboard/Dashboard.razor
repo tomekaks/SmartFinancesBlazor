@@ -4,6 +4,39 @@
 
 <PageTitle>Dashboard</PageTitle>
 
+@if(Model.Accounts is null)
+{
+    <p>Loading data...</p>
+}
+else
+{
+    <div class="container mt-4">
+        @foreach(var account in Model.Accounts)
+        {
+            <div class="row mb-2">
+                <div class="col-8">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@account.Type</MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText>Number: @account.Number</MudText>
+                            <MudText>Balance: @account.Balance</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => SetAsCurrent(account.Number)">Set as current</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </div>
+            </div>
+        }
+    </div>
+}
 <div class="container mt-2">
     <h3>Dashboard</h3>
 
@@ -24,7 +57,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model.CurrentAccount = await DashboardService.LoadCurrentAccountAsync();
+        Model = await DashboardService.LoadDashboardVM();   
+    }
+
+    private async Task SetAsCurrent(string accountNumber)
+    {
+        await DashboardService.ChangeAccountAsync(accountNumber);
+        Model = await DashboardService.LoadDashboardVM();
     }
 
     private void AddFunds()

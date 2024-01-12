@@ -1,4 +1,4 @@
-﻿namespace SmartFinancesBlazorUI.Models.Accounts
+﻿namespace SmartFinancesBlazorUI.Models.Dashboard
 {
     public enum AccountType
     {

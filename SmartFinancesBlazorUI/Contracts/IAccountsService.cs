@@ -1,4 +1,4 @@
-﻿using SmartFinancesBlazorUI.Models.Accounts;
+﻿using SmartFinancesBlazorUI.Models.Dashboard;
 
 namespace SmartFinancesBlazorUI.Contracts
 {
