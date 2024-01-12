@@ -3,6 +3,7 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
 @inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 
 <div class="container mt-4">
@@ -13,7 +14,7 @@
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Regular expenses</MudText>
                     <MudSpacer />
-                    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddRegularExpense">Add</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.AddCircle" OnClick="NavigateToAddRegularExpense">Add</MudButton>
                 </ToolBarContent>
                 <Columns>
                     <PropertyColumn Property="q => q.Name"></PropertyColumn>
@@ -31,8 +32,9 @@
                     </PropertyColumn>
                     <TemplateColumn>
                         <CellTemplate>
-                            <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync"></MudIconButton>
-                            <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteRegularExpense(context.Item.Id)"></MudIconButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" EndIcon="@Icons.Material.Filled.Send" OnClick="() => UseRegularExpense(context.Item)">Use</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteRegularExpense(context.Item.Id)">Delete</MudButton>
                         </CellTemplate>
                     </TemplateColumn>
                 </Columns>
@@ -65,21 +67,6 @@
         await BudgetPlannerService.EditRegularExpenseAsync(regularExpenseVM);
     }
 
-    private void NavigateToAddRegularExpense()
-    {
-        NavigationManager.NavigateTo("/budgetplanner/addregularexpense");
-    }
-
-    private void NavigateToEditRegularExpense(int id)
-    {
-        NavigationManager.NavigateTo($"/budgetplanner/editregularexpense/{id}");
-    }
-
-    private void NavigateToPlanner()
-    {
-        NavigationManager.NavigateTo("/budgetplanner");
-    }
-
     private async Task ConfirmDeleteRegularExpense(int id)
     {
         var parameters = new DialogParameters<Dialog>();
@@ -103,5 +90,27 @@
     {
         await BudgetPlannerService.DeleteRegularExpenseAsync(id);
         Model.RegularExpenses = await BudgetPlannerService.GetRegularExpensesAsync();
+    }
+
+    private async Task UseRegularExpense(RegularExpenseVM regularExpenseVM)
+    {
+        await BudgetPlannerService.UseRegularExpenseAsync(regularExpenseVM);
+        Snackbar.Add("Added to current expenses.", Severity.Success, 
+        config => { config.SnackbarVariant = Variant.Filled; config.CloseAfterNavigation = true; });
+    }
+
+    private void NavigateToAddRegularExpense()
+    {
+        NavigationManager.NavigateTo("/budgetplanner/addregularexpense");
+    }
+
+    private void NavigateToEditRegularExpense(int id)
+    {
+        NavigationManager.NavigateTo($"/budgetplanner/editregularexpense/{id}");
+    }
+
+    private void NavigateToPlanner()
+    {
+        NavigationManager.NavigateTo("/budgetplanner");
     }
 }

@@ -258,6 +258,20 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task UseRegularExpenseAsync(RegularExpenseVM regularExpenseVM)
+        {
+            var expenseDto = new ExpenseDto()
+            {
+                Name = regularExpenseVM.Name,
+                Amount = regularExpenseVM.Amount,
+                ExpenseTypeId = regularExpenseVM.ExpenseTypeVM.Id,
+                MonthlySummaryId = CurrentMonthlySummary.Id
+            };
+
+            await AddBearerToken();
+            await _client.ExpensesPOSTAsync(expenseDto);
+        }
+
         public async Task<bool> DeleteRegularExpenseAsync(int id)
         {
             await _client.RegularExpensesDELETEAsync(id);

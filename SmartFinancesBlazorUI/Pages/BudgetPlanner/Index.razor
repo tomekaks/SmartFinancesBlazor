@@ -98,8 +98,8 @@ else
                         </PropertyColumn>
                         <TemplateColumn>
                             <CellTemplate>
-                                <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync"></MudIconButton>
-                                <MudIconButton Size="@Size.Medium" Icon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteExpense(context.Item.Id)"></MudIconButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteExpense(context.Item.Id)">Delete</MudButton>
                             </CellTemplate>
                         </TemplateColumn>
                     </Columns>

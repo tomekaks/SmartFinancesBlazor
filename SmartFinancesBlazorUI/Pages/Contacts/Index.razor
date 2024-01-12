@@ -2,65 +2,112 @@
 @inject IContactsService ContactsService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@inject IDialogService DialogService
 
-<h1>Contacts</h1>
+<PageTitle>Contacts</PageTitle>
 
-<div>
-    <button class="btn btn-secondary" @onclick="NavigateToAddContact">Add new</button>
-</div>
+@if(Model.Contacts is null)
+{
+    <p>Loading data...</p>
+}
+else
+{
+    <div class="container mt-2">
+        <div class="row mb-2">
+            <div class="col-10">
+                <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="false" EditMode="DataGridEditMode.Form"
+                             Bordered="true" CommittedItemChanges="CommittedItemChanges">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h4">Contacts</MudText>
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddContact">Add contact</MudButton>
+                    </ToolBarContent>
+                    <Columns>
+                        <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                        <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
+                        <TemplateColumn>
+                            <CellTemplate>
+                                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteContact(context.Item.Id)">Delete</MudButton>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Account number</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var contact in contacts)
-            {
+    <div>
+        <button class="btn btn-secondary" @onclick="NavigateToAddContact">Add new</button>
+    </div>
+
+    <div>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@contact.Name</td>
-                    <td>@contact.AccountNumber</td>
-                    <td>
-                        <button @onclick="() => NavigateToEditContact(contact.Id)" class="btn btn-info">Edit</button>
-                    </td>
-                    <td>
-                        <button @onclick="() => ConfirmDeleteContact(contact.Id)" class="btn btn-danger">Delete</button>
-                    </td>
+                    <th>Name</th>
+                    <th>Account number</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var contact in Model.Contacts)
+                {
+                    <tr>
+                        <td>@contact.Name</td>
+                        <td>@contact.AccountNumber</td>
+                        <td>
+                            <button @onclick="() => NavigateToEditContact(contact.Id)" class="btn btn-info">Edit</button>
+                        </td>
+                        <td>
+                            <button @onclick="() => ConfirmDeleteContact(contact.Id)" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
 
 
 @code {
-    private List<ContactVM> contacts = new List<ContactVM>();
+    private ContactsVM Model;
 
     protected override async Task OnInitializedAsync()
     {
-        contacts = await ContactsService.GetContactsAsync();
+        Model = new ContactsVM();
+        Model.Contacts = await ContactsService.GetContactsAsync();
+    }
+
+    private async Task CommittedItemChanges(ContactVM contact)
+    {
+        await ContactsService.UpdateContactAsync(contact);
     }
 
     private async Task ConfirmDeleteContact(int id)
     {
-        var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ContentText, "Do you really want to delete this contact?");
+        parameters.Add(x => x.ButtonText, "Delete");
+        parameters.Add(x => x.Color, Color.Error);
 
-        if (result)
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
         {
             await DeleteContact(id);
-            StateHasChanged();
         }
     }
 
     private async Task DeleteContact(int id)
     {
         await ContactsService.DeleteContactAsync(id);
-        contacts = await ContactsService.GetContactsAsync();
+        Model.Contacts = await ContactsService.GetContactsAsync();
     }
 
     private void NavigateToEditContact(ContactVM contactVM)
@@ -76,4 +123,17 @@
     {
         NavigationManager.NavigateTo("/contacts/addcontact");
     }
+
+
+
+    // private async Task ConfirmDeleteContact(int id)
+    // {
+    //     var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
+
+    //     if (result)
+    //     {
+    //         await DeleteContact(id);
+    //         StateHasChanged();
+    //     }
+    // }
 }
