@@ -1,6 +1,7 @@
 ﻿@page "/dashboard"
 @inject NavigationManager NavigationManager
 @inject IDashboardService DashboardService
+@inject IDialogService DialogService
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -21,7 +22,10 @@ else
                                 <MudText Typo="Typo.h6">@account.Type</MudText>
                             </CardHeaderContent>
                             <CardHeaderActions>
-                                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
+                                @if (account.Number == Model.CurrentAccount.Number)
+                                {
+                                    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
+                                }  
                             </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>
@@ -29,7 +33,14 @@ else
                             <MudText>Balance: @account.Balance</MudText>
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => SetAsCurrent(account.Number)">Set as current</MudButton>
+                            @if(account.Number == Model.CurrentAccount.Number)
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
+                            }
+                            else
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => ConfirmSetCurrentAccount(account.Number)">Set as current</MudButton>
+                            }
                         </MudCardActions>
                     </MudCard>
                 </div>
@@ -37,20 +48,6 @@ else
         }
     </div>
 }
-<div class="container mt-2">
-    <h3>Dashboard</h3>
-
-    <div>Account number: @Model.CurrentAccount.Number</div>
-
-    <div>Balance: @Model.CurrentAccount.Balance</div>
-
-    <div>
-        <button class="btn btn-success" @onclick="AddFunds">Add funds</button>
-    </div>
-</div>
-
-
-
 
 @code {
     public DashboardVM Model { get; set; } = new();
@@ -58,6 +55,24 @@ else
     protected override async Task OnInitializedAsync()
     {
         Model = await DashboardService.LoadDashboardVM();   
+    }
+
+    private async Task ConfirmSetCurrentAccount(string accountNumber)
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ContentText, "Are you sure you want to change accounts?");
+        parameters.Add(x => x.ButtonText, "Yes");
+        parameters.Add(x => x.Color, Color.Primary);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = DialogService.Show<Dialog>("Change account", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await SetAsCurrent(accountNumber);
+        }
     }
 
     private async Task SetAsCurrent(string accountNumber)

@@ -37,39 +37,7 @@ else
         </div>
     </div>
 
-    <div>
-        <button class="btn btn-secondary" @onclick="NavigateToAddContact">Add new</button>
-    </div>
-
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Account number</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var contact in Model.Contacts)
-                {
-                    <tr>
-                        <td>@contact.Name</td>
-                        <td>@contact.AccountNumber</td>
-                        <td>
-                            <button @onclick="() => NavigateToEditContact(contact.Id)" class="btn btn-info">Edit</button>
-                        </td>
-                        <td>
-                            <button @onclick="() => ConfirmDeleteContact(contact.Id)" class="btn btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
 }
-
 
 
 @code {

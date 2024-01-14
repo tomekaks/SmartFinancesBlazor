@@ -21,10 +21,10 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<DashboardVM> LoadDashboardVM()
         {
-            UserAccounts = await GetUsersAccountsAsync();
+            UserAccounts = await GetAllAccountsAsync();
             var sortedAccounts = UserAccounts.OrderBy(q => q.Type).ToList();
 
-            var currentAccount = await LoadCurrentAccountAsync2();
+            var currentAccount = await LoadCurrentAccountAsync();
             
             return new DashboardVM()
             {
@@ -33,20 +33,30 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
-        public async Task<List<AccountVM>> GetUsersAccountsAsync()
+        public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
         {
-            await AddBearerToken();
-            var accountsDto = await _client.AccountsGetAllAsync();
+            var account = await GetChangedAccountAsync();
 
-            if(accountsDto is null ||  accountsDto.Count == 0)
+            account.Balance += addFundsVM.Amount;
+
+            var updateAccountDto = new UpdateAccountDto
             {
-                throw new Exception("Something went wrong");
-            }
+                Id = account.Id,
+                Balance = account.Balance
+            };
 
-            return _mapper.Map<List<AccountVM>>(accountsDto);
+            await AddBearerToken();
+            await _client.AccountsPUTAsync(updateAccountDto);
+
+            return true;
         }
 
-        public async Task<AccountVM> LoadCurrentAccountAsync()
+        public async Task ChangeAccountAsync(string accountNumber)
+        {
+            await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, accountNumber);
+        }
+
+        private async Task<AccountVM> LoadCurrentAccountAsync()
         {
             bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
 
@@ -59,36 +69,15 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<AccountVM>(accountDto);
         }
 
-        public async Task<AccountVM> GetMainAccountAsync()
-        {
-            await AddBearerToken();
-            var account = await _client.AccountsGetMainAccountAsync();
-            await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, account.Number);
-
-            return _mapper.Map<AccountVM>(account);
-        }
-
-        public async Task<AccountVM> LoadCurrentAccountAsync2()
-        {
-            bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
-
-            if (!isCurrentAccountSet)
-            {
-                return await GetMainAccountAsync2();
-            }
-
-            var accountDto = await GetAccountAsync2();
-            return _mapper.Map<AccountVM>(accountDto);
-        }
-
-        public async Task<AccountVM> GetMainAccountAsync2()
+        private async Task<AccountVM> GetMainAccountAsync()
         {
             var account = UserAccounts.FirstOrDefault(q => q.Type == AccountType.Main);
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, account.Number);
 
             return account;
         }
-        private async Task<AccountVM> GetAccountAsync2()
+
+        private async Task<AccountVM> GetChangedAccountAsync()
         {
             var accountNumber = await GetCurrentAccountNumberAsync();
             var account = UserAccounts.FirstOrDefault(q => q.Number == accountNumber);
@@ -101,27 +90,17 @@ namespace SmartFinancesBlazorUI.Services
             return account;
         }
 
-
-        public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
+        private async Task<List<AccountVM>> GetAllAccountsAsync()
         {
-            var accountDto = await GetAccountAsync();
-
-            accountDto.Balance += addFundsVM.Amount;
-            var updateAccountDto = new UpdateAccountDto
-            {
-                Id = accountDto.Id,
-                Balance = accountDto.Balance
-            };
-
             await AddBearerToken();
-            await _client.AccountsPUTAsync(updateAccountDto);
+            var accountsDto = await _client.AccountsGetAllAsync();
 
-            return true;
-        }
+            if (accountsDto is null || accountsDto.Count == 0)
+            {
+                throw new Exception("Something went wrong");
+            }
 
-        public async Task ChangeAccountAsync(string accountNumber)
-        {
-            await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, accountNumber);
+            return _mapper.Map<List<AccountVM>>(accountsDto);
         }
 
         private async Task<AccountDto> GetAccountAsync()
@@ -138,5 +117,46 @@ namespace SmartFinancesBlazorUI.Services
 
             return accountDto;
         }
+
+
+
+        //public async Task<AccountVM> LoadCurrentAccountAsync()
+        //{
+        //    bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
+
+        //    if (!isCurrentAccountSet)
+        //    {
+        //        return await GetMainAccountAsync();
+        //    }
+
+        //    var accountDto = await GetAccountAsync();
+        //    return _mapper.Map<AccountVM>(accountDto);
+        //}
+
+        //public async Task<AccountVM> GetMainAccountAsync()
+        //{
+        //    await AddBearerToken();
+        //    var account = await _client.AccountsGetMainAccountAsync();
+        //    await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, account.Number);
+
+        //    return _mapper.Map<AccountVM>(account);
+        //}
+
+        //public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
+        //{
+        //    var accountDto = await GetAccountAsync();
+
+        //    accountDto.Balance += addFundsVM.Amount;
+        //    var updateAccountDto = new UpdateAccountDto
+        //    {
+        //        Id = accountDto.Id,
+        //        Balance = accountDto.Balance
+        //    };
+
+        //    await AddBearerToken();
+        //    await _client.AccountsPUTAsync(updateAccountDto);
+
+        //    return true;
+        //}
     }
 }

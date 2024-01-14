@@ -157,7 +157,7 @@ else
     private async Task StartNewYearlySummary()
     {
         await BudgetPlannerService.StartNewYearlySummary();
-        StateHasChanged();
+        Model = await BudgetPlannerService.GetPlannerVMAsync();
     }
 
     private async Task StartedEditingItem()

@@ -4,14 +4,61 @@
 
 <PageTitle>Registration</PageTitle>
 
-<h3 class="mb-3">Register</h3>
-
 @if(!string.IsNullOrEmpty(Message))
 {
     <div class="alert alert-danger">@Message</div>   
 }
 
-<div class="row">
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Register</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="User name" 
+                                  @bind-Value="Model.UserName" For="@(() => Model.UserName)" />
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="Model.Email" For="@(() => Model.Email)" />
+                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                  @bind-Value="Model.Password" For="@(() => Model.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+                                  @bind-Value="Model.ConfirmPassword" For="@(() => Model.ConfirmPassword)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+
+
+
+@code {
+    public RegisterVM Model { get; set; } = new();
+    public string Message { get; set; } = string.Empty;
+
+    private async Task HandleSubmit()
+    {
+        var result = await AuthenticationService.RegisterAsync(Model);
+
+        if(result)
+        {
+            NavigationManager.NavigateTo("authentication/login");
+        }
+        Message = "Something went wrong, please try again.";
+    }
+}
+
+
+
+            @* <div class="row">
     <div class="col-md-4">
         <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
@@ -43,20 +90,4 @@
             <button type="submit" class="btn btn-primary">Register</button>
         </EditForm>
     </div>
-</div>
-
-@code {
-    public RegisterVM Model { get; set; } = new();
-    public string Message { get; set; } = string.Empty;
-
-    private async Task HandleSubmit()
-    {
-        var result = await AuthenticationService.RegisterAsync(Model);
-
-        if(result)
-        {
-            NavigationManager.NavigateTo("authentication/login");
-        }
-        Message = "Something went wrong, please try again.";
-    }
-}
+</div> *@

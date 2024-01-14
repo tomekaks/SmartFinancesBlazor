@@ -14,5 +14,6 @@
         public const string PERSONAL = "Personal";
 
         public const string CURRENTACCOUNT = "CurrentAccount";
+        public const string TOKEN = "token";
     }
 }

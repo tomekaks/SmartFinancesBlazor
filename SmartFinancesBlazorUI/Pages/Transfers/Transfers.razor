@@ -31,48 +31,6 @@ else
     </div>
 }
 
-    <div>
-        <button class="btn btn-success" @onclick="NavigateToNewTransfer">New Transfer</button>
-    </div>
-
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Sender</th>
-                    <th>Receiver</th>
-                    <th>Title</th>
-                    <th>Amount</th>
-                    <th>Send date</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach (var transfer in Model.Transfers)
-            {
-                if (transfer.SenderAccountNumber.Equals(Model.AccountNumber))
-                {
-                    <tr>
-                        <td>@transfer.SenderName</td>
-                        <td>@transfer.ReceiverName</td>
-                        <td>@transfer.Title</td>
-                        <td>-@transfer.Amount</td>
-                        <td>@transfer.SendTime.ToShortDateString()</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td>@transfer.SenderName</td>
-                        <td>@transfer.ReceiverName</td>
-                        <td>@transfer.Title</td>
-                        <td>@transfer.Amount</td>
-                        <td>@transfer.SendTime.ToShortDateString()</td>
-                    </tr>
-                }
-            }
-            </tbody>
-        </table>
-    </div>
 
 @code {
     private TransfersOverviewVM Model = new();

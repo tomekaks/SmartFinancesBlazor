@@ -4,14 +4,51 @@
 
 <PageTitle>Login</PageTitle>
 
-<h3 class="mb-3">Login</h3>
-
 @if (!string.IsNullOrEmpty(Message))
 {
     <div class="alert alert-danger">@Message</div>   
 }
 
-<div class="row">
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Login</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="First name"
+                                  @bind-Value="Model.UserName" For="@(() => Model.UserName)" />
+                    <MudTextField Label="Password" Class="mt-3"
+                                  @bind-Value="Model.Password" For="@(() => Model.Password)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    public LoginVM Model { get; set; } = new LoginVM();
+    public string Message { get; set; } = string.Empty;
+
+    private async void HandleSubmit()
+    {
+        if (await AuthenticationService.LoginAsync(Model))
+        {
+            NavigationManager.NavigateTo("dashboard");
+        }
+        Message = "Username/password combination is unknown";
+    }
+}
+
+
+@* <div class="row">
     <div class="col-md-4">
         <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
@@ -28,30 +65,10 @@
                 <ValidationMessage For="@(() => Model.Password)" />
             </div>
 
-            <div class="form-group mb-2">
-                <div class="checkbox">
-                    <InputCheckbox @bind-Value="Model.RememberMe" id="RememberMe" />
-                    <label for="RememberMe">Remember me?</label>
-                </div>
-            </div>
-
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Log in</button>
             </div>
         </EditForm>
     </div>
 </div>
-
-@code {
-    public LoginVM Model { get; set; } = new LoginVM();
-    public string Message { get; set; } = string.Empty;
-
-    private async void HandleSubmit()
-    {
-        if (await AuthenticationService.LoginAsync(Model))
-        {
-            NavigationManager.NavigateTo("dashboard");
-        }
-        Message = "Username/password combination is unknown";
-    }
-}
+ *@
