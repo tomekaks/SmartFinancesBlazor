@@ -2,39 +2,36 @@
 @inject NavigationManager NavigationManager
 @inject IContactsService ContactService
 
-<h1>Create Contact</h1>
+<PageTitle>Add Contact</PageTitle>
 
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@contact" OnValidSubmit="@HandleSubmit">
-            <DataAnnotationsValidator />
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Add Contact</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Name"
+                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
+                    <MudTextField Label="Account number" Class="mt-3"
+                                  @bind-Value="Model.AccountNumber" For="@(() => Model.AccountNumber)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Add</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToContacts">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
-            <div class="form-group">
-                <label for="Name">Name</label>
-                <InputText id="Name" @bind-Value="contact.Name" class="form-control" />
-                <ValidationMessage For="@(() => contact.Name)" />
-            </div>
-
-            <div class="form-group">
-                <label for="AccountNumber">Account Number</label>
-                <InputText id="AccountNumber" @bind-Value="contact.AccountNumber" class="form-control" />
-                <ValidationMessage For="@(() => contact.AccountNumber)" />
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Add</button>
-            </div>
-
-        </EditForm>
-    </div>
-</div>
-
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToContacts">Back to Contacts</button>
-</div>
 
 @code {
-    private NewContactVM contact = new NewContactVM();
+    private NewContactVM Model = new NewContactVM();
 
     private void NavigateToContacts()
     {
@@ -43,7 +40,7 @@
 
     private async Task HandleSubmit()
     {
-        bool response = await ContactService.CreateContactAsync(contact);
+        bool response = await ContactService.CreateContactAsync(Model);
         if (response)
         {
             NavigateToContacts();

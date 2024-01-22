@@ -4,9 +4,72 @@
 
 <PageTitle>Add expense</PageTitle>
 
-<h1>Add expense</h1>
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Add expense</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Name"
+                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
+                    <MudTextField Label="Amount" Class="mt-3"
+                                  @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                    <MudSelect T="int" Label="Expense type" @bind-Value="Model.ExpenseTypeId" For="@(() => Model.ExpenseTypeId)">
+                        <MudSelectItem Value="0">Select expense type</MudSelectItem>
+                        @foreach(var type in Model.ExpenseTypes)
+                        {
+                            <MudSelectItem T="int" Value="type.Id">@type.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudCheckBox T="bool" @bind-Checked="Model.IsRegular" Label="Regular expense"></MudCheckBox>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Add</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToIndex">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
-<div class="row">
+
+@code {
+    private AddExpenseVM Model = new AddExpenseVM();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        bool response = await BudgetPlannerService.AddExpenseAsync(Model);
+
+        if (Model.IsRegular)
+        {
+            await BudgetPlannerService.AddRegularExpenseAsync(Model);
+        }
+
+        if(response)
+        {
+            NavigateToIndex();
+        }
+    }
+
+    private void NavigateToIndex()
+    {
+        NavigationManager.NavigateTo("/budgetplanner");
+    }
+}
+
+
+
+@* <div class="row">
     <div class="col-md-4">
         <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
             <DataAnnotationsValidator />
@@ -46,38 +109,4 @@
             </div>
         </EditForm>
     </div>
-</div>
-
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToIndex">Back to Planner</button>
-</div>
-
-@code {
-    private AddExpenseVM Model = new AddExpenseVM();
-
-    protected override async Task OnInitializedAsync()
-    {
-        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
-    }
-
-    private async Task HandleSubmit()
-    {
-        bool response = await BudgetPlannerService.AddExpenseAsync(Model);
-
-        if (Model.IsRegular)
-        {
-            await BudgetPlannerService.AddRegularExpenseAsync(Model);
-        }
-
-        if(response)
-        {
-            NavigateToIndex();
-        }
-    }
-
-    private void NavigateToIndex()
-    {
-        NavigationManager.NavigateTo("/budgetplanner");
-    }
-}
-
+</div> *@

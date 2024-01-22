@@ -59,15 +59,12 @@ namespace SmartFinances.API.Controllers
             return Ok();
         }
 
-        [HttpPost("{type}")]
-        public async Task<IActionResult> CreateAsync(int type)
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CreateAccountDto accountDto)
         {
-            var createAccountDto = new CreateAccountDto()
-            {
-                Type = type,
-                UserId = CurrentUserId
-            };
-            await _mediator.Send(new CreateAccountCommand { CreateAccountDto = createAccountDto });
+            accountDto.UserId = CurrentUserId;
+
+            await _mediator.Send(new CreateAccountCommand { CreateAccountDto = accountDto });
             return Ok();
         }
     }

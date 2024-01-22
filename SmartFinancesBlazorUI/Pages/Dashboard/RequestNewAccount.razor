@@ -1,50 +1,81 @@
 ﻿@page "/dashboard/requestnewaccount"
 @inject NavigationManager NavigationManager
-@inject IAccountsService AccountsService
+@inject IDashboardService DashboardService
 
 <PageTitle>Request a New Account</PageTitle>
 
-<h3>Request a New Account</h3>
+@if(Model.Accounts is null)
+{
+    <p>Loading....</p>
+}
+else
+{
+    <MudText Typo="Typo.h4" Class="mb-4">Request a new account</MudText>
+    <MudGrid Class="mb-4">
+        @foreach (var type in Model.AvailableAccountTypes)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6" Class="ml-2">@type.ToString()</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            @* <MudText>@GetDescriptionForAccountType(type)</MudText> *@
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestAccount((int)type))">Request</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+        }
+    </MudGrid>
+    <MudItem>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDashboard">Back</MudButton>
+    </MudItem>
+}
 
-<EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
-    <DataAnnotationsValidator />
 
-    <div class="form-group">
-        <label for="AccountType" class="control-label">Account Type</label>
-        <InputSelect id="AccountType" @bind-Value="Model.AccountType">
-            @foreach (AccountType type in Enum.GetValues(typeof(AccountType)))
-            {
-                if (type != AccountType.Main)
-                {
-                    <option value="@type">@type</option>
-                }
-            }
-        </InputSelect>
-    </div>
-    <div class="form-group mb-2">
-        <input type="submit" value="Request" class="btn btn-success" />
-    </div>
-</EditForm>
 
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToAccounts">Back</button>
-</div>
 
 @code {
     private NewAccountVM Model = new();
 
-    private async Task HandleSubmit()
+    protected override async Task OnInitializedAsync()
     {
-        var response = await AccountsService.RequestNewAccountAsync(Model);
+        Model.Accounts = await DashboardService.GetAllAccountsAsync();
+        Model.AvailableAccountTypes = GetAvailableAccountTypes();
+    }
+
+    private async Task RequestAccount(int type)
+    {
+        var response = await DashboardService.RequestNewAccountAsync(type);
         if (response)
         {
-            NavigateToAccounts();
+            NavigateToDashboard();
         }
     }
 
-    private void NavigateToAccounts()
+    private List<AccountType> GetAvailableAccountTypes()
     {
-        NavigationManager.NavigateTo("/accounts");
+        var availableAccountTypes = new List<AccountType>();
+
+        var possesedAccountTypes = Model.Accounts.Select(q => q.Type);
+
+        foreach (AccountType type in Enum.GetValues(typeof(AccountType)))
+        {
+            if(!possesedAccountTypes.Contains(type))
+            {
+                availableAccountTypes.Add(type);
+            }
+        }
+        return availableAccountTypes;
+    }
+
+    private void NavigateToDashboard()
+    {
+        NavigationManager.NavigateTo("/dashboard");
     }
 
 }

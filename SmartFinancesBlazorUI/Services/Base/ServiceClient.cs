@@ -69,12 +69,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AccountsPOSTAsync(int type);
+        System.Threading.Tasks.Task AccountsPOSTAsync(CreateAccountDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AccountsPOSTAsync(int type, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task AccountsPOSTAsync(CreateAccountDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -799,33 +799,32 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task AccountsPOSTAsync(int type)
+        public virtual System.Threading.Tasks.Task AccountsPOSTAsync(CreateAccountDto body)
         {
-            return AccountsPOSTAsync(type, System.Threading.CancellationToken.None);
+            return AccountsPOSTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task AccountsPOSTAsync(int type, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task AccountsPOSTAsync(CreateAccountDto body, System.Threading.CancellationToken cancellationToken)
         {
-            if (type == null)
-                throw new System.ArgumentNullException("type");
-
             var client_ = _httpClient;
             var disposeClient_ = false;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, _settings.Value);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Accounts/{type}"
-                    urlBuilder_.Append("api/Accounts/");
-                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(type, System.Globalization.CultureInfo.InvariantCulture)));
+                    // Operation Path: "api/Accounts"
+                    urlBuilder_.Append("api/Accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3682,6 +3681,18 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public string UserId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.0.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateAccountDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public string UserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public int Type { get; set; }
 
     }
 

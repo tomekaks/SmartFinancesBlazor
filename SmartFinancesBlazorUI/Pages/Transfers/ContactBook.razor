@@ -1,55 +1,68 @@
 ﻿@page "/transfers/contactbook"
 @inject IContactsService ContactsService
 @inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
+@inject IDialogService DialogService
 
 <PageTitle>Saved Contacts</PageTitle>
 
-<h3>Saved Contacts</h3>
+@if (Model.Contacts is null)
+{
+    <p>Loading data...</p>
+}
+else
+{
+    <div class="container mt-2">
+        <div class="row mb-2">
+            <div class="col-10">
+                <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="true" Bordered="true">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h4">Contacts</MudText>
+                    </ToolBarContent>
+                    <Columns>
+                        <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                        <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
+                        <TemplateColumn>
+                            <CellTemplate>
+                                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="() => ConfirmUseContact(context.Item)">Use</MudButton>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex flex-wrap mt-4">
+                <MudButton Variant="Variant.Filled" Color="@Color.Primary" OnClick="NavigateToNewTransfer">Back</MudButton>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Account number</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var contact in Contacts)
-            {
-                    <tr>
-                        <td>@contact.Name</td>
-                        <td>@contact.AccountNumber</td>
-                        <td>
-                            <button @onclick="() => ConfirmUseContact(contact)" class="btn btn-success">Use</button>
-                        </td>                        
-                    </tr>
-            }
-        </tbody>
-    </table>
-</div>
+}
 
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToNewTransfer">Back</button>
-</div>
 
 @code {
-    private List<ContactVM> Contacts = new List<ContactVM>();
+    private ContactsVM Model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Contacts = await ContactsService.GetContactsAsync();
+        Model.Contacts = await ContactsService.GetContactsAsync();
     }
 
-    private async Task ConfirmUseContact(ContactVM contactVM)
+    private async Task ConfirmUseContact(ContactVM contact)
     {
-        var result = await JSRuntime.InvokeAsync<bool>("confirm", "Do you want to use this contact?");
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ContentText, "Do you really want to use this contact?");
+        parameters.Add(x => x.ButtonText, "Use");
+        parameters.Add(x => x.Color, Color.Success);
 
-        if (result)
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
         {
-            UseContact(contactVM);
+            UseContact(contact);
         }
     }
 

@@ -4,47 +4,38 @@
 
 <PageTitle>Add regular expense</PageTitle>
 
-<h1>Add regular expense</h1>
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Add regular expense</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Name"
+                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
+                    <MudTextField Label="Amount" Class="mt-3"
+                                  @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                    <MudSelect T="int" Label="Expense type" @bind-Value="Model.ExpenseTypeId" For="@(() => Model.ExpenseTypeId)">
+                        <MudSelectItem Value="0">Select expense type</MudSelectItem>
+                        @foreach (var type in Model.ExpenseTypes)
+                        {
+                            <MudSelectItem T="int" Value="type.Id">@type.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Add</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToRegularExpenses">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
-            <DataAnnotationsValidator />
-
-            <div class="form-group">
-                <label for="Name" class="control-label">Name</label>
-                <InputText id="Name" @bind-Value="Model.Name" class="form-control" />
-                <ValidationMessage For="@(() => Model.Name)" />
-            </div>
-
-            <div class="form-group">
-                <label for="Amount" class="control-label">Amount</label>
-                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
-                <ValidationMessage For="@(() => Model.Amount)" />
-            </div>
-
-            <div class="form-group">
-                <label for="Type" class="control-label">Type</label>
-                <InputSelect id="Type" @bind-Value="Model.ExpenseTypeId" class="form-control">
-                    <option value="0">Select an expense type</option>
-                    @foreach (var type in Model.ExpenseTypes)
-                    {
-                        <option value="@type.Id">@type.Name</option>
-                    }
-                </InputSelect>
-                <ValidationMessage For="@(() => Model.ExpenseTypeId)" />
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-success" />
-            </div>
-        </EditForm>
-    </div>
-</div>
-
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToRegularExpenses">Back to Regular expenses</button>
-</div>
 
 @code {
     private AddRegularExpenseVM Model = new AddRegularExpenseVM();

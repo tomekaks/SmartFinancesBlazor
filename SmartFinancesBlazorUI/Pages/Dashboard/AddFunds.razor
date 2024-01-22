@@ -4,30 +4,29 @@
 
 <PageTitle>Add funds</PageTitle>
 
-<h3>Add Funds</h3>
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Add Funds</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Name"
+                                  @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Add</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToDashboard">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
-<div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
-            <DataAnnotationsValidator />
-
-            <div class="form-group mb-2">
-                <label for="Amount">Amount</label>
-                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
-                <ValidationMessage For="@(() => Model.Amount)" />
-            </div>
-
-            <div class="form-group mb-3">
-                <button type="submit" class="btn btn-success">Add</button>
-            </div>
-
-        </EditForm>
-    </div>
-</div>
-
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToDashboard">Back to Dashboard</button>
-</div>
 
 @code {
     private AddFundsVM Model = new AddFundsVM();

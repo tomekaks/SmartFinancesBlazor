@@ -33,6 +33,19 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
+        public async Task<List<AccountVM>> GetAllAccountsAsync()
+        {
+            await AddBearerToken();
+            var accountsDto = await _client.AccountsGetAllAsync();
+
+            if (accountsDto is null || accountsDto.Count == 0)
+            {
+                throw new Exception("Something went wrong");
+            }
+
+            return _mapper.Map<List<AccountVM>>(accountsDto);
+        }
+
         public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
         {
             var account = await GetChangedAccountAsync();
@@ -55,6 +68,24 @@ namespace SmartFinancesBlazorUI.Services
         {
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, accountNumber);
         }
+
+        public async Task<bool> RequestNewAccountAsync(NewAccountVM newAccountVM)
+        {
+            return true;
+        }
+
+        public async Task<bool> RequestNewAccountAsync(int accountType)
+        {
+            var accountDto = new CreateAccountDto() { Type = accountType };
+
+            await AddBearerToken();
+            await _client.AccountsPOSTAsync(accountDto);
+
+            return true;
+        }
+
+
+
 
         private async Task<AccountVM> LoadCurrentAccountAsync()
         {
@@ -90,18 +121,6 @@ namespace SmartFinancesBlazorUI.Services
             return account;
         }
 
-        private async Task<List<AccountVM>> GetAllAccountsAsync()
-        {
-            await AddBearerToken();
-            var accountsDto = await _client.AccountsGetAllAsync();
-
-            if (accountsDto is null || accountsDto.Count == 0)
-            {
-                throw new Exception("Something went wrong");
-            }
-
-            return _mapper.Map<List<AccountVM>>(accountsDto);
-        }
 
         private async Task<AccountDto> GetAccountAsync()
         {
