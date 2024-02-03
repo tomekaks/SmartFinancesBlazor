@@ -38,9 +38,9 @@ else
                 </div>
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col-5">
-                <MudCard>
+        <div class="row mb-5 d-flex align-items-stretch">
+            <div class="col-5 d-flex">
+                <MudCard Class="w-100">
                     <MudCardContent>
                         @if(_settingBudget)
                         {
@@ -63,28 +63,28 @@ else
                     </MudCardActions>
                 </MudCard>
             </div>
-                <div class="col-5">
-                    <MudCard>
-                        <MudCardContent>
-                            <MudText Typo="Typo.h5">Your monthly expenses: @Model.TotalAmount</MudText>
-                            <MudText Typo="Typo.h5">Saved: @Model.Saved</MudText>
-                        </MudCardContent>
-                    </MudCard>
-                </div>       
+            <div class="col-5 d-flex">
+                <MudCard Class="w-100">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">Your monthly expenses: @Model.TotalAmount</MudText>
+                        <MudText Typo="Typo.h5">Saved: @Model.Saved</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </div>       
         </div>
         <div class="row mb-5">
             <div class="col-10">
                 <MudDataGrid T="ExpenseVM" Items="Model.CurrentMonthlySummary.Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
-                    Bordered="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
+                    Bordered="true" Groupable="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Expenses</MudText>
                         <MudSpacer />
-                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddExpense">Add expense</MudButton> |
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddExpense">Add expense</MudButton> 
                         <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToRegularExpenses">Regular expenses</MudButton>
                     </ToolBarContent>
                     <Columns>
-                        <PropertyColumn Property="q => q.Name"></PropertyColumn>
-                        <PropertyColumn Property="q => q.Amount"></PropertyColumn>
+                        <PropertyColumn Property="q => q.Name" Groupable="false"></PropertyColumn>
+                        <PropertyColumn Property="q => q.Amount" Groupable="false"></PropertyColumn>
                         <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type">
                             <EditTemplate>
                                     <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type." 
@@ -95,6 +95,12 @@ else
                                     }
                                 </MudSelect>
                             </EditTemplate>
+                            <GroupTemplate>
+                                <span style="font-weight:bold">
+                                    Type: @context.Grouping.Key 
+                                    <MudChip Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small">total @context.Grouping.Sum(q => q.Amount)</MudChip>
+                                </span>
+                            </GroupTemplate>
                         </PropertyColumn>
                         <TemplateColumn>
                             <CellTemplate>
@@ -103,44 +109,9 @@ else
                             </CellTemplate>
                         </TemplateColumn>
                     </Columns>
-                </MudDataGrid>
-                    
+                </MudDataGrid>                   
             </div>          
         </div>
-        <div class="row mb-5">
-            <div class="col-10">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Housing</th>
-                            <th>Utilities</th>
-                            <th>Food</th>
-                            <th>Clothes</th>
-                            <th>Health</th>
-                            <th>Entertainment</th>
-                            <th>Electronics</th>
-                            <th>Household</th>
-                            <th>Transportation</th>
-                            <th>Personal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.HousingAmount</td>
-                            <td>@Model.UtilitiesAmount</td>
-                            <td>@Model.FoodAmount</td>
-                            <td>@Model.ClothesAmount</td>
-                            <td>@Model.HealthAmount</td>
-                            <td>@Model.EntertainmentAmount</td>
-                            <td>@Model.ElectronicsAmount</td>
-                            <td>@Model.HouseholdAmount</td>
-                            <td>@Model.TransportationAmount</td>
-                            <td>@Model.PersonalAmount</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>            
     </div>  
 }
 
