@@ -51,6 +51,8 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.SmartFinancesAPI_tomekaks_2070 }}
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Install Entity Framework Core tools
+        run: dotnet tool install --global dotnet-ef --version 6.0.0
       - name: Apply EF Core Migrations
         run: dotnet ef database update --project "${{ env.WORKING_DIRECTORY }}"
         env:
