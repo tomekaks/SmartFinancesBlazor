@@ -29,6 +29,8 @@ namespace SmartFinances.Infrastructure
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
