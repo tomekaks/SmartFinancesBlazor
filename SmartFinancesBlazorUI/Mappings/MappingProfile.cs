@@ -13,6 +13,7 @@ namespace SmartFinancesBlazorUI.Mappings
         {
             CreateMap<AccountDto, AccountVM>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (AccountType)src.Type));
+            CreateMap<AccountVM, UpdateAccountDto>();
 
             CreateMap<TransferDto, TransferVM>().ReverseMap();
             CreateMap<NewTransferVM, CreateTransferDto>();

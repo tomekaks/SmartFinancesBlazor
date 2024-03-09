@@ -1,8 +1,8 @@
-﻿@page "/dashboard/addfunds"
+﻿@page "/dashboard/withdraw"
 @inject NavigationManager NavManager
 @inject IDashboardService DashboardService
 
-<PageTitle>Add funds</PageTitle>
+<PageTitle>Withdraw</PageTitle>
 
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
@@ -11,14 +11,14 @@
             <MudCard>
                 <MudCardHeader>
                     <CardHeaderContent>
-                        <MudText Typo="Typo.h4">Add Funds</MudText>
+                        <MudText Typo="Typo.h4">Withdraw</MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
-                    <MudTextField Label="Name" @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                    <MudTextField Label="Amount" @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Add</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Withdraw</MudButton>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToDashboard">Back</MudButton>
                 </MudCardActions>
             </MudCard>
@@ -26,13 +26,17 @@
     </MudGrid>
 </EditForm>
 
-
 @code {
-    private AddFundsVM Model = new AddFundsVM();
+    public WithdrawVM Model { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await DashboardService.LoadWithdrawVM();
+    }
 
     private async Task HandleSubmit()
     {
-        bool response = await DashboardService.AddFundsAsync(Model);
+        bool response = await DashboardService.WithdrawFromSavingsAccountAsync(Model);
         if (response)
         {
             NavigateToDashboard();

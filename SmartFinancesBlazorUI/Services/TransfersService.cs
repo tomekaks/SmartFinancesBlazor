@@ -18,7 +18,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
         {
-            transferVM.SendTime= DateTime.Now;
+            transferVM.SendTime= DateTime.UtcNow;
             var transferDto = _mapper.Map<CreateTransferDto>(transferVM);
             transferDto.SenderAccountNumber = await GetCurrentAccountNumberAsync();
 

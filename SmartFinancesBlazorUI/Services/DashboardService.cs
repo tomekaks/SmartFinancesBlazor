@@ -12,12 +12,16 @@ namespace SmartFinancesBlazorUI.Services
     public class DashboardService : BaseHttpService, IDashboardService
     {
         private readonly IMapper _mapper;
-        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper) : base(client, localStorage)
+        private readonly ITransfersService _transfersService;
+        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper, ITransfersService transfersService) 
+                                : base(client, localStorage)
         {
             _mapper = mapper;
+            _transfersService = transfersService;
         }
 
         public List<AccountVM> UserAccounts { get; set; } = new List<AccountVM>();
+        public AccountVM? SavingsAccount { get; set; }
 
         public async Task<DashboardVM> LoadDashboardVM()
         {
@@ -25,6 +29,8 @@ namespace SmartFinancesBlazorUI.Services
             var sortedAccounts = UserAccounts.OrderBy(q => q.Type).ToList();
 
             var currentAccount = await LoadCurrentAccountAsync();
+
+            SavingsAccount = await LoadSavingsAccountAsync();
             
             return new DashboardVM()
             {
@@ -84,7 +90,33 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task<WithdrawVM> LoadWithdrawVM()
+        {
+            var currentAccount = await LoadCurrentAccountAsync();
 
+            return new WithdrawVM()
+            {
+                Account = currentAccount,
+                SavingsAccount = this.SavingsAccount
+            };
+        }
+
+        public async Task<bool> WithdrawFromSavingsAccountAsync(WithdrawVM withdrawVM)
+        {
+            var transferDto = new CreateTransferDto()
+            {
+                Amount = withdrawVM.Amount,
+                ReceiverAccountNumber = await GetCurrentAccountNumberAsync(),
+                SenderAccountNumber = SavingsAccount.Number,
+                SendTime = DateTime.UtcNow,
+                Title = "Withdraw"
+            };
+
+            await AddBearerToken();
+            await _client.TransfersPOSTAsync(transferDto);
+
+            return true;
+        }
 
 
         private async Task<AccountVM> LoadCurrentAccountAsync()
@@ -98,6 +130,19 @@ namespace SmartFinancesBlazorUI.Services
 
             var accountDto = await GetAccountAsync();
             return _mapper.Map<AccountVM>(accountDto);
+        }
+
+        private async Task<AccountVM> LoadSavingsAccountAsync()
+        {
+            var savingsAccount = UserAccounts.FirstOrDefault(q => q.Type == AccountType.Savings);
+
+            if (savingsAccount == null)
+            {
+                return null;
+            }
+
+            await _localStorage.SetItemAsync(Constants.SAVINGSACCOUNT, savingsAccount);
+            return savingsAccount;
         }
 
         private async Task<AccountVM> GetMainAccountAsync()
@@ -120,7 +165,6 @@ namespace SmartFinancesBlazorUI.Services
 
             return account;
         }
-
 
         private async Task<AccountDto> GetAccountAsync()
         {

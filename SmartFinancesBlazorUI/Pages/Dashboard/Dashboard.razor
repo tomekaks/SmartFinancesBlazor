@@ -24,7 +24,7 @@ else
                                     <MudText Typo="Typo.h6">@account.Type</MudText>
                                     </CardHeaderContent>
                                     <CardHeaderActions>
-                                        @if (account.Number == Model.CurrentAccount.Number)
+                                    @if (account.Number == Model.CurrentAccount.Number)
                                     {
                                         <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
                                     }
@@ -32,9 +32,9 @@ else
                             </MudCardHeader>
                             <MudCardContent>
                                 <MudText>Number: @account.Number</MudText>
-                                    <MudText>Balance: @account.Balance</MudText>
-                                </MudCardContent>
-                                <MudCardActions>
+                                <MudText>Balance: @account.Balance</MudText>
+                            </MudCardContent>
+                            <MudCardActions>
                                 @if (account.Number == Model.CurrentAccount.Number)
                                 {
                                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
@@ -58,11 +58,12 @@ else
                                 </CardHeaderActions>
                             </MudCardHeader>
                             <MudCardContent>
+                                    <MudText>Savings Goal: </MudText>
                                     <MudText>Balance: @account.Balance</MudText>
                             </MudCardContent>
                             <MudCardActions>
                                     <MudButton Variant="Variant.Filled" Color="Color.Primary">Deposit</MudButton> 
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary">Withdraw</MudButton>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
                             </MudCardActions>
                         </MudCard>
                     }
@@ -131,5 +132,15 @@ else
     private void NavigateToRequestAccount()
     {
         NavigationManager.NavigateTo("/dashboard/requestnewaccount");
+    }
+
+    private void NavigateToWithdraw()
+    {
+        NavigationManager.NavigateTo("/dashboard/withdraw");
+    }
+
+    private void NavigateToDeposit()
+    {
+        NavigationManager.NavigateTo("/dashboard/deposit");
     }
 }
