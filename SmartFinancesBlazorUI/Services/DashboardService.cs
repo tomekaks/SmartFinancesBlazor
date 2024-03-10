@@ -118,6 +118,34 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task<DepositVM> LoadDepositVM()
+        {
+            var currentAccount = await LoadCurrentAccountAsync();
+
+            return new DepositVM()
+            {
+                Account = currentAccount,
+                SavingsAccount = this.SavingsAccount
+            };
+        }
+
+        public async Task<bool> DepositOnSavingsAccountAsync(DepositVM depositVM)
+        {
+            var transferDto = new CreateTransferDto()
+            {
+                Amount = depositVM.Amount,
+                SenderAccountNumber = await GetCurrentAccountNumberAsync(),
+                ReceiverAccountNumber = SavingsAccount.Number,
+                SendTime = DateTime.UtcNow,
+                Title = "Deposit"
+            };
+
+            await AddBearerToken();
+            await _client.TransfersPOSTAsync(transferDto);
+
+            return true;
+        }
+
 
         private async Task<AccountVM> LoadCurrentAccountAsync()
         {

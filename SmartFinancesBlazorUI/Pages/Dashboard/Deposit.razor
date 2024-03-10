@@ -1,0 +1,50 @@
+﻿@page "/dashboard/deposit"
+@inject NavigationManager NavManager
+@inject IDashboardService DashboardService
+
+<PageTitle>Deposit</PageTitle>
+
+<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Deposit</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Amount" @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Deposit</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToDashboard">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    public DepositVM Model { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await DashboardService.LoadDepositVM();
+    }
+
+    private async Task HandleSubmit()
+    {
+        bool response = await DashboardService.DepositOnSavingsAccountAsync(Model);
+        if (response)
+        {
+            NavigateToDashboard();
+        }
+    }
+
+    private void NavigateToDashboard()
+    {
+        NavManager.NavigateTo("/dashboard");
+    }
+}
