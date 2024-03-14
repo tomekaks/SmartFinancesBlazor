@@ -18,7 +18,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
         {
-            transferVM.SendTime= DateTime.UtcNow;
+            transferVM.SendTime = DateTime.UtcNow;
             var transferDto = _mapper.Map<CreateTransferDto>(transferVM);
             transferDto.SenderAccountNumber = await GetCurrentAccountNumberAsync();
 
@@ -33,6 +33,12 @@ namespace SmartFinancesBlazorUI.Services
             string currentAccount = await GetCurrentAccountNumberAsync();
 
             var transfersVM = await GetTransfersAsync(currentAccount);
+            var orderedTransfers = transfersVM.OrderByDescending(q => q.SendTime).ToList();
+
+            foreach (var transfer in orderedTransfers)
+            {
+                transfer.CurrentAccountNumber = currentAccount;
+            }
 
             return new TransfersOverviewVM()
             {
@@ -52,7 +58,7 @@ namespace SmartFinancesBlazorUI.Services
             }
 
             var transferList = _mapper.Map<List<TransferVM>>(transfers);
-
+            
             return transferList;
         }
     }

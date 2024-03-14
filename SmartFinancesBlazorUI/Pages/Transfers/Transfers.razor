@@ -12,17 +12,30 @@ else
     <div class="container mt-4">
         <div class="row mb-2">
             <div class="col-10">
-                <MudDataGrid T="TransferVM" Items="Model.Transfers" Bordered="true" >
+                <MudDataGrid T="TransferVM" Items="Model.Transfers" Bordered="true" SortMode="SortMode.None" Groupable="true">
                     <ToolBarContent>
                         <MudText Typo="Typo.h4">Transfers</MudText>
                         <MudSpacer />
                         <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="NavigateToNewTransfer">New Transfer</MudButton>
                     </ToolBarContent>
                     <Columns>
-                        <PropertyColumn Property="q => q.SenderName" Title="Sender"></PropertyColumn>
-                        <PropertyColumn Property="q => q.ReceiverName" Title="Receiver"></PropertyColumn>
+@*                         <PropertyColumn Property="q => q.SenderName" Title="Sender"></PropertyColumn>
+                        <PropertyColumn Property="q => q.ReceiverName" Title="Receiver"></PropertyColumn> *@
+                        <PropertyColumn Property="q => q.OtherPartyAccountNumber" Title="Other Party"></PropertyColumn>
                         <PropertyColumn Property="q => q.Title"></PropertyColumn>
-                        <PropertyColumn Property="q => q.Amount"></PropertyColumn>
+                        @* <PropertyColumn Property="q => q.Amount"></PropertyColumn> *@
+                        <TemplateColumn>
+                            <CellTemplate>
+                                @if(context.Item.CurrentAccountNumber == context.Item.ReceiverAccountNumber)
+                                {
+                                    <MudText Style="@($"background:#dff0d8")">+@context.Item.Amount</MudText>
+                                }
+                                else
+                                {
+                                    <MudText>-@context.Item.Amount</MudText>
+                                }
+                            </CellTemplate>
+                        </TemplateColumn>
                         <PropertyColumn Property="q => q.SendTime.ToShortDateString()" Title="Send date"></PropertyColumn>
                     </Columns>
                 </MudDataGrid>

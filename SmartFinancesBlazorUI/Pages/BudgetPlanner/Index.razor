@@ -89,6 +89,7 @@ else
                             <EditTemplate>
                                     <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type." 
                                         Placeholder="@context.Item.ExpenseTypeVM.Name">
+                                        <MudSelectItem Value="@context.Item.ExpenseTypeVM">@context.Item.ExpenseTypeVM.Name</MudSelectItem>
                                     @foreach(var expType in Model.ExpenseTypes)
                                     {
                                         <MudSelectItem Value="expType">@expType.Name</MudSelectItem>
