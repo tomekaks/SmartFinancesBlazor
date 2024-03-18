@@ -19,6 +19,8 @@ namespace SmartFinances.Infrastructure.DataBase
         public DbSet<ExpenseType> ExpenseTypes { get; set; }
         public DbSet<MonthlySummary> MonthlySummaries { get; set; }
         public DbSet<YearlySummary> YearlySummaries { get; set; }
+        public DbSet<SavingsAccount> SavingsAccounts { get; set; }
+        public DbSet<TransactionalAccount> TransactionalAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

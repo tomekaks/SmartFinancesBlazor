@@ -11,6 +11,8 @@
         public IUserRepository Users { get; }
         public IMonthlySummaryRepository MonthlySummaries { get; }
         public IYearlySummaryRepository YearlySummaries { get; }
+        public ITransactionalAccountRepository TransactionalAccounts { get; }
+        public ISavingsAccountRepository SavingsAccounts { get; }
         Task SaveAsync();
     }
 }

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Mappings\" />
+    <Folder Include="Pages\Admin\" />
   </ItemGroup>
 
 </Project>

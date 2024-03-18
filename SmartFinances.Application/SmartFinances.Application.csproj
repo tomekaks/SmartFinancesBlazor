@@ -29,4 +29,11 @@
     <ProjectReference Include="..\SmartFinances.Core\SmartFinances.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\SavingsAccounts\Factories\" />
+    <Folder Include="Features\SavingsAccounts\Handlers\" />
+    <Folder Include="Features\SavingsAccounts\Validators\" />
+    <Folder Include="Features\SavingsAccounts\Requests\" />
+  </ItemGroup>
+
 </Project>

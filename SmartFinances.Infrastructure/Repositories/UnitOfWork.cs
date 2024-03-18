@@ -18,6 +18,8 @@ namespace SmartFinances.Infrastructure.Repositories
             Users = new UserRepository(context);
             MonthlySummaries = new MonthlySummaryRepository(context);
             YearlySummaries = new YearlySummaryRepository(context);
+            TransactionalAccounts = new TransactionalAccountRepository(context);
+            SavingsAccounts = new SavingsAccountRepository(context);
         }
 
         public IAccountRepository Accounts { get; private set; }
@@ -29,6 +31,8 @@ namespace SmartFinances.Infrastructure.Repositories
         public IUserRepository Users { get; private set; }
         public IMonthlySummaryRepository MonthlySummaries { get; private set; }
         public IYearlySummaryRepository YearlySummaries { get; private set; }
+        public ITransactionalAccountRepository TransactionalAccounts { get; private set; }
+        public ISavingsAccountRepository SavingsAccounts { get; set; }
 
 
         public void Dispose()
