@@ -10,6 +10,7 @@ using SmartFinances.Application.Features.ExpenseTypes.Factories;
 using SmartFinances.Application.Features.MonthlySummaries.Factories;
 using SmartFinances.Application.Features.RegularExpenses.Factories;
 using SmartFinances.Application.Features.SavingsAccounts.Factories;
+using SmartFinances.Application.Features.TransactionalAccounts.Factories;
 using SmartFinances.Application.Features.Transfers.Factories;
 using SmartFinances.Application.Features.YearlySummaries.Factories;
 using SmartFinances.Application.Interfaces.Factories;
@@ -35,7 +36,7 @@ namespace SmartFinances.Application
             services.AddScoped<IYearlySummaryFactory, YearlySummaryFactory>();
             services.AddScoped<IMonthlySummaryFactory, MonthlySummaryFactory>();
             services.AddScoped<ISavingsAccountFactory, SavingsAccountFactory>();
-            //services.AddScoped<ITransactionalAccountFactory, TransactionalAccountFactory>();
+            services.AddScoped<ITransactionalAccountFactory, TransactionalAccountFactory>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsersService, UsersService>();
