@@ -9,6 +9,7 @@ using SmartFinances.Application.Features.Users.Dtos;
 using SmartFinances.Application.Features.ExpenseTypes.Dtos;
 using SmartFinances.Application.Features.YearlySummaries.Dtos;
 using SmartFinances.Application.Features.MonthlySummaries.Dtos;
+using SmartFinances.Application.Features.SavingsAccounts.Dtos;
 
 namespace SmartFinances.Application.Mappings
 {
@@ -52,6 +53,10 @@ namespace SmartFinances.Application.Mappings
             CreateMap<MonthlySummary, MonthlySummaryDto>().ReverseMap();
             CreateMap<CreateMonthlySummaryDto, MonthlySummary>();
             CreateMap<UpdateMonthlySummaryDto, MonthlySummary>();
+
+            CreateMap<SavingsAccount, SavingsAccountDto>().ReverseMap();
+            CreateMap<CreateSavingsAccountDto, SavingsAccount>();
+            CreateMap<UpdateSavingsAccountDto, SavingsAccount>();
         }
     }
 }
