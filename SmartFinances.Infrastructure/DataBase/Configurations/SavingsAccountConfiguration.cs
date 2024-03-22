@@ -12,15 +12,21 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                 .IsRequired();
 
             builder.Property(q => q.Balance)
-                .IsRequired()
-                .HasColumnType("decimal(18,2)");
+                .HasPrecision(18, 2);
+
+            builder.Property(q => q.Goal)
+                .HasPrecision(18, 2);
 
             builder.Property(q => q.Name)
                 .IsRequired();
 
             builder.HasOne(s => s.User)
                 .WithOne(u => u.SavingsAccount)
-                .HasForeignKey<SavingsAccount>(s => s.UserId);
+                .HasForeignKey<SavingsAccount>(s => s.UserId)
+                .IsRequired();
+
+            builder.Property(q => q.CreationDateTime)
+                .IsRequired();
         }
     }
 }

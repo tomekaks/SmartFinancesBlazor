@@ -10,5 +10,7 @@
         public List<MonthlySummary> MonthlySummaries { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
+        public int TransactionalAccountId { get; set; }
+        public TransactionalAccount TransactionalAccount { get; set; }
     }
 }

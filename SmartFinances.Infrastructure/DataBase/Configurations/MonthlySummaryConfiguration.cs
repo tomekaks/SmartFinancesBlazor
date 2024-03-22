@@ -10,6 +10,15 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
         {
             builder.Property(m => m.Month).IsRequired();
 
+            builder.Property(m => m.Budget)
+                   .HasPrecision(18, 2);
+
+            builder.Property(m => m.AmountSpent)
+                   .HasPrecision(18, 2);
+
+            builder.Property(m => m.AmountSaved)
+                   .HasPrecision(18, 2);
+
             builder.HasOne(m => m.YearlySummary)
                    .WithMany(y => y.MonthlySummaries)
                    .HasForeignKey(m => m.YearlySummaryId)

@@ -12,7 +12,7 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .IsRequired();
 
             builder.Property(e => e.Amount)
-                   .IsRequired();
+                   .HasPrecision(18,2);
 
             builder.HasOne(e => e.ExpenseType)
                    .WithMany(et => et.Expenses)

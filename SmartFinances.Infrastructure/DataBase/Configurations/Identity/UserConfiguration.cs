@@ -2,11 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.DataBase.Configurations.Identity
 {
@@ -14,6 +9,26 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations.Identity
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
+            builder.HasMany(u => u.Contacts)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .IsRequired();
+
+            builder.HasMany(u => u.Accounts)
+                .WithOne(a => a.User)
+                .HasForeignKey(a => a.UserId)
+                .IsRequired();
+
+            builder.HasMany(u => u.TransactionalAccounts)
+                .WithOne(t => t.User)
+                .HasForeignKey(t => t.UserId)
+                .IsRequired();
+
+            builder.HasOne(u => u.SavingsAccount)
+                .WithOne(s => s.User)
+                .HasForeignKey<SavingsAccount>(s => s.UserId)
+                .IsRequired();
+
             var hasher = new PasswordHasher<ApplicationUser>();
             builder.HasData(
                 new ApplicationUser()

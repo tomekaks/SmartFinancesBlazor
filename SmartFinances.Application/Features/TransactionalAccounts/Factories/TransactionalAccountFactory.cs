@@ -23,7 +23,8 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Factories
                 UserId = accountDto.UserId,
                 Type = accountDto.Type,
                 Balance = 0,
-                Budget = 0
+                Budget = 0,
+                CreationDateTime = DateTime.UtcNow
             };
         }
 

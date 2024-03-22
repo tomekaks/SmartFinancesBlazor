@@ -9,7 +9,7 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Dtos
         public string Name { get; set; }
         public decimal Balance { get; set; }
         public string UserId { get; set; }
-        public List<TransferDto> Transfers { get; set; }
         public decimal Goal { get; set; }
+        public DateTime DateOfCreation { get; set; }
     }
 }

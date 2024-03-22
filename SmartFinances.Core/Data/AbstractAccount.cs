@@ -8,7 +8,7 @@
         public decimal Balance { get; set; }
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
-        public List<Transfer> Transfers { get; set; }
+        public DateTime CreationDateTime { get; set; }
 
     }
 }

@@ -13,6 +13,7 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Dtos
         public string UserId { get; set; }
         public int Type { get; set; }
         public decimal Budget { get; set; }
+        public DateTime DateOfCreation { get; set; }
         public List<TransferDto> Transfers { get; set; }
         public List<YearlySummaryDto> YearlySummaries { get; set; }
         public List<RegularExpenseDto> RegularExpenses { get; set; }

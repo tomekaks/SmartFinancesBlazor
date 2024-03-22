@@ -12,7 +12,7 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .IsRequired();
 
             builder.Property(p => p.Amount)
-                   .IsRequired();
+                   .HasPrecision(18, 2);
 
             builder.HasOne(re => re.ExpenseType)
                    .WithMany(et => et.RegularExpenses)
@@ -21,7 +21,15 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
 
             builder.HasOne(r => r.Account)
                    .WithMany(a => a.RegularExpenses)
-                   .HasForeignKey(r => r.AccountId);
+                   .HasForeignKey(r => r.AccountId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(r => r.TransactionalAccount)
+                   .WithMany(t => t.RegularExpenses)
+                   .HasForeignKey(r => r.TransactionalAccountId)
+                   .IsRequired()
+                   .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

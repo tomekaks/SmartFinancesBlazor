@@ -10,7 +10,6 @@
         public ApplicationUser User { get; set; }
         public List<YearlySummary> YearlySummaries { get; set; }
         public List<RegularExpense> RegularExpenses { get; set; }
-        public List<Transfer> Transfers { get; set; }
         public decimal Budget { get; set; }
     }
 }

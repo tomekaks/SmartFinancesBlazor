@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SmartFinances.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.DataBase.Configurations
 {
@@ -21,7 +16,8 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
 
             builder.HasOne(c => c.User)
                    .WithMany(u => u.Contacts)
-                   .HasForeignKey(c => c.UserId);
+                   .HasForeignKey(c => c.UserId)
+                   .IsRequired();
         }
     }
 }

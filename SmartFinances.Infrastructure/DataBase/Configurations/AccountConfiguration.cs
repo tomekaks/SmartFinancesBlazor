@@ -9,17 +9,18 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
         public void Configure(EntityTypeBuilder<Account> builder)
         {
             builder.Property(q => q.Number)
-                   .IsRequired(true);
+                   .IsRequired();
 
             builder.Property(q => q.Balance)
-                   .IsRequired();
+                   .HasPrecision(18,2);
 
-            builder.Property(q => q.Type)
-                   .IsRequired();
+            builder.Property(q => q.Budget)
+                   .HasPrecision(18, 2);
 
             builder.HasOne(a => a.User)
                    .WithMany(u => u.Accounts)
-                   .HasForeignKey(a => a.UserId);
+                   .HasForeignKey(a => a.UserId)
+                   .IsRequired();
 
             builder.HasMany(a => a.YearlySummaries)
                    .WithOne(y => y.Account)

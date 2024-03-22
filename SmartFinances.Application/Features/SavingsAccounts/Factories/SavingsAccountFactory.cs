@@ -22,7 +22,8 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Factories
                 Name = userName + " - Savings",
                 Balance = 0,
                 UserId = userId,
-                Goal = 0
+                Goal = 0,
+                CreationDateTime = DateTime.UtcNow
             };
         }
 
