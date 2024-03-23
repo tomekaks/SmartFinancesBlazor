@@ -1,9 +1,5 @@
-﻿using SmartFinances.Application.Features.Accounts.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SmartFinances.Application.Features.SavingsAccounts.Dtos;
+using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
 
 namespace SmartFinances.Application.Features.Users.Dtos
 {
@@ -14,7 +10,8 @@ namespace SmartFinances.Application.Features.Users.Dtos
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<AccountDto> Accounts { get; set; }
+        public List<TransactionalAccountDto> Accounts { get; set; }
+        public SavingsAccountDto SavingsAccount { get; set; }
         public bool IsSuspended { get; set; }
         public string SuspensionReason { get; set; }
     }

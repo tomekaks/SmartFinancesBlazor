@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SmartFinances.Application.Dto;
-using SmartFinances.Application.Features.Accounts.Factories;
 using SmartFinances.Application.Features.Contacts.Factories;
 using SmartFinances.Application.Features.Expenses.Factories;
 using SmartFinances.Application.Features.ExpenseTypes.Factories;
@@ -27,7 +26,6 @@ namespace SmartFinances.Application
         {
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-            services.AddScoped<IAccountFactory, AccountFactory>();
             services.AddScoped<IExpenseFactory, ExpenseFactory>();
             services.AddScoped<IRegularExpenseFactory, RegularExpenseFactory>();
             services.AddScoped<ITransferFactory, TransferFactory>();

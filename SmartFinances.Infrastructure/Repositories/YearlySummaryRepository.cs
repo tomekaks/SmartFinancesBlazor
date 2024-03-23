@@ -16,7 +16,7 @@ namespace SmartFinances.Infrastructure.Repositories
             var yearlySummary = await _db.Include(y => y.MonthlySummaries)
                                         .ThenInclude(m => m.Expenses)
                                         .ThenInclude(e => e.ExpenseType)
-                                        .FirstOrDefaultAsync(q => q.AccountId == accountId && q.Year == year);
+                                        .FirstOrDefaultAsync(q => q.TransactionalAccountId == accountId && q.Year == year);
 
             return yearlySummary;
         }

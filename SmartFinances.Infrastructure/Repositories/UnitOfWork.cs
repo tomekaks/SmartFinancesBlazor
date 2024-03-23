@@ -9,7 +9,6 @@ namespace SmartFinances.Infrastructure.Repositories
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            Accounts = new AccountRepository(context);
             Transfers = new TransferRepository(context);
             Expenses = new ExpenseRepositiory(context);
             ExpenseTypes = new ExpenseTypeRepository(context);
@@ -22,7 +21,6 @@ namespace SmartFinances.Infrastructure.Repositories
             SavingsAccounts = new SavingsAccountRepository(context);
         }
 
-        public IAccountRepository Accounts { get; private set; }
         public ITransferRepository Transfers { get; private set; }
         public IExpenseRepository Expenses { get; private set; }
         public IExpenseTypeRepository ExpenseTypes { get; private set; }

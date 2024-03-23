@@ -14,11 +14,6 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations.Identity
                 .HasForeignKey(c => c.UserId)
                 .IsRequired();
 
-            builder.HasMany(u => u.Accounts)
-                .WithOne(a => a.User)
-                .HasForeignKey(a => a.UserId)
-                .IsRequired();
-
             builder.HasMany(u => u.TransactionalAccounts)
                 .WithOne(t => t.User)
                 .HasForeignKey(t => t.UserId)

@@ -2,7 +2,6 @@
 {
     public interface IUnitOfWork : IDisposable
     {
-        public IAccountRepository Accounts { get; }
         public ITransferRepository Transfers { get; }
         public IExpenseRepository Expenses { get; }
         public IExpenseTypeRepository ExpenseTypes { get; }

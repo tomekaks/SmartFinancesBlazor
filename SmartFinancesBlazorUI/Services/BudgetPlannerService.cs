@@ -18,7 +18,7 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public AccountVM CurrentAccount { get; set; } = new();
+        public TransactionalAccountVM CurrentAccount { get; set; } = new();
         public YearlySummaryVM? CurrentYearlySummary { get; set; }
         public MonthlySummaryVM? CurrentMonthlySummary { get; set; }
         public int CurrentYear { get; set; } = DateTime.Now.Year;
@@ -66,7 +66,7 @@ namespace SmartFinancesBlazorUI.Services
             var createYearlySummaryDto = new CreateYearlySummaryDto()
             {
                 Year = CurrentYear,
-                AccountId = CurrentAccount.Id
+                TransactionalAccountId = CurrentAccount.Id
             };
 
             await AddBearerToken();
@@ -218,7 +218,7 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<bool> AddRegularExpenseAsync(AddRegularExpenseVM addRegularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addRegularExpenseVM);
-            regularExpenseDto.AccountId = CurrentAccount.Id;
+            regularExpenseDto.TransactionalAccountId = CurrentAccount.Id;
 
             await AddBearerToken();
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
@@ -229,7 +229,7 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addExpenseVM);
-            regularExpenseDto.AccountId = CurrentAccount.Id;
+            regularExpenseDto.TransactionalAccountId = CurrentAccount.Id;
 
             await AddBearerToken();
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
@@ -294,14 +294,14 @@ namespace SmartFinancesBlazorUI.Services
             }
         }
 
-        private async Task<AccountVM> GetAccountAsync()
+        private async Task<TransactionalAccountVM> GetAccountAsync()
         {
             var accountNumber = await GetCurrentAccountNumberAsync();
 
             await AddBearerToken();
-            var accountDto = await _client.AccountsGetByNumberAsync(accountNumber);
+            var accountDto = await _client.TransactionalAccountsGetByNumberAsync(accountNumber);
 
-            return _mapper.Map<AccountVM>(accountDto);
+            return _mapper.Map<TransactionalAccountVM>(accountDto);
         }
 
         private MonthlySummaryVM SetCurrentMonthlySummary()

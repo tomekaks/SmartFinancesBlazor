@@ -19,11 +19,6 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.Property(m => m.AmountSaved)
                    .HasPrecision(18, 2);
 
-            builder.HasOne(y => y.Account)
-                   .WithMany(a => a.YearlySummaries)
-                   .HasForeignKey(y => y.AccountId)
-                   .IsRequired();
-
             builder.HasOne(y => y.TransactionalAccount)
                    .WithMany(t => t.YearlySummaries)
                    .HasForeignKey(y => y.TransactionalAccountId)

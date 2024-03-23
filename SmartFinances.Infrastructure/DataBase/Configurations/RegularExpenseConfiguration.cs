@@ -19,12 +19,6 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                    .HasForeignKey(re => re.ExpenseTypeId)
                    .IsRequired();
 
-            builder.HasOne(r => r.Account)
-                   .WithMany(a => a.RegularExpenses)
-                   .HasForeignKey(r => r.AccountId)
-                   .IsRequired()
-                   .OnDelete(DeleteBehavior.NoAction);
-
             builder.HasOne(r => r.TransactionalAccount)
                    .WithMany(t => t.RegularExpenses)
                    .HasForeignKey(r => r.TransactionalAccountId)

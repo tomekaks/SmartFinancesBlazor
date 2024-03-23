@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using SmartFinances.Core.Data;
-using SmartFinances.Application.Features.Accounts.Dtos;
 using SmartFinances.Application.Features.Contacts.Dtos;
 using SmartFinances.Application.Features.Expenses.Dtos;
 using SmartFinances.Application.Features.RegularExpenses.Dtos;
@@ -10,6 +9,7 @@ using SmartFinances.Application.Features.ExpenseTypes.Dtos;
 using SmartFinances.Application.Features.YearlySummaries.Dtos;
 using SmartFinances.Application.Features.MonthlySummaries.Dtos;
 using SmartFinances.Application.Features.SavingsAccounts.Dtos;
+using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
 
 namespace SmartFinances.Application.Mappings
 {
@@ -17,11 +17,6 @@ namespace SmartFinances.Application.Mappings
     {
         public MapperConfig()
         {
-            CreateMap<Account, AccountDto>();
-            CreateMap<AccountDto, Account>()
-                .ForMember(src => src.Number, opt => opt.Ignore());
-            CreateMap<Account, UpdateAccountDto>().ReverseMap();
-            CreateMap<CreateAccountDto, Account>();
 
             CreateMap<ExpenseType, ExpenseTypeDto>().ReverseMap();
             CreateMap<EditExpenseTypeDto, ExpenseType>();
@@ -57,6 +52,10 @@ namespace SmartFinances.Application.Mappings
             CreateMap<SavingsAccount, SavingsAccountDto>().ReverseMap();
             CreateMap<CreateSavingsAccountDto, SavingsAccount>();
             CreateMap<UpdateSavingsAccountDto, SavingsAccount>();
+
+            CreateMap<TransactionalAccount, TransactionalAccountDto>().ReverseMap();
+            CreateMap<CreateTransactionalAccountDto, TransactionalAccount>();
+            CreateMap<UpdateTransactionalAccountDto, TransactionalAccount>();
         }
     }
 }

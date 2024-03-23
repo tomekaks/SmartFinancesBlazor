@@ -8,9 +8,6 @@ namespace SmartFinances.Application.Features.YearlySummaries.Validators
         private int _currentYear => DateTime.Now.Year;
         public CreateYearlySummaryCommandValidator()
         {
-            RuleFor(q => q.YearlySummaryDto.AccountId)
-                .NotEmpty().WithMessage("{PropertyName} is required");
-
             RuleFor(q => q.YearlySummaryDto.TransactionalAccountId)
                 .NotEmpty().WithMessage("{PropertyName} is required");
 

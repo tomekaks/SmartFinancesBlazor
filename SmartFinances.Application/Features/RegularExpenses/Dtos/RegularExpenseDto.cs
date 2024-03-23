@@ -9,6 +9,6 @@ namespace SmartFinances.Application.Features.RegularExpenses.Dtos
         public decimal Amount { get; set; }
         public int ExpenseTypeId { get; set; }
         public ExpenseTypeDto ExpenseTypeDto { get; set; }
-        public int AccountId { get; set; }
+        public int TransactionalAccountId { get; set; }
     }
 }

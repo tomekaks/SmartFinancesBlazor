@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using SmartFinances.Application.Features.Accounts.Requests.Queries;
+using SmartFinances.Application.Features.TransactionalAccounts.Requests.Queries;
 using SmartFinances.Application.Features.Users.Dtos;
 using SmartFinances.Application.Features.Users.Requests.Commands;
 using SmartFinances.Application.Interfaces.Services;
@@ -50,7 +50,7 @@ namespace SmartFinances.Application.Services
         public async Task<UserDto> GetUserWithAccountsAsync(string userId)
         {
             var applicationUser = await _userManager.FindByIdAsync(userId);
-            var accounts = await _mediator.Send(new GetUsersAccountsRequest { UserId = userId });
+            var accounts = await _mediator.Send(new GetUsersTransactionalAccountsRequest { UserId = userId });
 
             var userDto = _mapper.Map<UserDto>(applicationUser);
             userDto.Accounts = accounts;

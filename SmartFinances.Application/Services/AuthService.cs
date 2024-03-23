@@ -5,8 +5,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SmartFinances.Application.Dto;
 using SmartFinances.Application.Exceptions;
-using SmartFinances.Application.Features.Accounts.Dtos;
-using SmartFinances.Application.Features.Accounts.Requests.Commands;
 using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
 using SmartFinances.Application.Features.TransactionalAccounts.Requests.Commands;
 using SmartFinances.Application.Features.Users.Dtos;
@@ -82,16 +80,6 @@ namespace SmartFinances.Application.Services
             };
 
             await _mediator.Send(new CreateTransactionalAccountCommand { AccountDto = createTransactionalAccountDto });
-
-            //tomek
-
-            //var createAccountDto = new CreateAccountDto()
-            //{
-            //    UserId = user.Id,
-            //    Type = 1
-            //};
-
-            //await _mediator.Send(new CreateAccountCommand { CreateAccountDto = createAccountDto});    
 
             return new RegistrationResponse()
             {

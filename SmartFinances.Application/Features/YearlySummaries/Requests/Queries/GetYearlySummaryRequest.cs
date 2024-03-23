@@ -5,7 +5,7 @@ namespace SmartFinances.Application.Features.YearlySummaries.Requests.Queries
 {
     public class GetYearlySummaryRequest : IRequest<YearlySummaryDto>
     {
-        public int AccountId { get; set; }
+        public int TransactionalAccountId { get; set; }
         public int Year { get; set; }
     }
 }

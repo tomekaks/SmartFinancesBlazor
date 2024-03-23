@@ -4,7 +4,6 @@
     {
         public int Year { get; set; }
         public decimal Budget { get; set; }
-        public int AccountId { get; set; }
         public int TransactionalAccountId { get; set; }
     }
 }

@@ -4,8 +4,8 @@ namespace SmartFinancesBlazorUI.Models.Dashboard
 {
     public class DashboardVM
     {
-        public List<AccountVM> Accounts { get; set; }
-        public AccountVM CurrentAccount { get; set; } = new AccountVM();
-        public AccountVM? SavingsAccount { get; set; }
+        public List<TransactionalAccountVM> Accounts { get; set; }
+        public TransactionalAccountVM CurrentAccount { get; set; } = new();
+        public SavingsAccountVM? SavingsAccount { get; set; }
     }
 }

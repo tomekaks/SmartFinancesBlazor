@@ -16,61 +16,62 @@ else
         {
             <div class="row mb-3">
                 <div class="col-8">
-                    @if(account.Type != AccountType.Savings)
-                    {
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderContent>
-                                    <MudText Typo="Typo.h6">@account.Type</MudText>
-                                    </CardHeaderContent>
-                                    <CardHeaderActions>
-                                    @if (account.Number == Model.CurrentAccount.Number)
-                                    {
-                                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
-                                    }
-                                </CardHeaderActions>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                <MudText>Number: @account.Number</MudText>
-                                <MudText>Balance: @account.Balance</MudText>
-                            </MudCardContent>
-                            <MudCardActions>
-                                @if (account.Number == Model.CurrentAccount.Number)
-                                {
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
-                                }
-                                else
-                                {
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => ConfirmSetCurrentAccount(account.Number)">Set as current</MudButton>
-                                }
-                            </MudCardActions>
-                        </MudCard>
-                    }
-                    else
-                    {
-                        <MudCard>
-                            <MudCardHeader>
-                                <CardHeaderContent>
-                                    <MudText Typo="Typo.h6">Savings</MudText>
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@account.Type</MudText>
                                 </CardHeaderContent>
                                 <CardHeaderActions>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Surface">Set goal</MudButton>
-                                </CardHeaderActions>
-                            </MudCardHeader>
-                            <MudCardContent>
-                                    <MudText>Savings Goal: </MudText>
-                                    <MudText>Balance: @account.Balance</MudText>
-                            </MudCardContent>
-                            <MudCardActions>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton> 
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
-                            </MudCardActions>
-                        </MudCard>
-                    }
-                    
+                                @if (account.Number == Model.CurrentAccount.Number)
+                                {
+                                    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
+                                }
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText>Number: @account.Number</MudText>
+                            <MudText>Balance: @account.Balance</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            @if (account.Number == Model.CurrentAccount.Number)
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
+                            }
+                            else
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => ConfirmSetCurrentAccount(account.Number)">Set as current</MudButton>
+                            }
+                        </MudCardActions>
+                    </MudCard>                  
                 </div>
             </div>
         }
+        @if(Model.SavingsAccount != null)
+        {
+            <div class="row mb-3">
+                <div class="col-8">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">Savings</MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudButton Variant="Variant.Filled" Color="Color.Surface">Set goal</MudButton>
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText>Savings Goal:@Model.SavingsAccount.Goal </MudText>
+                            <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </div>
+            </div>     
+        }
+
         @if(Model.Accounts.Count() < 4)
         {
             <div class="row mb-3">

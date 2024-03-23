@@ -7,7 +7,7 @@ namespace SmartFinancesBlazorUI.Models.Dashboard
         [Required]
         [Range(0, 100000)]
         public decimal Amount { get; set; }
-        public AccountVM Account { get; set; }
-        public AccountVM SavingsAccount { get; set; }
+        public TransactionalAccountVM TransactionalAccount { get; set; }
+        public SavingsAccountVM SavingsAccount { get; set; }
     }
 }

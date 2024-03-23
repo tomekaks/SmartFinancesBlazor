@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartFinances.Infrastructure.DataBase;
 
@@ -11,9 +12,10 @@ using SmartFinances.Infrastructure.DataBase;
 namespace SmartFinances.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323154355_RemoveRelationBetweenAccountAndYearlySummary")]
+    partial class RemoveRelationBetweenAccountAndYearlySummary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,21 @@ namespace SmartFinances.Infrastructure.Migrations
                         new
                         {
                             Id = "abebd04b-4c91-40ca-a99e-8577ff0f262e",
-                            ConcurrencyStamp = "f630ce1a-3095-41dd-bfe7-f035a047e59e",
+                            ConcurrencyStamp = "a628b2e9-bcfd-49a9-8e7b-b2bcc30b7bed",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "dea03c83-9eae-4ce3-9560-7b3aec0f1b00",
-                            ConcurrencyStamp = "91e312e4-9574-490f-b23d-7739bd971451",
+                            ConcurrencyStamp = "d30155d4-67c5-4999-9047-0888d3c8515a",
                             Name = "TestUser",
                             NormalizedName = "TESTUSER"
                         },
                         new
                         {
                             Id = "ee6ef51f-eaf9-406e-863e-b8012bd7045a",
-                            ConcurrencyStamp = "84fdcf47-00ae-4677-a4e9-9db229d1e32d",
+                            ConcurrencyStamp = "9a2df1f0-8b8c-465b-bf9b-7e1b3fd8de82",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -195,6 +197,78 @@ namespace SmartFinances.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SmartFinances.Core.Data.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Budget")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Accounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Balance = 2000m,
+                            Budget = 0m,
+                            Number = "11AAAA111111",
+                            Type = 1,
+                            UserId = "9ef201b2-999c-4161-8f2b-d7994971e5ee"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            Balance = 2000m,
+                            Budget = 0m,
+                            Number = "22BBBB222222",
+                            Type = 1,
+                            UserId = "8f095269-a72b-4427-bcaf-d860249770c9"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Balance = 2000m,
+                            Budget = 0m,
+                            Number = "33CCCC333333",
+                            Type = 2,
+                            UserId = "9ef201b2-999c-4161-8f2b-d7994971e5ee"
+                        },
+                        new
+                        {
+                            Id = -4,
+                            Balance = 2000m,
+                            Budget = 0m,
+                            Number = "44DDDD444444",
+                            Type = 3,
+                            UserId = "8f095269-a72b-4427-bcaf-d860249770c9"
+                        });
+                });
+
             modelBuilder.Entity("SmartFinances.Core.Data.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -279,7 +353,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "5330c916-053d-41e6-8a44-b9fe25cf27bf",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8434396b-1b66-4dc7-92f3-15d9e6bd676b",
+                            ConcurrencyStamp = "7f56edea-0dac-4e6f-86c9-f488be5a33cc",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -289,9 +363,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEHB58lodCroStPQCwjaY0itRsF9h60r5M1QWjFXVvnonMV87DZsTvAZq3jhhUj8gPQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDdSvzw3/ko5VKQoMUGBXD5g8MLFmVFh6OOXG8wPT/48FS6wIqEZvKOXsad6VKqAkg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a1130e2e-577b-44ba-886c-8ca3ce6a5318",
+                            SecurityStamp = "5fcb40e7-28cb-4ee4-a8a9-0284266510cc",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         },
@@ -299,7 +373,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "9ef201b2-999c-4161-8f2b-d7994971e5ee",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1fb6849e-f2a9-4179-a4ef-035d6ff3b778",
+                            ConcurrencyStamp = "26f192da-ebf0-4c51-8a4d-9678d6b44c4a",
                             Email = "sarahconor@skynet.com",
                             EmailConfirmed = true,
                             FirstName = "Sarah",
@@ -309,9 +383,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "SARAHCONNOR@SKYNET.COM",
                             NormalizedUserName = "ILIKEROBOTS",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEBQt3Z6EJcFnAyvpgLTLvzj0o93mFDHwkRWQ6bCHVA4YP8KYVnSumi69Cu+QfomZEQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELXxaYgrelZLibHvfC+rH1CIfh6NYsCy5/CEDTwZzqE8m7UtHG1xXl1oWfg1qkI3/g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "40aebbad-d6be-41a4-bc1b-9542a4ec8a88",
+                            SecurityStamp = "2bcd19b6-573b-4845-8b25-ea544773fc4e",
                             TwoFactorEnabled = false,
                             UserName = "ILikeRobots"
                         },
@@ -319,7 +393,7 @@ namespace SmartFinances.Infrastructure.Migrations
                         {
                             Id = "8f095269-a72b-4427-bcaf-d860249770c9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "04de0f21-f271-4364-af9e-9304a18deaac",
+                            ConcurrencyStamp = "6bba9a48-a935-42c6-a3e4-cb2a28eef117",
                             Email = "tylerdurden@fightclub.com",
                             EmailConfirmed = true,
                             FirstName = "Tyler",
@@ -329,9 +403,9 @@ namespace SmartFinances.Infrastructure.Migrations
                             NormalizedEmail = "TYLERDURDEN@FIGHTCLUB.COM",
                             NormalizedUserName = "FIRSTRULE",
                             NumberOfAccounts = 0,
-                            PasswordHash = "AQAAAAEAACcQAAAAEJvYD1RxaAeGrwK6bTyv+h0m0xt75ZsE/q9Vtk2bmUhnAs2B7USXO3O+5yzPGZjjzg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDwUMbYY1grmG3TO/SW1B86q1FkyO+SDSNe4uZs6/sBCZMIBIsBYn0/tF0910Jf6GQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "91135a4d-592d-49c0-b757-d76459f957df",
+                            SecurityStamp = "e90c2c52-1bdd-4eaf-8254-2c410ef94463",
                             TwoFactorEnabled = false,
                             UserName = "FirstRule"
                         });
@@ -510,6 +584,9 @@ namespace SmartFinances.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -525,6 +602,8 @@ namespace SmartFinances.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("ExpenseTypeId");
 
@@ -618,7 +697,7 @@ namespace SmartFinances.Infrastructure.Migrations
                             Id = -1,
                             Balance = 2000m,
                             Budget = 0m,
-                            CreationDateTime = new DateTime(2024, 3, 23, 16, 3, 17, 797, DateTimeKind.Utc).AddTicks(4081),
+                            CreationDateTime = new DateTime(2024, 3, 23, 15, 43, 55, 490, DateTimeKind.Utc).AddTicks(1384),
                             Name = "ILikeRobots",
                             Number = "11AAAA111111",
                             Type = 1,
@@ -629,7 +708,7 @@ namespace SmartFinances.Infrastructure.Migrations
                             Id = -2,
                             Balance = 2000m,
                             Budget = 0m,
-                            CreationDateTime = new DateTime(2024, 3, 23, 16, 3, 17, 797, DateTimeKind.Utc).AddTicks(4083),
+                            CreationDateTime = new DateTime(2024, 3, 23, 15, 43, 55, 490, DateTimeKind.Utc).AddTicks(1386),
                             Name = "FirstRule",
                             Number = "22BBBB222222",
                             Type = 1,
@@ -765,6 +844,17 @@ namespace SmartFinances.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SmartFinances.Core.Data.Account", b =>
+                {
+                    b.HasOne("SmartFinances.Core.Data.ApplicationUser", "User")
+                        .WithMany("Accounts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SmartFinances.Core.Data.Contact", b =>
                 {
                     b.HasOne("SmartFinances.Core.Data.ApplicationUser", "User")
@@ -808,6 +898,12 @@ namespace SmartFinances.Infrastructure.Migrations
 
             modelBuilder.Entity("SmartFinances.Core.Data.RegularExpense", b =>
                 {
+                    b.HasOne("SmartFinances.Core.Data.Account", "Account")
+                        .WithMany("RegularExpenses")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("SmartFinances.Core.Data.ExpenseType", "ExpenseType")
                         .WithMany("RegularExpenses")
                         .HasForeignKey("ExpenseTypeId")
@@ -819,6 +915,8 @@ namespace SmartFinances.Infrastructure.Migrations
                         .HasForeignKey("TransactionalAccountId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Account");
 
                     b.Navigation("ExpenseType");
 
@@ -858,8 +956,15 @@ namespace SmartFinances.Infrastructure.Migrations
                     b.Navigation("TransactionalAccount");
                 });
 
+            modelBuilder.Entity("SmartFinances.Core.Data.Account", b =>
+                {
+                    b.Navigation("RegularExpenses");
+                });
+
             modelBuilder.Entity("SmartFinances.Core.Data.ApplicationUser", b =>
                 {
+                    b.Navigation("Accounts");
+
                     b.Navigation("Contacts");
 
                     b.Navigation("SavingsAccount");

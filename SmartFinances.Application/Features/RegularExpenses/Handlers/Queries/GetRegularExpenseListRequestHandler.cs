@@ -19,7 +19,7 @@ namespace SmartFinances.Application.Features.RegularExpenses.Handlers.Queries
 
         public async Task<List<RegularExpenseDto>> Handle(GetRegularExpenseListRequest request, CancellationToken cancellationToken)
         {
-            var regularExpenseList = await _unitOfWork.RegularExpenses.GetAllAsync(q => q.AccountId == request.AccountId, 
+            var regularExpenseList = await _unitOfWork.RegularExpenses.GetAllAsync(q => q.TransactionalAccountId == request.AccountId, 
                                                                                    includeProperties: Constants.EXPENSETYPE);
 
             if (regularExpenseList == null || !regularExpenseList.Any())

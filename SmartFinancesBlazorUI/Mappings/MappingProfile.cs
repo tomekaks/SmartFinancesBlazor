@@ -11,10 +11,6 @@ namespace SmartFinancesBlazorUI.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<AccountDto, AccountVM>()
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (AccountType)src.Type));
-            CreateMap<AccountVM, UpdateAccountDto>();
-
             CreateMap<TransferDto, TransferVM>().ReverseMap();
             CreateMap<NewTransferVM, CreateTransferDto>();
 
@@ -41,6 +37,11 @@ namespace SmartFinancesBlazorUI.Mappings
             CreateMap<YearlySummaryDto, YearlySummaryVM>().ReverseMap();
 
             CreateMap<MonthlySummaryDto, MonthlySummaryVM>().ReverseMap();
+
+            CreateMap<TransactionalAccountDto, TransactionalAccountVM>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (AccountType)src.Type));
+
+            CreateMap<SavingsAccountDto, SavingsAccountVM>();
         }
     }
 }
