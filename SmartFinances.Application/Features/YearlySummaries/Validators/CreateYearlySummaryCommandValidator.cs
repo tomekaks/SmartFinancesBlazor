@@ -11,6 +11,9 @@ namespace SmartFinances.Application.Features.YearlySummaries.Validators
             RuleFor(q => q.YearlySummaryDto.AccountId)
                 .NotEmpty().WithMessage("{PropertyName} is required");
 
+            RuleFor(q => q.YearlySummaryDto.TransactionalAccountId)
+                .NotEmpty().WithMessage("{PropertyName} is required");
+
             RuleFor(q => q.YearlySummaryDto.Year)
                 .NotEmpty().WithMessage("{PropertyName} can't be empty")
                 .GreaterThanOrEqualTo(_currentYear).WithMessage("Year can't be smaller than current year")

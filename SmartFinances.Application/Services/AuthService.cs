@@ -7,6 +7,8 @@ using SmartFinances.Application.Dto;
 using SmartFinances.Application.Exceptions;
 using SmartFinances.Application.Features.Accounts.Dtos;
 using SmartFinances.Application.Features.Accounts.Requests.Commands;
+using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
+using SmartFinances.Application.Features.TransactionalAccounts.Requests.Commands;
 using SmartFinances.Application.Features.Users.Dtos;
 using SmartFinances.Application.Interfaces.Services;
 using SmartFinances.Core.Data;
@@ -73,13 +75,23 @@ namespace SmartFinances.Application.Services
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            var createAccountDto = new CreateAccountDto()
+            var createTransactionalAccountDto = new CreateTransactionalAccountDto()
             {
                 UserId = user.Id,
-                Type = 1
+                Type = Constants.MAINACCOUNT
             };
 
-            await _mediator.Send(new CreateAccountCommand { CreateAccountDto = createAccountDto});    
+            await _mediator.Send(new CreateTransactionalAccountCommand { AccountDto = createTransactionalAccountDto });
+
+            //tomek
+
+            //var createAccountDto = new CreateAccountDto()
+            //{
+            //    UserId = user.Id,
+            //    Type = 1
+            //};
+
+            //await _mediator.Send(new CreateAccountCommand { CreateAccountDto = createAccountDto});    
 
             return new RegistrationResponse()
             {

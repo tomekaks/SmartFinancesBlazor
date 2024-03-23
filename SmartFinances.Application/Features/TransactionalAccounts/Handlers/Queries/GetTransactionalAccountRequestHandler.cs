@@ -8,7 +8,7 @@ using SmartFinances.Application.Interfaces.Repositories;
 namespace SmartFinances.Application.Features.TransactionalAccounts.Handlers.Queries
 {
     public class GetTransactionalAccountRequestHandler
-        : IRequestHandler<GetTransactionalAccoutRequest, TransactionalAccountDto>
+        : IRequestHandler<GetTransactionalAccountRequest, TransactionalAccountDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ITransactionalAccountFactory _transactionalAccountFactory;
@@ -19,7 +19,7 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Handlers.Quer
             _transactionalAccountFactory = transactionalAccountFactory;
         }
 
-        public async Task<TransactionalAccountDto> Handle(GetTransactionalAccoutRequest request, CancellationToken cancellationToken)
+        public async Task<TransactionalAccountDto> Handle(GetTransactionalAccountRequest request, CancellationToken cancellationToken)
         {
             var transactionalAccount = await _unitOfWork.TransactionalAccounts.GetByIdAsync(request.AccountId);
 

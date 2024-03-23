@@ -33,8 +33,14 @@ namespace SmartFinances.Application.Features.YearlySummaries.Handlers.Commands
             await _unitOfWork.YearlySummaries.AddAsync(yearlySummary);
             await _unitOfWork.SaveAsync();
 
-            yearlySummary = await _unitOfWork.YearlySummaries.GetAsync(q => q.AccountId == request.YearlySummaryDto.AccountId
-                                                                         && q.Year == request.YearlySummaryDto.Year);
+            //tomek
+
+            yearlySummary = await _unitOfWork.YearlySummaries.GetAsync(
+                                    q => q.TransactionalAccountId == request.YearlySummaryDto.TransactionalAccountId
+                                    && q.Year == request.YearlySummaryDto.Year);
+
+            //yearlySummary = await _unitOfWork.YearlySummaries.GetAsync(q => q.AccountId == request.YearlySummaryDto.AccountId
+            //                                                             && q.Year == request.YearlySummaryDto.Year);
 
             await CreateMonthlySummariesAsync(yearlySummary);
         }

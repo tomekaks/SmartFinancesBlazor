@@ -5,10 +5,12 @@ namespace SmartFinances.Application.Features.YearlySummaries.Validators
 {
     public class UpdateYearlySummaryCommandValidator : AbstractValidator<UpdateYearlySummaryCommand>
     {
-        private int _currentYear => DateTime.Now.Year;
         public UpdateYearlySummaryCommandValidator()
         {
             RuleFor(q => q.YearlySummaryDto.AccountId)
+                .NotEmpty().WithMessage("{PropertyName} is required");
+
+            RuleFor(q => q.YearlySummaryDto.TransactionalAccountId)
                 .NotEmpty().WithMessage("{PropertyName} is required");
         }
     }

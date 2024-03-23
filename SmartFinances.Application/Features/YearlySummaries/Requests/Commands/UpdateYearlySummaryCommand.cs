@@ -5,6 +5,6 @@ namespace SmartFinances.Application.Features.YearlySummaries.Requests.Commands
 {
     public class UpdateYearlySummaryCommand : IRequest
     {
-        public UpdateYearlySummaryDto YearlySummaryDto{ get; set; }
+        public UpdateYearlySummaryDto YearlySummaryDto { get; set; }
     }
 }
