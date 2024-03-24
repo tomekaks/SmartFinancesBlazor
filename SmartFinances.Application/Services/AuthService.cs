@@ -73,13 +73,7 @@ namespace SmartFinances.Application.Services
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            var createTransactionalAccountDto = new CreateTransactionalAccountDto()
-            {
-                UserId = user.Id,
-                Type = Constants.MAINACCOUNT
-            };
-
-            await _mediator.Send(new CreateTransactionalAccountCommand { AccountDto = createTransactionalAccountDto });
+            await _mediator.Send(new CreateMainAccountCommand { UserId = user.Id });
 
             return new RegistrationResponse()
             {
