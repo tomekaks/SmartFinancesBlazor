@@ -2,9 +2,8 @@
 {
     public enum AccountType
     {
-        Main = 1,
-        Secondary = 2,
-        Business = 3,
-        Savings = 4
+        Main,
+        Secondary,
+        Business
     }
 }

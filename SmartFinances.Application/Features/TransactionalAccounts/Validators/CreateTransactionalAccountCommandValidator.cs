@@ -8,7 +8,7 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Validators
         public CreateTransactionalAccountCommandValidator()
         {
             RuleFor(q => q.AccountDto.Type)
-                .GreaterThanOrEqualTo(1);
+                .NotEmpty().WithMessage("Account needs to have a type");
 
             RuleFor(q => q.AccountDto.UserId)
                 .NotEmpty().WithMessage("Account needs to have an assigned userId");

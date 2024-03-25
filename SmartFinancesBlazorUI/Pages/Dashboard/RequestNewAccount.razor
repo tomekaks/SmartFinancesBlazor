@@ -19,16 +19,32 @@ else
                     <MudCardHeader>
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6" Class="ml-2">@type.ToString()</MudText>
-                            </CardHeaderContent>
-                        </MudCardHeader>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                    </MudCardContent>
+                    <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestTransactionalAccount(type.ToString()))">Request</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+        @if(Model.SavingsAccount == null)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6" Class="ml-2">Savings</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
                         <MudCardContent>
-                            @* <MudText>@GetDescriptionForAccountType(type)</MudText> *@
                         </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestAccount((int)type))">Request</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </MudItem>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="RequestSavingsAccount">Request</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
         }
     </MudGrid>
     <MudItem>
@@ -45,12 +61,22 @@ else
     protected override async Task OnInitializedAsync()
     {
         Model.Accounts = await DashboardService.GetAllAccountsAsync();
+        Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
         Model.AvailableAccountTypes = GetAvailableAccountTypes();
     }
 
-    private async Task RequestAccount(int type)
+    private async Task RequestTransactionalAccount(string type)
     {
-        var response = await DashboardService.RequestNewAccountAsync(type);
+        var response = await DashboardService.RequestNewTransactionalAccountAsync(type);
+        if (response)
+        {
+            NavigateToDashboard();
+        }
+    }
+
+    private async Task RequestSavingsAccount()
+    {
+        var response = await DashboardService.RequestNewSavingsAccountAsync();
         if (response)
         {
             NavigateToDashboard();

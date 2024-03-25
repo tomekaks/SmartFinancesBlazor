@@ -31,7 +31,7 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Factories
             return new TransactionalAccount()
             {
                 Number = GenerateAccountNumber(),
-                Name = userName + " - " + accountDto.TypeName,
+                Name = userName + " - " + accountDto.Type,
                 UserId = accountDto.UserId,
                 Type = accountDto.Type,
                 CreationDateTime = DateTime.UtcNow

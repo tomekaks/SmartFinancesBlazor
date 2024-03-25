@@ -7,9 +7,13 @@ namespace SmartFinancesBlazorUI.Contracts
     {
         Task<DashboardVM> LoadDashboardVM();
         Task<List<TransactionalAccountVM>> GetAllAccountsAsync();
+        Task<SavingsAccountVM> GetSavingsAccountAsync();
         Task<bool> AddFundsAsync(AddFundsVM addFundsVM);
         Task ChangeAccountAsync(string accountNumber);
-        Task<bool> RequestNewAccountAsync(int accountType);
+
+        Task<bool> RequestNewTransactionalAccountAsync(string accountType);
+        Task<bool> RequestNewSavingsAccountAsync();
+
         Task<WithdrawVM> LoadWithdrawVM();
         Task<bool> WithdrawFromSavingsAccountAsync(WithdrawVM withdrawVM);
         Task<DepositVM> LoadDepositVM();

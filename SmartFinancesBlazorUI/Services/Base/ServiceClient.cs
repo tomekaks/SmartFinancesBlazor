@@ -3943,10 +3943,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         public string UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
-        public int Type { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("typeName")]
-        public string TypeName { get; set; }
+        public string Type { get; set; }
 
     }
 
@@ -4249,7 +4246,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         public string UserId { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
-        public int Type { get; set; }
+        public string Type { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("budget")]
         public decimal Budget { get; set; }

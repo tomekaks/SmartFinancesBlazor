@@ -19,10 +19,8 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Factories
             return new SavingsAccount()
             {
                 Number = GenerateAccountNumber(),
-                Name = userName + " - Savings",
-                Balance = 0,
+                Name = userName + " - " + Constants.SAVINGSACCOUNT,
                 UserId = userId,
-                Goal = 0,
                 CreationDateTime = DateTime.UtcNow
             };
         }

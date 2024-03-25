@@ -30,12 +30,13 @@ namespace SmartFinancesBlazorUI.Services
 
             var currentAccount = await LoadCurrentAccountAsync();
 
-            SavingsAccount = await LoadSavingsAccountAsync();
+            SavingsAccount = await GetSavingsAccountAsync();
             
             return new DashboardVM()
             {
                 Accounts = sortedAccounts,
-                CurrentAccount = currentAccount
+                CurrentAccount = currentAccount,
+                SavingsAccount = this.SavingsAccount
             };
         }
 
@@ -50,6 +51,24 @@ namespace SmartFinancesBlazorUI.Services
             }
 
             return _mapper.Map<List<TransactionalAccountVM>>(accountsDto);
+        }
+
+        public async Task<SavingsAccountVM> GetSavingsAccountAsync()
+        {
+            try
+            {
+                await AddBearerToken();
+                var savingsAccountDto = await _client.SavingsAccountsGETAsync();
+
+                var savingsAccountVM = _mapper.Map<SavingsAccountVM>(savingsAccountDto);
+
+                await _localStorage.SetItemAsync(Constants.SAVINGSACCOUNT, savingsAccountVM.Number);
+                return savingsAccountVM;
+            }
+            catch (ApiException ex) when (ex.StatusCode == 404 || ex.StatusCode == 204)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
@@ -75,12 +94,20 @@ namespace SmartFinancesBlazorUI.Services
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, accountNumber);
         }
 
-        public async Task<bool> RequestNewAccountAsync(int accountType)
+        public async Task<bool> RequestNewTransactionalAccountAsync(string accountType)
         {
             var accountDto = new CreateTransactionalAccountDto() { Type = accountType };
 
             await AddBearerToken();
             await _client.TransactionalAccountsPOSTAsync(accountDto);
+
+            return true;
+        }
+
+        public async Task<bool> RequestNewSavingsAccountAsync()
+        {
+            await AddBearerToken();
+            await _client.SavingsAccountsPOSTAsync();
 
             return true;
         }
@@ -161,26 +188,6 @@ namespace SmartFinancesBlazorUI.Services
 
             var accountDto = await GetAccountAsync();
             return _mapper.Map<TransactionalAccountVM>(accountDto);
-        }
-
-        private async Task<SavingsAccountVM> LoadSavingsAccountAsync()
-        {
-            try
-            {
-                await AddBearerToken();
-                var savingsAccountDto = await _client.SavingsAccountsGETAsync();
-
-                var savingsAccountVM = _mapper.Map<SavingsAccountVM>(savingsAccountDto);
-
-                await _localStorage.SetItemAsync(Constants.SAVINGSACCOUNT, savingsAccountVM.Number);
-                return savingsAccountVM;
-            }
-            catch (ApiException ex) when (ex.StatusCode == 404 ||  ex.StatusCode == 204)
-            {
-                return null;
-            }
-
-            
         }
 
         private async Task<TransactionalAccountVM> GetMainAccountAsync()

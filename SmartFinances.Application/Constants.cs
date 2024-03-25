@@ -9,6 +9,7 @@ namespace SmartFinances.Application
     public static class Constants
     {
         public const string EXPENSETYPE = "ExpenseType";
-        public const int MAINACCOUNT = 1;
+        public const string MAINACCOUNT = "Main";
+        public const string SAVINGSACCOUNT = "Savings";
     }
 }
