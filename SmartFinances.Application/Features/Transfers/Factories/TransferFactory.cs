@@ -38,5 +38,33 @@ namespace SmartFinances.Application.Features.Transfers.Factories
         {
             return _mapper.Map(updateTransferDto, transfer);
         }
+
+        public Transfer MapFromWithdrawal(SavingsAccountTransferDto savingsAccountTransferDto)
+        {
+            return new Transfer()
+            {
+                Amount = savingsAccountTransferDto.Amount,
+                SendTime = savingsAccountTransferDto.SendTime,
+                SenderName = savingsAccountTransferDto.SavingsAccountName,
+                SenderAccountNumber = savingsAccountTransferDto.SavingsAccountNumber,
+                ReceiverName = savingsAccountTransferDto.TransactionalAccountName,
+                ReceiverAccountNumber = savingsAccountTransferDto.TransactionalAccountNumber,
+                Title = savingsAccountTransferDto.Title
+            };
+        }
+
+        public Transfer MapFromDeposit(SavingsAccountTransferDto savingsAccountTransferDto)
+        {
+            return new Transfer()
+            {
+                Amount = savingsAccountTransferDto.Amount,
+                SendTime = savingsAccountTransferDto.SendTime,
+                SenderName = savingsAccountTransferDto.TransactionalAccountName,
+                SenderAccountNumber = savingsAccountTransferDto.TransactionalAccountNumber,
+                ReceiverName = savingsAccountTransferDto.SavingsAccountName,
+                ReceiverAccountNumber = savingsAccountTransferDto.SavingsAccountNumber,
+                Title = savingsAccountTransferDto.Title
+            };
+        }
     }
 }

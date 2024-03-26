@@ -20,13 +20,13 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.Property(q => q.ReceiverAccountNumber)
                    .IsRequired();
 
-            builder.Property(q => q.ReceiverId)
+            builder.Property(q => q.ReceiverName)
                    .IsRequired();
 
             builder.Property(q => q.SenderAccountNumber)
                    .IsRequired();
 
-            builder.Property(q => q.SenderId)
+            builder.Property(q => q.SenderName)
                    .IsRequired();
 
         }

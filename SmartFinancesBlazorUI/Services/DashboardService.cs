@@ -127,19 +127,19 @@ namespace SmartFinancesBlazorUI.Services
         {
             var currentAccount = await LoadCurrentAccountAsync();
 
-            var transferDto = new CreateTransferDto()
+            var transferDto = new SavingsAccountTransferDto()
             {
                 Amount = withdrawVM.Amount,
-                ReceiverName = currentAccount.Name,
-                ReceiverAccountNumber = currentAccount.Number,
-                SenderName = SavingsAccount.Name,
-                SenderAccountNumber = SavingsAccount.Number,
+                TransactionalAccountName = currentAccount.Name,
+                TransactionalAccountNumber = currentAccount.Number,
+                SavingsAccountName = SavingsAccount.Name,
+                SavingsAccountNumber = SavingsAccount.Number,
                 SendTime = DateTime.UtcNow,
                 Title = "Withdraw"
             };
 
             await AddBearerToken();
-            await _client.TransfersPOSTAsync(transferDto);
+            await _client.TransfersWithdrawFromSavingsAccountAsync(transferDto);
 
             return true;
         }
@@ -159,19 +159,19 @@ namespace SmartFinancesBlazorUI.Services
         {
             var currentAccount = await LoadCurrentAccountAsync();
 
-            var transferDto = new CreateTransferDto()
+            var transferDto = new SavingsAccountTransferDto()
             {
                 Amount = depositVM.Amount,
-                SenderName = currentAccount.Name,
-                SenderAccountNumber = currentAccount.Number,
-                ReceiverName = SavingsAccount.Name,
-                ReceiverAccountNumber = SavingsAccount.Number,
+                TransactionalAccountName = currentAccount.Name,
+                TransactionalAccountNumber = currentAccount.Number,
+                SavingsAccountName = SavingsAccount.Name,
+                SavingsAccountNumber = SavingsAccount.Number,
                 SendTime = DateTime.UtcNow,
                 Title = "Deposit"
             };
 
             await AddBearerToken();
-            await _client.TransfersPOSTAsync(transferDto);
+            await _client.TransfersDepositToSavingsAccountAsync(transferDto);
 
             return true;
         }

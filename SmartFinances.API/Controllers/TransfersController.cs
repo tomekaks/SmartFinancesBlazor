@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Features.Transfers.Dtos;
 using SmartFinances.Application.Features.Transfers.Requests.Commands;
 using SmartFinances.Application.Features.Transfers.Requests.Queries;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
@@ -42,10 +43,26 @@ namespace SmartFinances.API.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync([FromBody] CreateTransferDto createTransferDto)
+        [HttpPost("deposit")]
+        [SwaggerOperation(OperationId = "TransfersDepositToSavingsAccount")]
+        public async Task<IActionResult> DepositToSavingsAccountAsync([FromBody] SavingsAccountTransferDto savingsAccountTransferDto)
         {
-            await _mediator.Send(new CreateTransferCommand { TransferDto = createTransferDto });
+            await _mediator.Send(new DepositToSavingsAccountCommand { TransferDto = savingsAccountTransferDto });
+            return Ok();
+        }
+
+        [HttpPost("withdraw")]
+        [SwaggerOperation(OperationId = "TransfersWithdrawFromSavingsAccount")]
+        public async Task<IActionResult> WithdrawFromSavingsAccountAsync([FromBody] SavingsAccountTransferDto savingsAccountTransferDto)
+        {
+            await _mediator.Send(new WithdrawFromSavingsAccountCommand { TransferDto = savingsAccountTransferDto });
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateTransferDto updateTransferDto)
+        {
+            await _mediator.Send(new UpdateTransferCommand { TransferDto = updateTransferDto });
             return Ok();
         }
     }

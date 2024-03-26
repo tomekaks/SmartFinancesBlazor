@@ -35,9 +35,6 @@ namespace SmartFinances.Application.Features.Transfers.Handlers.Commands
 
             if (receiverAccount != null && senderAccount.Balance >= request.TransferDto.Amount)
             {
-                transfer.SenderId = senderAccount.Id;
-                transfer.ReceiverId = receiverAccount.Id;
-
                 receiverAccount.Balance += request.TransferDto.Amount;
 
                 senderAccount.Balance -= request.TransferDto.Amount;
