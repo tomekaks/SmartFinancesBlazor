@@ -12,6 +12,8 @@
         public IYearlySummaryRepository YearlySummaries { get; }
         public ITransactionalAccountRepository TransactionalAccounts { get; }
         public ISavingsAccountRepository SavingsAccounts { get; }
+        public IAccountRequestRepository AccountRequests { get; }
+        public INotificationRepository Notifications { get; }
         Task SaveAsync();
     }
 }

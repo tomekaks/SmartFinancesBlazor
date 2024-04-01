@@ -60,7 +60,7 @@ else
                             </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText>Savings Goal:@Model.SavingsAccount.Goal </MudText>
+                            <MudText>Savings goal: @Model.SavingsAccount.Goal </MudText>
                             <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
                         </MudCardContent>
                         <MudCardActions>
@@ -72,7 +72,7 @@ else
             </div>     
         }
 
-        @if(Model.Accounts.Count() < 4)
+        @if(Model.Accounts.Count() < 3 && Model.SavingsAccount != null)
         {
             <div class="row mb-3">
                 <div class="col-8">

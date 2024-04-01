@@ -19,6 +19,8 @@ namespace SmartFinances.Infrastructure.Repositories
             YearlySummaries = new YearlySummaryRepository(context);
             TransactionalAccounts = new TransactionalAccountRepository(context);
             SavingsAccounts = new SavingsAccountRepository(context);
+            AccountRequests = new AccountRequestRepository(context);
+            Notifications = new NotificationRepository(context);
         }
 
         public ITransferRepository Transfers { get; private set; }
@@ -30,7 +32,9 @@ namespace SmartFinances.Infrastructure.Repositories
         public IMonthlySummaryRepository MonthlySummaries { get; private set; }
         public IYearlySummaryRepository YearlySummaries { get; private set; }
         public ITransactionalAccountRepository TransactionalAccounts { get; private set; }
-        public ISavingsAccountRepository SavingsAccounts { get; set; }
+        public ISavingsAccountRepository SavingsAccounts { get; private set; }
+        public IAccountRequestRepository AccountRequests { get; private set; }
+        public INotificationRepository Notifications { get; private set; }
 
 
         public void Dispose()

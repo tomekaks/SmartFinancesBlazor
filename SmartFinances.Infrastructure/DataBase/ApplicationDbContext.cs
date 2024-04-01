@@ -20,6 +20,8 @@ namespace SmartFinances.Infrastructure.DataBase
         public DbSet<YearlySummary> YearlySummaries { get; set; }
         public DbSet<SavingsAccount> SavingsAccounts { get; set; }
         public DbSet<TransactionalAccount> TransactionalAccounts { get; set; }
+        public DbSet<AccountRequest> AccountRequests { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

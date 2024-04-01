@@ -19,11 +19,8 @@ else
                         <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="NavigateToNewTransfer">New Transfer</MudButton>
                     </ToolBarContent>
                     <Columns>
-@*                         <PropertyColumn Property="q => q.SenderName" Title="Sender"></PropertyColumn>
-                        <PropertyColumn Property="q => q.ReceiverName" Title="Receiver"></PropertyColumn> *@
-                        <PropertyColumn Property="q => q.OtherPartyAccountNumber" Title="Other Party"></PropertyColumn>
+                        <PropertyColumn Property="q => q.OtherPartyName" Title="Other Party"></PropertyColumn>
                         <PropertyColumn Property="q => q.Title"></PropertyColumn>
-                        @* <PropertyColumn Property="q => q.Amount"></PropertyColumn> *@
                         <TemplateColumn>
                             <CellTemplate>
                                 @if(context.Item.CurrentAccountNumber == context.Item.ReceiverAccountNumber)

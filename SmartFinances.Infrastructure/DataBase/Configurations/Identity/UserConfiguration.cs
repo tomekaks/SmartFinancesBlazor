@@ -24,6 +24,16 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations.Identity
                 .HasForeignKey<SavingsAccount>(s => s.UserId)
                 .IsRequired();
 
+            builder.HasMany(u => u.AccountRequests)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .IsRequired();
+
+            builder.HasMany(u => u.Notifications)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .IsRequired();
+
             var hasher = new PasswordHasher<ApplicationUser>();
             builder.HasData(
                 new ApplicationUser()
