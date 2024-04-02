@@ -9,5 +9,7 @@
         public DateTime DateRequested { get; set; }
         public string ApprovedBy { get; set; }
         public DateTime? DateApproved { get; set; }
+        public string RejectedBy { get; set; }
+        public DateTime? DateRejected { get; set; }
     }
 }

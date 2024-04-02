@@ -3,9 +3,9 @@ using SmartFinances.Application.Features.AccountRequests.Requests.Commands;
 
 namespace SmartFinances.Application.Features.AccountRequests.Validators
 {
-    internal class CreateAccountRequestValidator : AbstractValidator<CreateAccountRequestCommand>
+    internal class CreateAccountRequestCommandValidator : AbstractValidator<CreateAccountRequestCommand>
     {
-        public CreateAccountRequestValidator()
+        public CreateAccountRequestCommandValidator()
         {
             RuleFor(q => q.AccountRequestDto.AccountType)
                 .NotEmpty().WithMessage("Account needs to have a type");

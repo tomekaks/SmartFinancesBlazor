@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartFinances.Application
+﻿namespace SmartFinances.Application
 {
     public static class Constants
     {
@@ -16,5 +9,6 @@ namespace SmartFinances.Application
         public const string STATUS_PENDING = "Pending";
         public const string STATUS_CANCELED = "Canceled";
         public const string STATUS_APPROVED = "Approved";
+        public const string STATUS_REJECTED = "Rejected";
     }
 }

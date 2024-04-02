@@ -20,6 +20,9 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.Property(q => q.DateApproved)
                    .IsRequired(false);
 
+            builder.Property(q => q.DateRejected)
+                   .IsRequired(false);
+
             builder.HasOne(c => c.User)
                    .WithMany(u => u.AccountRequests)
                    .HasForeignKey(c => c.UserId)

@@ -20,7 +20,7 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Commands
 
         public async Task Handle(CreateAccountRequestCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateAccountRequestValidator();
+            var validator = new CreateAccountRequestCommandValidator();
             var validationResult = validator.Validate(request);
 
             if (!validationResult.IsValid)
@@ -34,4 +34,5 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Commands
             await _unitOfWork.SaveAsync();
         }
     }
+
 }
