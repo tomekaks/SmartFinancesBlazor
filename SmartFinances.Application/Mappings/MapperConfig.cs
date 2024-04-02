@@ -10,6 +10,7 @@ using SmartFinances.Application.Features.YearlySummaries.Dtos;
 using SmartFinances.Application.Features.MonthlySummaries.Dtos;
 using SmartFinances.Application.Features.SavingsAccounts.Dtos;
 using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
+using SmartFinances.Application.Features.AccountRequests.Dtos;
 
 namespace SmartFinances.Application.Mappings
 {
@@ -56,6 +57,8 @@ namespace SmartFinances.Application.Mappings
             CreateMap<TransactionalAccount, TransactionalAccountDto>().ReverseMap();
             CreateMap<CreateTransactionalAccountDto, TransactionalAccount>();
             CreateMap<UpdateTransactionalAccountDto, TransactionalAccount>();
+
+            CreateMap<AccountRequest, AccountRequestDto>();
         }
     }
 }
