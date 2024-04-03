@@ -16,5 +16,14 @@
         public const string CURRENTACCOUNT = "CurrentAccount";
         public const string SAVINGSACCOUNT = "SavingsAccount";
         public const string TOKEN = "token";
+
+        public const string ACCOUNTTYPE_SAVINGS = "Savings";
+        public const string ACCOUNTTYPE_SECONDARY = "Secondary";
+        public const string ACCOUNTTYPE_BUSINESS = "Business";
+
+        public const string STATUS_PENDING = "Pending";
+        public const string STATUS_REJECTED = "Rejected";
+        public const string STATUS_APPROVED = "Approved";
+        public const string STATUS_CANCELED = "Canceled";
     }
 }

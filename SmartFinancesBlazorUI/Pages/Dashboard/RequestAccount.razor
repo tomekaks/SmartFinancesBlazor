@@ -1,4 +1,4 @@
-﻿@page "/dashboard/requestnewaccount"
+﻿@page "/dashboard/requestaccount"
 @inject NavigationManager NavigationManager
 @inject IDashboardService DashboardService
 
@@ -24,7 +24,7 @@ else
                     <MudCardContent>
                     </MudCardContent>
                     <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestTransactionalAccount(type.ToString()))">Request</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type.ToString()))">Request</MudButton>
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -41,7 +41,7 @@ else
                         <MudCardContent>
                         </MudCardContent>
                     <MudCardActions>
-                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="RequestSavingsAccount">Request</MudButton>
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(Constants.ACCOUNTTYPE_SAVINGS))">Request</MudButton>
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -81,6 +81,12 @@ else
         {
             NavigateToDashboard();
         }
+    }
+
+    private async Task RequestNewAccount(string accountType)
+    {
+        await DashboardService.RequestNewAccountAsync(accountType);
+        NavigateToDashboard();
     }
 
     private List<AccountType> GetAvailableAccountTypes()

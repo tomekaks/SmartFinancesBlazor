@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Exceptions;
 using SmartFinances.Application.Features.AccountRequests.Dtos;
+using SmartFinances.Application.Features.AccountRequests.Requests.Commands;
 using SmartFinances.Application.Features.AccountRequests.Requests.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -36,6 +37,15 @@ namespace SmartFinances.API.Controllers
             return Ok(accountRequests);
         }
 
+        [HttpGet("AccountRequestsByStatus/{status}")]
+        [SwaggerOperation(OperationId = "AccountRequestsGetByStatus")]
+        public async Task<ActionResult<List<AccountRequestDto>>> GetByStatusAsync(string status)
+        {
+            var accountRequests = await _mediator.Send(new GetAccountRequestsByStatusRequest { Status = status });
+
+            return Ok(accountRequests);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<AccountRequestDto>> GetAsync(int id)
         {
@@ -49,6 +59,21 @@ namespace SmartFinances.API.Controllers
 
                 return NotFound(ex.Message);
             }           
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateAsync(CreateAccountRequestDto accountRequestDto)
+        {
+            accountRequestDto.UserId = CurrentUserId;   
+            await _mediator.Send(new CreateAccountRequestCommand { AccountRequestDto = accountRequestDto});
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateAsync(UpdateAccountRequestDto accountRequestDto)
+        {
+            await _mediator.Send(new UpdateAccountRequestCommand { AccountRequestDto = accountRequestDto });
+            return Ok();
         }
     }
 }

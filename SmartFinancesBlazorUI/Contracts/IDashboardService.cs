@@ -11,6 +11,7 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<bool> AddFundsAsync(AddFundsVM addFundsVM);
         Task ChangeAccountAsync(string accountNumber);
 
+        Task RequestNewAccountAsync(string accountType);
         Task<bool> RequestNewTransactionalAccountAsync(string accountType);
         Task<bool> RequestNewSavingsAccountAsync();
 

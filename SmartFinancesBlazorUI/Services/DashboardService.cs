@@ -12,12 +12,12 @@ namespace SmartFinancesBlazorUI.Services
     public class DashboardService : BaseHttpService, IDashboardService
     {
         private readonly IMapper _mapper;
-        private readonly ITransfersService _transfersService;
-        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper, ITransfersService transfersService) 
+        private readonly IAccountRequestService _accountRequestService;
+        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper, IAccountRequestService accountRequestService) 
                                 : base(client, localStorage)
         {
             _mapper = mapper;
-            _transfersService = transfersService;
+            _accountRequestService = accountRequestService;
         }
 
         public List<TransactionalAccountVM> UserAccounts { get; set; } = new List<TransactionalAccountVM>();
@@ -92,6 +92,11 @@ namespace SmartFinancesBlazorUI.Services
         public async Task ChangeAccountAsync(string accountNumber)
         {
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, accountNumber);
+        }
+
+        public async Task RequestNewAccountAsync(string accountType)
+        {
+            await _accountRequestService.CreateAccountRequest(accountType);
         }
 
         public async Task<bool> RequestNewTransactionalAccountAsync(string accountType)
