@@ -3,6 +3,7 @@ using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Dashboard;
+using SmartFinancesBlazorUI.Pages.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
@@ -13,11 +14,17 @@ namespace SmartFinancesBlazorUI.Services
     {
         private readonly IMapper _mapper;
         private readonly IAccountRequestService _accountRequestService;
-        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper, IAccountRequestService accountRequestService) 
+        private readonly IAccountService _accountService;
+        private readonly ITransfersService _transfersService;
+
+        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper,
+                                IAccountRequestService accountRequestService, IAccountService accountService, ITransfersService transfersService)
                                 : base(client, localStorage)
         {
             _mapper = mapper;
             _accountRequestService = accountRequestService;
+            _accountService = accountService;
+            _transfersService = transfersService;
         }
 
         public List<TransactionalAccountVM> UserAccounts { get; set; } = new List<TransactionalAccountVM>();
@@ -25,7 +32,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<DashboardVM> LoadDashboardVM()
         {
-            UserAccounts = await GetAllAccountsAsync();
+            UserAccounts = await GetTransactionalAccountsAsync();
             var sortedAccounts = UserAccounts.OrderBy(q => q.Type).ToList();
 
             var currentAccount = await LoadCurrentAccountAsync();
@@ -40,35 +47,14 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
-        public async Task<List<TransactionalAccountVM>> GetAllAccountsAsync()
+        public async Task<List<TransactionalAccountVM>> GetTransactionalAccountsAsync()
         {
-            await AddBearerToken();
-            var accountsDto = await _client.TransactionalAccountsGetAllAsync();
-
-            if (accountsDto is null || accountsDto.Count == 0)
-            {
-                throw new Exception("Something went wrong");
-            }
-
-            return _mapper.Map<List<TransactionalAccountVM>>(accountsDto);
+            return await _accountService.GetTransactionalAccountsAsync();
         }
 
         public async Task<SavingsAccountVM> GetSavingsAccountAsync()
         {
-            try
-            {
-                await AddBearerToken();
-                var savingsAccountDto = await _client.SavingsAccountsGETAsync();
-
-                var savingsAccountVM = _mapper.Map<SavingsAccountVM>(savingsAccountDto);
-
-                await _localStorage.SetItemAsync(Constants.SAVINGSACCOUNT, savingsAccountVM.Number);
-                return savingsAccountVM;
-            }
-            catch (ApiException ex) when (ex.StatusCode == 404 || ex.StatusCode == 204)
-            {
-                return null;
-            }
+            return await _accountService.GetSavingsAccountAsync();
         }
 
         public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
@@ -83,8 +69,7 @@ namespace SmartFinancesBlazorUI.Services
                 Balance = account.Balance
             };
 
-            await AddBearerToken();
-            await _client.TransactionalAccountsPUTAsync(updateAccountDto);
+            await _accountService.UpdateTransactionalAccountAsync(updateAccountDto);
 
             return true;
         }
@@ -96,25 +81,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task RequestNewAccountAsync(string accountType)
         {
-            await _accountRequestService.CreateAccountRequest(accountType);
-        }
-
-        public async Task<bool> RequestNewTransactionalAccountAsync(string accountType)
-        {
-            var accountDto = new CreateTransactionalAccountDto() { Type = accountType };
-
-            await AddBearerToken();
-            await _client.TransactionalAccountsPOSTAsync(accountDto);
-
-            return true;
-        }
-
-        public async Task<bool> RequestNewSavingsAccountAsync()
-        {
-            await AddBearerToken();
-            await _client.SavingsAccountsPOSTAsync();
-
-            return true;
+            await _accountRequestService.CreateAsync(accountType);
         }
 
         public async Task<WithdrawVM> LoadWithdrawVM()
@@ -130,21 +97,9 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> WithdrawFromSavingsAccountAsync(WithdrawVM withdrawVM)
         {
-            var currentAccount = await LoadCurrentAccountAsync();
+            var transferDto = await GetSavingsAccountTransferDto(withdrawVM.Amount, Constants.WITHDRAW);
 
-            var transferDto = new SavingsAccountTransferDto()
-            {
-                Amount = withdrawVM.Amount,
-                TransactionalAccountName = currentAccount.Name,
-                TransactionalAccountNumber = currentAccount.Number,
-                SavingsAccountName = SavingsAccount.Name,
-                SavingsAccountNumber = SavingsAccount.Number,
-                SendTime = DateTime.UtcNow,
-                Title = "Withdraw"
-            };
-
-            await AddBearerToken();
-            await _client.TransfersWithdrawFromSavingsAccountAsync(transferDto);
+            await _transfersService.WithdrawFromSavingsAccountAsync(transferDto);
 
             return true;
         }
@@ -162,21 +117,9 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> DepositOnSavingsAccountAsync(DepositVM depositVM)
         {
-            var currentAccount = await LoadCurrentAccountAsync();
+            var transferDto = await GetSavingsAccountTransferDto(depositVM.Amount, Constants.DEPOSIT);
 
-            var transferDto = new SavingsAccountTransferDto()
-            {
-                Amount = depositVM.Amount,
-                TransactionalAccountName = currentAccount.Name,
-                TransactionalAccountNumber = currentAccount.Number,
-                SavingsAccountName = SavingsAccount.Name,
-                SavingsAccountNumber = SavingsAccount.Number,
-                SendTime = DateTime.UtcNow,
-                Title = "Deposit"
-            };
-
-            await AddBearerToken();
-            await _client.TransfersDepositToSavingsAccountAsync(transferDto);
+            await _transfersService.DepositOnSavingsAccountAsync(transferDto);
 
             return true;
         }
@@ -191,8 +134,9 @@ namespace SmartFinancesBlazorUI.Services
                 return await GetMainAccountAsync();
             }
 
-            var accountDto = await GetAccountAsync();
-            return _mapper.Map<TransactionalAccountVM>(accountDto);
+            var accountNumber = await GetCurrentAccountNumberAsync();
+
+            return await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
         }
 
         private async Task<TransactionalAccountVM> GetMainAccountAsync()
@@ -216,19 +160,20 @@ namespace SmartFinancesBlazorUI.Services
             return account;
         }
 
-        private async Task<TransactionalAccountDto> GetAccountAsync()
+        private async Task<SavingsAccountTransferDto> GetSavingsAccountTransferDto(decimal amount, string operation)
         {
-            var accountNumber = await GetCurrentAccountNumberAsync();
+            var currentAccount = await LoadCurrentAccountAsync();
 
-            await AddBearerToken();
-            var accountDto = await _client.TransactionalAccountsGetByNumberAsync(accountNumber);
-
-            if (accountDto == null)
+            return new SavingsAccountTransferDto()
             {
-                throw new Exception("Something went wrong");
-            }
-
-            return accountDto;
+                Amount = amount,
+                TransactionalAccountName = currentAccount.Name,
+                TransactionalAccountNumber = currentAccount.Number,
+                SavingsAccountName = SavingsAccount.Name,
+                SavingsAccountNumber = SavingsAccount.Number,
+                SendTime = DateTime.UtcNow,
+                Title = operation
+            };
         }
     }
 }

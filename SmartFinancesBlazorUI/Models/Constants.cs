@@ -25,5 +25,8 @@
         public const string STATUS_REJECTED = "Rejected";
         public const string STATUS_APPROVED = "Approved";
         public const string STATUS_CANCELED = "Canceled";
+
+        public const string WITHDRAW = "Withdraw";
+        public const string DEPOSIT = "Deposit";
     }
 }

@@ -4,29 +4,50 @@ using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Admin;
 using SmartFinancesBlazorUI.Services.Base;
+using System.Net.Http.Headers;
 
 namespace SmartFinancesBlazorUI.Services
 {
     public class AdminService : BaseHttpService, IAdminService
     {
         private readonly IMapper _mapper;
+        private readonly IAccountRequestService _accountRequestService;
+        private readonly IAccountService _accountService;
 
-        public AdminService(IClient client, ILocalStorageService localStorage, IMapper mapper) : base(client, localStorage)
+        public AdminService(IClient client, ILocalStorageService localStorage, IMapper mapper, 
+            IAccountRequestService accountRequestService, IAccountService accountService)
+            : base(client, localStorage)
         {
             _mapper = mapper;
+            _accountRequestService = accountRequestService;
+            _accountService = accountService;
+        }
+
+        public async Task ApproveAccountRequestAsync(int accountRequestId)
+        {
+            await _accountRequestService.UpdateAsync(accountRequestId, Constants.STATUS_APPROVED);
+
+            var accountRequest = await _accountRequestService.GetByIdAsync(accountRequestId);
+
+            if (accountRequest.AccountType == Constants.ACCOUNTTYPE_SAVINGS)
+            {
+                await _accountService.CreateSavingsAccountAcync();
+            }
+            else
+            {
+                await _accountService.CreateTransactionalAccountAsync(accountRequest.AccountType);
+            }
         }
 
         public async Task<List<AccountRequestVM>> GetPendingAccountRequestsAsync()
         {
-            await AddBearerToken();
-            var accountRequests = await _client.AccountRequestsGetByStatusAsync(Constants.STATUS_PENDING);
+            var pendingAccountRequests = await _accountRequestService.GetAllByStatusAsync(Constants.STATUS_PENDING);
+            return pendingAccountRequests;
+        }
 
-            if(accountRequests == null || !accountRequests.Any())
-            {
-                return new List<AccountRequestVM>();
-            }
-
-            return _mapper.Map<List<AccountRequestVM>>(accountRequests);
+        public async Task RejectAccountRequestAsync(int accountRequestId)
+        {
+            await _accountRequestService.UpdateAsync(accountRequestId, Constants.STATUS_REJECTED);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@page "/admin/accountrequests"
-@inject IAdminService AdminServince
+@inject IAdminService AdminService
 
 <PageTitle>Account requests</PageTitle>
 
@@ -22,13 +22,12 @@ else
                         <PropertyColumn Property="q => q.AccountType" Title="Account type"></PropertyColumn>
                         <PropertyColumn Property="q => q.Status"></PropertyColumn>
                         <PropertyColumn Property="q => q.DateRequested" Title="Date requested"></PropertyColumn>
-@*                         <TemplateColumn>
+                        <TemplateColumn>
                             <CellTemplate>
-                                <MudButton Variant="Variant.Filled" Color="Color.Secondary" EndIcon="@Icons.Material.Filled.Send" OnClick="() => UseRegularExpense(context.Item)">Use</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteRegularExpense(context.Item.Id)">Delete</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="() => ApproveAccountRequest(context.Item.Id)">Approve</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => RejectAccountRequest(context.Item.Id)">Reject</MudButton>
                             </CellTemplate>
-                        </TemplateColumn> *@
+                        </TemplateColumn>
                     </Columns>
                 </MudDataGrid>
             </div>
@@ -46,6 +45,16 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Model.Requests = await AdminServince.GetPendingAccountRequestsAsync();
+        Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
+    }
+
+    private async Task ApproveAccountRequest(int accountRequestId)
+    {
+        await AdminService.ApproveAccountRequestAsync(accountRequestId);
+    }
+
+    private async Task RejectAccountRequest(int accountRequestId)
+    {
+        await AdminService.RejectAccountRequestAsync(accountRequestId);
     }
 }

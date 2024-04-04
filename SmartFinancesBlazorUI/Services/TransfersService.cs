@@ -28,6 +28,12 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
+        public async Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto)
+        {
+            await AddBearerToken();
+            await _client.TransfersDepositToSavingsAccountAsync(transferDto);
+        }
+
         public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM()
         {
             string currentAccount = await GetCurrentAccountNumberAsync();
@@ -45,6 +51,12 @@ namespace SmartFinancesBlazorUI.Services
                 Transfers = transfersVM,
                 AccountNumber = currentAccount
             };
+        }
+
+        public async Task WithdrawFromSavingsAccountAsync(SavingsAccountTransferDto transferDto)
+        {
+            await AddBearerToken();
+            await _client.TransfersWithdrawFromSavingsAccountAsync(transferDto);
         }
 
         private async Task<List<TransferVM>> GetTransfersAsync(string currentAccount)

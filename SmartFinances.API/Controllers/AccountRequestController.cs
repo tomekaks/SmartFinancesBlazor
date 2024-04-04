@@ -72,6 +72,7 @@ namespace SmartFinances.API.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateAsync(UpdateAccountRequestDto accountRequestDto)
         {
+            accountRequestDto.AdminId = CurrentUserId;
             await _mediator.Send(new UpdateAccountRequestCommand { AccountRequestDto = accountRequestDto });
             return Ok();
         }
