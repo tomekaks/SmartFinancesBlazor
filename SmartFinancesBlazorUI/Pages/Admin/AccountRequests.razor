@@ -51,10 +51,12 @@ else
     private async Task ApproveAccountRequest(int accountRequestId)
     {
         await AdminService.ApproveAccountRequestAsync(accountRequestId);
+        Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
     }
 
     private async Task RejectAccountRequest(int accountRequestId)
     {
         await AdminService.RejectAccountRequestAsync(accountRequestId);
+        Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
     }
 }

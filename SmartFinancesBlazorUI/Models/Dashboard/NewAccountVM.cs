@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SmartFinancesBlazorUI.Models.Admin;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartFinancesBlazorUI.Models.Dashboard
 {
@@ -9,5 +10,6 @@ namespace SmartFinancesBlazorUI.Models.Dashboard
         public List<TransactionalAccountVM> Accounts { get; set; }
         public List<AccountType> AvailableAccountTypes { get; set; }
         public SavingsAccountVM? SavingsAccount { get; set; }
+        public List<string> PendingAccountTypes { get; set; }
     }
 }

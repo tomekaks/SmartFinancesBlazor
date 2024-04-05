@@ -2,6 +2,7 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
+using SmartFinancesBlazorUI.Models.Admin;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Pages.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
@@ -55,6 +56,15 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<SavingsAccountVM> GetSavingsAccountAsync()
         {
             return await _accountService.GetSavingsAccountAsync();
+        }
+
+        public async Task<List<string>> GetUsersPendingAccountTypes()
+        {
+            var pendingRequests = await _accountRequestService.GetByUserAndStatusAsync(Constants.STATUS_PENDING);
+
+            var pendingAccountTypes = pendingRequests.Select(q => q.AccountType).ToList();
+
+            return pendingAccountTypes;
         }
 
         public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)

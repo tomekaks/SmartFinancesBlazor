@@ -37,6 +37,15 @@ namespace SmartFinances.API.Controllers
             return Ok(accountRequests);
         }
 
+        [HttpGet("UsersAccountRequests/{status}")]
+        [SwaggerOperation(OperationId = "AccountRequestsGetByUserAndStatus")]
+        public async Task<ActionResult<List<AccountRequestDto>>> GetByUserAndStatusAsync(string status)
+        {
+            var accountRequests = await _mediator.Send(new GetUsersAccountRequestsRequest { UserId = CurrentUserId , Status = status });
+
+            return Ok(accountRequests);
+        }
+
         [HttpGet("AccountRequestsByStatus/{status}")]
         [SwaggerOperation(OperationId = "AccountRequestsGetByStatus")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByStatusAsync(string status)

@@ -8,5 +8,6 @@ namespace SmartFinancesBlazorUI.Contracts
         Task UpdateAsync(int accountTypeId, string status);
         Task<AccountRequestVM> GetByIdAsync(int accountTypeId);
         Task<List<AccountRequestVM>> GetAllByStatusAsync(string status);
+        Task<List<AccountRequestVM>> GetByUserAndStatusAsync(string status);
     }
 }

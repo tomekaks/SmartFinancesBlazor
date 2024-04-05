@@ -24,7 +24,15 @@ else
                     <MudCardContent>
                     </MudCardContent>
                     <MudCardActions>
+                        @if(CheckIfPending(type.ToString()))
+                        {
+
+                            <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true" >Pending</MudButton>
+                        }
+                        else
+                        {
                             <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type.ToString()))">Request</MudButton>
+                        }
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -41,7 +49,15 @@ else
                         <MudCardContent>
                         </MudCardContent>
                     <MudCardActions>
-                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(Constants.ACCOUNTTYPE_SAVINGS))">Request</MudButton>
+                        @if (CheckIfPending(Constants.ACCOUNTTYPE_SAVINGS))
+                        {
+
+                            <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true">Pending</MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(Constants.ACCOUNTTYPE_SAVINGS))">Request</MudButton>
+                        }
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -60,27 +76,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Model.Accounts = await DashboardService.GetAllAccountsAsync();
+        Model.Accounts = await DashboardService.GetTransactionalAccountsAsync();
         Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
         Model.AvailableAccountTypes = GetAvailableAccountTypes();
-    }
-
-    private async Task RequestTransactionalAccount(string type)
-    {
-        var response = await DashboardService.RequestNewTransactionalAccountAsync(type);
-        if (response)
-        {
-            NavigateToDashboard();
-        }
-    }
-
-    private async Task RequestSavingsAccount()
-    {
-        var response = await DashboardService.RequestNewSavingsAccountAsync();
-        if (response)
-        {
-            NavigateToDashboard();
-        }
+        Model.PendingAccountTypes = await DashboardService.GetUsersPendingAccountTypes();
     }
 
     private async Task RequestNewAccount(string accountType)
@@ -103,6 +102,15 @@ else
             }
         }
         return availableAccountTypes;
+    }
+
+    private bool CheckIfPending(string accountType)
+    {
+        if(Model.PendingAccountTypes.Contains(accountType))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void NavigateToDashboard()
