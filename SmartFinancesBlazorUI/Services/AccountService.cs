@@ -71,7 +71,9 @@ namespace SmartFinancesBlazorUI.Services
                 throw new Exception("Something went wrong");
             }
 
-            return _mapper.Map<List<TransactionalAccountVM>>(accountsDto);
+            var transactionalAccounts = _mapper.Map<List<TransactionalAccountVM>>(accountsDto);
+
+            return transactionalAccounts;
         }
 
         public async Task UpdateTransactionalAccountAsync(UpdateTransactionalAccountDto accountDto)

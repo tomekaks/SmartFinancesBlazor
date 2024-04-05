@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SmartFinances.Application.Dto;
 using SmartFinances.Application.Features.AccountRequests.Factories;
+using SmartFinances.Application.Features.AccountTypes.Factories;
 using SmartFinances.Application.Features.Contacts.Factories;
 using SmartFinances.Application.Features.Expenses.Factories;
 using SmartFinances.Application.Features.ExpenseTypes.Factories;
@@ -37,6 +38,7 @@ namespace SmartFinances.Application
             services.AddScoped<ISavingsAccountFactory, SavingsAccountFactory>();
             services.AddScoped<ITransactionalAccountFactory, TransactionalAccountFactory>();
             services.AddScoped<IAccountRequestFactory, AccountRequestFactory>();
+            services.AddScoped<IAccountTypeFactory, AccountTypeFactory>();
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUsersService, UsersService>();

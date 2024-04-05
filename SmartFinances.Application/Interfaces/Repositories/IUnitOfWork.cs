@@ -14,6 +14,7 @@
         public ISavingsAccountRepository SavingsAccounts { get; }
         public IAccountRequestRepository AccountRequests { get; }
         public INotificationRepository Notifications { get; }
+        public IAccountTypeRepository AccountTypes { get; }
         Task SaveAsync();
     }
 }

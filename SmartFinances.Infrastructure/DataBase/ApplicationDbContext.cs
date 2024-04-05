@@ -22,6 +22,8 @@ namespace SmartFinances.Infrastructure.DataBase
         public DbSet<TransactionalAccount> TransactionalAccounts { get; set; }
         public DbSet<AccountRequest> AccountRequests { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<AccountType> AccountTypes { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

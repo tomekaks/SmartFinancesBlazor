@@ -29,4 +29,9 @@
     <ProjectReference Include="..\SmartFinances.Core\SmartFinances.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\AccountTypes\Handlers\Commands\" />
+    <Folder Include="Features\AccountTypes\Requests\Commands\" />
+  </ItemGroup>
+
 </Project>

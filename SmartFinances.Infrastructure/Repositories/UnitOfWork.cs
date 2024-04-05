@@ -21,6 +21,7 @@ namespace SmartFinances.Infrastructure.Repositories
             SavingsAccounts = new SavingsAccountRepository(context);
             AccountRequests = new AccountRequestRepository(context);
             Notifications = new NotificationRepository(context);
+            AccountTypes = new AccountTypeRepository(context);
         }
 
         public ITransferRepository Transfers { get; private set; }
@@ -35,6 +36,7 @@ namespace SmartFinances.Infrastructure.Repositories
         public ISavingsAccountRepository SavingsAccounts { get; private set; }
         public IAccountRequestRepository AccountRequests { get; private set; }
         public INotificationRepository Notifications { get; private set; }
+        public IAccountTypeRepository AccountTypes { get; private set; }
 
 
         public void Dispose()
