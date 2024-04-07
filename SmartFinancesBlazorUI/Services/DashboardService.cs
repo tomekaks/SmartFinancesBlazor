@@ -2,12 +2,9 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
-using SmartFinancesBlazorUI.Models.Admin;
+using SmartFinancesBlazorUI.Models.AccountTypes;
 using SmartFinancesBlazorUI.Models.Dashboard;
-using SmartFinancesBlazorUI.Pages.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
-using System.Reflection.Metadata;
-using System.Reflection.Metadata.Ecma335;
 
 namespace SmartFinancesBlazorUI.Services
 {
@@ -17,15 +14,18 @@ namespace SmartFinancesBlazorUI.Services
         private readonly IAccountRequestService _accountRequestService;
         private readonly IAccountService _accountService;
         private readonly ITransfersService _transfersService;
+        private readonly IAccountTypesService _accountTypesService;
 
         public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper,
-                                IAccountRequestService accountRequestService, IAccountService accountService, ITransfersService transfersService)
+                                IAccountRequestService accountRequestService, IAccountService accountService, 
+                                ITransfersService transfersService, IAccountTypesService accountTypesService)
                                 : base(client, localStorage)
         {
             _mapper = mapper;
             _accountRequestService = accountRequestService;
             _accountService = accountService;
             _transfersService = transfersService;
+            _accountTypesService = accountTypesService;
         }
 
         public List<TransactionalAccountVM> UserAccounts { get; set; } = new List<TransactionalAccountVM>();
@@ -48,6 +48,17 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
+        public async Task<RequestAccountVM> LoadRequestAccounVM()
+        {
+            return new RequestAccountVM()
+            {
+                Accounts = await GetTransactionalAccountsAsync(),
+                SavingsAccount = await GetSavingsAccountAsync(),
+                AccountTypes = await GetAccountTypesAsync(),
+                PendingAccountTypes = await GetUsersPendingAccountTypesAsync(),
+            };
+        }
+
         public async Task<List<TransactionalAccountVM>> GetTransactionalAccountsAsync()
         {
             return await _accountService.GetTransactionalAccountsAsync();
@@ -58,13 +69,19 @@ namespace SmartFinancesBlazorUI.Services
             return await _accountService.GetSavingsAccountAsync();
         }
 
-        public async Task<List<string>> GetUsersPendingAccountTypes()
+        public async Task<List<string>> GetUsersPendingAccountTypesAsync()
         {
             var pendingRequests = await _accountRequestService.GetByUserAndStatusAsync(Constants.STATUS_PENDING);
 
             var pendingAccountTypes = pendingRequests.Select(q => q.AccountType).ToList();
 
             return pendingAccountTypes;
+        }
+
+        public async Task<List<AccountTypeVM>> GetAccountTypesAsync()
+        {
+            var accountTypes = await _accountTypesService.GetAllAsync();
+            return accountTypes;
         }
 
         public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
@@ -151,7 +168,7 @@ namespace SmartFinancesBlazorUI.Services
 
         private async Task<TransactionalAccountVM> GetMainAccountAsync()
         {
-            var account = UserAccounts.FirstOrDefault(q => q.Type == AccountType.Main);
+            var account = UserAccounts.FirstOrDefault(q => q.Type == Constants.ACCOUNTTYPE_MAIN);
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, account.Number);
 
             return account;

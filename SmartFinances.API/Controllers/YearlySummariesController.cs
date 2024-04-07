@@ -11,11 +11,11 @@ namespace SmartFinances.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class YearlySummaryController : BaseController
+    public class YearlySummariesController : BaseController
     {
         private readonly IMediator _mediator;
 
-        public YearlySummaryController(IHttpContextAccessor contextAccessor, IMediator mediator) : base(contextAccessor)
+        public YearlySummariesController(IHttpContextAccessor contextAccessor, IMediator mediator) : base(contextAccessor)
         {
             _mediator = mediator;
         }

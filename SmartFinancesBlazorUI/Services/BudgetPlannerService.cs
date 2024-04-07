@@ -50,7 +50,7 @@ namespace SmartFinancesBlazorUI.Services
             try
             {
                 await AddBearerToken();
-                var yearlySummaryDto = await _client.YearlySummaryGETAsync(CurrentAccount.Id, CurrentYear);
+                var yearlySummaryDto = await _client.YearlySummariesGETAsync(CurrentAccount.Id, CurrentYear);
 
                 var yearlySummaryVM = _mapper.Map<YearlySummaryVM>(yearlySummaryDto);
                 return yearlySummaryVM;
@@ -70,13 +70,13 @@ namespace SmartFinancesBlazorUI.Services
             };
 
             await AddBearerToken();
-            await _client.YearlySummaryPOSTAsync(createYearlySummaryDto);
+            await _client.YearlySummariesPOSTAsync(createYearlySummaryDto);
         }
 
         public async Task<MonthlySummaryVM> GetMonthlySummaryAsync(int id)
         {
             await AddBearerToken();
-            var monthlySumaryDto = await _client.MonthlySummaryGETAsync(id);
+            var monthlySumaryDto = await _client.MonthlySummariesGETAsync(id);
 
             var monthlySummaryVM = _mapper.Map<MonthlySummaryVM>(monthlySumaryDto);
             return monthlySummaryVM;
@@ -100,7 +100,7 @@ namespace SmartFinancesBlazorUI.Services
             };
 
             await AddBearerToken();
-            await _client.MonthlySummaryPUTAsync(updateDto);
+            await _client.MonthlySummariesPUTAsync(updateDto);
 
             return true;
         }

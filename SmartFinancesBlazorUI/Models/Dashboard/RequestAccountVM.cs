@@ -1,14 +1,15 @@
-﻿using SmartFinancesBlazorUI.Models.Admin;
+﻿using SmartFinancesBlazorUI.Models.AccountTypes;
+using SmartFinancesBlazorUI.Models.Admin;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartFinancesBlazorUI.Models.Dashboard
 {
-    public class NewAccountVM
+    public class RequestAccountVM
     {
         [Required(ErrorMessage = "Please select an accout type.")]
-        public AccountType AccountType { get; set; }
         public List<TransactionalAccountVM> Accounts { get; set; }
-        public List<AccountType> AvailableAccountTypes { get; set; }
+        public List<string> AvailableAccountTypes { get; set; }
+        public List<AccountTypeVM> AccountTypes { get; set; }
         public SavingsAccountVM? SavingsAccount { get; set; }
         public List<string> PendingAccountTypes { get; set; }
     }

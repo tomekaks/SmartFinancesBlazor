@@ -26,30 +26,30 @@ namespace SmartFinancesBlazorUI.Services.Base
     {
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestAllAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestsAllAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestAllAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestsAllAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AccountRequestPOSTAsync(CreateAccountRequestDto body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AccountRequestPOSTAsync(CreateAccountRequestDto body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AccountRequestPUTAsync(UpdateAccountRequestDto body);
+        System.Threading.Tasks.Task AccountRequestsPOSTAsync(CreateAccountRequestDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task AccountRequestPUTAsync(UpdateAccountRequestDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task AccountRequestsPOSTAsync(CreateAccountRequestDto body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task AccountRequestsPUTAsync(UpdateAccountRequestDto body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task AccountRequestsPUTAsync(UpdateAccountRequestDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -80,12 +80,21 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AccountRequestDto> AccountRequestGETAsync(int id);
+        System.Threading.Tasks.Task<AccountRequestDto> AccountRequestsGETAsync(int id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AccountRequestDto> AccountRequestGETAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AccountRequestDto> AccountRequestsGETAsync(int id, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountTypeDto>> AccountTypesAsync();
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountTypeDto>> AccountTypesAsync(System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -242,12 +251,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummaryGETAsync(int id);
+        System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummariesGETAsync(int id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummaryGETAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummariesGETAsync(int id, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -260,21 +269,21 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task MonthlySummaryPOSTAsync(CreateMonthlySummaryDto body);
+        System.Threading.Tasks.Task MonthlySummariesPOSTAsync(CreateMonthlySummaryDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task MonthlySummaryPOSTAsync(CreateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task MonthlySummariesPOSTAsync(CreateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task MonthlySummaryPUTAsync(UpdateMonthlySummaryDto body);
+        System.Threading.Tasks.Task MonthlySummariesPUTAsync(UpdateMonthlySummaryDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task MonthlySummaryPUTAsync(UpdateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task MonthlySummariesPUTAsync(UpdateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -458,30 +467,30 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<YearlySummaryDto> YearlySummaryGETAsync(int accountId, int year);
+        System.Threading.Tasks.Task<YearlySummaryDto> YearlySummariesGETAsync(int accountId, int year);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<YearlySummaryDto> YearlySummaryGETAsync(int accountId, int year, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<YearlySummaryDto> YearlySummariesGETAsync(int accountId, int year, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task YearlySummaryPOSTAsync(CreateYearlySummaryDto body);
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task YearlySummaryPOSTAsync(CreateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken);
-
-        /// <returns>Success</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task YearlySummaryPUTAsync(UpdateYearlySummaryDto body);
+        System.Threading.Tasks.Task YearlySummariesPOSTAsync(CreateYearlySummaryDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task YearlySummaryPUTAsync(UpdateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task YearlySummariesPOSTAsync(CreateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken);
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task YearlySummariesPUTAsync(UpdateYearlySummaryDto body);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task YearlySummariesPUTAsync(UpdateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -515,15 +524,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestAllAsync()
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestsAllAsync()
         {
-            return AccountRequestAllAsync(System.Threading.CancellationToken.None);
+            return AccountRequestsAllAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestAllAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountRequestDto>> AccountRequestsAllAsync(System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -536,8 +545,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest"
-                    urlBuilder_.Append("api/AccountRequest");
+                    // Operation Path: "api/AccountRequests"
+                    urlBuilder_.Append("api/AccountRequests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -593,15 +602,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task AccountRequestPOSTAsync(CreateAccountRequestDto body)
+        public virtual System.Threading.Tasks.Task AccountRequestsPOSTAsync(CreateAccountRequestDto body)
         {
-            return AccountRequestPOSTAsync(body, System.Threading.CancellationToken.None);
+            return AccountRequestsPOSTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task AccountRequestPOSTAsync(CreateAccountRequestDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task AccountRequestsPOSTAsync(CreateAccountRequestDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -617,8 +626,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest"
-                    urlBuilder_.Append("api/AccountRequest");
+                    // Operation Path: "api/AccountRequests"
+                    urlBuilder_.Append("api/AccountRequests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -669,15 +678,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task AccountRequestPUTAsync(UpdateAccountRequestDto body)
+        public virtual System.Threading.Tasks.Task AccountRequestsPUTAsync(UpdateAccountRequestDto body)
         {
-            return AccountRequestPUTAsync(body, System.Threading.CancellationToken.None);
+            return AccountRequestsPUTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task AccountRequestPUTAsync(UpdateAccountRequestDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task AccountRequestsPUTAsync(UpdateAccountRequestDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -693,8 +702,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest"
-                    urlBuilder_.Append("api/AccountRequest");
+                    // Operation Path: "api/AccountRequests"
+                    urlBuilder_.Append("api/AccountRequests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -766,8 +775,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest/UsersAccountRequests"
-                    urlBuilder_.Append("api/AccountRequest/UsersAccountRequests");
+                    // Operation Path: "api/AccountRequests/UsersAccountRequests"
+                    urlBuilder_.Append("api/AccountRequests/UsersAccountRequests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -847,8 +856,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest/UsersAccountRequests/{status}"
-                    urlBuilder_.Append("api/AccountRequest/UsersAccountRequests/");
+                    // Operation Path: "api/AccountRequests/UsersAccountRequests/{status}"
+                    urlBuilder_.Append("api/AccountRequests/UsersAccountRequests/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -929,8 +938,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest/AccountRequestsByStatus/{status}"
-                    urlBuilder_.Append("api/AccountRequest/AccountRequestsByStatus/");
+                    // Operation Path: "api/AccountRequests/AccountRequestsByStatus/{status}"
+                    urlBuilder_.Append("api/AccountRequests/AccountRequestsByStatus/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -987,15 +996,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AccountRequestDto> AccountRequestGETAsync(int id)
+        public virtual System.Threading.Tasks.Task<AccountRequestDto> AccountRequestsGETAsync(int id)
         {
-            return AccountRequestGETAsync(id, System.Threading.CancellationToken.None);
+            return AccountRequestsGETAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AccountRequestDto> AccountRequestGETAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AccountRequestDto> AccountRequestsGETAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -1011,8 +1020,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequest/{id}"
-                    urlBuilder_.Append("api/AccountRequest/");
+                    // Operation Path: "api/AccountRequests/{id}"
+                    urlBuilder_.Append("api/AccountRequests/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1041,6 +1050,84 @@ namespace SmartFinancesBlazorUI.Services.Base
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<AccountRequestDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountTypeDto>> AccountTypesAsync()
+        {
+            return AccountTypesAsync(System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<AccountTypeDto>> AccountTypesAsync(System.Threading.CancellationToken cancellationToken)
+        {
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                
+                    // Operation Path: "api/AccountTypes"
+                    urlBuilder_.Append("api/AccountTypes");
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<AccountTypeDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2441,15 +2528,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummaryGETAsync(int id)
+        public virtual System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummariesGETAsync(int id)
         {
-            return MonthlySummaryGETAsync(id, System.Threading.CancellationToken.None);
+            return MonthlySummariesGETAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummaryGETAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<MonthlySummaryDto> MonthlySummariesGETAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -2465,8 +2552,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummary/{id}"
-                    urlBuilder_.Append("api/MonthlySummary/");
+                    // Operation Path: "api/MonthlySummaries/{id}"
+                    urlBuilder_.Append("api/MonthlySummaries/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2547,8 +2634,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummary/byyear/{id}"
-                    urlBuilder_.Append("api/MonthlySummary/byyear/");
+                    // Operation Path: "api/MonthlySummaries/byyear/{id}"
+                    urlBuilder_.Append("api/MonthlySummaries/byyear/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2605,15 +2692,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task MonthlySummaryPOSTAsync(CreateMonthlySummaryDto body)
+        public virtual System.Threading.Tasks.Task MonthlySummariesPOSTAsync(CreateMonthlySummaryDto body)
         {
-            return MonthlySummaryPOSTAsync(body, System.Threading.CancellationToken.None);
+            return MonthlySummariesPOSTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task MonthlySummaryPOSTAsync(CreateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task MonthlySummariesPOSTAsync(CreateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2629,8 +2716,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummary"
-                    urlBuilder_.Append("api/MonthlySummary");
+                    // Operation Path: "api/MonthlySummaries"
+                    urlBuilder_.Append("api/MonthlySummaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2681,15 +2768,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task MonthlySummaryPUTAsync(UpdateMonthlySummaryDto body)
+        public virtual System.Threading.Tasks.Task MonthlySummariesPUTAsync(UpdateMonthlySummaryDto body)
         {
-            return MonthlySummaryPUTAsync(body, System.Threading.CancellationToken.None);
+            return MonthlySummariesPUTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task MonthlySummaryPUTAsync(UpdateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task MonthlySummariesPUTAsync(UpdateMonthlySummaryDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -2705,8 +2792,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummary"
-                    urlBuilder_.Append("api/MonthlySummary");
+                    // Operation Path: "api/MonthlySummaries"
+                    urlBuilder_.Append("api/MonthlySummaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4320,15 +4407,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<YearlySummaryDto> YearlySummaryGETAsync(int accountId, int year)
+        public virtual System.Threading.Tasks.Task<YearlySummaryDto> YearlySummariesGETAsync(int accountId, int year)
         {
-            return YearlySummaryGETAsync(accountId, year, System.Threading.CancellationToken.None);
+            return YearlySummariesGETAsync(accountId, year, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<YearlySummaryDto> YearlySummaryGETAsync(int accountId, int year, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<YearlySummaryDto> YearlySummariesGETAsync(int accountId, int year, System.Threading.CancellationToken cancellationToken)
         {
             if (accountId == null)
                 throw new System.ArgumentNullException("accountId");
@@ -4347,8 +4434,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/YearlySummary/{accountId}/{year}"
-                    urlBuilder_.Append("api/YearlySummary/");
+                    // Operation Path: "api/YearlySummaries/{accountId}/{year}"
+                    urlBuilder_.Append("api/YearlySummaries/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(accountId, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('/');
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(year, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4407,15 +4494,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task YearlySummaryPOSTAsync(CreateYearlySummaryDto body)
+        public virtual System.Threading.Tasks.Task YearlySummariesPOSTAsync(CreateYearlySummaryDto body)
         {
-            return YearlySummaryPOSTAsync(body, System.Threading.CancellationToken.None);
+            return YearlySummariesPOSTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task YearlySummaryPOSTAsync(CreateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task YearlySummariesPOSTAsync(CreateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -4431,8 +4518,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/YearlySummary"
-                    urlBuilder_.Append("api/YearlySummary");
+                    // Operation Path: "api/YearlySummaries"
+                    urlBuilder_.Append("api/YearlySummaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4483,15 +4570,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task YearlySummaryPUTAsync(UpdateYearlySummaryDto body)
+        public virtual System.Threading.Tasks.Task YearlySummariesPUTAsync(UpdateYearlySummaryDto body)
         {
-            return YearlySummaryPUTAsync(body, System.Threading.CancellationToken.None);
+            return YearlySummariesPUTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task YearlySummaryPUTAsync(UpdateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task YearlySummariesPUTAsync(UpdateYearlySummaryDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -4507,8 +4594,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/YearlySummary"
-                    urlBuilder_.Append("api/YearlySummary");
+                    // Operation Path: "api/YearlySummaries"
+                    urlBuilder_.Append("api/YearlySummaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4696,6 +4783,21 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("dateRejected")]
         public System.DateTime? DateRejected { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class AccountTypeDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("description")]
+        public string Description { get; set; }
 
     }
 

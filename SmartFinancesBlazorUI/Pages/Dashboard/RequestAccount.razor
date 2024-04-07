@@ -18,20 +18,20 @@ else
                 <MudCard>
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6" Class="ml-2">@type.ToString()</MudText>
+                            <MudText Typo="Typo.h6" Class="ml-2">@type</MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
                     <MudCardContent>
                     </MudCardContent>
                     <MudCardActions>
-                        @if(CheckIfPending(type.ToString()))
+                        @if(CheckIfPending(type))
                         {
 
                             <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true" >Pending</MudButton>
                         }
                         else
                         {
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type.ToString()))">Request</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type))">Request</MudButton>
                         }
                     </MudCardActions>
                 </MudCard>
@@ -72,14 +72,15 @@ else
 
 
 @code {
-    private NewAccountVM Model = new();
+    private RequestAccountVM Model = new();
 
     protected override async Task OnInitializedAsync()
     {
         Model.Accounts = await DashboardService.GetTransactionalAccountsAsync();
         Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
+        Model.PendingAccountTypes = await DashboardService.GetUsersPendingAccountTypesAsync();
+        Model.AccountTypes = await DashboardService.GetAccountTypesAsync();
         Model.AvailableAccountTypes = GetAvailableAccountTypes();
-        Model.PendingAccountTypes = await DashboardService.GetUsersPendingAccountTypes();
     }
 
     private async Task RequestNewAccount(string accountType)
@@ -88,19 +89,22 @@ else
         NavigateToDashboard();
     }
 
-    private List<AccountType> GetAvailableAccountTypes()
+    private List<string> GetAvailableAccountTypes()
     {
-        var availableAccountTypes = new List<AccountType>();
+        var accountTypesNames = Model.AccountTypes.Select(q => q.Name);
 
         var possesedAccountTypes = Model.Accounts.Select(q => q.Type);
 
-        foreach (AccountType type in Enum.GetValues(typeof(AccountType)))
+        var availableAccountTypes = new List<string>();
+
+        foreach (var type in accountTypesNames)
         {
             if(!possesedAccountTypes.Contains(type))
             {
                 availableAccountTypes.Add(type);
             }
         }
+
         return availableAccountTypes;
     }
 

@@ -12,10 +12,10 @@ namespace SmartFinances.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AccountRequestController : BaseController
+    public class AccountRequestsController : BaseController
     {
         private readonly IMediator _mediator;
-        public AccountRequestController(IHttpContextAccessor contextAccessor, IMediator mediator) : base(contextAccessor)
+        public AccountRequestsController(IHttpContextAccessor contextAccessor, IMediator mediator) : base(contextAccessor)
         {
             _mediator = mediator;
         }

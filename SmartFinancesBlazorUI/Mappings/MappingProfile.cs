@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartFinancesBlazorUI.Models.AccountTypes;
 using SmartFinancesBlazorUI.Models.Admin;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Contacts;
@@ -44,6 +45,8 @@ namespace SmartFinancesBlazorUI.Mappings
             CreateMap<SavingsAccountDto, SavingsAccountVM>();
 
             CreateMap<AccountRequestDto, AccountRequestVM>();
+
+            CreateMap<AccountTypeDto, AccountTypeVM>();
         }
     }
 }

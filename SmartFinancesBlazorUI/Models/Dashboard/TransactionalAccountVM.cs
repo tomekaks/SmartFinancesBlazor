@@ -7,6 +7,6 @@
         public string Name { get; set; }
         public decimal Balance { get; set; }
         public decimal Budget { get; set; }
-        public AccountType Type { get; set; }
+        public string Type { get; set; }
     }
 }

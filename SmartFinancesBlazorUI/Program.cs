@@ -40,6 +40,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAccountRequestService, AccountRequestService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountTypesService, AccountTypesService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

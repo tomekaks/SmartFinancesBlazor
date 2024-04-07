@@ -17,6 +17,7 @@
         public const string SAVINGSACCOUNT = "SavingsAccount";
         public const string TOKEN = "token";
 
+        public const string ACCOUNTTYPE_MAIN = "Main";
         public const string ACCOUNTTYPE_SAVINGS = "Savings";
         public const string ACCOUNTTYPE_SECONDARY = "Secondary";
         public const string ACCOUNTTYPE_BUSINESS = "Business";

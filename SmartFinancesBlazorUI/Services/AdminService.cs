@@ -14,7 +14,7 @@ namespace SmartFinancesBlazorUI.Services
         private readonly IAccountRequestService _accountRequestService;
         private readonly IAccountService _accountService;
 
-        public AdminService(IClient client, ILocalStorageService localStorage, IMapper mapper, 
+        public AdminService(IClient client, ILocalStorageService localStorage, IMapper mapper,
             IAccountRequestService accountRequestService, IAccountService accountService)
             : base(client, localStorage)
         {
