@@ -31,7 +31,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await DashboardService.LoadWithdrawVM();
+        await LoadModel();
+    }
+
+    private async Task LoadModel()
+    {
+        Model.TransactionalAccount = await DashboardService.GetCurrentAccountAsync();
+        Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
     }
 
     private async Task HandleSubmit()

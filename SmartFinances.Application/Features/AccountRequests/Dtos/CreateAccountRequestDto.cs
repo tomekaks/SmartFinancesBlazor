@@ -3,6 +3,6 @@
     public class CreateAccountRequestDto
     {
         public string UserId { get; set; }
-        public string AccountType { get; set; }
+        public string Type { get; set; }
     }
 }

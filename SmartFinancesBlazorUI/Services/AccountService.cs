@@ -76,8 +76,14 @@ namespace SmartFinancesBlazorUI.Services
             return transactionalAccounts;
         }
 
-        public async Task UpdateTransactionalAccountAsync(UpdateTransactionalAccountDto accountDto)
+        public async Task UpdateTransactionalAccountAsync(int accountId, decimal balance)
         {
+            var accountDto = new UpdateTransactionalAccountDto()
+            {
+                Id = accountId,
+                Balance = balance
+            };
+
             await AddBearerToken();
             await _client.TransactionalAccountsPUTAsync(accountDto);
         }

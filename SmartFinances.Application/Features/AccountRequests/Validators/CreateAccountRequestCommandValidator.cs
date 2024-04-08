@@ -7,7 +7,7 @@ namespace SmartFinances.Application.Features.AccountRequests.Validators
     {
         public CreateAccountRequestCommandValidator()
         {
-            RuleFor(q => q.AccountRequestDto.AccountType)
+            RuleFor(q => q.AccountRequestDto.Type)
                 .NotEmpty().WithMessage("Account needs to have a type");
 
             RuleFor(q => q.AccountRequestDto.UserId)

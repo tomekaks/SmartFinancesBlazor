@@ -18,7 +18,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task CreateAsync(string accountType)
         {
-            var accountRequestDto = new CreateAccountRequestDto { AccountType = accountType };
+            var accountRequestDto = new CreateAccountRequestDto { Type = accountType };
 
             await AddBearerToken();
             await _client.AccountRequestsPOSTAsync(accountRequestDto);

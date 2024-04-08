@@ -1,4 +1,6 @@
-﻿namespace SmartFinancesBlazorUI.Models.Dashboard
+﻿using SmartFinancesBlazorUI.Models.AccountTypes;
+
+namespace SmartFinancesBlazorUI.Models.Dashboard
 {
     public class TransactionalAccountVM
     {
@@ -8,5 +10,7 @@
         public decimal Balance { get; set; }
         public decimal Budget { get; set; }
         public string Type { get; set; }
+        public int AccountTypeId { get; set; }
+        public AccountTypeVM AccountTypeVM { get; set; }
     }
 }

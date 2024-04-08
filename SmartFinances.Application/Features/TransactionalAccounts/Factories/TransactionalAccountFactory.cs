@@ -16,12 +16,15 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Factories
 
         public TransactionalAccount CreateMainAccount(string userId, string userName)
         {
+            int mainAccountId = 1;
+
             return new TransactionalAccount()
             {
                 Number = GenerateAccountNumber(),
                 Name = userName,
                 UserId = userId,
                 Type = Constants.MAINACCOUNT,
+                AccountTypeId = mainAccountId,
                 CreationDateTime = DateTime.UtcNow
             };
         }
@@ -34,6 +37,7 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Factories
                 Name = userName + " - " + accountDto.Type,
                 UserId = accountDto.UserId,
                 Type = accountDto.Type,
+                AccountTypeId = accountDto.AccountTypeId,
                 CreationDateTime = DateTime.UtcNow
             };
         }

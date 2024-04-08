@@ -20,7 +20,8 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Handlers.Quer
 
         public async Task<List<TransactionalAccountDto>> Handle(GetUsersTransactionalAccountsRequest request, CancellationToken cancellationToken)
         {
-            var transactionalAccounts = await _unitOfWork.TransactionalAccounts.GetAllAsync(q => q.UserId == request.UserId);
+            var transactionalAccounts = await _unitOfWork.TransactionalAccounts.GetAllAsync(q => 
+                q.UserId == request.UserId, includeProperties: Constants.ACCOUNTTYPE);
 
             return _transactionalAccountFactory.CreateTransactionalAccountDtoList(transactionalAccounts.ToList());
         }

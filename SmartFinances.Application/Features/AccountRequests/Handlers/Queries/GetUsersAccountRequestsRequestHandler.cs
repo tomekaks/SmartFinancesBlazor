@@ -25,11 +25,13 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Queries
 
             if (request.Status.IsNullOrEmpty())
             {
-                accountRequests = (await _unitOfWork.AccountRequests.GetAllAsync(q => q.UserId == request.UserId)).ToList();
+                accountRequests = (await _unitOfWork.AccountRequests.GetAllAsync(q => 
+                q.UserId == request.UserId, includeProperties: Constants.ACCOUNTTYPE)).ToList();
             }
             else
             {
-                accountRequests = (await _unitOfWork.AccountRequests.GetUsersAccountRequestsByStatus(request.UserId, request.Status)).ToList();
+                accountRequests = (await _unitOfWork.AccountRequests.GetAllAsync(q =>
+                q.UserId == request.UserId && q.Status == request.Status, includeProperties: Constants.ACCOUNTTYPE)).ToList();
             }
 
 
@@ -38,7 +40,7 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Queries
                 return new List<AccountRequestDto>();
             }
 
-            var accountRequestsDto = _accountRequestFactory.GetAccountRequestDtoList(accountRequests.ToList());
+            var accountRequestsDto = _accountRequestFactory.GetAccountRequestDtoList(accountRequests);
 
             return accountRequestsDto;
         }

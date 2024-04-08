@@ -31,49 +31,27 @@ namespace SmartFinancesBlazorUI.Services
         public List<TransactionalAccountVM> UserAccounts { get; set; } = new List<TransactionalAccountVM>();
         public SavingsAccountVM? SavingsAccount { get; set; }
 
-        public async Task<DashboardVM> LoadDashboardVM()
-        {
-            UserAccounts = await GetTransactionalAccountsAsync();
-            var sortedAccounts = UserAccounts.OrderBy(q => q.Type).ToList();
-
-            var currentAccount = await LoadCurrentAccountAsync();
-
-            SavingsAccount = await GetSavingsAccountAsync();
-            
-            return new DashboardVM()
-            {
-                Accounts = sortedAccounts,
-                CurrentAccount = currentAccount,
-                SavingsAccount = this.SavingsAccount
-            };
-        }
-
-        public async Task<RequestAccountVM> LoadRequestAccounVM()
-        {
-            return new RequestAccountVM()
-            {
-                Accounts = await GetTransactionalAccountsAsync(),
-                SavingsAccount = await GetSavingsAccountAsync(),
-                AccountTypes = await GetAccountTypesAsync(),
-                PendingAccountTypes = await GetUsersPendingAccountTypesAsync(),
-            };
-        }
-
         public async Task<List<TransactionalAccountVM>> GetTransactionalAccountsAsync()
         {
-            return await _accountService.GetTransactionalAccountsAsync();
+            var userAccounts = await _accountService.GetTransactionalAccountsAsync();
+            UserAccounts = userAccounts;
+
+            return userAccounts;
         }
 
         public async Task<SavingsAccountVM> GetSavingsAccountAsync()
         {
-            return await _accountService.GetSavingsAccountAsync();
+            var savingsAccount = await _accountService.GetSavingsAccountAsync();
+            SavingsAccount = savingsAccount;
+
+            return savingsAccount;
         }
 
         public async Task<List<string>> GetUsersPendingAccountTypesAsync()
         {
             var pendingRequests = await _accountRequestService.GetByUserAndStatusAsync(Constants.STATUS_PENDING);
 
-            var pendingAccountTypes = pendingRequests.Select(q => q.AccountType).ToList();
+            var pendingAccountTypes = pendingRequests.Select(q => q.Type).ToList();
 
             return pendingAccountTypes;
         }
@@ -84,19 +62,27 @@ namespace SmartFinancesBlazorUI.Services
             return accountTypes;
         }
 
+        public async Task<TransactionalAccountVM> GetCurrentAccountAsync()
+        {
+            bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
+
+            if (!isCurrentAccountSet)
+            {
+                return await GetMainAccountAsync();
+            }
+
+            var accountNumber = await GetCurrentAccountNumberAsync();
+
+            return await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
+        }
+
         public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
         {
             var account = await GetChangedAccountAsync();
 
             account.Balance += addFundsVM.Amount;
 
-            var updateAccountDto = new UpdateTransactionalAccountDto
-            {
-                Id = account.Id,
-                Balance = account.Balance
-            };
-
-            await _accountService.UpdateTransactionalAccountAsync(updateAccountDto);
+            await _accountService.UpdateTransactionalAccountAsync(account.Id, account.Balance);
 
             return true;
         }
@@ -111,16 +97,6 @@ namespace SmartFinancesBlazorUI.Services
             await _accountRequestService.CreateAsync(accountType);
         }
 
-        public async Task<WithdrawVM> LoadWithdrawVM()
-        {
-            var currentAccount = await LoadCurrentAccountAsync();
-
-            return new WithdrawVM()
-            {
-                TransactionalAccount = currentAccount,
-                SavingsAccount = this.SavingsAccount
-            };
-        }
 
         public async Task<bool> WithdrawFromSavingsAccountAsync(WithdrawVM withdrawVM)
         {
@@ -131,17 +107,6 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<DepositVM> LoadDepositVM()
-        {
-            var currentAccount = await LoadCurrentAccountAsync();
-
-            return new DepositVM()
-            {
-                TransactionalAccount = currentAccount,
-                SavingsAccount = this.SavingsAccount
-            };
-        }
-
         public async Task<bool> DepositOnSavingsAccountAsync(DepositVM depositVM)
         {
             var transferDto = await GetSavingsAccountTransferDto(depositVM.Amount, Constants.DEPOSIT);
@@ -149,21 +114,6 @@ namespace SmartFinancesBlazorUI.Services
             await _transfersService.DepositOnSavingsAccountAsync(transferDto);
 
             return true;
-        }
-
-
-        private async Task<TransactionalAccountVM> LoadCurrentAccountAsync()
-        {
-            bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
-
-            if (!isCurrentAccountSet)
-            {
-                return await GetMainAccountAsync();
-            }
-
-            var accountNumber = await GetCurrentAccountNumberAsync();
-
-            return await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
         }
 
         private async Task<TransactionalAccountVM> GetMainAccountAsync()
@@ -189,7 +139,7 @@ namespace SmartFinancesBlazorUI.Services
 
         private async Task<SavingsAccountTransferDto> GetSavingsAccountTransferDto(decimal amount, string operation)
         {
-            var currentAccount = await LoadCurrentAccountAsync();
+            var currentAccount = await GetCurrentAccountAsync();
 
             return new SavingsAccountTransferDto()
             {

@@ -3,6 +3,8 @@
     public static class Constants
     {
         public const string EXPENSETYPE = "ExpenseType";
+        public const string ACCOUNTTYPE = "AccountType";
+
         public const string MAINACCOUNT = "Main";
         public const string SAVINGSACCOUNT = "Savings";
 

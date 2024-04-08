@@ -76,6 +76,11 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadModel();
+    }
+
+    private async Task LoadModel()
+    {
         Model.Accounts = await DashboardService.GetTransactionalAccountsAsync();
         Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
         Model.PendingAccountTypes = await DashboardService.GetUsersPendingAccountTypesAsync();

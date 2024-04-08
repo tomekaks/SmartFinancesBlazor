@@ -8,7 +8,7 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
     {
         public void Configure(EntityTypeBuilder<AccountRequest> builder)
         {
-            builder.Property(q => q.AccountType)
+            builder.Property(q => q.Type)
                    .IsRequired();
 
             builder.Property(q => q.Status)
@@ -26,6 +26,11 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.HasOne(c => c.User)
                    .WithMany(u => u.AccountRequests)
                    .HasForeignKey(c => c.UserId)
+                   .IsRequired();
+
+            builder.HasOne(r => r.AccountType)
+                   .WithMany(t => t.AccountRequests)
+                   .HasForeignKey(r => r.AccountTypeId)
                    .IsRequired();
         }
     }

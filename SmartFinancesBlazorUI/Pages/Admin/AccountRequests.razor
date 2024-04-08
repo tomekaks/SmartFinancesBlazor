@@ -19,7 +19,7 @@ else
                         <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.AddCircle" OnClick="NavigateToAddRegularExpense">Add</MudButton>
                     </ToolBarContent> *@
                     <Columns>
-                        <PropertyColumn Property="q => q.AccountType" Title="Account type"></PropertyColumn>
+                        <PropertyColumn Property="q => q.Type" Title="Account type"></PropertyColumn>
                         <PropertyColumn Property="q => q.Status"></PropertyColumn>
                         <PropertyColumn Property="q => q.DateRequested" Title="Date requested"></PropertyColumn>
                         <TemplateColumn>

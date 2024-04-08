@@ -11,6 +11,7 @@ using SmartFinances.Application.Features.MonthlySummaries.Dtos;
 using SmartFinances.Application.Features.SavingsAccounts.Dtos;
 using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
 using SmartFinances.Application.Features.AccountRequests.Dtos;
+using SmartFinances.Application.Features.AccountTypes.Dtos;
 
 namespace SmartFinances.Application.Mappings
 {
@@ -59,6 +60,8 @@ namespace SmartFinances.Application.Mappings
             CreateMap<UpdateTransactionalAccountDto, TransactionalAccount>();
 
             CreateMap<AccountRequest, AccountRequestDto>();
+
+            CreateMap<AccountType, AccountTypeDto>();
         }
     }
 }

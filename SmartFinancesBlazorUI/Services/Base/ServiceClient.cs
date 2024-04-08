@@ -4763,8 +4763,14 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public string UserId { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("accountType")]
-        public string AccountType { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeId")]
+        public int AccountTypeId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeDto")]
+        public AccountTypeDto AccountTypeDto { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("status")]
         public string Status { get; set; }
@@ -4844,8 +4850,8 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public string UserId { get; set; }
 
-        [System.Text.Json.Serialization.JsonPropertyName("accountType")]
-        public string AccountType { get; set; }
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
 
     }
 
@@ -4882,6 +4888,9 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
         public string Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeId")]
+        public int AccountTypeId { get; set; }
 
     }
 
@@ -5212,6 +5221,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("type")]
         public string Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeId")]
+        public int AccountTypeId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeDto")]
+        public AccountTypeDto AccountTypeDto { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("budget")]
         public decimal Budget { get; set; }

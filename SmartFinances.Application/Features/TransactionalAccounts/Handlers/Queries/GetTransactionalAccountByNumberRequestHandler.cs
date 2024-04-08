@@ -21,7 +21,8 @@ namespace SmartFinances.Application.Features.TransactionalAccounts.Handlers.Quer
 
         public async Task<TransactionalAccountDto> Handle(GetTransactionalAccountByNumberRequest request, CancellationToken cancellationToken)
         {
-            var transactionalAccount = await _unitOfWork.TransactionalAccounts.GetAsync(q => q.Number == request.AccountNumber);
+            var transactionalAccount = await _unitOfWork.TransactionalAccounts.GetAsync(q => 
+                q.Number == request.AccountNumber, includeProperties: Constants.ACCOUNTTYPE);
 
             if (transactionalAccount == null)
             {

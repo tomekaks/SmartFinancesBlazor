@@ -19,7 +19,8 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Queries
 
         public async Task<List<AccountRequestDto>> Handle(GetAccountRequestsByStatusRequest request, CancellationToken cancellationToken)
         {
-            var accountRequests = await _unitOfWork.AccountRequests.GetAllAsync(q => q.Status == request.Status);
+            var accountRequests = await _unitOfWork.AccountRequests.GetAllAsync(q => 
+                q.Status == request.Status, includeProperties: Constants.ACCOUNTTYPE);
 
             if (accountRequests == null || !accountRequests.Any())
             {
