@@ -20,6 +20,7 @@ namespace SmartFinances.Application.Features.AccountRequests.Factories
             {
                 UserId = createAccountRequestDto.UserId,
                 Type = createAccountRequestDto.Type,
+                AccountTypeId = createAccountRequestDto.AccountTypeId,
                 Status = Constants.STATUS_PENDING,
                 DateRequested = DateTime.UtcNow
             };

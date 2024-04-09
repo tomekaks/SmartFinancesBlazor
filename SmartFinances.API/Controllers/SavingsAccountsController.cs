@@ -31,9 +31,10 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> CreateAsync(CreateSavingsAccountDto accountDto)
         {
-            await _mediator.Send(new CreateSavingsAccountCommand { UserId = CurrentUserId });
+            accountDto.UserId = CurrentUserId;
+            await _mediator.Send(new CreateSavingsAccountCommand { AccountDto = accountDto });
             return Ok();
         }
 

@@ -1,9 +1,10 @@
 ﻿using MediatR;
+using SmartFinances.Application.Features.SavingsAccounts.Dtos;
 
 namespace SmartFinances.Application.Features.SavingsAccounts.Requests.Commands
 {
     public class CreateSavingsAccountCommand : IRequest
     {
-        public string UserId { get; set; }
+        public CreateSavingsAccountDto AccountDto { get; set; }
     }
 }

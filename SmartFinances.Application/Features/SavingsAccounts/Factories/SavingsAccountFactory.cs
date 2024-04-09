@@ -14,13 +14,14 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Factories
             _mapper = mapper;
         }
 
-        public SavingsAccount CreateSavingsAccount(string userId, string userName)
+        public SavingsAccount CreateSavingsAccount(CreateSavingsAccountDto accountDto, string userName)
         {
             return new SavingsAccount()
             {
                 Number = GenerateAccountNumber(),
                 Name = userName + " - " + Constants.SAVINGSACCOUNT,
-                UserId = userId,
+                UserId = accountDto.UserId,
+                AccountTypeId = accountDto.AccountTypeId,
                 CreationDateTime = DateTime.UtcNow
             };
         }

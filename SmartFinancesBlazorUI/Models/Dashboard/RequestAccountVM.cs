@@ -8,9 +8,9 @@ namespace SmartFinancesBlazorUI.Models.Dashboard
     {
         [Required(ErrorMessage = "Please select an accout type.")]
         public List<TransactionalAccountVM> Accounts { get; set; }
-        public List<string> AvailableAccountTypes { get; set; }
         public List<AccountTypeVM> AccountTypes { get; set; }
-        public SavingsAccountVM? SavingsAccount { get; set; }
+        public List<AccountTypeVM> AvailableAccountTypes { get; set; }
         public List<string> PendingAccountTypes { get; set; }
+        public SavingsAccountVM? SavingsAccount { get; set; }
     }
 }

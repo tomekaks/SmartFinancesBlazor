@@ -1,4 +1,5 @@
-﻿using SmartFinances.Application.Features.Transfers.Dtos;
+﻿using SmartFinances.Application.Features.AccountTypes.Dtos;
+using SmartFinances.Application.Features.Transfers.Dtos;
 
 namespace SmartFinances.Application.Features.SavingsAccounts.Dtos
 {
@@ -11,5 +12,7 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Dtos
         public string UserId { get; set; }
         public decimal Goal { get; set; }
         public DateTime DateOfCreation { get; set; }
+        public int AccountTypeId { get; set; }
+        public AccountTypeDto AccountTypeDto { get; set; }
     }
 }

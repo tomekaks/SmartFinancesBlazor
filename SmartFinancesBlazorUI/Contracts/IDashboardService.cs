@@ -18,6 +18,6 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<bool> DepositOnSavingsAccountAsync(DepositVM depositVM);
         Task ChangeAccountAsync(string accountNumber);
 
-        Task RequestNewAccountAsync(string accountType);
+        Task RequestNewAccountAsync(AccountTypeVM accountType);
     }
 }

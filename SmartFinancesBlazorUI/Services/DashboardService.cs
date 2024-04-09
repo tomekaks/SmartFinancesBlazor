@@ -51,7 +51,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var pendingRequests = await _accountRequestService.GetByUserAndStatusAsync(Constants.STATUS_PENDING);
 
-            var pendingAccountTypes = pendingRequests.Select(q => q.Type).ToList();
+            var pendingAccountTypes = pendingRequests.Select(q => q.AccountTypeVM.Name).ToList();
 
             return pendingAccountTypes;
         }
@@ -92,7 +92,7 @@ namespace SmartFinancesBlazorUI.Services
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, accountNumber);
         }
 
-        public async Task RequestNewAccountAsync(string accountType)
+        public async Task RequestNewAccountAsync(AccountTypeVM accountType)
         {
             await _accountRequestService.CreateAsync(accountType);
         }

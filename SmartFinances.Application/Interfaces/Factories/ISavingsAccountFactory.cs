@@ -5,7 +5,7 @@ namespace SmartFinances.Application.Interfaces.Factories
 {
     public interface ISavingsAccountFactory
     {
-        SavingsAccount CreateSavingsAccount(string userId, string userName);
+        SavingsAccount CreateSavingsAccount(CreateSavingsAccountDto accountDto, string userName);
         SavingsAccountDto CreateSavingsAccountDto(SavingsAccount savingsAccount);
         SavingsAccount MapToModel(UpdateSavingsAccountDto updateSavingsAccountDto, SavingsAccount savingsAccount);
     }

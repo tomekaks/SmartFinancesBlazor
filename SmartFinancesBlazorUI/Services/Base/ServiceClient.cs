@@ -341,12 +341,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SavingsAccountsPOSTAsync();
+        System.Threading.Tasks.Task SavingsAccountsPOSTAsync(CreateSavingsAccountDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SavingsAccountsPOSTAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task SavingsAccountsPOSTAsync(CreateSavingsAccountDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -3318,15 +3318,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task SavingsAccountsPOSTAsync()
+        public virtual System.Threading.Tasks.Task SavingsAccountsPOSTAsync(CreateSavingsAccountDto body)
         {
-            return SavingsAccountsPOSTAsync(System.Threading.CancellationToken.None);
+            return SavingsAccountsPOSTAsync(body, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SavingsAccountsPOSTAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task SavingsAccountsPOSTAsync(CreateSavingsAccountDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3334,7 +3334,10 @@ namespace SmartFinancesBlazorUI.Services.Base
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    var json_ = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(body, _settings.Value);
+                    var content_ = new System.Net.Http.ByteArrayContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
 
                     var urlBuilder_ = new System.Text.StringBuilder();
@@ -4853,6 +4856,9 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("type")]
         public string Type { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeId")]
+        public int AccountTypeId { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -4876,6 +4882,21 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("yearlySummaryId")]
         public int YearlySummaryId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class CreateSavingsAccountDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("userId")]
+        public string UserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("type")]
+        public string Type { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeId")]
+        public int AccountTypeId { get; set; }
 
     }
 
@@ -5170,6 +5191,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("dateOfCreation")]
         public System.DateTime DateOfCreation { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeId")]
+        public int AccountTypeId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accountTypeDto")]
+        public AccountTypeDto AccountTypeDto { get; set; }
 
     }
 

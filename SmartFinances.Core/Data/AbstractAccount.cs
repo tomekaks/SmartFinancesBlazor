@@ -9,6 +9,9 @@
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
         public DateTime CreationDateTime { get; set; }
+        public string Type { get; set; }
+        public int AccountTypeId { get; set; }
+        public AccountType AccountType { get; set; }
 
     }
 }

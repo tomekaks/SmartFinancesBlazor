@@ -1,10 +1,11 @@
-﻿using SmartFinancesBlazorUI.Models.Admin;
+﻿using SmartFinancesBlazorUI.Models.AccountTypes;
+using SmartFinancesBlazorUI.Models.Admin;
 
 namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IAccountRequestService
     {
-        Task CreateAsync(string accountType);
+        Task CreateAsync(AccountTypeVM accountType);
         Task UpdateAsync(int accountTypeId, string status);
         Task<AccountRequestVM> GetByIdAsync(int accountTypeId);
         Task<List<AccountRequestVM>> GetAllByStatusAsync(string status);

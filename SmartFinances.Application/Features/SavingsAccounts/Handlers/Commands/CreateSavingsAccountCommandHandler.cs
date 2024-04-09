@@ -19,14 +19,14 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Handlers.Commands
 
         public async Task Handle(CreateSavingsAccountCommand request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByIdAsync(request.UserId);
+            var user = await _unitOfWork.Users.GetByIdAsync(request.AccountDto.UserId);
 
             if (user == null)
             {
-                throw new NotFoundException("User", request.UserId);
+                throw new NotFoundException("User", request.AccountDto.UserId);
             }
 
-            var savingsAccount = _savingsAccountFactory.CreateSavingsAccount(request.UserId, user.UserName);
+            var savingsAccount = _savingsAccountFactory.CreateSavingsAccount(request.AccountDto, user.UserName);
 
             await _unitOfWork.SavingsAccounts.AddAsync(savingsAccount);
             await _unitOfWork.SaveAsync();

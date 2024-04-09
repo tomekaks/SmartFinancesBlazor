@@ -21,6 +21,12 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasMany(a => a.SavingsAccounts)
+                .WithOne(s => s.AccountType)
+                .HasForeignKey(s => s.AccountTypeId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasMany(t => t.AccountRequests)
                 .WithOne(r => r.AccountType)
                 .HasForeignKey(r => r.AccountTypeId)
@@ -30,7 +36,8 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
             builder.HasData(
                 new AccountType { Id = 1, Name = "Main"},
                 new AccountType { Id = 2, Name = "Secondary"},
-                new AccountType { Id = 3, Name = "Business"}
+                new AccountType { Id = 3, Name = "Business"},
+                new AccountType { Id = 4, Name = "Savings"}
                 );
 
         }

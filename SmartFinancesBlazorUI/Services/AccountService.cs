@@ -2,6 +2,7 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
+using SmartFinancesBlazorUI.Models.AccountTypes;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
 
@@ -16,15 +17,25 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task CreateSavingsAccountAcync()
+        public async Task CreateSavingsAccountAcync(AccountTypeVM accountType)
         {
+            var accountDto = new CreateSavingsAccountDto()
+            {
+                Type = accountType.Name,
+                AccountTypeId = accountType.Id
+            };
+
             await AddBearerToken();
-            await _client.SavingsAccountsPOSTAsync();
+            await _client.SavingsAccountsPOSTAsync(accountDto);
         }
 
-        public async Task CreateTransactionalAccountAsync(string accountType)
+        public async Task CreateTransactionalAccountAsync(AccountTypeVM accountType)
         {
-            var accountDto = new CreateTransactionalAccountDto() { Type = accountType };
+            var accountDto = new CreateTransactionalAccountDto()
+            {
+                Type = accountType.Name,
+                AccountTypeId = accountType.Id,
+            };
 
             await AddBearerToken();
             await _client.TransactionalAccountsPOSTAsync(accountDto);

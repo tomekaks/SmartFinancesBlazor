@@ -40,11 +40,14 @@ namespace SmartFinancesBlazorUI.Mappings
 
             CreateMap<MonthlySummaryDto, MonthlySummaryVM>().ReverseMap();
 
-            CreateMap<TransactionalAccountDto, TransactionalAccountVM>();
+            CreateMap<TransactionalAccountDto, TransactionalAccountVM>()
+                .ForMember(dest => dest.AccountTypeVM, opt => opt.MapFrom(src => src.AccountTypeDto));
 
-            CreateMap<SavingsAccountDto, SavingsAccountVM>();
+            CreateMap<SavingsAccountDto, SavingsAccountVM>()
+                .ForMember(dest => dest.AccountTypeVM, opt => opt.MapFrom(src => src.AccountTypeDto));
 
-            CreateMap<AccountRequestDto, AccountRequestVM>();
+            CreateMap<AccountRequestDto, AccountRequestVM>()
+                .ForMember(dest => dest.AccountTypeVM, opt => opt.MapFrom(src => src.AccountTypeDto)); ;
 
             CreateMap<AccountTypeDto, AccountTypeVM>();
         }

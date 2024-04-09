@@ -27,6 +27,11 @@ namespace SmartFinances.Infrastructure.DataBase.Configurations
 
             builder.Property(q => q.CreationDateTime)
                 .IsRequired();
+
+            builder.HasOne(s => s.AccountType)
+                .WithMany(a => a.SavingsAccounts)
+                .HasForeignKey(s => s.AccountTypeId)
+                .IsRequired();
         }
     }
 }

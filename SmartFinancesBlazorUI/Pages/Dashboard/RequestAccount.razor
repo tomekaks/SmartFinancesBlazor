@@ -18,13 +18,13 @@ else
                 <MudCard>
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6" Class="ml-2">@type</MudText>
+                            <MudText Typo="Typo.h6" Class="ml-2">@type.Name</MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
                     <MudCardContent>
                     </MudCardContent>
                     <MudCardActions>
-                        @if(CheckIfPending(type))
+                        @if(CheckIfPending(type.Name))
                         {
 
                             <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true" >Pending</MudButton>
@@ -32,31 +32,6 @@ else
                         else
                         {
                             <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type))">Request</MudButton>
-                        }
-                    </MudCardActions>
-                </MudCard>
-            </MudItem>
-        }
-        @if(Model.SavingsAccount == null)
-        {
-            <MudItem xs="12" sm="6" md="4">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.h6" Class="ml-2">Savings</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                        <MudCardContent>
-                        </MudCardContent>
-                    <MudCardActions>
-                        @if (CheckIfPending(Constants.ACCOUNTTYPE_SAVINGS))
-                        {
-
-                            <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true">Pending</MudButton>
-                        }
-                        else
-                        {
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(Constants.ACCOUNTTYPE_SAVINGS))">Request</MudButton>
                         }
                     </MudCardActions>
                 </MudCard>
@@ -88,23 +63,26 @@ else
         Model.AvailableAccountTypes = GetAvailableAccountTypes();
     }
 
-    private async Task RequestNewAccount(string accountType)
+    private async Task RequestNewAccount(AccountTypeVM accountType)
     {
         await DashboardService.RequestNewAccountAsync(accountType);
         NavigateToDashboard();
     }
 
-    private List<string> GetAvailableAccountTypes()
+    private List<AccountTypeVM> GetAvailableAccountTypes()
     {
-        var accountTypesNames = Model.AccountTypes.Select(q => q.Name);
+        var possesedAccountTypes = Model.Accounts.Select(q => q.AccountTypeVM.Name).ToList();
 
-        var possesedAccountTypes = Model.Accounts.Select(q => q.Type);
-
-        var availableAccountTypes = new List<string>();
-
-        foreach (var type in accountTypesNames)
+        if(Model.SavingsAccount != null)
         {
-            if(!possesedAccountTypes.Contains(type))
+            possesedAccountTypes.Add(Constants.ACCOUNTTYPE_SAVINGS);
+        }
+
+        var availableAccountTypes = new List<AccountTypeVM>();
+
+        foreach (var type in Model.AccountTypes)
+        {
+            if (!possesedAccountTypes.Contains(type.Name))
             {
                 availableAccountTypes.Add(type);
             }
@@ -112,6 +90,25 @@ else
 
         return availableAccountTypes;
     }
+
+    // private List<string> GetAvailableAccountTypes()
+    // {
+    //     var accountTypesNames = Model.AccountTypes.Select(q => q.Name);
+
+    //     var possesedAccountTypes = Model.Accounts.Select(q => q.Type);
+
+    //     var availableAccountTypes = new List<string>();
+
+    //     foreach (var type in accountTypesNames)
+    //     {
+    //         if(!possesedAccountTypes.Contains(type))
+    //         {
+    //             availableAccountTypes.Add(type);
+    //         }
+    //     }
+
+    //     return availableAccountTypes;
+    // }
 
     private bool CheckIfPending(string accountType)
     {

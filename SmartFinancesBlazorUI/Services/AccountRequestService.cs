@@ -2,6 +2,7 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
+using SmartFinancesBlazorUI.Models.AccountTypes;
 using SmartFinancesBlazorUI.Models.Admin;
 using SmartFinancesBlazorUI.Services.Base;
 
@@ -16,10 +17,13 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(string accountType)
+        public async Task CreateAsync(AccountTypeVM accountType)
         {
-            var accountRequestDto = new CreateAccountRequestDto { Type = accountType };
-
+            var accountRequestDto = new CreateAccountRequestDto()
+            {
+                Type = accountType.Name,
+                AccountTypeId = accountType.Id,
+            };
             await AddBearerToken();
             await _client.AccountRequestsPOSTAsync(accountRequestDto);
         }
@@ -66,7 +70,9 @@ namespace SmartFinancesBlazorUI.Services
                 return new List<AccountRequestVM>();
             }
 
-            return _mapper.Map<List<AccountRequestVM>>(accountRequests);
+            var accountRequestsVM = _mapper.Map<List<AccountRequestVM>>(accountRequests);
+
+            return accountRequestsVM;
         }
 
     }

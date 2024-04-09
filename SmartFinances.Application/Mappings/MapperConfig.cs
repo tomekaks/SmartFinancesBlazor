@@ -51,15 +51,18 @@ namespace SmartFinances.Application.Mappings
             CreateMap<CreateMonthlySummaryDto, MonthlySummary>();
             CreateMap<UpdateMonthlySummaryDto, MonthlySummary>();
 
-            CreateMap<SavingsAccount, SavingsAccountDto>().ReverseMap();
+            CreateMap<SavingsAccount, SavingsAccountDto>()
+                .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)).ReverseMap();
             CreateMap<CreateSavingsAccountDto, SavingsAccount>();
             CreateMap<UpdateSavingsAccountDto, SavingsAccount>();
 
-            CreateMap<TransactionalAccount, TransactionalAccountDto>().ReverseMap();
+            CreateMap<TransactionalAccount, TransactionalAccountDto>()
+                .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)).ReverseMap();
             CreateMap<CreateTransactionalAccountDto, TransactionalAccount>();
             CreateMap<UpdateTransactionalAccountDto, TransactionalAccount>();
 
-            CreateMap<AccountRequest, AccountRequestDto>();
+            CreateMap<AccountRequest, AccountRequestDto>()
+                .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)); 
 
             CreateMap<AccountType, AccountTypeDto>();
         }
