@@ -4,9 +4,12 @@
 
 <PageTitle>Registration</PageTitle>
 
-@if(!string.IsNullOrEmpty(Message))
+@if(Messages.Any())
 {
-    <div class="alert alert-danger">@Message</div>   
+    foreach(var message in Messages)
+    {
+        <div class="alert alert-danger">@message</div>   
+    }
 }
 
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
@@ -42,17 +45,17 @@
 
 @code {
     public RegisterVM Model { get; set; } = new();
-    public string Message { get; set; } = string.Empty;
+    public List<string> Messages { get; set; } = new();
 
     private async Task HandleSubmit()
     {
-        var result = await AuthenticationService.RegisterAsync(Model);
+        var registrationResult = await AuthenticationService.RegisterAsync(Model);
 
-        if(result)
+        if (registrationResult.Succeeded)
         {
             NavigationManager.NavigateTo("authentication/login");
         }
-        Message = "Something went wrong, please try again.";
+        Messages = registrationResult.Errors.ToList();
     }
 }
 

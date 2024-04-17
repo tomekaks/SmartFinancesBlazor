@@ -29,5 +29,7 @@
 
         public const string WITHDRAW = "Withdraw";
         public const string DEPOSIT = "Deposit";
+
+        public const string ADMINISTRATOR = "Administrator";
     }
 }

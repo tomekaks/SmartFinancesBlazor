@@ -46,6 +46,8 @@ namespace SmartFinances.Application.Services
                 throw new BadRequestException("Invalid Credentials");
             }
 
+            var userRoles = await _userManager.GetRolesAsync(user);
+
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
             var response = new AuthResponse()
@@ -53,6 +55,7 @@ namespace SmartFinances.Application.Services
                 Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
+                Roles = userRoles.ToList(),
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)
             };
 
@@ -68,7 +71,11 @@ namespace SmartFinances.Application.Services
 
             if (!result.Succeeded)
             {
-                return new RegistrationResponse();
+                return new RegistrationResponse()
+                {
+                    Succeeded = false,
+                    Errors = result.Errors.Select(q => q.Description).ToList(),
+                };
             }
 
             await _userManager.AddToRoleAsync(user, "User");

@@ -4826,6 +4826,9 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("token")]
         public string Token { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("roles")]
+        public System.Collections.Generic.ICollection<string> Roles { get; set; }
+
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
@@ -5140,6 +5143,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public string UserId { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("succeeded")]
+        public bool Succeeded { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("errors")]
+        public System.Collections.Generic.ICollection<string> Errors { get; set; }
 
     }
 

@@ -1,11 +1,12 @@
 ﻿using SmartFinancesBlazorUI.Models.Authentication;
+using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IAuthenticationService
     {
-        Task<bool> LoginAsync(LoginVM loginVM);
-        Task<bool> RegisterAsync(RegisterVM registerVM);
+        Task<AuthResponse> LoginAsync(LoginVM loginVM);
+        Task<RegistrationResponse> RegisterAsync(RegisterVM registerVM);
         Task Logout();
     }
 }

@@ -39,11 +39,21 @@
 
     private async void HandleSubmit()
     {
-        if (await AuthenticationService.LoginAsync(Model))
+        var authResponse = await AuthenticationService.LoginAsync(Model);
+        bool isAdmin = authResponse.Roles.Contains(Constants.ADMINISTRATOR);
+
+        if (isAdmin)
+        {
+            NavigationManager.NavigateTo("/admin/accountrequests");
+        }
+        else if(authResponse == null)
+        {
+            Message = "Username/password combination is unknown";            
+        }
+        else
         {
             NavigationManager.NavigateTo("dashboard");
         }
-        Message = "Username/password combination is unknown";
     }
 }
 

@@ -17,7 +17,7 @@ namespace SmartFinancesBlazorUI.Services
             _authenticationStateProvider = authenticationStateProvider;
         }
 
-        public async Task<bool> LoginAsync(LoginVM loginVM)
+        public async Task<AuthResponse> LoginAsync(LoginVM loginVM)
         {
             try
             {
@@ -37,25 +37,26 @@ namespace SmartFinancesBlazorUI.Services
 
                     await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedIn();
 
-                    return true;
+                    return authResponse;
                 }
 
-                return false;
+                return null;
             }
             catch (Exception)
             {
 
-                return false;
+                return null;
             }
         }
 
         public async Task Logout()
         {
             await _localStorage.RemoveItemAsync(Constants.CURRENTACCOUNT);
+            await _localStorage.RemoveItemAsync(Constants.SAVINGSACCOUNT);
             await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedOut();
         }
 
-        public async Task<bool> RegisterAsync(RegisterVM registerVM)
+        public async Task<RegistrationResponse> RegisterAsync(RegisterVM registerVM)
         {
             RegisterRequest registerRequest = new()
             {
@@ -66,11 +67,13 @@ namespace SmartFinancesBlazorUI.Services
 
             var response = await _client.RegisterAsync(registerRequest);
 
-            if (!string.IsNullOrEmpty(response.UserId))
-            {
-                return true;
-            }
-            return false;
+            return response;
+
+            //if (!string.IsNullOrEmpty(response.UserId))
+            //{
+            //    return true;
+            //}
+            //return false;
         }
     }
 }
