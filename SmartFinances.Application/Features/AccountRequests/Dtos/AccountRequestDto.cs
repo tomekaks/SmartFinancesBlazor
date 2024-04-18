@@ -1,4 +1,5 @@
 ﻿using SmartFinances.Application.Features.AccountTypes.Dtos;
+using SmartFinances.Application.Features.Users.Dtos;
 
 namespace SmartFinances.Application.Features.AccountRequests.Dtos
 {
@@ -6,6 +7,7 @@ namespace SmartFinances.Application.Features.AccountRequests.Dtos
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        public UserDto UserDto { get; set; }
         public string Type { get; set; }
         public int AccountTypeId { get; set; }
         public AccountTypeDto AccountTypeDto { get; set; }

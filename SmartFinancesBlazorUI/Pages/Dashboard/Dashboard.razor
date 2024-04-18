@@ -1,4 +1,5 @@
 ﻿@page "/dashboard"
+@attribute [Authorize(Roles = Constants.USER)]
 @inject NavigationManager NavigationManager
 @inject IDashboardService DashboardService
 @inject IDialogService DialogService

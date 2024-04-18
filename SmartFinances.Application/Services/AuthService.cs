@@ -37,13 +37,21 @@ namespace SmartFinances.Application.Services
             var user = await _userManager.FindByNameAsync(loginRequest.UserName);
             if (user == null) 
             {
-                throw new NotFoundException(loginRequest.UserName, loginRequest.UserName);
+                return new AuthResponse()
+                {
+                    Succeeded = false,
+                    Errors = new List<string>() {"User with this name does not exist." }
+                };
             }
 
             bool isPasswordValid = await _userManager.CheckPasswordAsync(user, loginRequest.Password);
             if (!isPasswordValid)
             {
-                throw new BadRequestException("Invalid Credentials");
+                return new AuthResponse()
+                {
+                    Succeeded = false,
+                    Errors = new List<string>() { "Incorrect password." }
+                };
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -56,7 +64,8 @@ namespace SmartFinances.Application.Services
                 Email = user.Email,
                 UserName = user.UserName,
                 Roles = userRoles.ToList(),
-                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)
+                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                Succeeded = true
             };
 
             return response;
@@ -84,6 +93,7 @@ namespace SmartFinances.Application.Services
 
             return new RegistrationResponse()
             {
+                Succeeded = true,
                 UserId = user.Id
             };
         }

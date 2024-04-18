@@ -4,9 +4,12 @@
 
 <PageTitle>Login</PageTitle>
 
-@if (!string.IsNullOrEmpty(Message))
+@if (Messages.Any())
 {
-    <div class="alert alert-danger">@Message</div>   
+    foreach (var message in Messages)
+    {
+        <div class="alert alert-danger">@message</div>
+    }
 }
 
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
@@ -35,7 +38,7 @@
 
 @code {
     public LoginVM Model { get; set; } = new LoginVM();
-    public string Message { get; set; } = string.Empty;
+    public List<string> Messages { get; set; } = new();
 
     private async void HandleSubmit()
     {
@@ -46,9 +49,9 @@
         {
             NavigationManager.NavigateTo("/admin/accountrequests");
         }
-        else if(authResponse == null)
+        else if(!authResponse.Succeeded)
         {
-            Message = "Username/password combination is unknown";            
+            Messages = authResponse.Errors.ToList();            
         }
         else
         {

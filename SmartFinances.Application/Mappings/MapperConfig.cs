@@ -62,7 +62,8 @@ namespace SmartFinances.Application.Mappings
             CreateMap<UpdateTransactionalAccountDto, TransactionalAccount>();
 
             CreateMap<AccountRequest, AccountRequestDto>()
-                .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)); 
+                .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)) 
+                .ForMember(dest => dest.UserDto, opt => opt.MapFrom(src => src.User)); 
 
             CreateMap<AccountType, AccountTypeDto>();
         }

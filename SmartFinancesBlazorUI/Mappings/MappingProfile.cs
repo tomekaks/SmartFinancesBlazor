@@ -47,7 +47,8 @@ namespace SmartFinancesBlazorUI.Mappings
                 .ForMember(dest => dest.AccountTypeVM, opt => opt.MapFrom(src => src.AccountTypeDto));
 
             CreateMap<AccountRequestDto, AccountRequestVM>()
-                .ForMember(dest => dest.AccountTypeVM, opt => opt.MapFrom(src => src.AccountTypeDto)); ;
+                .ForMember(dest => dest.AccountTypeVM, opt => opt.MapFrom(src => src.AccountTypeDto))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserDto.UserName));
 
             CreateMap<AccountTypeDto, AccountTypeVM>();
         }

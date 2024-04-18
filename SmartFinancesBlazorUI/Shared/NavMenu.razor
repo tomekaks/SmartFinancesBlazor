@@ -81,20 +81,20 @@
 
     private bool isAdmin = false;
 
-    protected override async Task OnInitializedAsync()
-    {
-        await CheckIfAdmin();
-    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     await CheckIfAdmin();
+    // }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
-    private async Task CheckIfAdmin()
-    {
-        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        isAdmin = user.IsInRole(Constants.ADMINISTRATOR);
-    }
+    // private async Task CheckIfAdmin()
+    // {
+    //     var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+    //     var user = authState.User;
+    //     isAdmin = user.IsInRole(Constants.ADMINISTRATOR);
+    // }
 }

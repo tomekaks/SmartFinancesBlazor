@@ -36,11 +36,9 @@ namespace SmartFinancesBlazorUI.Services
                     await _localStorage.SetItemAsync(Constants.TOKEN, authResponse.Token);
 
                     await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedIn();
-
-                    return authResponse;
                 }
 
-                return null;
+                return authResponse;
             }
             catch (Exception)
             {

@@ -4766,6 +4766,9 @@ namespace SmartFinancesBlazorUI.Services.Base
         [System.Text.Json.Serialization.JsonPropertyName("userId")]
         public string UserId { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("userDto")]
+        public UserDto UserDto { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("type")]
         public string Type { get; set; }
 
@@ -4828,6 +4831,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("roles")]
         public System.Collections.Generic.ICollection<string> Roles { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("succeeded")]
+        public bool Succeeded { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("errors")]
+        public System.Collections.Generic.ICollection<string> Errors { get; set; }
 
     }
 
@@ -5416,6 +5425,39 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("transactionalAccountId")]
         public int TransactionalAccountId { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.0.7.0 (NJsonSchema v11.0.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class UserDto
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("id")]
+        public string Id { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("userName")]
+        public string UserName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("email")]
+        public string Email { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("firstName")]
+        public string FirstName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("lastName")]
+        public string LastName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("accounts")]
+        public System.Collections.Generic.ICollection<TransactionalAccountDto> Accounts { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("savingsAccount")]
+        public SavingsAccountDto SavingsAccount { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("isSuspended")]
+        public bool IsSuspended { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("suspensionReason")]
+        public string SuspensionReason { get; set; }
 
     }
 

@@ -11,5 +11,15 @@ namespace SmartFinances.Infrastructure.Repositories
         {
         }
 
+        public async Task<List<AccountRequest>> GetAllByStatusAsync(string status)
+        {
+            var accountRequests = await _db
+                .Include(q => q.User)
+                .Include(q => q.AccountType)
+                .Where(q => q.Status == status)
+                .ToListAsync();
+
+            return accountRequests;
+        }
     }
 }

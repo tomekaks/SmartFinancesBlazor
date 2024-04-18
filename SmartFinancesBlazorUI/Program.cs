@@ -29,6 +29,7 @@ builder.Services.AddMudServices(config =>
 });
 
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 
 
