@@ -45,13 +45,14 @@
         var authResponse = await AuthenticationService.LoginAsync(Model);
         bool isAdmin = authResponse.Roles.Contains(Constants.ADMINISTRATOR);
 
-        if (isAdmin)
+
+        if (!authResponse.Succeeded)
+        {
+            Messages = authResponse.Errors.ToList();
+        }
+        else if (isAdmin)
         {
             NavigationManager.NavigateTo("/admin/accountrequests");
-        }
-        else if(!authResponse.Succeeded)
-        {
-            Messages = authResponse.Errors.ToList();            
         }
         else
         {
@@ -60,28 +61,3 @@
     }
 }
 
-
-@* <div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-            <DataAnnotationsValidator />
-
-            <div class="form-group mb-2">
-                <label for="UserName">User name</label>
-                <InputText id="userName" @bind-Value="Model.UserName" class="form-control" />
-                <ValidationMessage For="@(() => Model.UserName)" />
-            </div>
-
-            <div class="form-group mb-2">
-                <label for="Password">Password</label>
-                <InputText type="password" id="password" @bind-Value="Model.Password" class="form-control" />
-                <ValidationMessage For="@(() => Model.Password)" />
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Log in</button>
-            </div>
-        </EditForm>
-    </div>
-</div>
- *@

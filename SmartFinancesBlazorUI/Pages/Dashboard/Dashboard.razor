@@ -1,5 +1,5 @@
 ﻿@page "/dashboard"
-@attribute [Authorize(Roles = Constants.USER)]
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject NavigationManager NavigationManager
 @inject IDashboardService DashboardService
 @inject IDialogService DialogService

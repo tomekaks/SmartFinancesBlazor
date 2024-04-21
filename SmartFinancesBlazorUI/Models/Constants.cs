@@ -32,5 +32,6 @@
 
         public const string ADMINISTRATOR = "Administrator";
         public const string USER = "User";
+        public const string TESTUSER = "TestUser";
     }
 }
