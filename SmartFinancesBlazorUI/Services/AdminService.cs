@@ -31,11 +31,11 @@ namespace SmartFinancesBlazorUI.Services
 
             if (accountRequest.AccountTypeVM.Name == Constants.ACCOUNTTYPE_SAVINGS)
             {
-                await _accountService.CreateSavingsAccountAcync(accountRequest.AccountTypeVM);
+                await _accountService.CreateSavingsAccountAcync(accountRequest.AccountTypeVM, accountRequest.UserId);
             }
             else
             {
-                await _accountService.CreateTransactionalAccountAsync(accountRequest.AccountTypeVM);
+                await _accountService.CreateTransactionalAccountAsync(accountRequest.AccountTypeVM, accountRequest.UserId);
             }
         }
 

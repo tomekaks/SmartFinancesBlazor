@@ -17,10 +17,11 @@ namespace SmartFinancesBlazorUI.Services
             _mapper = mapper;
         }
 
-        public async Task CreateSavingsAccountAcync(AccountTypeVM accountType)
+        public async Task CreateSavingsAccountAcync(AccountTypeVM accountType, string requestingUserId)
         {
             var accountDto = new CreateSavingsAccountDto()
             {
+                UserId = requestingUserId,
                 Type = accountType.Name,
                 AccountTypeId = accountType.Id
             };
@@ -29,10 +30,11 @@ namespace SmartFinancesBlazorUI.Services
             await _client.SavingsAccountsPOSTAsync(accountDto);
         }
 
-        public async Task CreateTransactionalAccountAsync(AccountTypeVM accountType)
+        public async Task CreateTransactionalAccountAsync(AccountTypeVM accountType, string requestingUserId)
         {
             var accountDto = new CreateTransactionalAccountDto()
             {
+                UserId= requestingUserId,
                 Type = accountType.Name,
                 AccountTypeId = accountType.Id,
             };

@@ -33,7 +33,6 @@ namespace SmartFinances.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateSavingsAccountDto accountDto)
         {
-            accountDto.UserId = CurrentUserId;
             await _mediator.Send(new CreateSavingsAccountCommand { AccountDto = accountDto });
             return Ok();
         }
