@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SmartFinancesBlazorUI.Models.Dashboard;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SmartFinancesBlazorUI.Models.Transfers
@@ -16,5 +17,6 @@ namespace SmartFinancesBlazorUI.Models.Transfers
         [Required]
         public decimal Amount { get; set; }
         public DateTime SendTime { get; set; }
+        public TransactionalAccountVM CurrentAccountVM { get; set; }
     }
 }

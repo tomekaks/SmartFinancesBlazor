@@ -2,9 +2,33 @@
 @page "/transfers/newtransfer/{Name}/{AccountNumber}"
 @inject NavigationManager NavigationManager
 @inject ITransfersService TransferService
-@inject IContactsService ContactsService
+@inject IDialogService MudDialogService
 
 <PageTitle>New Transfer</PageTitle>
+
+@if(Model.CurrentAccountVM == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row mb-3 mt-2">
+        <div class="col-5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">Current account</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText>Account name: @Model.CurrentAccountVM.Name</MudText>
+                    <MudText>Account number: @Model.CurrentAccountVM.Number</MudText>
+                    <MudText>Balance: @Model.CurrentAccountVM.Balance</MudText>
+                </MudCardContent>
+            </MudCard>
+        </div>
+    </div>
+}
 
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
@@ -28,7 +52,7 @@
                                   @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
                     <MudTextField Label="Title" Class="mt-3"
                                   @bind-Value="Model.Title" For="@(() => Model.Title)" />
-                    <MudCheckBox T="bool" @bind-Checked="addToContacts" Label="Add to Contacts"></MudCheckBox>
+                    <MudCheckBox @bind-Value="addToContacts" Label="Add to Contacts"></MudCheckBox>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Send</MudButton>
@@ -49,11 +73,11 @@
     private NewTransferVM Model = new NewTransferVM();
     private bool addToContacts;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
         Model.ReceiverName = Name;
         Model.ReceiverAccountNumber = AccountNumber;
+        Model.CurrentAccountVM = await TransferService.GetCurrentAccountAsync();
     }
 
     private void NavigateToContacts()
@@ -68,67 +92,27 @@
 
     private async Task HandleSubmit()
     {
-        if (addToContacts == true)
+        if(Model.Amount > Model.CurrentAccountVM.Balance)
         {
-            var newContact = new NewContactVM()
-            {
-                Name = Model.ReceiverName,
-                AccountNumber = Model.ReceiverAccountNumber
-            };
-            await ContactsService.CreateContactAsync(newContact);
+            OpenDialog();
+            return;
         }
 
-        bool response = await TransferService.CreateTransferAsync(Model);
+        bool response = await TransferService.CreateTransferAsync(Model, addToContacts);
 
         if(response)
         {
             NavigateToTransfers(); 
         }
+    }
 
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ButtonText, "Ok");
+        parameters.Add(x => x.Color, Color.Primary);
+
+        MudDialogService.Show<Dialog>("Insufficient funds", parameters);
     }
 }
 
-
-
-@* <div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
-            <DataAnnotationsValidator />
-
-            <div class="form-group">
-                <label for="ReceiverName">Receiver name</label>
-                <InputText id="ReceiverName" @bind-Value="Model.ReceiverName" class="form-control" />
-                <ValidationMessage For="@(() => Model.ReceiverName)" />
-            </div>
-
-            <div class="form-group">
-                <label for="ReceiverAccountNumber">Receiver account number</label>
-                <InputText id="ReceiverAccountNumber" @bind-Value="Model.ReceiverAccountNumber" class="form-control" />
-                <ValidationMessage For="@(() => Model.ReceiverAccountNumber)" />
-            </div>
-
-            <div class="form-group">
-                <label for="Amount">Amount</label>
-                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
-                <ValidationMessage For="@(() => Model.Amount)" />
-            </div>
-
-            <div class="form-group">
-                <label for="Title">Title</label>
-                <InputText id="Title" @bind-Value="Model.Title" class="form-control" />
-                <ValidationMessage For="@(() => Model.Title)" />
-            </div>
-
-            <div class="form-group">
-                <InputCheckbox id="AddToContacts" @bind-Value="addToContacts" />
-                <label for="AddToContacts">Add To Contacts</label>
-            </div>
-
-            <button type="submit" class="btn btn-success">Send</button>
-        </EditForm>
-    </div>
-</div>
-
-<div>
-    <button class="btn btn-primary" @onclick="NavigateToTransfers">Back to List</button>
-</div> *@
