@@ -4,10 +4,48 @@
 
 <PageTitle>Withdraw</PageTitle>
 
+@if (Model.TransactionalAccount == null || Model.SavingsAccount == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row mb-3 mt-2">
+        <div class="col-3">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">Current account</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText>Account name: @Model.TransactionalAccount.Name</MudText>
+                    <MudText>Account number: @Model.TransactionalAccount.Number</MudText>
+                    <MudText>Balance: @Model.TransactionalAccount.Balance</MudText>
+                </MudCardContent>
+            </MudCard>
+        </div>
+        <div class="col-3">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">Savings account</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText>Account name: @Model.SavingsAccount.Name</MudText>
+                    <MudText>Account number: @Model.SavingsAccount.Number</MudText>
+                    <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
+                </MudCardContent>
+            </MudCard>
+        </div>
+    </div>
+}
+
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
     <MudGrid>
-        <MudItem xs="12" sm="5">
+        <MudItem xs="12" sm="6">
             <MudCard>
                 <MudCardHeader>
                     <CardHeaderContent>

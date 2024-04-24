@@ -97,7 +97,6 @@ namespace SmartFinancesBlazorUI.Services
             await _accountRequestService.CreateAsync(accountType);
         }
 
-
         public async Task<bool> WithdrawFromSavingsAccountAsync(WithdrawVM withdrawVM)
         {
             var transferDto = await GetSavingsAccountTransferDto(withdrawVM.Amount, Constants.WITHDRAW);
@@ -114,6 +113,18 @@ namespace SmartFinancesBlazorUI.Services
             await _transfersService.DepositOnSavingsAccountAsync(transferDto);
 
             return true;
+        }
+
+        public async Task SetSavingsGoalAsync(decimal goal)
+        {
+            var updateSavingsAccount = new UpdateSavingsAccountDto()
+            {
+                Id = SavingsAccount.Id,
+                Goal = goal
+            };
+
+            await AddBearerToken();
+            await _client.SavingsAccountsPUTAsync(updateSavingsAccount);
         }
 
         private async Task<TransactionalAccountVM> GetMainAccountAsync()

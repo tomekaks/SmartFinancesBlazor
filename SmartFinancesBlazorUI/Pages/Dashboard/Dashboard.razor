@@ -20,7 +20,7 @@ else
                     <MudCard>
                         <MudCardHeader>
                             <CardHeaderContent>
-                                <MudText Typo="Typo.h6">@account.Type</MudText>
+                                <MudText Typo="Typo.h5">@account.Type</MudText>
                                 </CardHeaderContent>
                                 <CardHeaderActions>
                                 @if (account.Number == Model.CurrentAccount.Number)
@@ -54,18 +54,32 @@ else
                     <MudCard>
                         <MudCardHeader>
                             <CardHeaderContent>
-                                <MudText Typo="Typo.h6">Savings</MudText>
+                                <MudText Typo="Typo.h5">Savings</MudText>
                             </CardHeaderContent>
                             <CardHeaderActions>
-                                <MudButton Variant="Variant.Filled" Color="Color.Surface">Set goal</MudButton>
+                                @if (_settingGoal)
+                                {
+                                    <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="ConfirmGoal">Confirm goal</MudButton>
+                                }
+                                else
+                                {
+                                    <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="SetGoal">Set goal</MudButton>
+                                }
                             </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText>Savings goal: @Model.SavingsAccount.Goal </MudText>
+                            @if (_settingGoal)
+                            {
+                                <MudTextField Label="Set Goal" @bind-Value="_settingGoalValue" />
+                            }
+                            else
+                            {
+                                <MudText>Savings goal: @Model.SavingsAccount.Goal</MudText>
+                            }
                             <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton>
+                            <MudButton Class="mr-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton>
                             <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
                         </MudCardActions>
                     </MudCard>
@@ -96,6 +110,8 @@ else
 
 @code {
     public DashboardVM Model { get; set; } = new();
+    private bool _settingGoal = false;
+    private decimal _settingGoalValue;
 
     protected override async Task OnInitializedAsync()
     {
@@ -131,6 +147,19 @@ else
     {
         await DashboardService.ChangeAccountAsync(accountNumber);
         await LoadModel();
+    }
+
+    private void SetGoal()
+    {
+        _settingGoalValue = Model.SavingsAccount.Goal;
+        _settingGoal = true;
+    }
+
+    private async Task ConfirmGoal()
+    {
+        await DashboardService.SetSavingsGoalAsync(_settingGoalValue);
+        await LoadModel();
+        _settingGoal = false;
     }
 
     private void AddFunds()
