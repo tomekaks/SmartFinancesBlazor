@@ -1,7 +1,7 @@
 ﻿@page "/budgetplanner"
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject IBudgetPlannerService BudgetPlannerService
 @inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
 @inject IDialogService DialogService
 
 <PageTitle>Budget planner</PageTitle>

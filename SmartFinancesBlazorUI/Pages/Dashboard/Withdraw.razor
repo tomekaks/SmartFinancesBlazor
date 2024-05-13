@@ -1,6 +1,7 @@
 ﻿@page "/dashboard/withdraw"
 @inject NavigationManager NavManager
 @inject IDashboardService DashboardService
+@inject IDialogService MudDialogService
 
 <PageTitle>Withdraw</PageTitle>
 
@@ -80,11 +81,26 @@ else
 
     private async Task HandleSubmit()
     {
+        if (Model.Amount > Model.SavingsAccount.Balance)
+        {
+            OpenDialog();
+            return;
+        }
+
         bool response = await DashboardService.WithdrawFromSavingsAccountAsync(Model);
         if (response)
         {
             NavigateToDashboard();
         }
+    }
+
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ButtonText, "Ok");
+        parameters.Add(x => x.Color, Color.Primary);
+
+        MudDialogService.Show<Dialog>("Insufficient funds", parameters);
     }
 
     private void NavigateToDashboard()

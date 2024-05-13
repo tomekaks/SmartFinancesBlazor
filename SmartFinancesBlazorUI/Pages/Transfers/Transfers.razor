@@ -1,11 +1,12 @@
 ﻿@page "/transfers"
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject ITransfersService TransfersService
 @inject NavigationManager NavigationManager
 
 
 @if(Model.Transfers is null)
 {
-    <div>Loading...</div>
+    <div>Loading data...</div>
 }
 else
 {

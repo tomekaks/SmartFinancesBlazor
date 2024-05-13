@@ -1,6 +1,7 @@
 ﻿@page "/contacts/addcontact"
 @inject NavigationManager NavigationManager
 @inject IContactsService ContactService
+@inject IDialogService MudDialogService
 
 <PageTitle>Add Contact</PageTitle>
 
@@ -40,11 +41,26 @@
 
     private async Task HandleSubmit()
     {
-        bool response = await ContactService.CreateContactAsync(Model);
-        if (response)
+        bool result = await ContactService.CreateContactAsync(Model);
+
+        if (result)
         {
             NavigateToContacts();
+            return;
         }
+
+        OpenDialog();
+    }
+
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ButtonText, "Ok");
+        parameters.Add(x => x.Color, Color.Primary);
+
+        var message = "Name or account number already exists";
+
+        MudDialogService.Show<Dialog>(message, parameters);
     }
 }
 

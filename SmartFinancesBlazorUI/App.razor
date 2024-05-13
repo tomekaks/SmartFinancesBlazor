@@ -10,12 +10,11 @@
                 else
                 {
                     <PageTitle>Not authorized</PageTitle>
-                    <LayoutView Layout="@typeof(MainLayout)">
-                        <p role="alert">Sorry, you can't view this page'.</p>
-                    </LayoutView>
+
+                    <p role="alert">Sorry, you can't view this page.</p>
                 }                    
             </NotAuthorized>
-        </AuthorizeRouteView>>
+        </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>

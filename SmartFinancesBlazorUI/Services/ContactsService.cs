@@ -18,12 +18,10 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> CreateContactAsync(NewContactVM newContact)
         {
-            var contacts = await GetContactsAsync();
-
-            var result = contacts.FirstOrDefault(q => q.Name == newContact.Name);
-            if (result != null)
+            bool exists = await CheckIfExistsAsync(newContact.Name, newContact.AccountNumber);
+            if (exists)
             {
-                return true;
+                return false;
             }
 
             var contactDto = _mapper.Map<ContactDto>(newContact);
@@ -57,8 +55,14 @@ namespace SmartFinancesBlazorUI.Services
             return contactList ?? new List<ContactVM>();
         }
 
-        public async Task<bool> UpdateContactAsync(ContactVM contact)
+        public async Task<bool> UpdateContactAsync(ContactVM contact, int id)
         {
+            bool exists = await CheckIfExistsAsync(contact.Name, contact.AccountNumber, id);
+            if (exists)
+            {
+                return false;
+            }
+
             var contactDto = _mapper.Map<ContactDto>(contact);
 
             await AddBearerToken();
@@ -73,6 +77,20 @@ namespace SmartFinancesBlazorUI.Services
             await _client.ContactsDELETEAsync(contactId);
 
             return true;
+        }
+
+        private async Task<bool> CheckIfExistsAsync(string name, string accountNumber, int currentContactId = 0)
+        {
+            var contacts = await GetContactsAsync();
+
+            var existingContact = contacts.FirstOrDefault(q => 
+            (q.Name == name || q.AccountNumber == accountNumber) && q.Id != currentContactId);
+
+            if (existingContact != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

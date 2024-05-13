@@ -1,10 +1,38 @@
 ﻿@page "/contacts/editcontact"
-@page "/contacts/editcontact/{Name}/{AccountNumber}"
 @page "/contacts/editcontact/{Id:int}"
 @inject NavigationManager NavigationManager
 @inject IContactsService ContactService
+@inject IDialogService MudDialogService
 
-<h1>Edit Contact</h1>
+<PageTitle>Edit Contact</PageTitle>
+
+<EditForm Model="@Model" OnValidSubmit="HandleSubmitAsync">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="5">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h4">Edit Contact</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Name"
+                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
+                    <MudTextField Label="Account number" Class="mt-3"
+                                  @bind-Value="Model.AccountNumber" For="@(() => Model.AccountNumber)" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info">Edit</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToContacts">Back</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+
+@* <h1>Edit Contact</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -34,15 +62,11 @@
 
 <div>
     <button class="btn btn-primary" @onclick="NavigateToContacts">Back to Contacts</button>
-</div>
+</div> *@
 
 @code {
     [Parameter]
     public int Id { get; set; }
-    [Parameter]
-    public string Name { get; set; } = string.Empty;
-    [Parameter]
-    public string AccountNumber { get; set; } = string.Empty;
 
     private ContactVM Model = new ContactVM();
 
@@ -53,16 +77,30 @@
 
     private async Task HandleSubmitAsync()
     {
-        bool result = await ContactService.UpdateContactAsync(Model);
+        bool result = await ContactService.UpdateContactAsync(Model, Id);
 
-        if(result)
+        if (result)
         {
             NavigateToContacts();
+            return;
         }
+
+        OpenDialog();
     }
 
     private void NavigateToContacts()
     {
         NavigationManager.NavigateTo("/contacts");
+    }
+
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ButtonText, "Ok");
+        parameters.Add(x => x.Color, Color.Primary);
+
+        var message = "Name or account number already exists";
+
+        MudDialogService.Show<Dialog>(message, parameters);
     }
 }

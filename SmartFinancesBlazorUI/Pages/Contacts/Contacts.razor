@@ -1,4 +1,5 @@
 ﻿@page "/contacts"
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject IContactsService ContactsService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
@@ -15,8 +16,7 @@ else
     <div class="container mt-2">
         <div class="row mb-2">
             <div class="col-10">
-                <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="false" EditMode="DataGridEditMode.Form"
-                             Bordered="true" CommittedItemChanges="CommittedItemChanges">
+                <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="false" Bordered="true">
                     <ToolBarContent>
                         <MudText Typo="Typo.h4">Contacts</MudText>
                         <MudSpacer />
@@ -27,7 +27,7 @@ else
                         <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
                         <TemplateColumn>
                             <CellTemplate>
-                                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
+                                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="() => NavigateToEditContact(context.Item.Id)">Edit</MudButton>
                                 <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteContact(context.Item.Id)">Delete</MudButton>
                             </CellTemplate>
                         </TemplateColumn>
@@ -41,17 +41,11 @@ else
 
 
 @code {
-    private ContactsVM Model;
+    private ContactsVM Model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Model = new ContactsVM();
         Model.Contacts = await ContactsService.GetContactsAsync();
-    }
-
-    private async Task CommittedItemChanges(ContactVM contact)
-    {
-        await ContactsService.UpdateContactAsync(contact);
     }
 
     private async Task ConfirmDeleteContact(int id)
@@ -78,10 +72,6 @@ else
         Model.Contacts = await ContactsService.GetContactsAsync();
     }
 
-    private void NavigateToEditContact(ContactVM contactVM)
-    {
-        NavigationManager.NavigateTo($"/contacts/editcontact/{contactVM.Name}/{contactVM.AccountNumber}");
-    }
     private void NavigateToEditContact(int id)
     {
         NavigationManager.NavigateTo($"/contacts/editcontact/{id}");
@@ -93,15 +83,36 @@ else
     }
 
 
-
-    // private async Task ConfirmDeleteContact(int id)
+    // private async Task CommittedItemChanges(ContactVM contact)
     // {
-    //     var result = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this contact?");
-
-    //     if (result)
-    //     {
-    //         await DeleteContact(id);
-    //         StateHasChanged();
-    //     }
+    //     await ContactsService.UpdateContactAsync(contact);
     // }
+
 }
+
+
+
+@* <div class="container mt-2">
+    <div class="row mb-2">
+        <div class="col-10">
+            <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="false" EditMode="DataGridEditMode.Form"
+                         Bordered="true" CommittedItemChanges="CommittedItemChanges">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h4">Contacts</MudText>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddContact">Add contact</MudButton>
+                </ToolBarContent>
+                <Columns>
+                    <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                    <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
+                    <TemplateColumn>
+                        <CellTemplate>
+                            <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteContact(context.Item.Id)">Delete</MudButton>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+            </MudDataGrid>
+        </div>
+    </div>
+</div> *@

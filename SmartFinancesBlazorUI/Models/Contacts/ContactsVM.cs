@@ -2,6 +2,6 @@
 {
     public class ContactsVM
     {
-        public List<ContactVM> Contacts { get; set; } = new();
+        public List<ContactVM> Contacts { get; set; }
     }
 }
