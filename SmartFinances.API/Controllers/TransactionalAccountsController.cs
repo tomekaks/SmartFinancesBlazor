@@ -44,6 +44,21 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpGet]
+        [Route("CheckIfExists/{accountNumber}")]
+        [SwaggerOperation(OperationId = "TransactionalAccountsCheckIfExists")]
+        public async Task<ActionResult<TransactionalAccountDto>> CheckIfExistsAsync(string accountNumber)
+        {
+            var account = await _mediator.Send(new CheckIfTransactionalAccountExistsRequest { AccountNumber = accountNumber });
+
+            if (account == null)
+            {
+                return NotFound($"Account with number {accountNumber} does not exist.");
+            }
+
+            return Ok(account);
+        }
+
+        [HttpGet]
         [SwaggerOperation(OperationId = "TransactionalAccountsGetAll")]
         public async Task<ActionResult<List<TransactionalAccountDto>>> GetAllAsync()
         {

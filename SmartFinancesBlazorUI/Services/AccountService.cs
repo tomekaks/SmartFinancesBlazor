@@ -5,6 +5,7 @@ using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.AccountTypes;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Services.Base;
+using System.Net;
 
 namespace SmartFinancesBlazorUI.Services
 {
@@ -99,6 +100,22 @@ namespace SmartFinancesBlazorUI.Services
 
             await AddBearerToken();
             await _client.TransactionalAccountsPUTAsync(accountDto);
+        }
+
+        public async Task<TransactionalAccountVM> CheckIfTransactionalAccountExistsAsync(string accountNumber)
+        {
+            await AddBearerToken();
+
+            try
+            {
+                var account = await _client.TransactionalAccountsCheckIfExistsAsync(accountNumber);
+                return _mapper.Map<TransactionalAccountVM>(account);
+            }
+            catch (ApiException ex) when (ex.StatusCode == 404)
+            {
+                return null;
+            }
+            
         }
     }
 }

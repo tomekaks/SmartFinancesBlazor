@@ -12,5 +12,6 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<SavingsAccountVM> GetSavingsAccountAsync();
         Task<TransactionalAccountVM> GetTransactionalAccountByNumberAsync(string accountNumber);
         Task UpdateTransactionalAccountAsync(int accountId, decimal balance);
+        Task<TransactionalAccountVM> CheckIfTransactionalAccountExistsAsync(string accountNumber);
     }
 }

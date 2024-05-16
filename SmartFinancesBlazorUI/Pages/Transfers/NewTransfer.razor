@@ -94,25 +94,37 @@ else
     {
         if(Model.Amount > Model.CurrentAccountVM.Balance)
         {
-            OpenDialog();
+            OpenDialog("Insufficient funds.");
             return;
         }
 
-        bool response = await TransferService.CreateTransferAsync(Model, addToContacts);
-
-        if(response)
+        bool accountExists = await TransferService.CreateTransferAsync(Model);
+        if (!accountExists)
         {
-            NavigateToTransfers(); 
+            OpenDialog("Account with this number does not exist.");
+            return;
         }
+
+        if(addToContacts)
+        {
+            bool contactAdded =  await TransferService.AddToContactsAsync(Model);
+            if(!contactAdded)
+            {
+                string message = "Contact with this name or account number already exists.";
+                OpenDialog(message);
+            }
+        }
+
+        NavigateToTransfers();
     }
 
-    private void OpenDialog()
+    private void OpenDialog(string message)
     {
         var parameters = new DialogParameters<Dialog>();
         parameters.Add(x => x.ButtonText, "Ok");
         parameters.Add(x => x.Color, Color.Primary);
 
-        MudDialogService.Show<Dialog>("Insufficient funds", parameters);
+        MudDialogService.Show<Dialog>(message, parameters);
     }
 }
 

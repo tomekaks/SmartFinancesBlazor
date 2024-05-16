@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
-using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Models.Transfers;
 using SmartFinancesBlazorUI.Services.Base;
-using System.Net.Http.Json;
-using System.Reflection;
 
 namespace SmartFinancesBlazorUI.Services
 {
@@ -25,16 +22,12 @@ namespace SmartFinancesBlazorUI.Services
             _contactsService = contactsService;
         }
 
-        public async Task<bool> CreateTransferAsync(NewTransferVM transferVM, bool addToContacts)
+        public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
         {
-            if (addToContacts == true)
+            var receiverAccount = await _accountService.CheckIfTransactionalAccountExistsAsync(transferVM.ReceiverAccountNumber);
+            if (receiverAccount == null)
             {
-                var newContact = new NewContactVM()
-                {
-                    Name = transferVM.ReceiverName,
-                    AccountNumber = transferVM.ReceiverAccountNumber
-                };
-                await _contactsService.CreateContactAsync(newContact);
+                return false;
             }
 
             transferVM.SendTime = DateTime.UtcNow;
@@ -87,6 +80,17 @@ namespace SmartFinancesBlazorUI.Services
             await _client.TransfersWithdrawFromSavingsAccountAsync(transferDto);
         }
 
+        public async Task<bool> AddToContactsAsync(NewTransferVM transferVM)
+        {
+            var newContact = new NewContactVM()
+            {
+                Name = transferVM.ReceiverName,
+                AccountNumber = transferVM.ReceiverAccountNumber
+            };
+
+            return await _contactsService.CreateContactAsync(newContact);
+        }
+
         private async Task<List<TransferVM>> GetTransfersAsync(string currentAccount)
         {
             await AddBearerToken();
@@ -101,5 +105,6 @@ namespace SmartFinancesBlazorUI.Services
             
             return transferList;
         }
+
     }
 }
