@@ -22,7 +22,7 @@ namespace SmartFinances.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TransactionalAccountDto>> GetAsync(int id)
         {
-            var account = await _mediator.Send(new GetTransactionalAccountRequest { AccountId = id });
+            var account = await _mediator.Send(new GetTransactionalAccountQuery { AccountId = id });
             return Ok(account);
         }
 
@@ -30,7 +30,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "TransactionalAccountsGetMainAccount")]
         public async Task<ActionResult<TransactionalAccountDto>> GetMainAccountAsync()
         {
-            var account = await _mediator.Send(new GetMainTransactionalAccountRequest { UserId = CurrentUserId });
+            var account = await _mediator.Send(new GetMainTransactionalAccountQuery { UserId = CurrentUserId });
             return Ok(account);
         }
 
@@ -39,7 +39,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "TransactionalAccountsGetByNumber")]
         public async Task<ActionResult<TransactionalAccountDto>> GetByNumberAsync(string accountNumber)
         {
-            var account = await _mediator.Send(new GetTransactionalAccountByNumberRequest { AccountNumber = accountNumber });
+            var account = await _mediator.Send(new GetTransactionalAccountByNumberQuery { AccountNumber = accountNumber });
             return Ok(account);
         }
 
@@ -48,7 +48,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "TransactionalAccountsCheckIfExists")]
         public async Task<ActionResult<TransactionalAccountDto>> CheckIfExistsAsync(string accountNumber)
         {
-            var account = await _mediator.Send(new CheckIfTransactionalAccountExistsRequest { AccountNumber = accountNumber });
+            var account = await _mediator.Send(new CheckIfTransactionalAccountExistsQuery { AccountNumber = accountNumber });
 
             if (account == null)
             {
@@ -62,7 +62,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "TransactionalAccountsGetAll")]
         public async Task<ActionResult<List<TransactionalAccountDto>>> GetAllAsync()
         {
-            var accounts = await _mediator.Send(new GetUsersTransactionalAccountsRequest { UserId = CurrentUserId });
+            var accounts = await _mediator.Send(new GetUsersTransactionalAccountsQuery { UserId = CurrentUserId });
             return Ok(accounts);
         }
 

@@ -26,7 +26,7 @@ namespace SmartFinances.API.Controllers
         [HttpGet]
         public async Task<ActionResult<SavingsAccountDto>> GetAsync()
         {
-            var account = await _mediator.Send(new GetSavingsAccountRequest { UserId = CurrentUserId });
+            var account = await _mediator.Send(new GetSavingsAccountQuery { UserId = CurrentUserId });
             return Ok(account);
         }
 

@@ -21,7 +21,7 @@ namespace SmartFinances.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MonthlySummaryDto>> GetAsync(int id)
         {
-            var monthlySummaryDto = await _mediator.Send(new GetMonthlySummaryRequest { MonthlySummaryId = id });
+            var monthlySummaryDto = await _mediator.Send(new GetMonthlySummaryQuery { MonthlySummaryId = id });
             return Ok(monthlySummaryDto);
         }
 
@@ -29,7 +29,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "MonthlySummaryGetByYear")]
         public async Task<ActionResult<List<MonthlySummaryDto>>> GetAllByYearAsync(int id)
         {
-            var monthlySummariesDto = await _mediator.Send(new GetMonthlySummariesByYearRequest { YearlySummaryId = id });
+            var monthlySummariesDto = await _mediator.Send(new GetMonthlySummariesByYearQuery { YearlySummaryId = id });
             return Ok(monthlySummariesDto);
         }
 

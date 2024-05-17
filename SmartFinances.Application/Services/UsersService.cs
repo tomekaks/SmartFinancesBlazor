@@ -50,7 +50,7 @@ namespace SmartFinances.Application.Services
         public async Task<UserDto> GetUserWithAccountsAsync(string userId)
         {
             var applicationUser = await _userManager.FindByIdAsync(userId);
-            var accounts = await _mediator.Send(new GetUsersTransactionalAccountsRequest { UserId = userId });
+            var accounts = await _mediator.Send(new GetUsersTransactionalAccountsQuery { UserId = userId });
 
             var userDto = _mapper.Map<UserDto>(applicationUser);
             userDto.Accounts = accounts;

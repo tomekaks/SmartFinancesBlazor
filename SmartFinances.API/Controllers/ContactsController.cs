@@ -22,14 +22,14 @@ namespace SmartFinances.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ContactDto>>> GetAllAsync()
         {
-            var contacts = await _mediator.Send(new GetContactListRequest { UserId = CurrentUserId });
+            var contacts = await _mediator.Send(new GetContactListQuery { UserId = CurrentUserId });
             return Ok(contacts);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ContactDto>> GetAsync(int id)
         {
-            var contact = await _mediator.Send(new GetContactRequest { Id = id });
+            var contact = await _mediator.Send(new GetContactQuery { Id = id });
             return Ok(contact);
         }
 

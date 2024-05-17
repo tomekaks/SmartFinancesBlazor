@@ -25,14 +25,14 @@ namespace SmartFinances.API.Controllers
         [Route("transfersGetAll/{accountNumber}")]
         public async Task<ActionResult<List<TransferDto>>> GetAllAsync(string accountNumber)
         {
-            var transfers = await _mediator.Send(new GetTransferListRequest { AccountNumber = accountNumber });
+            var transfers = await _mediator.Send(new GetTransferListQuery { AccountNumber = accountNumber });
             return Ok(transfers);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TransferDto>> GetAsync(int id)
         {
-            var transfers = await _mediator.Send(new GetTransferRequest { TransferId = id});
+            var transfers = await _mediator.Send(new GetTransferQuery { TransferId = id});
             return Ok(transfers);
         }
 

@@ -23,7 +23,7 @@ namespace SmartFinances.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<AccountRequestDto>>> GetAllAsync()
         {
-            var accountRequests = await _mediator.Send(new GetAllAccountRequestsRequest());
+            var accountRequests = await _mediator.Send(new GetAllAccountRequestsQuery());
 
             return Ok(accountRequests);
         }
@@ -32,7 +32,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "AccountRequestsGetByUser")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByUserAsync()
         {
-            var accountRequests = await _mediator.Send(new GetUsersAccountRequestsRequest { UserId = CurrentUserId });
+            var accountRequests = await _mediator.Send(new GetUsersAccountRequestsQuery { UserId = CurrentUserId });
 
             return Ok(accountRequests);
         }
@@ -41,7 +41,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "AccountRequestsGetByUserAndStatus")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByUserAndStatusAsync(string status)
         {
-            var accountRequests = await _mediator.Send(new GetUsersAccountRequestsRequest { UserId = CurrentUserId , Status = status });
+            var accountRequests = await _mediator.Send(new GetUsersAccountRequestsQuery { UserId = CurrentUserId , Status = status });
 
             return Ok(accountRequests);
         }
@@ -50,7 +50,7 @@ namespace SmartFinances.API.Controllers
         [SwaggerOperation(OperationId = "AccountRequestsGetByStatus")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByStatusAsync(string status)
         {
-            var accountRequests = await _mediator.Send(new GetAccountRequestsByStatusRequest { Status = status });
+            var accountRequests = await _mediator.Send(new GetAccountRequestsByStatusQuery { Status = status });
 
             return Ok(accountRequests);
         }
@@ -60,7 +60,7 @@ namespace SmartFinances.API.Controllers
         {
             try
             {
-                var accountRequest = await _mediator.Send(new GetAccountRequestRequest { AccountRequestId = id });
+                var accountRequest = await _mediator.Send(new GetAccountRequestQuery { AccountRequestId = id });
                 return Ok(accountRequest);
             }
             catch (NotFoundException ex)

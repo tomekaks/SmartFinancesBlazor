@@ -22,14 +22,14 @@ namespace SmartFinances.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ExpenseDto>>> GetAllAsync(int monthlySummaryId)
         {
-            var expenses = await _mediator.Send(new GetExpenseListRequest { MonthlySummaryId = monthlySummaryId });
+            var expenses = await _mediator.Send(new GetExpenseListQuery { MonthlySummaryId = monthlySummaryId });
             return Ok(expenses);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ExpenseDto>> GetAsync(int id)
         {
-            var expense = await _mediator.Send(new GetExpenseRequest { Id = id });
+            var expense = await _mediator.Send(new GetExpenseQuery { Id = id });
             return Ok(expense);
         }
 

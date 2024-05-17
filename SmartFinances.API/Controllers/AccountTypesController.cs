@@ -22,7 +22,7 @@ namespace SmartFinances.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<AccountTypeDto>>> GetAllAsync()
         {
-            var accountTypes = await _mediator.Send(new GetAllAccountTypesRequest());
+            var accountTypes = await _mediator.Send(new GetAllAccountTypesQuery());
             return Ok(accountTypes);
         }
     }
