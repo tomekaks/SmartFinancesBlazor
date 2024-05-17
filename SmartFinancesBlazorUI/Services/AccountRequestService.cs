@@ -24,7 +24,6 @@ namespace SmartFinancesBlazorUI.Services
                 Type = accountType.Name,
                 AccountTypeId = accountType.Id,
             };
-            await AddBearerToken();
             await _client.AccountRequestsPOSTAsync(accountRequestDto);
         }
 
@@ -36,7 +35,6 @@ namespace SmartFinancesBlazorUI.Services
                 Status = status
             };
 
-            await AddBearerToken();
             await _client.AccountRequestsPUTAsync(updateAccountRequestDto);
         }
 
@@ -49,7 +47,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<AccountRequestVM>> GetAllByStatusAsync(string status)
         {
-            await AddBearerToken();
             var accountRequests = await _client.AccountRequestsGetByStatusAsync(status);
 
             if (accountRequests == null || !accountRequests.Any())
@@ -62,7 +59,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<AccountRequestVM>> GetByUserAndStatusAsync(string status)
         {
-            await AddBearerToken();
             var accountRequests = await _client.AccountRequestsGetByUserAndStatusAsync(status);
 
             if (accountRequests == null || !accountRequests.Any())

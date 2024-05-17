@@ -8,6 +8,7 @@ using MudBlazor;
 using MudBlazor.Services;
 using SmartFinancesBlazorUI;
 using SmartFinancesBlazorUI.Contracts;
+using SmartFinancesBlazorUI.Handlers;
 using SmartFinancesBlazorUI.Providers;
 using SmartFinancesBlazorUI.Services;
 using SmartFinancesBlazorUI.Services.Base;
@@ -17,9 +18,11 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-//builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7146"));
-//builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://smartfinancesapi-tomekaks.azurewebsites.net/"));
+builder.Services.AddTransient<JwtAuthorizationMessageHandler>();
+builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7146"))
+    .AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
+//builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://smartfinancesapi-tomekaks.azurewebsites.net/"))
+//.AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices(config =>
@@ -31,7 +34,6 @@ builder.Services.AddMudServices(config =>
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
-
 
 
 builder.Services.AddScoped<IDashboardService, DashboardService>();

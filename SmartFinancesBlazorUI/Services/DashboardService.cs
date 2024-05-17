@@ -123,7 +123,6 @@ namespace SmartFinancesBlazorUI.Services
                 Goal = goal
             };
 
-            await AddBearerToken();
             await _client.SavingsAccountsPUTAsync(updateSavingsAccount);
         }
 

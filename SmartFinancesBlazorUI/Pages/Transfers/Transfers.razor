@@ -22,7 +22,7 @@ else
                     <Columns>
                         <PropertyColumn Property="q => q.OtherPartyName" Title="Other Party"></PropertyColumn>
                         <PropertyColumn Property="q => q.Title"></PropertyColumn>
-                        <TemplateColumn>
+                        <TemplateColumn Title="Amount">
                             <CellTemplate>
                                 @if(context.Item.CurrentAccountNumber == context.Item.ReceiverAccountNumber)
                                 {
@@ -34,7 +34,7 @@ else
                                 }
                             </CellTemplate>
                         </TemplateColumn>
-                        <PropertyColumn Property="q => q.SendTime.ToShortDateString()" Title="Send date"></PropertyColumn>
+                        <PropertyColumn Property="q => q.SendTime.ToShortDateString()" Title="Send date" Groupable="true"></PropertyColumn>
                     </Columns>
                 </MudDataGrid>
             </div>

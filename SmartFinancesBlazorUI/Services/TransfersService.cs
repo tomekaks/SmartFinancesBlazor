@@ -34,7 +34,6 @@ namespace SmartFinancesBlazorUI.Services
             var transferDto = _mapper.Map<CreateTransferDto>(transferVM);
             transferDto.SenderAccountNumber = await GetCurrentAccountNumberAsync();
 
-            await AddBearerToken();
             await _client.TransfersPOSTAsync(transferDto);
 
             return true;
@@ -51,7 +50,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto)
         {
-            await AddBearerToken();
             await _client.TransfersDepositToSavingsAccountAsync(transferDto);
         }
 
@@ -76,7 +74,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task WithdrawFromSavingsAccountAsync(SavingsAccountTransferDto transferDto)
         {
-            await AddBearerToken();
             await _client.TransfersWithdrawFromSavingsAccountAsync(transferDto);
         }
 
@@ -93,7 +90,6 @@ namespace SmartFinancesBlazorUI.Services
 
         private async Task<List<TransferVM>> GetTransfersAsync(string currentAccount)
         {
-            await AddBearerToken();
             var transfers = await _client.TransfersGetAllAsync(currentAccount);
 
             if (transfers == null || transfers.Count < 1)

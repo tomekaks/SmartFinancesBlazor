@@ -18,7 +18,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<AccountTypeVM>> GetAllAsync()
         {
-            await AddBearerToken();
             var accountTypesDto = await _client.AccountTypesAsync();
 
             if(accountTypesDto == null || !accountTypesDto.Any())

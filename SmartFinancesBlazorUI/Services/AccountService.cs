@@ -27,7 +27,6 @@ namespace SmartFinancesBlazorUI.Services
                 AccountTypeId = accountType.Id
             };
 
-            await AddBearerToken();
             await _client.SavingsAccountsPOSTAsync(accountDto);
         }
 
@@ -40,7 +39,6 @@ namespace SmartFinancesBlazorUI.Services
                 AccountTypeId = accountType.Id,
             };
 
-            await AddBearerToken();
             await _client.TransactionalAccountsPOSTAsync(accountDto);
         }
 
@@ -48,7 +46,6 @@ namespace SmartFinancesBlazorUI.Services
         {
             try
             {
-                await AddBearerToken();
                 var savingsAccountDto = await _client.SavingsAccountsGETAsync();
 
                 var savingsAccountVM = _mapper.Map<SavingsAccountVM>(savingsAccountDto);
@@ -64,7 +61,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<TransactionalAccountVM> GetTransactionalAccountByNumberAsync(string accountNumber)
         {
-            await AddBearerToken();
             var accountDto = await _client.TransactionalAccountsGetByNumberAsync(accountNumber);
 
             if (accountDto == null)
@@ -77,7 +73,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<TransactionalAccountVM>> GetTransactionalAccountsAsync()
         {
-            await AddBearerToken();
             var accountsDto = await _client.TransactionalAccountsGetAllAsync();
 
             if (accountsDto is null || accountsDto.Count == 0)
@@ -98,14 +93,11 @@ namespace SmartFinancesBlazorUI.Services
                 Balance = balance
             };
 
-            await AddBearerToken();
             await _client.TransactionalAccountsPUTAsync(accountDto);
         }
 
         public async Task<TransactionalAccountVM> CheckIfTransactionalAccountExistsAsync(string accountNumber)
         {
-            await AddBearerToken();
-
             try
             {
                 var account = await _client.TransactionalAccountsCheckIfExistsAsync(accountNumber);
@@ -114,8 +106,7 @@ namespace SmartFinancesBlazorUI.Services
             catch (ApiException ex) when (ex.StatusCode == 404)
             {
                 return null;
-            }
-            
+            }    
         }
     }
 }

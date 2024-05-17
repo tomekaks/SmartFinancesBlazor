@@ -49,7 +49,6 @@ namespace SmartFinancesBlazorUI.Services
         {
             try
             {
-                await AddBearerToken();
                 var yearlySummaryDto = await _client.YearlySummariesGETAsync(CurrentAccount.Id, CurrentYear);
 
                 var yearlySummaryVM = _mapper.Map<YearlySummaryVM>(yearlySummaryDto);
@@ -69,13 +68,11 @@ namespace SmartFinancesBlazorUI.Services
                 TransactionalAccountId = CurrentAccount.Id
             };
 
-            await AddBearerToken();
             await _client.YearlySummariesPOSTAsync(createYearlySummaryDto);
         }
 
         public async Task<MonthlySummaryVM> GetMonthlySummaryAsync(int id)
         {
-            await AddBearerToken();
             var monthlySumaryDto = await _client.MonthlySummariesGETAsync(id);
 
             var monthlySummaryVM = _mapper.Map<MonthlySummaryVM>(monthlySumaryDto);
@@ -84,7 +81,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<MonthlySummaryVM>> GetMonthlySummariesByYearAsync(int yearlySummaryId)
         {
-            await AddBearerToken();
             var monthlySummariesDto = await _client.MonthlySummaryGetByYearAsync(yearlySummaryId);
 
             var monthlySummariesVM = _mapper.Map<List<MonthlySummaryVM>>(monthlySummariesDto);
@@ -98,8 +94,6 @@ namespace SmartFinancesBlazorUI.Services
                 Id = CurrentMonthlySummary.Id,
                 Budget = budget
             };
-
-            await AddBearerToken();
             await _client.MonthlySummariesPUTAsync(updateDto);
 
             return true;
@@ -107,7 +101,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<ExpenseVM>> GetExpensesAsync()
         {
-            await AddBearerToken();
             var expensesDto = await _client.ExpensesAllAsync(CurrentMonthlySummary.Id);
 
             if (expensesDto == null)
@@ -120,7 +113,6 @@ namespace SmartFinancesBlazorUI.Services
         
         public async Task<EditExpenseVM> GetExpenseAsync(int id)
         {
-            await AddBearerToken();
             var expenseDto = await _client.ExpensesGETAsync(id);
 
             if (expenseDto == null)
@@ -133,7 +125,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<RegularExpenseVM>> GetRegularExpensesAsync()
         {
-            await AddBearerToken();
             var regularExpensesDto = await _client.RegularExpensesAllAsync(CurrentAccount.Id);
 
             if (regularExpensesDto == null)
@@ -146,7 +137,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<EditRegularExpenseVM> GetRegularExpenseAsync(int id)
         {
-            await AddBearerToken();
             var regularExpenseDto = await _client.RegularExpensesGETAsync(id);
 
             if (regularExpenseDto == null)
@@ -159,7 +149,6 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<ExpenseTypeVM>> GetExpenseTypesAsync()
         {
-            await AddBearerToken();
             var expenseTypesDto = await _client.ExpenseTypesAllAsync();
 
             if (expenseTypesDto == null || !expenseTypesDto.Any())
@@ -176,7 +165,6 @@ namespace SmartFinancesBlazorUI.Services
             expenseDto.ExpenseTypeId = addExpenseVM.ExpenseTypeId;
             expenseDto.MonthlySummaryId = CurrentMonthlySummary.Id;
 
-            await AddBearerToken();
             await _client.ExpensesPOSTAsync(expenseDto);
 
             return true;
@@ -185,8 +173,6 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<bool> EditExpenseAsync(EditExpenseVM editExpenseVM)
         {
             var expenseDto = _mapper.Map<EditExpenseDto>(editExpenseVM);
-
-            await AddBearerToken();
             await _client.ExpensesPUTAsync(expenseDto);
 
             return true;
@@ -201,8 +187,6 @@ namespace SmartFinancesBlazorUI.Services
                 Amount = expenseVM.Amount,
                 ExpenseTypeId = expenseVM.ExpenseTypeVM.Id
             };
-
-            await AddBearerToken();
             await _client.ExpensesPUTAsync(editExpenseDto);
 
             return true;
@@ -220,7 +204,6 @@ namespace SmartFinancesBlazorUI.Services
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addRegularExpenseVM);
             regularExpenseDto.TransactionalAccountId = CurrentAccount.Id;
 
-            await AddBearerToken();
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
 
             return true;
@@ -231,7 +214,6 @@ namespace SmartFinancesBlazorUI.Services
             var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addExpenseVM);
             regularExpenseDto.TransactionalAccountId = CurrentAccount.Id;
 
-            await AddBearerToken();
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
 
             return true;
@@ -240,8 +222,6 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<EditRegularExpenseDto>(editRegularExpenseVM);
-
-            await AddBearerToken();
             await _client.RegularExpensesPUTAsync(regularExpenseDto);
 
             return true;
@@ -250,8 +230,6 @@ namespace SmartFinancesBlazorUI.Services
         public async Task<bool> EditRegularExpenseAsync(RegularExpenseVM regularExpenseVM)
         {
             var regularExpenseDto = _mapper.Map<EditRegularExpenseDto>(regularExpenseVM);
-
-            await AddBearerToken();
             await _client.RegularExpensesPUTAsync(regularExpenseDto);
 
             return true;
@@ -266,8 +244,6 @@ namespace SmartFinancesBlazorUI.Services
                 ExpenseTypeId = regularExpenseVM.ExpenseTypeVM.Id,
                 MonthlySummaryId = CurrentMonthlySummary.Id
             };
-
-            await AddBearerToken();
             await _client.ExpensesPOSTAsync(expenseDto);
         }
 
@@ -297,8 +273,6 @@ namespace SmartFinancesBlazorUI.Services
         private async Task<TransactionalAccountVM> GetAccountAsync()
         {
             var accountNumber = await GetCurrentAccountNumberAsync();
-
-            await AddBearerToken();
             var accountDto = await _client.TransactionalAccountsGetByNumberAsync(accountNumber);
 
             return _mapper.Map<TransactionalAccountVM>(accountDto);
