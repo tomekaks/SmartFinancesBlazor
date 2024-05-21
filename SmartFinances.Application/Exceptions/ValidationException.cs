@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SmartFinances.Application.Exceptions
 {
-    public class ValidationException : ApplicationException
+    public class ValidationException : Exception
     {
         public List<string> Errors { get; set; } = new List<string>();
 

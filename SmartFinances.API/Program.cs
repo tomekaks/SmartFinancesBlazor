@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using SmartFinances.API.Middleware;
 using SmartFinances.Application;
 using SmartFinances.Infrastructure;
 
@@ -18,6 +19,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureInfractructureServices(builder.Configuration);
 builder.Services.ConfigureApplicationServices(builder.Configuration);
+builder.Services.AddTransient<ErrorHandlingMiddleware>();
 
 builder.Services.AddCors(options =>
 {
@@ -29,8 +31,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
