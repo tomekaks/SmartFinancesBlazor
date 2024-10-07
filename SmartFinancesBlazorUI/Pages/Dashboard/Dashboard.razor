@@ -4,11 +4,15 @@
 @inject IDashboardService DashboardService
 @inject IDialogService DialogService
 
+
 <PageTitle>Dashboard</PageTitle>
 
-@if(Model.Accounts is null)
+@if (Model.Accounts is null)
 {
-    <p>Loading data...</p>
+    <MudContainer MaxWidth="MaxWidth.Medium" Class="text-center mt-4">
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Class="my-4" />
+        <MudText Typo="Typo.h6">Loading data...</MudText>
+    </MudContainer>
 }
 else
 {
@@ -17,33 +21,10 @@ else
         {
             <div class="row mb-3">
                 <div class="col-8">
-                    <MudCard>
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <MudText Typo="Typo.h5">@account.Type</MudText>
-                                </CardHeaderContent>
-                                <CardHeaderActions>
-                                @if (account.Number == Model.CurrentAccount.Number)
-                                {
-                                    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="AddFunds">Add funds</MudButton>
-                                }
-                            </CardHeaderActions>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            <MudText>Number: @account.Number</MudText>
-                            <MudText>Balance: @account.Balance</MudText>
-                        </MudCardContent>
-                        <MudCardActions>
-                            @if (account.Number == Model.CurrentAccount.Number)
-                            {
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
-                            }
-                            else
-                            {
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => ConfirmSetCurrentAccount(account.Number)">Set as current</MudButton>
-                            }
-                        </MudCardActions>
-                    </MudCard>                  
+                    <_TransactionalAccoutCard Account="account" 
+                        CurrentAccount="Model.CurrentAccount" 
+                        OnAddFunds="AddFunds" 
+                        OnSetCurrentAccount="ConfirmSetCurrentAccount"/>
                 </div>
             </div>
         }
@@ -51,38 +32,7 @@ else
         {
             <div class="row mb-3">
                 <div class="col-8">
-                    <MudCard>
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <MudText Typo="Typo.h5">Savings</MudText>
-                            </CardHeaderContent>
-                            <CardHeaderActions>
-                                @if (_settingGoal)
-                                {
-                                    <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="ConfirmGoal">Confirm goal</MudButton>
-                                }
-                                else
-                                {
-                                    <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="SetGoal">Set goal</MudButton>
-                                }
-                            </CardHeaderActions>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            @if (_settingGoal)
-                            {
-                                <MudTextField Label="Set Goal" @bind-Value="_settingGoalValue" />
-                            }
-                            else
-                            {
-                                <MudText>Savings goal: @Model.SavingsAccount.Goal</MudText>
-                            }
-                            <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Class="mr-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton>
-                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
-                        </MudCardActions>
-                    </MudCard>
+                    <_SavingsAccountCard SavingsAccount="Model.SavingsAccount" OnConfirmGoal="ConfirmGoal"/>
                 </div>
             </div>     
         }
@@ -91,16 +41,7 @@ else
         {
             <div class="row mb-3">
                 <div class="col-8">
-                    <MudCard>
-                        <MudCardHeader>
-                            <CardHeaderContent>
-                                <MudText Typo="Typo.h6">Request a new account</MudText>
-                            </CardHeaderContent>
-                            <CardHeaderActions>
-                                <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Success" OnClick="NavigateToRequestAccount"></MudIconButton>
-                            </CardHeaderActions>
-                        </MudCardHeader>
-                    </MudCard>
+                    <_RequestAccountCard />
                 </div>
             </div>
         }
@@ -110,8 +51,6 @@ else
 
 @code {
     public DashboardVM Model { get; set; } = new();
-    private bool _settingGoal = false;
-    private decimal _settingGoalValue;
 
     protected override async Task OnInitializedAsync()
     {
@@ -149,17 +88,9 @@ else
         await LoadModel();
     }
 
-    private void SetGoal()
-    {
-        _settingGoalValue = Model.SavingsAccount.Goal;
-        _settingGoal = true;
-    }
-
     private async Task ConfirmGoal()
     {
-        await DashboardService.SetSavingsGoalAsync(_settingGoalValue);
         await LoadModel();
-        _settingGoal = false;
     }
 
     private void AddFunds()
@@ -167,18 +98,7 @@ else
         NavigationManager.NavigateTo("/dashboard/addfunds");
     }
 
-    private void NavigateToRequestAccount()
-    {
-        NavigationManager.NavigateTo("/dashboard/requestaccount");
-    }
 
-    private void NavigateToWithdraw()
-    {
-        NavigationManager.NavigateTo("/dashboard/withdraw");
-    }
 
-    private void NavigateToDeposit()
-    {
-        NavigationManager.NavigateTo("/dashboard/deposit");
-    }
+
 }

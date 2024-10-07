@@ -1,0 +1,42 @@
+﻿<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">@Account.Type</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            @if (Account.Number == CurrentAccount.Number)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OnAddFunds.InvokeAsync">Add funds</MudButton>
+            }
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudDivider />
+    <MudCardContent>
+        <MudText>Number: @Account.Number</MudText>
+        <MudText>Balance: @Account.Balance</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        @if (Account.Number == CurrentAccount.Number)
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
+        }
+        else
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => OnSetCurrentAccount.InvokeAsync(Account.Number)">Set as current</MudButton>
+        }
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public TransactionalAccountVM Account { get; set; }
+
+    [Parameter]
+    public TransactionalAccountVM CurrentAccount { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnAddFunds { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnSetCurrentAccount { get; set; }
+}

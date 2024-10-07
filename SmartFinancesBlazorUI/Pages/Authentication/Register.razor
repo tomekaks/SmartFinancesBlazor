@@ -12,35 +12,53 @@
     }
 }
 
-<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-    <MudGrid>
-        <MudItem xs="12" sm="5">
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h4">Register</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTextField Label="User name" 
-                                  @bind-Value="Model.UserName" For="@(() => Model.UserName)" />
-                    <MudTextField Label="Email" Class="mt-3"
-                                  @bind-Value="Model.Email" For="@(() => Model.Email)" />
-                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                                  @bind-Value="Model.Password" For="@(() => Model.Password)" InputType="InputType.Password" />
-                    <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
-                                  @bind-Value="Model.ConfirmPassword" For="@(() => Model.ConfirmPassword)" InputType="InputType.Password" />
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
-</EditForm>
-
-
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <MudPaper Elevation="4" Class="p-4" Style="max-width: 500px; width: 100%;">
+        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudCard Class="shadow-none" Style="border: none;">
+                        <MudCardHeader Class="text-center">
+                            <MudText Typo="Typo.h4" Class="mx-auto">Register</MudText>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudTextField Label="User name"
+                                          @bind-Value="Model.UserName"
+                                          For="@(() => Model.UserName)"
+                                          FullWidth="true"
+                                          Class="mb-3" />
+                            <MudTextField Label="Email"
+                                          @bind-Value="Model.Email"
+                                          For="@(() => Model.Email)"
+                                          FullWidth="true"
+                                          Class="mb-3" />
+                            <MudTextField Label="Password"
+                                          HelperText="Choose a strong password"
+                                          @bind-Value="Model.Password"
+                                          For="@(() => Model.Password)"
+                                          InputType="InputType.Password"
+                                          FullWidth="true"
+                                          Class="mb-3" />
+                            <MudTextField Label="Confirm Password"
+                                          HelperText="Repeat the password"
+                                          @bind-Value="Model.ConfirmPassword"
+                                          For="@(() => Model.ConfirmPassword)"
+                                          InputType="InputType.Password"
+                                          FullWidth="true" />
+                        </MudCardContent>
+                        <MudCardActions Class="justify-content-center">
+                            <MudButton ButtonType="ButtonType.Submit"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Class="mt-3" Style="width: 100%;">Register</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </MudPaper>
+</div>
 
 
 @code {
@@ -58,39 +76,3 @@
         Messages = registrationResult.Errors.ToList();
     }
 }
-
-
-
-            @* <div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-            <DataAnnotationsValidator />
-
-            <div class="form-group mb-2">
-                <label for="Email">Email</label>
-                <InputText id="Email" @bind-Value="Model.Email" class="form-control" />
-                <ValidationMessage For="@(() => Model.Email)" />
-            </div>
-
-            <div class="form-group mb-2">
-                <label for="UserName">User name</label>
-                <InputText id="UserName" @bind-Value="Model.UserName" class="form-control" />
-                <ValidationMessage For="@(() => Model.UserName)" />
-            </div>
-
-            <div class="form-group mb-2">
-                <label for="Password">Password</label>
-                <InputText type="password" id="Password" @bind-Value="Model.Password" class="form-control" />
-                <ValidationMessage For="@(() => Model.Password)" />
-            </div>
-
-            <div class="form-group mb-2">
-                <label for="ConfirmPassword">Confirm password</label>
-                <InputText type="password" id="ConfirmPassword" @bind-Value="Model.ConfirmPassword" class="form-control" />
-                <ValidationMessage For="@(() => Model.ConfirmPassword)" />
-            </div>
-
-            <button type="submit" class="btn btn-primary">Register</button>
-        </EditForm>
-    </div>
-</div> *@

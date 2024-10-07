@@ -1,0 +1,69 @@
+﻿@inject NavigationManager NavigationManager
+@inject IDashboardService DashboardService
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">Savings</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            @if (_settingGoal)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="ConfirmGoal">Confirm goal</MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="StartSettingGoal">Set goal</MudButton>
+            }
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent>
+        @if (_settingGoal)
+        {
+            <MudTextField Label="Set Goal" @bind-Value="_settingGoalValue" />
+        }
+        else
+        {
+            <MudText>Savings goal: @SavingsAccount.Goal</MudText>
+        }
+        <MudText>Balance: @SavingsAccount.Balance</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Class="mr-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    private bool _settingGoal = false;
+    private decimal _settingGoalValue;
+
+    [Parameter]
+    public SavingsAccountVM SavingsAccount { get; set; }
+
+    [Parameter]
+    public EventCallback OnConfirmGoal { get; set; }
+
+    private void StartSettingGoal()
+    {
+        _settingGoalValue = SavingsAccount.Goal;
+        _settingGoal = true;
+    }
+
+    private async Task ConfirmGoal()
+    {
+        await DashboardService.SetSavingsGoalAsync(_settingGoalValue);
+        _settingGoal = false;
+        await OnConfirmGoal.InvokeAsync();
+    }
+
+    private void NavigateToWithdraw()
+    {
+        NavigationManager.NavigateTo("/dashboard/withdraw");
+    }
+
+    private void NavigateToDeposit()
+    {
+        NavigationManager.NavigateTo("/dashboard/deposit");
+    }
+}
