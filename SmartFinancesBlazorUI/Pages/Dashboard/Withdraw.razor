@@ -57,8 +57,8 @@ else
                     <MudTextField Label="Amount" @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Withdraw</MudButton>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="NavigateToDashboard">Back</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToDashboard">Back</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Withdraw</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
