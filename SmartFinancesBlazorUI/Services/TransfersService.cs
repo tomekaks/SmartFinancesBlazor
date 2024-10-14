@@ -55,20 +55,21 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM()
         {
-            string currentAccount = await GetCurrentAccountNumberAsync();
+            var currentAccount = await GetCurrentAccountAsync();
 
-            var transfersVM = await GetTransfersAsync(currentAccount);
+            var transfersVM = await GetTransfersAsync(currentAccount.Number);
             var orderedTransfers = transfersVM.OrderByDescending(q => q.SendTime).ToList();
 
             foreach (var transfer in orderedTransfers)
             {
-                transfer.CurrentAccountNumber = currentAccount;
+                transfer.CurrentAccountNumber = currentAccount.Number;
             }
 
             return new TransfersOverviewVM()
             {
                 Transfers = orderedTransfers,
-                AccountNumber = currentAccount
+                CurrentAccount = currentAccount,
+                AccountNumber = currentAccount.Number
             };
         }
 

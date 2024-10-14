@@ -11,6 +11,13 @@
 else
 {
     <div class="container mt-4">
+
+        <div class="row mb-2">
+            <div class="col-6">
+                <_CurrentAccountCard CurrentAccount="@Model.CurrentAccount" />
+            </div>
+        </div>
+
         <div class="row mb-2">
             <div class="col-10">
                 <MudDataGrid T="TransferVM" Items="Model.Transfers" Bordered="true" SortMode="SortMode.None" Groupable="true">

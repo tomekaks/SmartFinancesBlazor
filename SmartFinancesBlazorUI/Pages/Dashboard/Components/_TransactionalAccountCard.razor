@@ -1,7 +1,12 @@
-﻿<MudCard>
+﻿@inject NavigationManager NavManager
+@inject IDashboardService DashboardService
+
+<MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h5" Class="cursor-pointer">@Account.Type</MudText>
+            <MudButton Variant="Variant.Text" OnClick="NavigateToTransfers">
+                <MudText Typo="Typo.h5">@Account.Type</MudText>
+            </MudButton>
         </CardHeaderContent>
         <CardHeaderActions>
             @if (Account.Number == CurrentAccount.Number)
@@ -39,4 +44,10 @@
 
     [Parameter]
     public EventCallback<string> OnSetCurrentAccount { get; set; }
+
+    private async void NavigateToTransfers()
+    {
+        await DashboardService.ChangeAccountAsync(Account.Number);
+        NavManager.NavigateTo("/transfers");
+    }
 }

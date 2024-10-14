@@ -12,9 +12,9 @@
 }
 else
 {
-    <div class="row mb-3 mt-2">
+    <div class="row mb-3 mt-2 justify-content-center">
         <div class="col-5">
-            <MudCard>
+@*             <MudCard>
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h5">Current account</MudText>
@@ -25,14 +25,15 @@ else
                     <MudText>Account number: @Model.CurrentAccountVM.Number</MudText>
                     <MudText>Balance: @Model.CurrentAccountVM.Balance</MudText>
                 </MudCardContent>
-            </MudCard>
+            </MudCard> *@
+            <_CurrentAccountCard CurrentAccount="@Model.CurrentAccountVM" />
         </div>
     </div>
 }
 
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
-    <MudGrid>
+    <MudGrid Justify="Justify.Center">
         <MudItem xs="12" sm="5">
             <MudCard>
                 <MudCardHeader>

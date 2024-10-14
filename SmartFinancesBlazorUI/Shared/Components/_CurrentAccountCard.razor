@@ -1,0 +1,17 @@
+﻿<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">Current account</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudText>Account name: @CurrentAccount.Name </MudText>
+        <MudText>Account number: @CurrentAccount.Number</MudText>
+        <MudText>Balance: @CurrentAccount.Balance</MudText>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public TransactionalAccountVM CurrentAccount { get; set; }
+}
