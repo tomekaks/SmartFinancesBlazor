@@ -10,7 +10,7 @@ namespace SmartFinancesBlazorUI.Models.Transfers
         public string ReceiverAccountNumber { get; set; }
         public string Title { get; set; }
         public decimal Amount { get; set; }
-        public DateTime SendTime { get; set; }
+        public DateOnly SendTime { get; set; }
 
         public string CurrentAccountNumber { get; set; }
         public string OtherPartyName => CurrentAccountNumber == SenderAccountNumber ? ReceiverName : SenderName;

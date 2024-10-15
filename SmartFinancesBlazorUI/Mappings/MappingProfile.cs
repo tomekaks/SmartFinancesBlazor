@@ -13,7 +13,9 @@ namespace SmartFinancesBlazorUI.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<TransferDto, TransferVM>().ReverseMap();
+            CreateMap<TransferDto, TransferVM>()
+                .ForMember(dest => dest.SendTime, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.SendTime)))
+                .ReverseMap();
             CreateMap<NewTransferVM, CreateTransferDto>();
 
             CreateMap<ContactDto, ContactVM>().ReverseMap();
