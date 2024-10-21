@@ -1,0 +1,45 @@
+﻿<MudCard Class="w-100">
+    <MudCardContent>
+        @if (_settingBudget)
+        {
+            <MudTextField Label="Set Budget" @bind-Value="_settingBudgetValue" />
+        }
+        else
+        {
+            <MudText Typo="Typo.h5">Budget: @MonthlyBudget</MudText>
+        }
+    </MudCardContent>
+    <MudCardActions>
+        @if (_settingBudget)
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="ConfirmBudget">Confirm budget</MudButton>
+        }
+        else
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="SetBudget">Set budget</MudButton>
+        }
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public decimal MonthlyBudget { get; set; }
+
+    [Parameter]
+    public EventCallback<decimal> OnConfirmBudget { get; set; }
+
+    private bool _settingBudget = false;
+    private decimal _settingBudgetValue;
+
+    private void SetBudget()
+    {
+        _settingBudgetValue = MonthlyBudget;
+        _settingBudget = true;
+    }
+
+    private async Task ConfirmBudget()
+    {
+        await OnConfirmBudget.InvokeAsync(_settingBudgetValue);
+        _settingBudget = false;
+    }
+}

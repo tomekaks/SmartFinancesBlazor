@@ -1,21 +1,24 @@
-﻿using SmartFinances.Application.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartFinances.Application.Interfaces.Repositories;
 using SmartFinances.Core.Data;
 using SmartFinances.Infrastructure.DataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartFinances.Infrastructure.Repositories
 {
     public class TransferRepository : GenericRepository<Transfer>, ITransferRepository
     {
-        private readonly ApplicationDbContext _context;
-
         public TransferRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
+        }
+
+        public async Task<List<Transfer>> GetPaginatedTransfersAsync(string accountNumber, int pageNumber, int pageSize)
+        {
+            var transfers = await _db.Where(q => q.SenderAccountNumber == accountNumber || q.ReceiverAccountNumber == accountNumber)
+                                    .Skip((pageNumber - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync();
+
+            return transfers;
         }
     }
 }

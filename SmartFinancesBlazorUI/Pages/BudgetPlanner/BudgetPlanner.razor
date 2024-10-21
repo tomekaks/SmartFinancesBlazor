@@ -27,54 +27,23 @@ else
     <div class="container mt-4">
         <div class="row mb-2">
             <div class="col-10">
-                @* <div class="d-flex justify-content-center align-items-center text-black p-2">
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="PreviousMonth"></MudButton>
-
-                    <MudButton Variant="Variant.Filled" Disabled>
-                        Your Budget Planner For: @Model.CurrentMonthlySummary.Month/@Model.CurrentMonthlySummary.Year
-                    </MudButton>
-
-                    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowForward" OnClick="NextMonth"></MudButton>
-                </div> *@
-
-                <_SummaryNavigation CurrentMonthlySummary="@Model.CurrentMonthlySummary" OnMonthChange="LoadModel" />
+                <_SummaryNavigation CurrentMonthlySummary="@Model.CurrentMonthlySummary" OnNextMonthClick="NextMonth" OnPreviousMonthClick="PreviousMonth" />
             </div>
         </div>
-        <div class="row mb-5 d-flex align-items-stretch">
+        <div class="row mb-5 d-flex justify-content-center align-items-stretch">
             <div class="col-5 d-flex">
-                <MudCard Class="w-100">
-                    <MudCardContent>
-                        @if(_settingBudget)
-                        {
-                            <MudTextField Label="Set Budget" @bind-Value="_settingBudgetValue" />
-                        }
-                        else
-                        {
-                            <MudText Typo="Typo.h5">Your monthly budget: @Model.CurrentMonthlySummary.Budget</MudText>           
-                        }
-                    </MudCardContent>
-                    <MudCardActions>
-                        @if(_settingBudget)
-                        {
-                            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="ConfirmBudget">Confirm budget</MudButton>
-                        }
-                        else
-                        {
-                            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="SetBudget">Set budget</MudButton>
-                        }
-                    </MudCardActions>
-                </MudCard>
+                <_BudgetCard MonthlyBudget="@Model.CurrentMonthlySummary.Budget" OnConfirmBudget="ConfirmBudget" />
             </div>
             <div class="col-5 d-flex">
                 <MudCard Class="w-100">
                     <MudCardContent>
-                        <MudText Typo="Typo.h5">Your monthly expenses: @Model.TotalAmount</MudText>
+                        <MudText Typo="Typo.h5">Expenses: @Model.TotalAmount</MudText>
                         <MudText Typo="Typo.h5">Saved: @Model.Saved</MudText>
                     </MudCardContent>
                 </MudCard>
             </div>       
         </div>
-        <div class="row mb-5">
+        <div class="row mb-5 justify-content-center">
             <div class="col-10">
                 <MudDataGrid T="ExpenseVM" Items="Model.CurrentMonthlySummary.Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
                     Bordered="true" Groupable="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
@@ -105,7 +74,7 @@ else
                                 </span>
                             </GroupTemplate>
                         </PropertyColumn>
-                        <TemplateColumn>
+                        <TemplateColumn Grouping="false">
                             <CellTemplate>
                                 <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
                                 <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteExpense(context.Item.Id)">Delete</MudButton>
@@ -120,8 +89,6 @@ else
 
 @code {
     private PlannerVM? Model;
-    private bool _settingBudget = false;
-    private decimal _settingBudgetValue;
 
     protected override async Task OnInitializedAsync()
     {
@@ -185,17 +152,10 @@ else
         Model = await BudgetPlannerService.GetPlannerVMAsync();
     }
 
-    private void SetBudget()
+    private async Task ConfirmBudget(decimal newBudget)
     {
-        _settingBudgetValue = Model.CurrentMonthlySummary.Budget;
-        _settingBudget = true;
-    }
-
-    private async Task ConfirmBudget()
-    {
-        await BudgetPlannerService.SetBudgetAsync(_settingBudgetValue);
+        await BudgetPlannerService.SetBudgetAsync(newBudget);
         Model = await BudgetPlannerService.GetPlannerVMAsync();
-        _settingBudget = false;
     }
 
     private void NavigateToAddExpense()

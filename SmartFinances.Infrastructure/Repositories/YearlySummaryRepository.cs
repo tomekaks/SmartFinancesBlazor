@@ -11,7 +11,7 @@ namespace SmartFinances.Infrastructure.Repositories
         {
         }
 
-        public async Task<YearlySummary> GetYearlySummaryWithChildren(int accountId, int year)
+        public async Task<YearlySummary> GetYearlySummaryWithChildrenAsync(int accountId, int year)
         {
             var yearlySummary = await _db.Include(y => y.MonthlySummaries)
                                         .ThenInclude(m => m.Expenses)

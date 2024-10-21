@@ -4,11 +4,11 @@
     <div class="me-3 fs-5 fw-bold">
         Your Budget Planner For:
     </div>
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.NavigateBefore" Color=Color.Info OnClick="PreviousMonth"></MudButton>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.NavigateBefore" Color=Color.Info OnClick="() => OnPreviousMonthClick.InvokeAsync()"></MudButton>
 
     <MudChip T="string" Label="true" Color="Color.Info">@CurrentMonthlySummary.Month/@CurrentMonthlySummary.Year</MudChip>
 
-    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.NavigateNext" Color="Color.Info" OnClick="NextMonth"></MudButton>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.NavigateNext" Color="Color.Info" OnClick="() => OnNextMonthClick.InvokeAsync()"></MudButton>
 </div>
 
 
@@ -19,15 +19,8 @@
     public MonthlySummaryVM CurrentMonthlySummary { get; set; }
 
     [Parameter]
-    public EventCallback OnMonthChange { get; set; }
+    public EventCallback OnPreviousMonthClick { get; set; }
 
-    private void PreviousMonth()
-    {
-       BudgetPlannerService.MoveMonthBack();
-    }
-
-    private void NextMonth()
-    {
-        BudgetPlannerService.MoveMonthForward();
-    }
+    [Parameter]
+    public EventCallback OnNextMonthClick { get; set; }
 }
