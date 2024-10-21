@@ -57,7 +57,10 @@ namespace SmartFinancesBlazorUI.Services
         {
             var currentAccount = await GetCurrentAccountAsync();
 
-            var transfersVM = await GetTransfersAsync(currentAccount.Number);
+            //var transfersVM = await GetTransfersAsync(currentAccount.Number);
+            var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number);
+
+
             var orderedTransfers = transfersVM.OrderByDescending(q => q.SendTime).ToList();
 
             foreach (var transfer in orderedTransfers)
@@ -100,6 +103,20 @@ namespace SmartFinancesBlazorUI.Services
 
             var transferList = _mapper.Map<List<TransferVM>>(transfers);
             
+            return transferList;
+        }
+
+        private async Task<List<TransferVM>> GetPaginatedTransfersAsync(string currentAccount, int pageNumber = 1, int pageSize = 10)
+        {
+            var transfers = await _client.TransfersGetWithPaginationAsync(currentAccount, pageNumber, pageSize);
+
+            if (transfers == null || transfers.Count < 1)
+            {
+                return new List<TransferVM>();
+            }
+
+            var transferList = _mapper.Map<List<TransferVM>>(transfers);
+
             return transferList;
         }
 

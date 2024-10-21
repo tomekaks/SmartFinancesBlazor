@@ -29,6 +29,21 @@ namespace SmartFinances.API.Controllers
             return Ok(transfers);
         }
 
+        [HttpGet]
+        [Route("get-with-pagination/{accountNumber}")]
+        [SwaggerOperation(OperationId = "TransfersGetWithPagination")]
+        public async Task<ActionResult<List<TransferDto>>> GetPaginatedAsync(
+            string accountNumber,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+        {
+            var transfers = await _mediator.Send(new GetPaginatedTransfersQuery 
+            { 
+                AccountNumber = accountNumber, 
+                PageNumber = pageNumber, 
+                PageSize = pageSize 
+            });
+            return Ok(transfers);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<TransferDto>> GetAsync(int id)
         {

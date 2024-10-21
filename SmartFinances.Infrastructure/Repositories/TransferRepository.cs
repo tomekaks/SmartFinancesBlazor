@@ -14,6 +14,7 @@ namespace SmartFinances.Infrastructure.Repositories
         public async Task<List<Transfer>> GetPaginatedTransfersAsync(string accountNumber, int pageNumber, int pageSize)
         {
             var transfers = await _db.Where(q => q.SenderAccountNumber == accountNumber || q.ReceiverAccountNumber == accountNumber)
+                                    .OrderByDescending(q => q.SendTime)
                                     .Skip((pageNumber - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToListAsync();
