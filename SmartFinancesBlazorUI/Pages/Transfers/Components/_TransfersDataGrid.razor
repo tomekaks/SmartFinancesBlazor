@@ -1,0 +1,40 @@
+﻿@inject NavigationManager NavigationManager
+
+<MudDataGrid T="TransferVM" Items="Transfers" Bordered="true" SortMode="SortMode.None" Groupable="true" GroupExpanded="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h4">Transfers</MudText>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="NavigateToNewTransfer">New Transfer</MudButton>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="q => q.OtherPartyName" Title="Other Party" Groupable="false"></PropertyColumn>
+        <PropertyColumn Property="q => q.Title" Groupable="false"></PropertyColumn>
+        <TemplateColumn Title="Amount" Groupable="false">
+            <CellTemplate>
+                @if (context.Item.CurrentAccountNumber == context.Item.ReceiverAccountNumber)
+                {
+                    <MudText Style="@($"background:#dff0d8")">+@context.Item.Amount</MudText>
+                }
+                else
+                {
+                    <MudText>-@context.Item.Amount</MudText>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn Property="q => q.SendTime" Title="Send date" Grouping GroupBy="q => q.SendTime">
+            <GroupTemplate>
+                <span style="font-weight:bold">@context.Grouping.Key</span>
+            </GroupTemplate>
+        </PropertyColumn>
+    </Columns>
+</MudDataGrid>
+
+@code {
+    [Parameter]
+    public List<TransferVM> Transfers { get; set; }
+
+    private void NavigateToNewTransfer()
+    {
+        NavigationManager.NavigateTo("/transfers/newtransfer");
+    }
+}

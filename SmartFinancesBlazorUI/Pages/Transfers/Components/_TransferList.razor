@@ -1,0 +1,50 @@
+﻿@inject NavigationManager NavigationManager
+
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-center">
+            <h1>Transfers</h1>
+        </div>
+        <div class="card-body">
+            <div class="mb-2 justify-content-end">
+                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="NavigateToNewTransfer">
+                    New Transfer
+                </MudButton>
+            </div>
+            @foreach(var group in GroupedTransfers)
+            {
+                <ul class="list-group list-group">
+                    <li class="list-group-item">
+                        <MudText>@group.Key.ToString()</MudText>
+                     </li>
+                    @foreach (var transfer in group)
+                    {
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div class="d-inline">@transfer.ReceiverName</div>
+                            <div class="d-inline">
+                                @if (transfer.CurrentAccountNumber == transfer.ReceiverAccountNumber)
+                                {
+                                    <MudText Style="@("background: #dff0d8")">+@transfer.Amount</MudText>
+                                }
+                                else
+                                {
+                                    <MudText>-@transfer.Amount</MudText>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="card-footer"></div>
+    </div>
+
+
+@code {
+    [Parameter]
+    public List<IGrouping<DateOnly, TransferVM>> GroupedTransfers { get; set; }
+
+    private void NavigateToNewTransfer()
+    {
+        NavigationManager.NavigateTo("/transfers/newtransfer");
+    }
+}

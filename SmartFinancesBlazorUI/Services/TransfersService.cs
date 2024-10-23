@@ -60,7 +60,6 @@ namespace SmartFinancesBlazorUI.Services
             //var transfersVM = await GetTransfersAsync(currentAccount.Number);
             var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number);
 
-
             var orderedTransfers = transfersVM.OrderByDescending(q => q.SendTime).ToList();
 
             foreach (var transfer in orderedTransfers)
@@ -68,11 +67,14 @@ namespace SmartFinancesBlazorUI.Services
                 transfer.CurrentAccountNumber = currentAccount.Number;
             }
 
+            var groupedTransfers = orderedTransfers.GroupBy(q => q.SendTime).ToList();
+
             return new TransfersOverviewVM()
             {
                 Transfers = orderedTransfers,
                 CurrentAccount = currentAccount,
-                AccountNumber = currentAccount.Number
+                AccountNumber = currentAccount.Number,
+                GroupedTransfers = groupedTransfers
             };
         }
 
