@@ -6,7 +6,7 @@ namespace SmartFinancesBlazorUI.Contracts
 {
     public interface ITransfersService
     {
-        Task<TransfersOverviewVM> GenerateTransfersOverviewVM();
+        Task<TransfersOverviewVM> GenerateTransfersOverviewVM(int pageNumber = 1);
         Task<TransactionalAccountVM> GetCurrentAccountAsync();
         Task<bool> CreateTransferAsync(NewTransferVM transferVM);
         Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto);

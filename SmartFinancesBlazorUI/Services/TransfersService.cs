@@ -53,12 +53,12 @@ namespace SmartFinancesBlazorUI.Services
             await _client.TransfersDepositToSavingsAccountAsync(transferDto);
         }
 
-        public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM()
+        public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM(int pageNumber = 1)
         {
             var currentAccount = await GetCurrentAccountAsync();
 
             //var transfersVM = await GetTransfersAsync(currentAccount.Number);
-            var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number);
+            var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number, pageNumber);
 
             var orderedTransfers = transfersVM.OrderByDescending(q => q.SendTime).ToList();
 
