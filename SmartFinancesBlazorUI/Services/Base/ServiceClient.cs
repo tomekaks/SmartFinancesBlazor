@@ -432,12 +432,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize);
+        System.Threading.Tasks.Task<TransferDtoPaginatedList> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<TransferDtoPaginatedList> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -4129,7 +4129,7 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize)
+        public virtual System.Threading.Tasks.Task<TransferDtoPaginatedList> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize)
         {
             return TransfersGetWithPaginationAsync(accountNumber, pageNumber, pageSize, System.Threading.CancellationToken.None);
         }
@@ -4137,7 +4137,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<TransferDtoPaginatedList> TransfersGetWithPaginationAsync(string accountNumber, int? pageNumber, int? pageSize, System.Threading.CancellationToken cancellationToken)
         {
             if (accountNumber == null)
                 throw new System.ArgumentNullException("accountNumber");
@@ -4192,7 +4192,7 @@ namespace SmartFinancesBlazorUI.Services.Base
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Collections.Generic.ICollection<TransferDto>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TransferDtoPaginatedList>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -5520,6 +5520,27 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         [System.Text.Json.Serialization.JsonPropertyName("title")]
         public string Title { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class TransferDtoPaginatedList
+    {
+
+        [System.Text.Json.Serialization.JsonPropertyName("items")]
+        public System.Collections.Generic.ICollection<TransferDto> Items { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("pageNumber")]
+        public int PageNumber { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("pageSize")]
+        public int PageSize { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("totalCount")]
+        public int TotalCount { get; set; }
 
     }
 

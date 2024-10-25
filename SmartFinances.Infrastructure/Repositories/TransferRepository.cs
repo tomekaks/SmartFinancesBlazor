@@ -11,6 +11,13 @@ namespace SmartFinances.Infrastructure.Repositories
         {
         }
 
+        public async Task<int> GetTransfersCountByAccountNumberAsync(string accountNumber)
+        {
+            var count = await _db.Where(q => q.SenderAccountNumber == accountNumber || q.ReceiverAccountNumber == accountNumber)
+                                 .CountAsync();
+            return count;
+        }
+
         public async Task<List<Transfer>> GetPaginatedTransfersAsync(string accountNumber, int pageNumber, int pageSize)
         {
             var transfers = await _db.Where(q => q.SenderAccountNumber == accountNumber || q.ReceiverAccountNumber == accountNumber)

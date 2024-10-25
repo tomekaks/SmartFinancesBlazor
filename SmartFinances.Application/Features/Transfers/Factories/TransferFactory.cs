@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SmartFinances.Application.Dto;
 using SmartFinances.Application.Features.Transfers.Dtos;
 using SmartFinances.Application.Interfaces.Factories;
 using SmartFinances.Core.Data;
@@ -32,6 +33,23 @@ namespace SmartFinances.Application.Features.Transfers.Factories
         public List<TransferDto> CreateTransferDtoList(List<Transfer> transfers)
         {
             return _mapper.Map<List<TransferDto>>(transfers);
+        }
+
+        public PaginatedList<TransferDto> CreatePaginatedListOfTransfers(
+            List<Transfer> transfers, int pageNumber, int pageSize, int totalPages, int totalCount)
+        {
+            var transfersDto = _mapper.Map<List<TransferDto>>(transfers);
+
+            var paginatedList = new PaginatedList<TransferDto>()
+            {
+                Items = transfersDto,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = totalPages,
+                TotalCount = totalCount
+            };
+
+            return paginatedList;
         }
 
         public Transfer MapToModel(UpdateTransferDto updateTransferDto, Transfer transfer)

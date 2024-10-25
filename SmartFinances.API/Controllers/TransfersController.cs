@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmartFinances.Application.Dto;
 using SmartFinances.Application.Features.Transfers.Dtos;
 using SmartFinances.Application.Features.Transfers.Requests.Commands;
 using SmartFinances.Application.Features.Transfers.Requests.Queries;
@@ -32,7 +33,7 @@ namespace SmartFinances.API.Controllers
         [HttpGet]
         [Route("get-with-pagination/{accountNumber}")]
         [SwaggerOperation(OperationId = "TransfersGetWithPagination")]
-        public async Task<ActionResult<List<TransferDto>>> GetPaginatedAsync(
+        public async Task<ActionResult<PaginatedList<TransferDto>>> GetPaginatedAsync(
             string accountNumber,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
         {
             var transfers = await _mediator.Send(new GetPaginatedTransfersQuery 
