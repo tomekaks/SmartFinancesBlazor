@@ -4,7 +4,9 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h5"> <MudIcon Icon="@Icons.Material.Filled.Savings"></MudIcon> Savings</MudText>
+            <MudButton Variant="Variant.Text" OnClick="NavigateToTransfers" StartIcon="@Icons.Material.Filled.Savings">
+                <MudText Typo="Typo.h5">Savings</MudText>
+            </MudButton>
         </CardHeaderContent>
         <CardHeaderActions>
             @if (_settingGoal)
@@ -55,6 +57,11 @@
         await DashboardService.SetSavingsGoalAsync(_settingGoalValue);
         _settingGoal = false;
         await OnConfirmGoal.InvokeAsync();
+    }
+
+    private void NavigateToTransfers()
+    {
+        NavigationManager.NavigateTo("/savingstransfers");
     }
 
     private void NavigateToWithdraw()

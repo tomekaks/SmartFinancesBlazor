@@ -7,6 +7,5 @@ namespace SmartFinances.Application.Interfaces.Factories
     {
         SavingsAccount CreateSavingsAccount(CreateSavingsAccountDto accountDto, string userName);
         SavingsAccountDto CreateSavingsAccountDto(SavingsAccount savingsAccount);
-        SavingsAccount MapToModel(UpdateSavingsGoalDto updateSavingsAccountDto, SavingsAccount savingsAccount);
     }
 }

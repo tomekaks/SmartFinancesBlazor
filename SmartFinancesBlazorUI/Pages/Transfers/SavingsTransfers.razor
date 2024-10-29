@@ -1,0 +1,37 @@
+﻿@page "/savingstransfers"
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
+@inject ITransfersService TransfersService
+@inject NavigationManager NavigationManager
+
+@if (Model.SavingsAccount is null)
+{
+    <div>Loading data...</div>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <_SavingsAccountTransfersList GroupedTransfers="@Model.GroupedTransfers"
+                               CurrentPage="@Model.CurrentPage"
+                               TotalPages="@Model.TotalPages"
+                               OnPageChange="ReloadDataAsync">
+                </_SavingsAccountTransfersList>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private SavingsTransfersOverviewVM Model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await TransfersService.GenerateSavingsTransfersOverviewVM();
+    }
+
+    private async Task ReloadDataAsync(int pageNumber)
+    {
+        Model = await TransfersService.GenerateSavingsTransfersOverviewVM(pageNumber);
+    }
+}

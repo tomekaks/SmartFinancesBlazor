@@ -1,0 +1,79 @@
+﻿@inject NavigationManager NavigationManager
+
+<div class="card shadow">
+    <div class="card-header d-flex justify-content-center">
+        <h1>Transfers</h1>
+    </div>
+    <div class="card-body">
+        <div class="mb-2 d-flex justify-content-between">
+            <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="NavigateToWithdraw">
+                Withdraw
+            </MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="NavigateToDeposit">
+                Deposit
+            </MudButton>
+        </div>
+
+        @foreach (var group in GroupedTransfers)
+        {
+            <ul class="list-group list-group">
+
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>@group.Key.ToString()</div>
+                    <div>EUR</div>
+                </li>
+
+                @foreach (var transfer in group)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div class="d-inline">@transfer.Title</div>
+                        <div class="d-inline">
+                            @if (transfer.CurrentAccountNumber == transfer.ReceiverAccountNumber)
+                            {
+                                <div style="@("background: #dff0d8")">+@transfer.Amount</div>
+                            }
+                            else
+                            {
+                                <div>-@transfer.Amount</div>
+                            }
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+        <MudPagination BoundaryCount="3" Count="@TotalPages" SelectedChanged="HandlePageChange"></MudPagination>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public List<IGrouping<DateOnly, TransferVM>> GroupedTransfers { get; set; } = new();
+
+    [Parameter]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    public int TotalPages { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnPageChange { get; set; }
+
+    private async Task HandlePageChange(int pageNumber)
+    {
+        CurrentPage = pageNumber;
+        await OnPageChange.InvokeAsync(pageNumber);
+    }
+
+    private void NavigateToWithdraw()
+    {
+        NavigationManager.NavigateTo("/transfers/withdraw");
+    }
+
+    private void NavigateToDeposit()
+    {
+        NavigationManager.NavigateTo("/transfers/deposit");
+    }
+}

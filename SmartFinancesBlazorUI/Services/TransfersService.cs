@@ -42,16 +42,10 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<TransactionalAccountVM> GetCurrentAccountAsync()
         {
-            var currentAccountNumber = await GetCurrentAccountNumberAsync();
-
-            var currentAccount = await _accountService.GetTransactionalAccountByNumberAsync(currentAccountNumber);
+            var accountNumber = await GetCurrentAccountNumberAsync();
+            var currentAccount = await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
 
             return currentAccount;
-        }
-
-        public async Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto)
-        {
-            await _client.TransfersDepositToSavingsAccountAsync(transferDto);
         }
 
         public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM(int pageNumber = 1)
@@ -71,11 +65,45 @@ namespace SmartFinancesBlazorUI.Services
 
             return new TransfersOverviewVM()
             {
-                Transfers = orderedTransfers,
                 CurrentAccount = currentAccount,
-                AccountNumber = currentAccount.Number,
                 GroupedTransfers = groupedTransfers
             };
+        }
+
+        public async Task<SavingsAccountVM> GetSavingsAccountAsync()
+        {
+            var savingsAccount = await _accountService.GetSavingsAccountAsync();
+
+            return savingsAccount;
+        }
+
+        public async Task<SavingsTransfersOverviewVM> GenerateSavingsTransfersOverviewVM(int pageNumber = 1)
+        {
+            var savingsAccount = await GetSavingsAccountAsync();
+
+            var transfersVM = await GetPaginatedTransfersAsync(savingsAccount.Number, pageNumber);
+
+            var orderedTransfers = transfersVM.Items.OrderByDescending(q => q.SendTime).ToList();
+
+            foreach (var transfer in orderedTransfers)
+            {
+                transfer.CurrentAccountNumber = savingsAccount.Number;
+            }
+
+            var groupedTransfers = orderedTransfers.GroupBy(q => q.SendTime).ToList();
+
+            return new SavingsTransfersOverviewVM()
+            {
+                SavingsAccount = savingsAccount,
+                GroupedTransfers = groupedTransfers
+            };
+        }
+
+
+
+        public async Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto)
+        {
+            await _client.TransfersDepositToSavingsAccountAsync(transferDto);
         }
 
         public async Task WithdrawFromSavingsAccountAsync(SavingsAccountTransferDto transferDto)
@@ -94,9 +122,9 @@ namespace SmartFinancesBlazorUI.Services
             return await _contactsService.CreateContactAsync(newContact);
         }
 
-        private async Task<PaginatedList<TransferVM>> GetPaginatedTransfersAsync(string currentAccount, int pageNumber = 1, int pageSize = 10)
+        private async Task<PaginatedList<TransferVM>> GetPaginatedTransfersAsync(string accountNumber, int pageNumber = 1, int pageSize = 10)
         {
-            var transfersDto = await _client.TransfersGetWithPaginationAsync(currentAccount, pageNumber, pageSize);
+            var transfersDto = await _client.TransfersGetWithPaginationAsync(accountNumber, pageNumber, pageSize);
 
             if (transfersDto == null || transfersDto.Items.Count < 1)
             {
