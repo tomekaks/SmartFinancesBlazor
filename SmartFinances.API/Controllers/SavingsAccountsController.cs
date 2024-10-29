@@ -38,9 +38,9 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateAsync(UpdateSavingsAccountDto accountDto)
+        public async Task<IActionResult> UpdateAsync(UpdateSavingsGoalDto accountDto)
         {
-            await _mediator.Send(new UpdateSavingsAccountCommand { UpdateAccountDto = accountDto });
+            await _mediator.Send(new UpdateSavingsGoalCommand { UpdateAccountDto = accountDto });
             return Ok();
         }
     }

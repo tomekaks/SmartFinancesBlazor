@@ -54,7 +54,7 @@ namespace SmartFinances.Application.Mappings
             CreateMap<SavingsAccount, SavingsAccountDto>()
                 .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)).ReverseMap();
             CreateMap<CreateSavingsAccountDto, SavingsAccount>();
-            CreateMap<UpdateSavingsAccountDto, SavingsAccount>();
+            CreateMap<UpdateSavingsGoalDto, SavingsAccount>();
 
             CreateMap<TransactionalAccount, TransactionalAccountDto>()
                 .ForMember(dest => dest.AccountTypeDto, opt => opt.MapFrom(src => src.AccountType)).ReverseMap();

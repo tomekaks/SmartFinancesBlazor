@@ -3,8 +3,8 @@ using SmartFinances.Application.Features.SavingsAccounts.Dtos;
 
 namespace SmartFinances.Application.Features.SavingsAccounts.Requests.Commands
 {
-    public class UpdateSavingsAccountCommand : IRequest
+    public class UpdateSavingsGoalCommand : IRequest
     {
-        public UpdateSavingsAccountDto UpdateAccountDto { get; set; }
+        public UpdateSavingsGoalDto UpdateAccountDto { get; set; }
     }
 }

@@ -7,20 +7,20 @@ using SmartFinances.Application.Exceptions;
 
 namespace SmartFinances.Application.Features.SavingsAccounts.Handlers.Commands
 {
-    public class UpdateSavingsAccountCommandHandler : IRequestHandler<UpdateSavingsAccountCommand> 
+    public class UpdateSavingsGoalCommandHandler : IRequestHandler<UpdateSavingsGoalCommand> 
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISavingsAccountFactory _savingsAccountFactory;
 
-        public UpdateSavingsAccountCommandHandler(IUnitOfWork unitOfWork, ISavingsAccountFactory savingsAccountFactory)
+        public UpdateSavingsGoalCommandHandler(IUnitOfWork unitOfWork, ISavingsAccountFactory savingsAccountFactory)
         {
             _unitOfWork = unitOfWork;
             _savingsAccountFactory = savingsAccountFactory;
         }
 
-        public async Task Handle(UpdateSavingsAccountCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateSavingsGoalCommand request, CancellationToken cancellationToken)
         {
-            var validator = new UpdateSavingsAccountCommandValidator();
+            var validator = new UpdateSavingsGoalCommandValidator();
             var validationResult = validator.Validate(request);
 
             if (!validationResult.IsValid)
@@ -35,7 +35,7 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Handlers.Commands
                 throw new NotFoundException("SavingsAccount", request.UpdateAccountDto.Id);
             }
 
-            savingsAccount = _savingsAccountFactory.MapToModel(request.UpdateAccountDto, savingsAccount);
+            savingsAccount.Goal = request.UpdateAccountDto.Goal;
 
             _unitOfWork.SavingsAccounts.Update(savingsAccount);
             await _unitOfWork.SaveAsync();

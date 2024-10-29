@@ -31,7 +31,7 @@ namespace SmartFinances.Application.Features.SavingsAccounts.Factories
             return _mapper.Map<SavingsAccountDto>(savingsAccount);
         }
 
-        public SavingsAccount MapToModel(UpdateSavingsAccountDto updateSavingsAccountDto, SavingsAccount savingsAccount)
+        public SavingsAccount MapToModel(UpdateSavingsGoalDto updateSavingsAccountDto, SavingsAccount savingsAccount)
         {
             return _mapper.Map(updateSavingsAccountDto, savingsAccount);
         }
