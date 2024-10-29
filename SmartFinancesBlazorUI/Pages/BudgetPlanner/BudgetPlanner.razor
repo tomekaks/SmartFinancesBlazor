@@ -46,7 +46,7 @@ else
         <div class="row mb-5 justify-content-center">
             <div class="col-10">
                 <MudDataGrid T="ExpenseVM" Items="Model.CurrentMonthlySummary.Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
-                    Bordered="true" Groupable="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
+                    Bordered="true" Groupable="true" GroupExpanded="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Expenses</MudText>
                         <MudSpacer />
@@ -56,7 +56,7 @@ else
                     <Columns>
                         <PropertyColumn Property="q => q.Name" Groupable="false"></PropertyColumn>
                         <PropertyColumn Property="q => q.Amount" Groupable="false"></PropertyColumn>
-                        <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type">
+                        <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type" Grouping>
                             <EditTemplate>
                                     <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type." 
                                         Placeholder="@context.Item.ExpenseTypeVM.Name">

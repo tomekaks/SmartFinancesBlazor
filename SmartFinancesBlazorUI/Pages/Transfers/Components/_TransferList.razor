@@ -10,12 +10,17 @@
                     New Transfer
                 </MudButton>
             </div>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-end">
+                    <div>EUR</div>
+                </li>
+            </ul>
             @foreach(var group in GroupedTransfers)
             {
                 <ul class="list-group list-group">
 
                     <li class="list-group-item">
-                        <MudText>@group.Key.ToString()</MudText>
+                        <div>@group.Key.ToString()</div>
                     </li>
 
                     @foreach (var transfer in group)
@@ -25,28 +30,27 @@
                             <div class="d-inline">
                                 @if (transfer.CurrentAccountNumber == transfer.ReceiverAccountNumber)
                                 {
-                                    <MudText Style="@("background: #dff0d8")">+@transfer.Amount</MudText>
+                                    <div style="@("background: #dff0d8")">+@transfer.Amount</div>
                                 }
                                 else
                                 {
-                                    <MudText>-@transfer.Amount</MudText>
+                                    <div>-@transfer.Amount</div>
                                 }
                             </div>
                         </li>
                     }
-
                 </ul>
             }
         </div>
-        <div class="card-footer">
-            <_Paginator CurrentPage="CurrentPage" TotalPages="TotalPages" OnPageChange="HandlePageChange"></_Paginator>
+        <div class="card-footer d-flex justify-content-center">
+            <MudPagination BoundaryCount="3" Count="@TotalPages" SelectedChanged="HandlePageChange"></MudPagination>
         </div>
     </div>
 
 
 @code {
     [Parameter]
-    public List<IGrouping<DateOnly, TransferVM>> GroupedTransfers { get; set; }
+    public List<IGrouping<DateOnly, TransferVM>> GroupedTransfers { get; set; } = new();
 
     [Parameter]
     public int CurrentPage { get; set; }

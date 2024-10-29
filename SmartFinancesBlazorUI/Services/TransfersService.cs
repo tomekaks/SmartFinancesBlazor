@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
+using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Models.Transfers;
@@ -57,10 +58,9 @@ namespace SmartFinancesBlazorUI.Services
         {
             var currentAccount = await GetCurrentAccountAsync();
 
-            //var transfersVM = await GetTransfersAsync(currentAccount.Number);
             var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number, pageNumber);
 
-            var orderedTransfers = transfersVM.OrderByDescending(q => q.SendTime).ToList();
+            var orderedTransfers = transfersVM.Items.OrderByDescending(q => q.SendTime).ToList();
 
             foreach (var transfer in orderedTransfers)
             {
@@ -94,32 +94,22 @@ namespace SmartFinancesBlazorUI.Services
             return await _contactsService.CreateContactAsync(newContact);
         }
 
-        private async Task<List<TransferVM>> GetTransfersAsync(string currentAccount)
+        private async Task<PaginatedList<TransferVM>> GetPaginatedTransfersAsync(string currentAccount, int pageNumber = 1, int pageSize = 10)
         {
-            var transfers = await _client.TransfersGetAllAsync(currentAccount);
+            var transfersDto = await _client.TransfersGetWithPaginationAsync(currentAccount, pageNumber, pageSize);
 
-            if (transfers == null || transfers.Count < 1)
+            if (transfersDto == null || transfersDto.Items.Count < 1)
             {
-                return new List<TransferVM>();
+                return new PaginatedList<TransferVM>(new List<TransferVM>(), 1, 10, 1, 0);
             }
 
-            var transferList = _mapper.Map<List<TransferVM>>(transfers);
-            
-            return transferList;
-        }
+            var transfersVM = _mapper.Map<List<TransferVM>>(transfersDto.Items);
 
-        private async Task<List<TransferVM>> GetPaginatedTransfersAsync(string currentAccount, int pageNumber = 1, int pageSize = 10)
-        {
-            var transfers = await _client.TransfersGetWithPaginationAsync(currentAccount, pageNumber, pageSize);
+            var paginaterTransfersVM = new PaginatedList<TransferVM>(
+                transfersVM, transfersDto.PageNumber, transfersDto.PageSize, transfersDto.TotalPages, transfersDto.TotalCount);
 
-            if (transfers == null || transfers.Count < 1)
-            {
-                return new List<TransferVM>();
-            }
 
-            var transferList = _mapper.Map<List<TransferVM>>(transfers);
-
-            return transferList;
+            return paginaterTransfersVM;
         }
 
     }
