@@ -1,5 +1,6 @@
 ﻿@inject NavigationManager NavigationManager
 @inject IDashboardService DashboardService
+@inject IDialogService DialogService
 
 <MudCard>
     <MudCardHeader>
@@ -11,50 +12,64 @@
         <CardHeaderActions>
             @if (_settingGoal)
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="ConfirmGoal">Confirm goal</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Surface">
+                    Setting Goal<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
+                </MudButton>
+
+                @* <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="ConfirmGoal">Confirm goal</MudButton> *@
             }
             else
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="StartSettingGoal">Set goal</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="OpenSetGoalDialog">Set goal</MudButton>
             }
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent>
-        @if (_settingGoal)
-        {
-            <MudTextField Label="Set Goal" @bind-Value="_settingGoalValue" />
-        }
-        else
-        {
-            <MudText>Savings goal: @SavingsAccount.Goal</MudText>
-        }
+        <MudText>Savings goal: @SavingsAccount.Goal</MudText>
         <MudText>Balance: @SavingsAccount.Balance</MudText>
     </MudCardContent>
-    <MudCardActions>
-        <MudButton Class="mr-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDeposit">Deposit</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToWithdraw">Withdraw</MudButton>
-    </MudCardActions>
 </MudCard>
 
 @code {
-    private bool _settingGoal = false;
-    private decimal _settingGoalValue;
-
     [Parameter]
     public SavingsAccountVM SavingsAccount { get; set; }
 
     [Parameter]
     public EventCallback OnConfirmGoal { get; set; }
 
-    private void StartSettingGoal()
+    private bool _settingGoal = false;
+
+    private async Task OpenSetGoalDialog()
     {
-        _settingGoalValue = SavingsAccount.Goal;
         _settingGoal = true;
+        var parameters = new DialogParameters
+        {
+            { "InitialGoal", SavingsAccount.Goal }
+        };
+
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Small,
+                FullWidth = true
+            };
+
+        var dialog = DialogService.Show<_SetGoalDialog>("Set Savings Goal", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var newGoal = (decimal)result.Data;
+            await SetSavingsGoal(newGoal);
+        }
+        _settingGoal = false;
     }
 
-    private async Task ConfirmGoal()
+    private async Task SetSavingsGoal(decimal newGoal)
     {
-        await DashboardService.SetSavingsGoalAsync(_settingGoalValue);
+        await DashboardService.SetSavingsGoalAsync(newGoal);
+        SavingsAccount.Goal = newGoal;
+
         _settingGoal = false;
         await OnConfirmGoal.InvokeAsync();
     }
@@ -62,15 +77,5 @@
     private void NavigateToTransfers()
     {
         NavigationManager.NavigateTo("/savingstransfers");
-    }
-
-    private void NavigateToWithdraw()
-    {
-        NavigationManager.NavigateTo("/dashboard/withdraw");
-    }
-
-    private void NavigateToDeposit()
-    {
-        NavigationManager.NavigateTo("/dashboard/deposit");
     }
 }

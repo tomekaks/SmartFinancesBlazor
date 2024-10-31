@@ -1,0 +1,17 @@
+﻿<div class="card shadow">
+    <div class="card-header text-center">
+        <h6 class="mb-0">Savings account</h6>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0">@SavingsAccount.Name</p>
+            <p class="mb-0">@SavingsAccount.Balance EUR</p>
+        </div>
+        <p class="text-muted mt-2 mb-0">@SavingsAccount.Number</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public SavingsAccountVM SavingsAccount { get; set; }
+}

@@ -1,0 +1,34 @@
+﻿<MudDialog>
+    <TitleContent>Set Savings Goal</TitleContent>
+    <DialogContent>
+        <MudTextField @bind-Value="GoalValue" Label="Set Goal" Variant="Variant.Outlined" Type="number" Min="0" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Color="Color.Primary">Cancel</MudButton>
+        <MudButton OnClick="Save" Color="Color.Primary" Disabled="!IsValid">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public decimal InitialGoal { get; set; }
+
+    private decimal GoalValue { get; set; }
+    private bool IsValid => GoalValue > 0;
+
+    protected override void OnInitialized()
+    {
+        GoalValue = InitialGoal;
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Save()
+    {
+        MudDialog.Close(DialogResult.Ok(GoalValue));
+    }
+}

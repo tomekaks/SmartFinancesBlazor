@@ -1,0 +1,112 @@
+﻿@page "/transfers/withdraw"
+@inject NavigationManager NavManager
+@inject IDashboardService DashboardService
+@inject IDialogService MudDialogService
+
+<PageTitle>Withdraw</PageTitle>
+
+@if (Model.TransactionalAccount == null || Model.SavingsAccount == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="container">
+        <div class="row mb-3 mt-2 d-flex justify-content-center">
+            <div class="col-3">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5">Current account</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText>@Model.TransactionalAccount.Name</MudText>
+                        <MudText>@Model.TransactionalAccount.Number</MudText>
+                        <MudText>Balance: @Model.TransactionalAccount.Balance</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </div>
+            <div class="col-3">
+                <MudCard>
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5">Savings account</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText>@Model.SavingsAccount.Name</MudText>
+                        <MudText>@Model.SavingsAccount.Number</MudText>
+                        <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </div>
+        </div>       
+
+        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <MudGrid Justify="Justify.Center">
+                <MudItem xs="12" sm="6">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderContent >
+                                <MudText Class="text-center" Typo="Typo.h4">Withdraw</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudTextField Label="Amount" @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToTransfers">Back</MudButton>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Withdraw</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </div>
+}
+
+@code {
+    public WithdrawVM Model { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadModel();
+    }
+
+    private async Task LoadModel()
+    {
+        Model.TransactionalAccount = await DashboardService.GetCurrentAccountAsync();
+        Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (Model.Amount > Model.SavingsAccount.Balance)
+        {
+            OpenDialog();
+            return;
+        }
+
+        bool response = await DashboardService.WithdrawFromSavingsAccountAsync(Model);
+        if (response)
+        {
+            NavigateToTransfers();
+        }
+    }
+
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ButtonText, "Ok");
+        parameters.Add(x => x.Color, Color.Primary);
+
+        MudDialogService.Show<Dialog>("Insufficient funds", parameters);
+    }
+
+    private void NavigateToTransfers()
+    {
+        NavManager.NavigateTo("/savingstransfers");
+    }
+}
