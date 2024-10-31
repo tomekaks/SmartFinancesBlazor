@@ -1,25 +1,24 @@
-﻿<MudCard Class="w-100">
-    <MudCardContent>
+﻿@inject IBudgetPlannerService BudgetPlannerService
+@inject IDialogService DialogService
+
+<div class="card shadow w-100">
+    <div class="card-header">Budget</div>
+    <div class="card-body">
+        <div>@MonthlyBudget</div>
+    </div>
+    <div class="card-footer">
         @if (_settingBudget)
         {
-            <MudTextField Label="Set Budget" @bind-Value="_settingBudgetValue" />
+            <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">
+                Setting budget<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
+            </MudButton>
         }
         else
         {
-            <MudText Typo="Typo.h5">Budget: @MonthlyBudget</MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" OnClick="OpenSetGoalDialog">Set budget</MudButton>
         }
-    </MudCardContent>
-    <MudCardActions>
-        @if (_settingBudget)
-        {
-            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="ConfirmBudget">Confirm budget</MudButton>
-        }
-        else
-        {
-            <MudButton Variant="Variant.Filled" Color="Color.Dark" OnClick="SetBudget">Set budget</MudButton>
-        }
-    </MudCardActions>
-</MudCard>
+    </div>
+</div>
 
 @code {
     [Parameter]
@@ -29,17 +28,41 @@
     public EventCallback<decimal> OnConfirmBudget { get; set; }
 
     private bool _settingBudget = false;
-    private decimal _settingBudgetValue;
 
-    private void SetBudget()
+    private async Task OpenSetGoalDialog()
     {
-        _settingBudgetValue = MonthlyBudget;
         _settingBudget = true;
+        var title = "Set Monthly Budget";
+
+        var parameters = new DialogParameters<_SetValueDialog>
+        {
+            { x => x.InitialValue, MonthlyBudget }
+        };
+
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Small,
+                FullWidth = true
+            };
+
+        var dialog = await DialogService.ShowAsync<_SetValueDialog>(title, parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var newBudget = (decimal)result.Data;
+            await SetBudget(newBudget);
+        }
+        _settingBudget = false;
     }
 
-    private async Task ConfirmBudget()
+    private async Task SetBudget(decimal newBudget)
     {
-        await OnConfirmBudget.InvokeAsync(_settingBudgetValue);
+        await BudgetPlannerService.SetBudgetAsync(newBudget);
+        MonthlyBudget = newBudget;
+
         _settingBudget = false;
+        await OnConfirmBudget.InvokeAsync();
     }
 }

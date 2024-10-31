@@ -12,15 +12,13 @@
         <CardHeaderActions>
             @if (_settingGoal)
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Surface">
+                <MudButton Variant="Variant.Filled" Color="Color.Success">
                     Setting Goal<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
                 </MudButton>
-
-                @* <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="ConfirmGoal">Confirm goal</MudButton> *@
             }
             else
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Surface" OnClick="OpenSetGoalDialog">Set goal</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OpenSetGoalDialog">Set goal</MudButton>
             }
         </CardHeaderActions>
     </MudCardHeader>
@@ -42,9 +40,11 @@
     private async Task OpenSetGoalDialog()
     {
         _settingGoal = true;
-        var parameters = new DialogParameters
+        var title = "Set Savings Goal";
+
+        var parameters = new DialogParameters<_SetValueDialog>
         {
-            { "InitialGoal", SavingsAccount.Goal }
+            { x => x.InitialValue, SavingsAccount.Goal }
         };
 
         var options = new DialogOptions
@@ -54,7 +54,7 @@
                 FullWidth = true
             };
 
-        var dialog = DialogService.Show<_SetGoalDialog>("Set Savings Goal", parameters, options);
+        var dialog = await DialogService.ShowAsync<_SetValueDialog>(title, parameters, options);
         var result = await dialog.Result;
 
         if (!result.Canceled)

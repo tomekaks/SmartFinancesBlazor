@@ -154,8 +154,7 @@ else
 
     private async Task ConfirmBudget(decimal newBudget)
     {
-        await BudgetPlannerService.SetBudgetAsync(newBudget);
-        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        await LoadModel();
     }
 
     private void NavigateToAddExpense()

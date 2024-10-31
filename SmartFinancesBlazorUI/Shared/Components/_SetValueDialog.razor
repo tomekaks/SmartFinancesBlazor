@@ -1,0 +1,36 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="UpdatedValue" Label="Set Value" Variant="Variant.Outlined" Type="number" Min="0" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Success" Disabled="!IsValid">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code 
+{
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] 
+    public decimal InitialValue { get; set; }
+
+    private decimal UpdatedValue { get; set; }
+    private bool IsValid => UpdatedValue >= 0;
+
+    protected override void OnInitialized()
+    {
+        UpdatedValue = InitialValue;
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void Save()
+    {
+        MudDialog.Close(DialogResult.Ok(UpdatedValue));
+    }
+}
