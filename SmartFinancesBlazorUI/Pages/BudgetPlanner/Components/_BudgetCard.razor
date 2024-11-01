@@ -2,21 +2,24 @@
 @inject IDialogService DialogService
 
 <div class="card shadow w-100">
-    <div class="card-header">Budget</div>
-    <div class="card-body">
-        <div>@MonthlyBudget</div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>Budget</div>
+        <div>
+            @if (_settingBudget)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">
+                    Setting budget
+                    <MudProgressCircular Indeterminate="true" Size="Size.Small" Class="ms-2"></MudProgressCircular>
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" OnClick="OpenSetGoalDialog">Set budget</MudButton>
+            }
+        </div>
     </div>
-    <div class="card-footer">
-        @if (_settingBudget)
-        {
-            <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small">
-                Setting budget<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
-            </MudButton>
-        }
-        else
-        {
-            <MudButton Variant="Variant.Filled" Color="Color.Dark" Size="Size.Small" OnClick="OpenSetGoalDialog">Set budget</MudButton>
-        }
+    <div class="card-body">
+        <div class="text-center">@MonthlyBudget</div>
     </div>
 </div>
 

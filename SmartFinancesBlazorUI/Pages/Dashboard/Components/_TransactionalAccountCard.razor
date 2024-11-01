@@ -1,5 +1,6 @@
-﻿@inject NavigationManager NavManager
-@inject IDashboardService DashboardService
+﻿@inject NavigationManager _navManager
+@inject IDashboardService _dashboardService
+@inject IDialogService _dialogService
 
 <MudCard>
     <MudCardHeader>
@@ -9,10 +10,16 @@
             </MudButton>
         </CardHeaderContent>
         <CardHeaderActions>
-            @if (Account.Number == CurrentAccount.Number)
+            @if (_addingFunds)
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Success" 
-                    OnClick="OnAddFunds.InvokeAsync" EndIcon="@Icons.Material.Filled.AddCircle">
+                <MudButton Variant="Variant.Filled" Color="Color.Success">
+                    Adding Funds<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Success"
+                           OnClick="OpenAddFundsDialog" EndIcon="@Icons.Material.Filled.AddCircle">
                     Add funds
                 </MudButton>
             }
@@ -48,9 +55,48 @@
     [Parameter]
     public EventCallback<string> OnSetCurrentAccount { get; set; }
 
+    private bool _addingFunds = false;
+
+    private async Task OpenAddFundsDialog()
+    {
+        _addingFunds = true;
+        var title = "Add funds";
+
+        var parameters = new DialogParameters<_SetValueDialog>
+        {
+            { x => x.InitialValue, 0 }
+        };
+
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                MaxWidth = MaxWidth.Small,
+                FullWidth = true
+            };
+
+        var dialog = await _dialogService.ShowAsync<_SetValueDialog>(title, parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var funds = (decimal)result.Data;
+            await AddFunds(funds);
+        }
+        _addingFunds = false;
+    }
+
+    private async Task AddFunds(decimal funds)
+    {
+        await _dashboardService.AddFundsAsync(Account.Id, funds);
+        CurrentAccount.Balance = funds;
+
+        _addingFunds = false;
+        await OnAddFunds.InvokeAsync();
+    }
+
     private async void NavigateToTransfers()
     {
-        await DashboardService.ChangeAccountAsync(Account.Number);
-        NavManager.NavigateTo("/transfers");
+        await _dashboardService.ChangeAccountAsync(Account.Number);
+        _navManager.NavigateTo("/transfers");
     }
 }

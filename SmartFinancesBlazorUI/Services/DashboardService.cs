@@ -10,18 +10,16 @@ namespace SmartFinancesBlazorUI.Services
 {
     public class DashboardService : BaseHttpService, IDashboardService
     {
-        private readonly IMapper _mapper;
         private readonly IAccountRequestService _accountRequestService;
         private readonly IAccountService _accountService;
         private readonly ITransfersService _transfersService;
         private readonly IAccountTypesService _accountTypesService;
 
-        public DashboardService(IClient client, ILocalStorageService localStorage, IMapper mapper,
+        public DashboardService(IClient client, ILocalStorageService localStorage,
                                 IAccountRequestService accountRequestService, IAccountService accountService, 
                                 ITransfersService transfersService, IAccountTypesService accountTypesService)
                                 : base(client, localStorage)
         {
-            _mapper = mapper;
             _accountRequestService = accountRequestService;
             _accountService = accountService;
             _transfersService = transfersService;
@@ -76,13 +74,13 @@ namespace SmartFinancesBlazorUI.Services
             return await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
         }
 
-        public async Task<bool> AddFundsAsync(AddFundsVM addFundsVM)
+        public async Task<bool> AddFundsAsync(int accountId, decimal funds)
         {
-            var account = await GetChangedAccountAsync();
+            var account = GetTransactionalAccountById(accountId);
 
-            account.Balance += addFundsVM.Amount;
+            account.Balance += funds;
 
-            await _accountService.UpdateTransactionalAccountAsync(account.Id, account.Balance);
+            await _accountService.UpdateTransactionalAccountAsync(accountId, account.Balance);
 
             return true;
         }
@@ -139,6 +137,27 @@ namespace SmartFinancesBlazorUI.Services
             var accountNumber = await GetCurrentAccountNumberAsync();
             var account = UserAccounts.FirstOrDefault(q => q.Number == accountNumber);
 
+            if (account == null)
+            {
+                throw new Exception("Something went wrong");
+            }
+
+            return account;
+        }
+
+        private TransactionalAccountVM GetTransactionalAccountById(int accountId)
+        {
+            var account = UserAccounts.FirstOrDefault(q => q.Id == accountId);
+            if (account == null)
+            {
+                throw new Exception("Something went wrong");
+            }
+
+            return account;
+        }
+        private TransactionalAccountVM GetTransactionalAccountByNumber(string accountNumber)
+        {
+            var account = UserAccounts.FirstOrDefault(q => q.Number == accountNumber);
             if (account == null)
             {
                 throw new Exception("Something went wrong");

@@ -93,9 +93,9 @@ else
         await LoadModel();
     }
 
-    private void AddFunds()
+    private async Task AddFunds()
     {
-        NavigationManager.NavigateTo("/dashboard/addfunds");
+        await LoadModel();
     }
 
 

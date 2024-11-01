@@ -66,7 +66,9 @@ namespace SmartFinancesBlazorUI.Services
             return new TransfersOverviewVM()
             {
                 CurrentAccount = currentAccount,
-                GroupedTransfers = groupedTransfers
+                GroupedTransfers = groupedTransfers,
+                TotalPages = transfersVM.TotalPages,
+                CurrentPage= transfersVM.PageNumber
             };
         }
 
@@ -95,7 +97,9 @@ namespace SmartFinancesBlazorUI.Services
             return new SavingsTransfersOverviewVM()
             {
                 SavingsAccount = savingsAccount,
-                GroupedTransfers = groupedTransfers
+                GroupedTransfers = groupedTransfers,
+                TotalPages = transfersVM.TotalPages,
+                CurrentPage = transfersVM.PageNumber
             };
         }
 
@@ -135,7 +139,6 @@ namespace SmartFinancesBlazorUI.Services
 
             var paginaterTransfersVM = new PaginatedList<TransferVM>(
                 transfersVM, transfersDto.PageNumber, transfersDto.PageSize, transfersDto.TotalPages, transfersDto.TotalCount);
-
 
             return paginaterTransfersVM;
         }

@@ -1,0 +1,18 @@
+﻿<div class="card shadow w-100">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>@Title</div>
+        <div></div>
+    </div>
+    <div class="card-body">
+        <div class="text-center">@Value</div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public decimal Value { get; set; }
+
+}
