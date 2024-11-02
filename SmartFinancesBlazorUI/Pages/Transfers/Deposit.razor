@@ -1,7 +1,7 @@
 ﻿@page "/transfers/deposit"
-@inject NavigationManager NavManager
-@inject IDashboardService DashboardService
-@inject IDialogService MudDialogService
+@inject NavigationManager _navManager
+@inject ITransfersService _transfersService
+@inject IDialogService _mudDialogService
 
 <PageTitle>Deposit</PageTitle>
 
@@ -77,8 +77,8 @@ else
 
     private async Task LoadModel()
     {
-        Model.TransactionalAccount = await DashboardService.GetCurrentAccountAsync();
-        Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
+        Model.TransactionalAccount = await _transfersService.GetCurrentAccountAsync();
+        Model.SavingsAccount = await _transfersService.GetSavingsAccountAsync();
     }
 
     private async Task HandleSubmit()
@@ -89,7 +89,7 @@ else
             return;
         }
 
-        bool response = await DashboardService.DepositOnSavingsAccountAsync(Model);
+        bool response = await _transfersService.DepositOnSavingsAccountAsync(Model.Amount);
         if (response)
         {
             NavigateToTransfers();
@@ -102,11 +102,11 @@ else
         parameters.Add(x => x.ButtonText, "Ok");
         parameters.Add(x => x.Color, Color.Primary);
 
-        MudDialogService.Show<Dialog>("Insufficient funds", parameters);
+        _mudDialogService.Show<Dialog>("Insufficient funds", parameters);
     }
 
     private void NavigateToTransfers()
     {
-        NavManager.NavigateTo("/savingstransfers");
+        _navManager.NavigateTo("/savingstransfers");
     }
 }

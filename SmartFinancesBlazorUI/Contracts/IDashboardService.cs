@@ -14,8 +14,6 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<TransactionalAccountVM> GetCurrentAccountAsync();
 
         Task<bool> AddFundsAsync(int accountId, decimal funds);
-        Task<bool> WithdrawFromSavingsAccountAsync(WithdrawVM withdrawVM);
-        Task<bool> DepositOnSavingsAccountAsync(DepositVM depositVM);
         Task ChangeAccountAsync(string accountNumber);
 
         Task SetSavingsGoalAsync(decimal goal);

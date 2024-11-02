@@ -13,8 +13,8 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<SavingsAccountVM> GetSavingsAccountAsync();
 
         Task<bool> CreateTransferAsync(NewTransferVM transferVM);
-        Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto);
-        Task WithdrawFromSavingsAccountAsync(SavingsAccountTransferDto transferDto);
+        Task<bool> DepositOnSavingsAccountAsync(decimal amount);
+        Task<bool> WithdrawFromSavingsAccountAsync(decimal amount);
 
         Task<bool> AddToContactsAsync(NewTransferVM transferVM);
     }

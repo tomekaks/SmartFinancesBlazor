@@ -5,6 +5,7 @@ using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Models.Transfers;
+using SmartFinancesBlazorUI.Pages.Transfers;
 using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Services
@@ -103,16 +104,18 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
-
-
-        public async Task DepositOnSavingsAccountAsync(SavingsAccountTransferDto transferDto)
+        public async Task<bool> DepositOnSavingsAccountAsync(decimal amount)
         {
+            var transferDto = await GetSavingsAccountTransferDto(amount, Constants.DEPOSIT);
             await _client.TransfersDepositToSavingsAccountAsync(transferDto);
+            return true;
         }
 
-        public async Task WithdrawFromSavingsAccountAsync(SavingsAccountTransferDto transferDto)
+        public async Task<bool> WithdrawFromSavingsAccountAsync(decimal amount)
         {
+            var transferDto = await GetSavingsAccountTransferDto(amount, Constants.WITHDRAW);
             await _client.TransfersWithdrawFromSavingsAccountAsync(transferDto);
+            return true;
         }
 
         public async Task<bool> AddToContactsAsync(NewTransferVM transferVM)
@@ -141,6 +144,23 @@ namespace SmartFinancesBlazorUI.Services
                 transfersVM, transfersDto.PageNumber, transfersDto.PageSize, transfersDto.TotalPages, transfersDto.TotalCount);
 
             return paginaterTransfersVM;
+        }
+
+        private async Task<SavingsAccountTransferDto> GetSavingsAccountTransferDto(decimal amount, string operation)
+        {
+            var currentAccount = await GetCurrentAccountAsync();
+            var savingsAccount = await GetSavingsAccountAsync();
+
+            return new SavingsAccountTransferDto()
+            {
+                Amount = amount,
+                TransactionalAccountName = currentAccount.Name,
+                TransactionalAccountNumber = currentAccount.Number,
+                SavingsAccountName = savingsAccount.Name,
+                SavingsAccountNumber = savingsAccount.Number,
+                SendTime = DateTime.UtcNow,
+                Title = operation
+            };
         }
 
     }
