@@ -1,0 +1,100 @@
+﻿@inject IBudgetPlannerService _budgetPlannerService
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
+
+<MudDataGrid T="ExpenseVM" Items="Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
+             Bordered="true" Groupable="true" GroupExpanded="true" Dense="true"
+             StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
+    <ToolBarContent>
+        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddExpense">Add expense</MudButton>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToRegularExpenses">Regular expenses</MudButton>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="q => q.Name" Groupable="false"></PropertyColumn>
+        <PropertyColumn Property="q => q.Amount" Groupable="false"></PropertyColumn>
+        <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type" Grouping>
+            <EditTemplate>
+                <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type."
+                           Placeholder="@context.Item.ExpenseTypeVM.Name">
+                    <MudSelectItem Value="@context.Item.ExpenseTypeVM">@context.Item.ExpenseTypeVM.Name</MudSelectItem>
+                    @foreach (var expType in ExpenseTypes)
+                    {
+                        <MudSelectItem Value="expType">@expType.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </EditTemplate>
+            <GroupTemplate>
+                <span style="font-weight:bold">
+                    Type: @context.Grouping.Key
+                    <MudChip Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small">total @context.Grouping.Sum(q => q.Amount)</MudChip>
+                </span>
+            </GroupTemplate>
+        </PropertyColumn>
+        <TemplateColumn Grouping="false" Groupable="false">
+            <CellTemplate>
+                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit"
+                           Size="Size.Small" OnClick="@context.Actions.StartEditingItemAsync">
+                    Edit
+
+                </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete"
+                           Size="Size.Small" OnClick="() => ConfirmDeleteExpense(context.Item.Id)">Delete</MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+@code {
+    [Parameter]
+    public List<ExpenseVM> Expenses { get; set; } = new();
+
+    [Parameter]
+    public EventCallback OnExpenseDelete { get; set; }
+
+    public List<ExpenseTypeVM> ExpenseTypes { get; set; }
+
+    private async Task StartedEditingItem()
+    {
+        ExpenseTypes = await _budgetPlannerService.GetExpenseTypesAsync();
+    }
+
+    private async Task CommittedItemChanges(ExpenseVM expenseVM)
+    {
+        await _budgetPlannerService.EditExpenseAsync(expenseVM);
+    }
+
+    private async Task ConfirmDeleteExpense(int id)
+    {
+        var parameters = new DialogParameters<Dialog>();
+        parameters.Add(x => x.ContentText, "Do you really want to delete this expense?");
+        parameters.Add(x => x.ButtonText, "Delete");
+        parameters.Add(x => x.Color, Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = _dialogService.Show<Dialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await DeleteExpense(id);
+        }
+    }
+
+    private async Task DeleteExpense(int id)
+    {
+        await _budgetPlannerService.DeleteExpenseAsync(id);
+        await OnExpenseDelete.InvokeAsync();
+    }
+
+    private void NavigateToAddExpense()
+    {
+        _navigationManager.NavigateTo("/budgetplanner/addexpense");
+    }
+
+    private void NavigateToRegularExpenses()
+    {
+        _navigationManager.NavigateTo("/budgetplanner/regularexpenses");
+    }
+}

@@ -1,10 +1,5 @@
 ﻿@page "/budgetplanner/regularexpenses"
-@inject IBudgetPlannerService BudgetPlannerService
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
-@inject IDialogService DialogService
-@inject ISnackbar Snackbar
-
+@inject IBudgetPlannerService _budgetPlannerService
 
 <div class="container mt-4">
     <div class="row mb-2 justify-content-center">
@@ -14,46 +9,9 @@
                     <h2 class="text-center">Regular expenses</h2>
                 </div>
                 <div class="card-body">
-                    <MudDataGrid T="RegularExpenseVM" Items="Model.RegularExpenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
-                                 Bordered="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
-                        <ToolBarContent>
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToPlanner">Back to Planner</MudButton>
-                            <MudSpacer />
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.AddCircle" OnClick="NavigateToAddRegularExpense">Add</MudButton>
-                        </ToolBarContent>
-                        <Columns>
-                            <PropertyColumn Property="q => q.Name"></PropertyColumn>
-                            <PropertyColumn Property="q => q.Amount"></PropertyColumn>
-                            <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type">
-                                <EditTemplate>
-                                    <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type."
-                                               Placeholder="@context.Item.ExpenseTypeVM.Name">
-                                        <MudSelectItem Value="@context.Item.ExpenseTypeVM">@context.Item.ExpenseTypeVM.Name</MudSelectItem>
-                                        @foreach (var expType in Model.ExpenseTypes)
-                                        {
-                                            <MudSelectItem Value="expType">@expType.Name</MudSelectItem>
-                                        }
-                                    </MudSelect>
-                                </EditTemplate>
-                            </PropertyColumn>
-                            <TemplateColumn>
-                                <CellTemplate>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" EndIcon="@Icons.Material.Filled.Send" 
-                                        Size="Size.Small" OnClick="() => UseRegularExpense(context.Item)">Use
-                                    </MudButton>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" 
-                                        Size="Size.Small" OnClick="@context.Actions.StartEditingItemAsync">Edit
-                                    </MudButton>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" 
-                                        Size="Size.Small" OnClick="() => ConfirmDeleteRegularExpense(context.Item.Id)">Delete
-                                    </MudButton>
-                                </CellTemplate>
-                            </TemplateColumn>
-                        </Columns>
-                    </MudDataGrid>
+                    <_RegularExpensesDataGrid RegularExpenses="Model.RegularExpenses"></_RegularExpensesDataGrid>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -64,63 +22,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model.RegularExpenses = await BudgetPlannerService.GetRegularExpensesAsync();
-    }
-
-    private async Task StartedEditingItem()
-    {
-        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
-    }
-
-    private async Task CommittedItemChanges(RegularExpenseVM regularExpenseVM)
-    {
-        await BudgetPlannerService.EditRegularExpenseAsync(regularExpenseVM);
-    }
-
-    private async Task ConfirmDeleteRegularExpense(int id)
-    {
-        var parameters = new DialogParameters<Dialog>();
-        parameters.Add(x => x.ContentText, "Do you really want to delete this expense?");
-        parameters.Add(x => x.ButtonText, "Delete");
-        parameters.Add(x => x.Color, Color.Error);
-
-        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
-
-        var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
-        var result = await dialog.Result;
-
-        if (!result.Canceled)
-        {
-            await DeleteExpense(id);
-        }
-
-    }
-
-    private async Task DeleteExpense(int id)
-    {
-        await BudgetPlannerService.DeleteRegularExpenseAsync(id);
-        Model.RegularExpenses = await BudgetPlannerService.GetRegularExpensesAsync();
-    }
-
-    private async Task UseRegularExpense(RegularExpenseVM regularExpenseVM)
-    {
-        await BudgetPlannerService.UseRegularExpenseAsync(regularExpenseVM);
-        Snackbar.Add("Added to current expenses.", Severity.Success, 
-        config => { config.SnackbarVariant = Variant.Filled; config.CloseAfterNavigation = true; });
-    }
-
-    private void NavigateToAddRegularExpense()
-    {
-        NavigationManager.NavigateTo("/budgetplanner/addregularexpense");
-    }
-
-    private void NavigateToEditRegularExpense(int id)
-    {
-        NavigationManager.NavigateTo($"/budgetplanner/editregularexpense/{id}");
-    }
-
-    private void NavigateToPlanner()
-    {
-        NavigationManager.NavigateTo("/budgetplanner");
+        Model.RegularExpenses = await _budgetPlannerService.GetRegularExpensesAsync();
     }
 }
