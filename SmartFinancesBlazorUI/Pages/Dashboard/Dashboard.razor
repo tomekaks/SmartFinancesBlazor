@@ -11,7 +11,7 @@
 {
     <MudContainer MaxWidth="MaxWidth.Medium" Class="text-center mt-4">
         <MudProgressCircular Color="Color.Primary" Size="Size.Large" Class="my-4" />
-        <MudText Typo="Typo.h6">Loading data...</MudText>
+        @* <MudText Typo="Typo.h6">Loading data...</MudText> *@
     </MudContainer>
 }
 else
@@ -19,7 +19,7 @@ else
     <div class="container mt-4">
         @foreach(var account in Model.Accounts)
         {
-            <div class="row mb-3">
+            <div class="row mb-3 justify-content-center">
                 <div class="col-8">
                     <_TransactionalAccountCard Account="account" 
                         CurrentAccount="Model.CurrentAccount" 
@@ -30,7 +30,7 @@ else
         }
         @if(Model.SavingsAccount != null)
         {
-            <div class="row mb-3">
+            <div class="row mb-3 justify-content-center">
                 <div class="col-8">
                     <_SavingsAccountCard SavingsAccount="Model.SavingsAccount" OnConfirmGoal="ConfirmGoal"/>
                 </div>
@@ -39,7 +39,7 @@ else
 
         @if(Model.Accounts.Count() < 3 || Model.SavingsAccount == null)
         {
-            <div class="row mb-3">
+            <div class="row mb-3 justify-content-center">
                 <div class="col-8">
                     <_RequestAccountCard />
                 </div>

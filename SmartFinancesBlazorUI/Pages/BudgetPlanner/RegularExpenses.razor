@@ -7,44 +7,53 @@
 
 
 <div class="container mt-4">
-    <div class="row mb-2">
+    <div class="row mb-2 justify-content-center">
         <div class="col-10">
-            <MudDataGrid T="RegularExpenseVM" Items="Model.RegularExpenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
-                         Bordered="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
-                <ToolBarContent>
-                    <MudText Typo="Typo.h6">Regular expenses</MudText>
-                    <MudSpacer />
-                    <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.AddCircle" OnClick="NavigateToAddRegularExpense">Add</MudButton>
-                </ToolBarContent>
-                <Columns>
-                    <PropertyColumn Property="q => q.Name"></PropertyColumn>
-                    <PropertyColumn Property="q => q.Amount"></PropertyColumn>
-                    <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type">
-                        <EditTemplate>
-                            <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type."
-                                       Placeholder="@context.Item.ExpenseTypeVM.Name">
-                                <MudSelectItem Value="@context.Item.ExpenseTypeVM">@context.Item.ExpenseTypeVM.Name</MudSelectItem>
-                                @foreach (var expType in Model.ExpenseTypes)
-                                {
-                                    <MudSelectItem Value="expType">@expType.Name</MudSelectItem>
-                                }
-                            </MudSelect>
-                        </EditTemplate>
-                    </PropertyColumn>
-                    <TemplateColumn>
-                        <CellTemplate>
-                            <MudButton Variant="Variant.Filled" Color="Color.Secondary" EndIcon="@Icons.Material.Filled.Send" OnClick="() => UseRegularExpense(context.Item)">Use</MudButton>
-                            <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
-                            <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteRegularExpense(context.Item.Id)">Delete</MudButton>
-                        </CellTemplate>
-                    </TemplateColumn>
-                </Columns>
-            </MudDataGrid>
-        </div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-5">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToPlanner">Back to Planner</MudButton>
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2 class="text-center">Regular expenses</h2>
+                </div>
+                <div class="card-body">
+                    <MudDataGrid T="RegularExpenseVM" Items="Model.RegularExpenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
+                                 Bordered="true" StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
+                        <ToolBarContent>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToPlanner">Back to Planner</MudButton>
+                            <MudSpacer />
+                            <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.AddCircle" OnClick="NavigateToAddRegularExpense">Add</MudButton>
+                        </ToolBarContent>
+                        <Columns>
+                            <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                            <PropertyColumn Property="q => q.Amount"></PropertyColumn>
+                            <PropertyColumn Property="q => q.ExpenseTypeVM.Name" Title="Type">
+                                <EditTemplate>
+                                    <MudSelect @bind-Value="@context.Item.ExpenseTypeVM" RequiredError="Please select Expense Type."
+                                               Placeholder="@context.Item.ExpenseTypeVM.Name">
+                                        <MudSelectItem Value="@context.Item.ExpenseTypeVM">@context.Item.ExpenseTypeVM.Name</MudSelectItem>
+                                        @foreach (var expType in Model.ExpenseTypes)
+                                        {
+                                            <MudSelectItem Value="expType">@expType.Name</MudSelectItem>
+                                        }
+                                    </MudSelect>
+                                </EditTemplate>
+                            </PropertyColumn>
+                            <TemplateColumn>
+                                <CellTemplate>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" EndIcon="@Icons.Material.Filled.Send" 
+                                        Size="Size.Small" OnClick="() => UseRegularExpense(context.Item)">Use
+                                    </MudButton>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" 
+                                        Size="Size.Small" OnClick="@context.Actions.StartEditingItemAsync">Edit
+                                    </MudButton>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" 
+                                        Size="Size.Small" OnClick="() => ConfirmDeleteRegularExpense(context.Item.Id)">Delete
+                                    </MudButton>
+                                </CellTemplate>
+                            </TemplateColumn>
+                        </Columns>
+                    </MudDataGrid>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

@@ -2,45 +2,43 @@
 @inject IDashboardService _dashboardService
 @inject IDialogService _dialogService
 
-<MudCard>
-    <MudCardHeader>
-        <CardHeaderContent>
-            <MudButton Variant="Variant.Text" OnClick="NavigateToTransfers" StartIcon="@Icons.Material.Filled.AccountBalanceWallet">
-                <MudText Typo="Typo.h5">@Account.Type</MudText>
+<div class="card shadow w-100">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <MudButton Variant="Variant.Text" OnClick="NavigateToTransfers" StartIcon="@Icons.Material.Filled.AccountBalanceWallet">
+            <MudText Typo="Typo.h5">@Account.Type</MudText>
+        </MudButton>
+        @if (_addingFunds)
+        {
+            <MudButton Variant ="Variant.Filled" Color="Color.Success"  Disabled ="true" >
+                 Adding Funds
+                <MudProgressCircular Indeterminate ="true" Size="Size.Small" Class = "ms-2" />
             </MudButton>
-        </CardHeaderContent>
-        <CardHeaderActions>
-            @if (_addingFunds)
-            {
-                <MudButton Variant="Variant.Filled" Color="Color.Success">
-                    Adding Funds<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
-                </MudButton>
-            }
-            else
-            {
-                <MudButton Variant="Variant.Filled" Color="Color.Success"
-                           OnClick="OpenAddFundsDialog" EndIcon="@Icons.Material.Filled.AddCircle">
-                    Add funds
-                </MudButton>
-            }
-        </CardHeaderActions>
-    </MudCardHeader>
-    <MudDivider />
-    <MudCardContent>
+        }
+        else
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Success"
+                OnClick="OpenAddFundsDialog" EndIcon="@Icons.Material.Filled.AddCircle" >
+                Add funds
+            </MudButton>
+        }
+    </div>
+    <div class="card-body">
         <MudText>Number: @Account.Number</MudText>
         <MudText>Balance: @Account.Balance</MudText>
-    </MudCardContent>
-    <MudCardActions>
+    </div>
+    <div class="card-footer">
         @if (Account.Number == CurrentAccount.Number)
         {
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Current Account</MudButton>
         }
         else
         {
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => OnSetCurrentAccount.InvokeAsync(Account.Number)">Set as current</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="() => OnSetCurrentAccount.InvokeAsync(Account.Number)">
+                Set as current
+            </MudButton>
         }
-    </MudCardActions>
-</MudCard>
+    </div>
+</div>
 
 @code {
     [Parameter]

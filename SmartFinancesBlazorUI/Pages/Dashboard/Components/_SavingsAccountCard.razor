@@ -2,31 +2,34 @@
 @inject IDashboardService DashboardService
 @inject IDialogService DialogService
 
-<MudCard>
-    <MudCardHeader>
-        <CardHeaderContent>
+<div class="card shadow w-100">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
             <MudButton Variant="Variant.Text" OnClick="NavigateToTransfers" StartIcon="@Icons.Material.Filled.Savings">
                 <MudText Typo="Typo.h5">Savings</MudText>
             </MudButton>
-        </CardHeaderContent>
-        <CardHeaderActions>
+        </div>
+        <div>
             @if (_settingGoal)
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Success">
-                    Setting Goal<MudProgressCircular Indeterminate="true" Size="Size.Small"></MudProgressCircular>
+                <MudButton Variant="Variant.Filled" Color="Color.Success" Disabled="true">
+                    Setting Goal
+                    <MudProgressCircular Indeterminate="true" Size="Size.Small" Class="ms-2" />
                 </MudButton>
             }
             else
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OpenSetGoalDialog">Set goal</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="OpenSetGoalDialog">
+                    Set goal
+                </MudButton>
             }
-        </CardHeaderActions>
-    </MudCardHeader>
-    <MudCardContent>
+        </div>
+    </div>
+    <div class="card-body">
         <MudText>Savings goal: @SavingsAccount.Goal</MudText>
         <MudText>Balance: @SavingsAccount.Balance</MudText>
-    </MudCardContent>
-</MudCard>
+    </div>
+</div>
 
 @code {
     [Parameter]
