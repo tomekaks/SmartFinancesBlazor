@@ -50,6 +50,7 @@
                         <MudCardActions Class="justify-content-center">
                             <MudButton ButtonType="ButtonType.Submit"
                                        Variant="Variant.Filled"
+                                       Disabled=@(isProcessing ? true : false)
                                        Color="Color.Primary"
                                        Class="mt-3" Style="width: 100%;">Register</MudButton>
                         </MudCardActions>
@@ -64,15 +65,19 @@
 @code {
     public RegisterVM Model { get; set; } = new();
     public List<string> Messages { get; set; } = new();
+    private bool isProcessing = false;
 
     private async Task HandleSubmit()
     {
+        isProcessing = true;
         var registrationResult = await AuthenticationService.RegisterAsync(Model);
 
         if (registrationResult.Succeeded)
         {
             NavigationManager.NavigateTo("authentication/login");
         }
+
         Messages = registrationResult.Errors.ToList();
+        isProcessing = false;
     }
 }

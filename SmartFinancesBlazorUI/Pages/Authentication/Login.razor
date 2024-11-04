@@ -37,10 +37,14 @@
                         </MudCardContent>
                         <MudCardActions Class="justify-content-center">
                             <MudButton ButtonType="ButtonType.Submit"
-                                       Variant="Variant.Filled"
-                                       Color="Color.Primary"
-                                       Class="mt-2"
-                                       Style="width: 100%;">Login</MudButton>
+                                        Variant="Variant.Filled"
+                                        Disabled=@(isProcessing ? true : false)
+                                        Color="Color.Primary"
+                                        Class="mt-2"
+                                        Style="width: 100%;">
+                                Login
+                            </MudButton>
+
                         </MudCardActions>
                     </MudCard>
                 </MudItem>
@@ -53,9 +57,11 @@
 @code {
     public LoginVM Model { get; set; } = new LoginVM();
     public List<string> Messages { get; set; } = new();
+    private bool isProcessing = false;
 
     private async void HandleSubmit()
     {
+        isProcessing = true;
         var authResponse = await AuthenticationService.LoginAsync(Model);
         bool isAdmin = authResponse.Roles.Contains(Constants.ADMINISTRATOR);
 
@@ -72,6 +78,7 @@
         {
             NavigationManager.NavigateTo("dashboard");
         }
+        isProcessing = false;
     }
 }
 
