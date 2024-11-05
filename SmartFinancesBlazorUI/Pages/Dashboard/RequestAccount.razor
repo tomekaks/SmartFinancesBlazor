@@ -4,13 +4,53 @@
 
 <PageTitle>Request a New Account</PageTitle>
 
-@if(Model.Accounts is null)
+@if(IsLoading)
 {
-    <p>Loading....</p>
+    <div class="text-center mt-5">
+        <p>Loading...</p>
+        <div class="spinner-border text-primary" role="status">
+        </div>
+    </div>
 }
 else
 {
-    <MudText Typo="Typo.h4" Class="mb-4">Request a new account</MudText>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Request a New Account</h2>
+
+        @foreach (var type in Model.AvailableAccountTypes)
+        {
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-header">
+                            <h5 class="my-0 text-center">@type.Name</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@type.Description</p>
+                            @if (CheckIfPending(type.Name))
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true" Class="btn btn-warning" Style="width: 100%;">Pending</MudButton>
+                            }
+                            else
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type))" Class="btn btn-success" Style="width: 100%;">Request</MudButton>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="text-center">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDashboard" Class="btn btn-primary">Back</MudButton>
+        </div>
+    </div>
+}
+
+@* else
+{
+    <div>
+        <MudText Typo="Typo.h4" Class="mb-4 text-center">Request a new account</MudText>
+    </div>
     <MudGrid Class="mb-4">
         @foreach (var type in Model.AvailableAccountTypes)
         {
@@ -22,6 +62,7 @@ else
                         </CardHeaderContent>
                     </MudCardHeader>
                     <MudCardContent>
+                        <MudText Typo="Typo.body2">@type.Description</MudText>
                     </MudCardContent>
                     <MudCardActions>
                         @if(CheckIfPending(type.Name))
@@ -41,17 +82,19 @@ else
     <MudItem>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDashboard">Back</MudButton>
     </MudItem>
-}
+} *@
 
 
 
 
 @code {
     private RequestAccountVM Model = new();
+    private bool IsLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadModel();
+        IsLoading = false;
     }
 
     private async Task LoadModel()
@@ -71,52 +114,23 @@ else
 
     private List<AccountTypeVM> GetAvailableAccountTypes()
     {
-        var possesedAccountTypes = Model.Accounts.Select(q => q.AccountTypeVM.Name).ToList();
+        var possessedAccountTypes = Model.Accounts.Select(q => q.AccountTypeVM.Name).ToList();
 
         if(Model.SavingsAccount != null)
         {
-            possesedAccountTypes.Add(Constants.ACCOUNTTYPE_SAVINGS);
+            possessedAccountTypes.Add(Constants.ACCOUNTTYPE_SAVINGS);
         }
 
-        var availableAccountTypes = new List<AccountTypeVM>();
-
-        foreach (var type in Model.AccountTypes)
-        {
-            if (!possesedAccountTypes.Contains(type.Name))
-            {
-                availableAccountTypes.Add(type);
-            }
-        }
+        var availableAccountTypes = Model.AccountTypes
+            .Where(type => !possessedAccountTypes.Contains(type.Name))
+            .ToList();
 
         return availableAccountTypes;
     }
 
-    // private List<string> GetAvailableAccountTypes()
-    // {
-    //     var accountTypesNames = Model.AccountTypes.Select(q => q.Name);
-
-    //     var possesedAccountTypes = Model.Accounts.Select(q => q.Type);
-
-    //     var availableAccountTypes = new List<string>();
-
-    //     foreach (var type in accountTypesNames)
-    //     {
-    //         if(!possesedAccountTypes.Contains(type))
-    //         {
-    //             availableAccountTypes.Add(type);
-    //         }
-    //     }
-
-    //     return availableAccountTypes;
-    // }
-
     private bool CheckIfPending(string accountType)
     {
-        if(Model.PendingAccountTypes.Contains(accountType))
-        {
-            return true;
-        }
-        return false;
+        return Model.PendingAccountTypes.Contains(accountType);
     }
 
     private void NavigateToDashboard()
