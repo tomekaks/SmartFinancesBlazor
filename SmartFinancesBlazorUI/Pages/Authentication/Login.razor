@@ -55,22 +55,25 @@
 
 
 @code {
-    public LoginVM Model { get; set; } = new LoginVM();
+    public LoginVM Model { get; set; } = new();
     public List<string> Messages { get; set; } = new();
     private bool isProcessing = false;
 
-    private async void HandleSubmit()
+    private async Task HandleSubmit()
     {
         isProcessing = true;
         var authResponse = await AuthenticationService.LoginAsync(Model);
-        bool isAdmin = authResponse.Roles.Contains(Constants.ADMINISTRATOR);
-
 
         if (!authResponse.Succeeded)
         {
             Messages = authResponse.Errors.ToList();
+            isProcessing = false;
+            return;
         }
-        else if (isAdmin)
+
+        bool isAdmin = authResponse.Roles.Contains(Constants.ADMINISTRATOR);
+
+        if(isAdmin)
         {
             NavigationManager.NavigateTo("/admin/accountrequests");
         }

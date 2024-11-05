@@ -19,32 +19,24 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<AuthResponse> LoginAsync(LoginVM loginVM)
         {
-            try
+            LoginRequest loginRequest = new()
             {
-                LoginRequest loginRequest = new()
-                {
-                    UserName = loginVM.UserName,
-                    Password= loginVM.Password
-                };
+                UserName = loginVM.UserName,
+                Password= loginVM.Password
+            };
 
-                var authResponse = await _client.LoginAsync(loginRequest);
+            var authResponse = await _client.LoginAsync(loginRequest);
 
-                await _localStorage.RemoveItemAsync(Constants.CURRENTACCOUNT);
+            await _localStorage.RemoveItemAsync(Constants.CURRENTACCOUNT);
 
-                if (authResponse.Token != string.Empty)
-                {
-                    await _localStorage.SetItemAsync(Constants.TOKEN, authResponse.Token);
-
-                    await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedIn();
-                }
-
-                return authResponse;
-            }
-            catch (Exception)
+            if (!string.IsNullOrEmpty(authResponse.Token))
             {
+                await _localStorage.SetItemAsync(Constants.TOKEN, authResponse.Token);
 
-                return null;
+                await ((ApiAuthenticationStateProvider)_authenticationStateProvider).LoggedIn();
             }
+
+            return authResponse;
         }
 
         public async Task Logout()
@@ -66,12 +58,6 @@ namespace SmartFinancesBlazorUI.Services
             var response = await _client.RegisterAsync(registerRequest);
 
             return response;
-
-            //if (!string.IsNullOrEmpty(response.UserId))
-            //{
-            //    return true;
-            //}
-            //return false;
         }
     }
 }

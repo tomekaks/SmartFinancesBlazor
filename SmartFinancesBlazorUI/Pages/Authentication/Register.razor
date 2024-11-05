@@ -75,6 +75,7 @@
         if (registrationResult.Succeeded)
         {
             NavigationManager.NavigateTo("authentication/login");
+            return;
         }
 
         Messages = registrationResult.Errors.ToList();
