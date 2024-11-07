@@ -45,6 +45,18 @@ namespace SmartFinancesBlazorUI.Services
             return pendingAccountRequests;
         }
 
+        public async Task<List<AccountRequestVM>> GetAccountRequestsByStatusAsync(string status)
+        {
+            var accountRequests = await _accountRequestService.GetAllByStatusAsync(status);
+            return accountRequests;
+        }
+
+        public async Task<List<AccountRequestVM>> GetAllAccountRequestsAsync()
+        {
+            var accountRequests = await _accountRequestService.GetAllAsync();
+            return accountRequests;
+        }
+
         public async Task RejectAccountRequestAsync(int accountRequestId)
         {
             await _accountRequestService.UpdateAsync(accountRequestId, Constants.STATUS_REJECTED);

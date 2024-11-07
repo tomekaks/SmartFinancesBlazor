@@ -21,5 +21,15 @@ namespace SmartFinances.Infrastructure.Repositories
 
             return accountRequests;
         }
+
+        public async Task<List<AccountRequest>> GetAllUnfilteredAsync()
+        {
+            var accountRequests = await _db
+                .Include(q => q.User)
+                .Include(q => q.AccountType)
+                .ToListAsync();
+
+            return accountRequests;
+        }
     }
 }

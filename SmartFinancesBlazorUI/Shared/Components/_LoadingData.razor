@@ -1,0 +1,11 @@
+﻿<div class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
+    <div class="text-center">
+        <h2>@Message</h2>
+        <MudProgressCircular Color="Color.Primary" Size="Size.Medium" Indeterminate="true"></MudProgressCircular>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Message { get; set; } = "Loading data...";
+}

@@ -57,6 +57,18 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<List<AccountRequestVM>>(accountRequests);
         }
 
+        public async Task<List<AccountRequestVM>> GetAllAsync()
+        {
+            var accountRequests = await _client.AccountRequestsAllAsync();
+
+            if (accountRequests == null || !accountRequests.Any())
+            {
+                return new List<AccountRequestVM>();
+            }
+
+            return _mapper.Map<List<AccountRequestVM>>(accountRequests);
+        }
+
         public async Task<List<AccountRequestVM>> GetByUserAndStatusAsync(string status)
         {
             var accountRequests = await _client.AccountRequestsGetByUserAndStatusAsync(status);

@@ -1,64 +1,106 @@
 ﻿@page "/admin/accountrequests"
 @attribute [Authorize (Roles = Constants.ADMINISTRATOR)]
-@inject IAdminService AdminService
+@inject IAdminService _adminService
 
 <PageTitle>Account requests</PageTitle>
 
 @if(Model.Requests == null)
 {
-    <p>Loading data...</p>
+    <_LoadingData></_LoadingData>
 }
 else
 {
     <div class="container mt-4">
-        <div class="row mb-2">
+        <div class="row mb-2 d-flex justify-content-center">
             <div class="col-10">
-                <MudDataGrid T="AccountRequestVM" Items="Model.Requests" ReadOnly="false" Bordered="true" >
-@*                     <ToolBarContent>
-                        <MudText Typo="Typo.h6">Regular expenses</MudText>
-                        <MudSpacer />
-                        <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.AddCircle" OnClick="NavigateToAddRegularExpense">Add</MudButton>
-                    </ToolBarContent> *@
-                    <Columns>
-                        <PropertyColumn Property="q => q.UserName" Title="User"></PropertyColumn>
-                        <PropertyColumn Property="q => q.Type" Title="Account type"></PropertyColumn>
-                        <PropertyColumn Property="q => q.Status"></PropertyColumn>
-                        <PropertyColumn Property="q => q.DateRequested" Title="Date requested"></PropertyColumn>
-                        <TemplateColumn>
-                            <CellTemplate>
-                                <MudButton Variant="Variant.Filled" Color="Color.Success" EndIcon="@Icons.Material.Filled.Send" OnClick="() => ApproveAccountRequest(context.Item.Id)">Approve</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => RejectAccountRequest(context.Item.Id)">Reject</MudButton>
-                            </CellTemplate>
-                        </TemplateColumn>
-                    </Columns>
-                </MudDataGrid>
+                <div class="card shadow">
+                    <div class="card-header d-flex justify-content-center">
+                        <h1>Account requests</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <MudButtonGroup OverrideStyles="false">
+                                <MudButton Variant="Variant.Outlined" Color="@Color.Warning"
+                                    OnClick="@(() => ChangeStatus("Pending"))">Pending</MudButton>
+                                <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                                    OnClick="@(() => ChangeStatus("Approved"))">Approved</MudButton>
+                                <MudButton Variant="Variant.Outlined" Color="Color.Error"
+                                    OnClick="@(() => ChangeStatus("Rejected"))">Rejected</MudButton>
+                                <MudButton Variant="Variant.Outlined"
+                                    OnClick="GetAllRequests">All</MudButton>
+                            </MudButtonGroup>
+                        </div>
+                        <MudDataGrid T="AccountRequestVM" Items="Model.Requests" ReadOnly="false" Bordered="true">
+                            <Columns>
+                                <PropertyColumn Property="q => q.UserName" Title="User"></PropertyColumn>
+                                <PropertyColumn Property="q => q.Type" Title="Account type"></PropertyColumn>
+                                <PropertyColumn Property="q => q.Status"></PropertyColumn>
+                                <PropertyColumn Property="q => q.DateRequested" Title="Date requested"></PropertyColumn>
+                                <TemplateColumn>
+                                    <CellTemplate>
+                                        <MudButton 
+                                            Variant="Variant.Filled" 
+                                            Color="Color.Success" 
+                                            Size="Size.Small"
+                                            EndIcon="@Icons.Material.Filled.Send" 
+                                            OnClick="() => ApproveAccountRequest(context.Item.Id)">
+                                            Approve
+                                        </MudButton>
+                                        <MudButton 
+                                            Variant="Variant.Filled" 
+                                            Color="Color.Error" 
+                                            Size="Size.Small"
+                                            StartIcon="@Icons.Material.Filled.Delete" 
+                                            OnClick="() => RejectAccountRequest(context.Item.Id)">
+                                            Reject
+                                        </MudButton>
+                                    </CellTemplate>
+                                </TemplateColumn>
+                            </Columns>
+                        </MudDataGrid>
+                    </div>
+                </div>
             </div>
         </div>
-@*         <div class="row mb-2">
-            <div class="col-5">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToPlanner">Back to Planner</MudButton>
-            </div>
-        </div> *@
     </div>
 }
 
 @code {
     public AccountRequestsVM Model { get; set; } = new();
+    private string _status = "Pending";
 
     protected override async Task OnInitializedAsync()
     {
-        Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        // Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
+        Model.Requests = await _adminService.GetAccountRequestsByStatusAsync(_status);
     }
 
     private async Task ApproveAccountRequest(int accountRequestId)
     {
-        await AdminService.ApproveAccountRequestAsync(accountRequestId);
-        Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
+        await _adminService.ApproveAccountRequestAsync(accountRequestId);
+        Model.Requests = await _adminService.GetPendingAccountRequestsAsync();
     }
 
     private async Task RejectAccountRequest(int accountRequestId)
     {
-        await AdminService.RejectAccountRequestAsync(accountRequestId);
-        Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
+        await _adminService.RejectAccountRequestAsync(accountRequestId);
+        Model.Requests = await _adminService.GetPendingAccountRequestsAsync();
+    }
+
+    private async Task ChangeStatus(string status)
+    {
+        _status = status;
+        await LoadData();
+    }
+
+    private async Task GetAllRequests()
+    {
+        _status = "All";
+        Model.Requests = await _adminService.GetAllAccountRequestsAsync();
     }
 }

@@ -46,47 +46,6 @@ else
     </div>
 }
 
-@* else
-{
-    <div>
-        <MudText Typo="Typo.h4" Class="mb-4 text-center">Request a new account</MudText>
-    </div>
-    <MudGrid Class="mb-4">
-        @foreach (var type in Model.AvailableAccountTypes)
-        {
-            <MudItem xs="12" sm="6" md="4">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.h6" Class="ml-2">@type.Name</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                    <MudCardContent>
-                        <MudText Typo="Typo.body2">@type.Description</MudText>
-                    </MudCardContent>
-                    <MudCardActions>
-                        @if(CheckIfPending(type.Name))
-                        {
-
-                            <MudButton Variant="Variant.Filled" Color="Color.Warning" Disabled="true" >Pending</MudButton>
-                        }
-                        else
-                        {
-                            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@(() => RequestNewAccount(type))">Request</MudButton>
-                        }
-                    </MudCardActions>
-                </MudCard>
-            </MudItem>
-        }
-    </MudGrid>
-    <MudItem>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToDashboard">Back</MudButton>
-    </MudItem>
-} *@
-
-
-
-
 @code {
     private RequestAccountVM Model = new();
     private bool IsLoading = true;
