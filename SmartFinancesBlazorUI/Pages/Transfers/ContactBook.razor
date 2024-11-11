@@ -5,16 +5,16 @@
 
 <PageTitle>Saved Contacts</PageTitle>
 
-@if (Model.Contacts is null)
+@if (isLoading)
 {
-    <p>Loading data...</p>
+    <_LoadingData Message="Loading contacts..."></_LoadingData>
 }
 else
 {
     <div class="container mt-2">
         <div class="row mb-2">
             <div class="col-10">
-                <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="true" Bordered="true">
+                <MudDataGrid T="ContactVM" Items="Contacts" ReadOnly="true" Bordered="true">
                     <ToolBarContent>
                         <MudText Typo="Typo.h4">Contacts</MudText>
                     </ToolBarContent>
@@ -41,11 +41,14 @@ else
 
 
 @code {
-    private ContactsVM Model = new();
+    private List<ContactVM> Contacts = new();
+    bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Model.Contacts = await ContactsService.GetContactsAsync();
+        isLoading = true;
+        Contacts = await ContactsService.GetContactsAsync();
+        isLoading = false;
     }
 
     private async Task ConfirmUseContact(ContactVM contact)

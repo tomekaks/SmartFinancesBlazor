@@ -7,7 +7,7 @@
 
 <PageTitle>Contacts</PageTitle>
 
-@if(Model.Contacts is null)
+@if(Model is null)
 {
     <p>Loading data...</p>
 }
@@ -16,7 +16,7 @@ else
     <div class="container mt-2">
         <div class="row mb-2">
             <div class="col-10">
-                <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="false" Bordered="true">
+                <MudDataGrid T="ContactVM" Items="Model" ReadOnly="false" Bordered="true">
                     <ToolBarContent>
                         <MudText Typo="Typo.h4">Contacts</MudText>
                         <MudSpacer />
@@ -41,11 +41,11 @@ else
 
 
 @code {
-    private ContactsVM Model = new();
+    private List<ContactVM> Model;
 
     protected override async Task OnInitializedAsync()
     {
-        Model.Contacts = await ContactsService.GetContactsAsync();
+        Model = await ContactsService.GetContactsAsync();
     }
 
     private async Task ConfirmDeleteContact(int id)
@@ -69,7 +69,7 @@ else
     private async Task DeleteContact(int id)
     {
         await ContactsService.DeleteContactAsync(id);
-        Model.Contacts = await ContactsService.GetContactsAsync();
+        Model = await ContactsService.GetContactsAsync();
     }
 
     private void NavigateToEditContact(int id)

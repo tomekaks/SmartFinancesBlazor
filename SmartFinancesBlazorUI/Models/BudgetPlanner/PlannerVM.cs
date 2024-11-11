@@ -13,7 +13,7 @@
         {
             decimal totalAmount = 0;
 
-            if (CurrentMonthlySummary.Expenses != null && CurrentMonthlySummary.Expenses.Count > 0)
+            if (CurrentMonthlySummary?.Expenses != null && CurrentMonthlySummary.Expenses.Count > 0)
             {    
                 foreach (var item in CurrentMonthlySummary.Expenses)
                 {

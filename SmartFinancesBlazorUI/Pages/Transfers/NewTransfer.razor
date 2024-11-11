@@ -14,18 +14,6 @@ else
 {
     <div class="row mb-3 mt-2 justify-content-center">
         <div class="col-5">
-@*             <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5">Current account</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudText>Account name: @Model.CurrentAccountVM.Name</MudText>
-                    <MudText>Account number: @Model.CurrentAccountVM.Number</MudText>
-                    <MudText>Balance: @Model.CurrentAccountVM.Balance</MudText>
-                </MudCardContent>
-            </MudCard> *@
             <_CurrentAccountCard CurrentAccount="@Model.CurrentAccountVM" />
         </div>
     </div>
@@ -46,9 +34,11 @@ else
                 </MudCardHeader>
                 <MudCardContent>
                     <MudTextField Label="Receiver name"
-                                  @bind-Value="Model.ReceiverName" For="@(() => Model.ReceiverName)" />
+                                  @bind-Value="Model.ReceiverName" For="@(() => Model.ReceiverName)" 
+                                  Disabled="@(!string.IsNullOrEmpty(Name))" />
                     <MudTextField Label="Receiver account number" Class="mt-3"
-                                  @bind-Value="Model.ReceiverAccountNumber" For="@(() => Model.ReceiverAccountNumber)" />
+                                  @bind-Value="Model.ReceiverAccountNumber" For="@(() => Model.ReceiverAccountNumber)" 
+                                  Disabled="@(!string.IsNullOrEmpty(AccountNumber))" />
                     <MudTextField Label="Amount" Class="mt-3"
                                   @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
                     <MudTextField Label="Title" Class="mt-3"

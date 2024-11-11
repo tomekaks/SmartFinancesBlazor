@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using SmartFinancesBlazorUI.Handlers
+@inherits LayoutComponentBase
+@inject NavigationManager _navigationManager
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -20,7 +22,32 @@
         </div>
 
         <article class="content px-4">
-            @Body
+            <CustomErrorBoundary @ref="_errorBoundary">
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <MudAlert Class="mb-3" Severity="Severity.Info" Elevation="3" Variant="Variant.Filled">
+                                    Something went wrong. Please try again later.
+                                </MudAlert>
+                                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RefreshPage">Refresh</MudButton>
+                            </div>
+                        </div>
+                    </div>
+                </ErrorContent>
+            </CustomErrorBoundary>
         </article>
     </main>
 </div>
+
+@code {
+    private ErrorBoundary _errorBoundary;
+
+    private void RefreshPage()
+    {
+        _navigationManager.NavigateTo(_navigationManager.Uri, forceLoad: true);
+    }
+}
