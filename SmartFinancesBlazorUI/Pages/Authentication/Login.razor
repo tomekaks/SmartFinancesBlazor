@@ -53,6 +53,19 @@
     </MudPaper>
 </div>
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <MudAlert Class="mb-3" Severity="Severity.Info" Elevation="3" Variant="Variant.Filled">
+                <strong>Please Note:</strong><br />
+
+                This application is hosted on a free-tier Azure server, which may cause the database and API to take a few seconds to initialize after periods of inactivity. 
+                As a result, you might occasionally encounter an error. If this happens, please refresh the page to continue using the application.
+            </MudAlert>
+        </div>
+    </div>
+</div>
+
 
 @code {
     public LoginVM Model { get; set; } = new();

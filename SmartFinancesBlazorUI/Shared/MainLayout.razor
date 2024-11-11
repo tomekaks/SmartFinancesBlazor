@@ -22,7 +22,7 @@
         </div>
 
         <article class="content px-4">
-            <CustomErrorBoundary @ref="_errorBoundary">
+            <CustomErrorBoundary>
                 <ChildContent>
                     @Body
                 </ChildContent>
@@ -44,8 +44,6 @@
 </div>
 
 @code {
-    private ErrorBoundary _errorBoundary;
-
     private void RefreshPage()
     {
         _navigationManager.NavigateTo(_navigationManager.Uri, forceLoad: true);
