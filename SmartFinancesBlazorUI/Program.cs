@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
+using Polly;
+using Polly.Extensions.Http;
 using SmartFinancesBlazorUI;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Handlers;
@@ -19,10 +21,28 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddTransient<JwtAuthorizationMessageHandler>();
-builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7146"))
-    .AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
-//builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://smartfinancesapi-tomekaks.azurewebsites.net/"))
-//.AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
+
+var environment = builder.HostEnvironment.Environment;
+
+if(environment == "Development")
+{
+    builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7146"))
+        .AddHttpMessageHandler<JwtAuthorizationMessageHandler>()
+        .AddPolicyHandler(GetRetryPolicy());
+}
+else
+{
+    builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://smartfinancesapi-tomekaks.azurewebsites.net/"))
+        .AddHttpMessageHandler<JwtAuthorizationMessageHandler>()
+        .AddPolicyHandler(GetRetryPolicy());
+}
+
+static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+}
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddMudServices(config =>
