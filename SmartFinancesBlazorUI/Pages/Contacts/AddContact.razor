@@ -7,27 +7,27 @@
 
 <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
-    <MudGrid>
-        <MudItem xs="12" sm="5">
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h4">Add Contact</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTextField Label="Name"
-                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
-                    <MudTextField Label="Account number" Class="mt-3"
-                                  @bind-Value="Model.AccountNumber" For="@(() => Model.AccountNumber)" />
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToContacts">Back</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Add</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-5">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <MudText Class="text-center" Typo="Typo.h4">Add contact</MudText>
+                    </div>
+                    <div class="card-body mb-2">
+                        <MudTextField Label="Name"
+                                      @bind-Value="Model.Name" For="@(() => Model.Name)" />
+                        <MudTextField Label="AccountNumber" Class="mt-3"
+                                      @bind-Value="Model.AccountNumber" For="@(() => Model.AccountNumber)" />
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToContacts">Back</MudButton>
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Add</MudButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </EditForm>
 
 

@@ -7,7 +7,7 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<ContactVM> GetContactAsync(int contactId);
         Task<List<ContactVM>> GetContactsAsync();
         Task<bool> CreateContactAsync(NewContactVM newContact);
-        Task<bool> UpdateContactAsync(ContactVM contact, int id);
+        Task<bool> UpdateContactAsync(ContactVM contact);
         Task<bool> DeleteContactAsync(int contactId);
     }
 }

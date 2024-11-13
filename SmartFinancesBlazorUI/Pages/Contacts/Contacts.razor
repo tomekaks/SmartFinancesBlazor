@@ -1,38 +1,65 @@
 ﻿@page "/contacts"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
-@inject IContactsService ContactsService
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
-@inject IDialogService DialogService
+@inject IContactsService _contactsService
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
 
 <PageTitle>Contacts</PageTitle>
 
-@if(Model is null)
+@if(isLoading)
 {
-    <p>Loading data...</p>
+    <_LoadingData Message="Loading contacts..."></_LoadingData>
 }
 else
 {
-    <div class="container mt-2">
-        <div class="row mb-2">
-            <div class="col-10">
-                <MudDataGrid T="ContactVM" Items="Model" ReadOnly="false" Bordered="true">
-                    <ToolBarContent>
-                        <MudText Typo="Typo.h4">Contacts</MudText>
-                        <MudSpacer />
-                        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddContact">Add contact</MudButton>
-                    </ToolBarContent>
-                    <Columns>
-                        <PropertyColumn Property="q => q.Name"></PropertyColumn>
-                        <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
-                        <TemplateColumn>
-                            <CellTemplate>
-                                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="() => NavigateToEditContact(context.Item.Id)">Edit</MudButton>
-                                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteContact(context.Item.Id)">Delete</MudButton>
-                            </CellTemplate>
-                        </TemplateColumn>
-                    </Columns>
-                </MudDataGrid>
+    <div class="container mt-5">
+        <div class="row mb-2 justify-content-center">
+            <div class="col-8">
+                <div class="card shadow">
+                    <div class="card-header d-flex justify-content-center">
+                        <h2>Contacts</h2>
+                    </div>
+                    <div class="card-body">
+                        <MudDataGrid T="ContactVM" Items="Model" ReadOnly="false" Bordered="true" Dense="true"
+                                     EditMode="DataGridEditMode.Form" CommittedItemChanges="CommittedItemChanges">
+                            <ToolBarContent>
+                                <MudSpacer />
+                                <MudButton 
+                                    Variant="Variant.Filled" 
+                                    Color="Color.Success" 
+                                    OnClick="NavigateToAddContact"                                          
+                                    EndIcon="@Icons.Material.Filled.AddCircle">
+                                    Add contact
+                                </MudButton>
+                            </ToolBarContent>
+                            <Columns>
+                                <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                                <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
+                                <TemplateColumn>
+                                    <CellTemplate>
+                                        <MudButton 
+                                            Variant="Variant.Filled" 
+                                            Color="Color.Info"
+                                            Size="Size.Small"
+                                            StartIcon="@Icons.Material.Filled.Edit"
+                                            OnClick="@context.Actions.StartEditingItemAsync">
+                                            Edit
+                                        </MudButton>
+                                        <MudButton 
+                                            Variant="Variant.Filled" 
+                                            Color="Color.Error"
+                                            Size="Size.Small"
+                                            StartIcon="@Icons.Material.Filled.Delete" 
+                                            OnClick="() => ConfirmDeleteContact(context.Item.Id)">
+                                            Delete
+                                        </MudButton>
+                                    </CellTemplate>
+                                </TemplateColumn>
+                            </Columns>
+                        </MudDataGrid>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -41,11 +68,19 @@ else
 
 
 @code {
-    private List<ContactVM> Model;
+    private List<ContactVM> Model = new();
+    private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await ContactsService.GetContactsAsync();
+        isLoading = true;
+        Model = await _contactsService.GetContactsAsync();
+        isLoading = false;
+    }
+
+    private async Task CommittedItemChanges(ContactVM contact)
+    {
+        await _contactsService.UpdateContactAsync(contact);
     }
 
     private async Task ConfirmDeleteContact(int id)
@@ -57,7 +92,7 @@ else
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
 
-        var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
+        var dialog = _dialogService.Show<Dialog>("Delete", parameters, options);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -68,51 +103,18 @@ else
 
     private async Task DeleteContact(int id)
     {
-        await ContactsService.DeleteContactAsync(id);
-        Model = await ContactsService.GetContactsAsync();
+        await _contactsService.DeleteContactAsync(id);
+        Model = await _contactsService.GetContactsAsync();
     }
 
     private void NavigateToEditContact(int id)
     {
-        NavigationManager.NavigateTo($"/contacts/editcontact/{id}");
+        _navigationManager.NavigateTo($"/contacts/editcontact/{id}");
     }
 
     private void NavigateToAddContact()
     {
-        NavigationManager.NavigateTo("/contacts/addcontact");
+        _navigationManager.NavigateTo("/contacts/addcontact");
     }
-
-
-    // private async Task CommittedItemChanges(ContactVM contact)
-    // {
-    //     await ContactsService.UpdateContactAsync(contact);
-    // }
-
 }
 
-
-
-@* <div class="container mt-2">
-    <div class="row mb-2">
-        <div class="col-10">
-            <MudDataGrid T="ContactVM" Items="Model.Contacts" ReadOnly="false" EditMode="DataGridEditMode.Form"
-                         Bordered="true" CommittedItemChanges="CommittedItemChanges">
-                <ToolBarContent>
-                    <MudText Typo="Typo.h4">Contacts</MudText>
-                    <MudSpacer />
-                    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="NavigateToAddContact">Add contact</MudButton>
-                </ToolBarContent>
-                <Columns>
-                    <PropertyColumn Property="q => q.Name"></PropertyColumn>
-                    <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
-                    <TemplateColumn>
-                        <CellTemplate>
-                            <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" OnClick="@context.Actions.StartEditingItemAsync">Edit</MudButton>
-                            <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="() => ConfirmDeleteContact(context.Item.Id)">Delete</MudButton>
-                        </CellTemplate>
-                    </TemplateColumn>
-                </Columns>
-            </MudDataGrid>
-        </div>
-    </div>
-</div> *@

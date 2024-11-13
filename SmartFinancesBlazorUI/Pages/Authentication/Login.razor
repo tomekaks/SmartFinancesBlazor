@@ -12,59 +12,63 @@
     }
 }
 
+@if(isProcessing){
+    <_LoadingData Message="Loading, please wait..."></_LoadingData>
+}
+else{
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <MudPaper Elevation="4" Class="p-4" Style="max-width: 500px; width: 100%;">
+            <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudCard Class="shadow-none" Style="border:none">
+                            <MudCardHeader Class="text-center">
+                                <MudText Typo="Typo.h4" Class="mx-auto">Login</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudTextField Label="User Name"
+                                              @bind-Value="Model.UserName"
+                                              For="@(() => Model.UserName)"
+                                              FullWidth="true" />
+                                <MudTextField Label="Password"
+                                              @bind-Value="Model.Password"
+                                              For="@(() => Model.Password)"
+                                              InputType="InputType.Password"
+                                              FullWidth="true"
+                                              Class="mt-4" />
+                            </MudCardContent>
+                            <MudCardActions Class="justify-content-center">
+                                <MudButton ButtonType="ButtonType.Submit"
+                                           Variant="Variant.Filled"
+                                           Disabled=@(isProcessing ? true : false)
+                                           Color="Color.Primary"
+                                           Class="mt-2"
+                                           Style="width: 100%;">
+                                    Login
+                                </MudButton>
 
-<div class="d-flex justify-content-center align-items-center mt-5">
-    <MudPaper Elevation="4" Class="p-4" Style="max-width: 500px; width: 100%;">
-        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-            <DataAnnotationsValidator />
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudCard Class="shadow-none" Style="border:none">
-                        <MudCardHeader Class="text-center">
-                            <MudText Typo="Typo.h4" Class="mx-auto">Login</MudText>
-                        </MudCardHeader>
-                        <MudCardContent>
-                            <MudTextField Label="User Name"
-                                          @bind-Value="Model.UserName"
-                                          For="@(() => Model.UserName)"
-                                          FullWidth="true" />
-                            <MudTextField Label="Password"
-                                          @bind-Value="Model.Password"
-                                          For="@(() => Model.Password)"
-                                          InputType="InputType.Password"
-                                          FullWidth="true"
-                                          Class="mt-4" />
-                        </MudCardContent>
-                        <MudCardActions Class="justify-content-center">
-                            <MudButton ButtonType="ButtonType.Submit"
-                                        Variant="Variant.Filled"
-                                        Disabled=@(isProcessing ? true : false)
-                                        Color="Color.Primary"
-                                        Class="mt-2"
-                                        Style="width: 100%;">
-                                Login
-                            </MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        </MudPaper>
+    </div>
 
-                        </MudCardActions>
-                    </MudCard>
-                </MudItem>
-            </MudGrid>
-        </EditForm>
-    </MudPaper>
-</div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <MudAlert Class="mb-3" Severity="Severity.Info" Elevation="3" Variant="Variant.Filled">
+                    <strong>Please note:</strong><br />
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <MudAlert Class="mb-3" Severity="Severity.Info" Elevation="3" Variant="Variant.Filled">
-                <strong>Please Note:</strong><br />
-
-                This application is hosted on a free-tier Azure server, which may cause the database and API to take a few seconds to initialize after periods of inactivity. 
-                As a result, you might occasionally encounter an error. If this happens, please refresh the page to continue using the application.
-            </MudAlert>
+                    This application is hosted on a free-tier Azure server, which may cause the database and API to take a few seconds to initialize after periods of inactivity.
+                    As a result, you might occasionally encounter an error. If this happens, please refresh the page to continue using the application.
+                </MudAlert>
+            </div>
         </div>
     </div>
-</div>
+}
 
 
 @code {

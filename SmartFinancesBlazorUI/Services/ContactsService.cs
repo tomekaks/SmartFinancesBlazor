@@ -52,9 +52,9 @@ namespace SmartFinancesBlazorUI.Services
             return contactList ?? new List<ContactVM>();
         }
 
-        public async Task<bool> UpdateContactAsync(ContactVM contact, int id)
+        public async Task<bool> UpdateContactAsync(ContactVM contact)
         {
-            bool exists = await CheckIfExistsAsync(contact.Name, contact.AccountNumber, id);
+            bool exists = await CheckIfExistsAsync(contact.Name, contact.AccountNumber, contact.Id);
             if (exists)
             {
                 return false;
