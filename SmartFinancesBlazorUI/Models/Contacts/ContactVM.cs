@@ -7,9 +7,9 @@ namespace SmartFinancesBlazorUI.Models.Contacts
     {
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         [Required]
         [Display(Name = "Account number")]
-        public string AccountNumber { get; set; }
+        public string AccountNumber { get; set; } = string.Empty;
     }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/contacts/addcontact"
-@inject NavigationManager NavigationManager
-@inject IContactsService ContactService
-@inject IDialogService MudDialogService
+@inject IContactsService _contactsService
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
 
 <PageTitle>Add Contact</PageTitle>
 
@@ -36,12 +36,12 @@
 
     private void NavigateToContacts()
     {
-        NavigationManager.NavigateTo("/contacts");
+        _navigationManager.NavigateTo("/contacts");
     }
 
     private async Task HandleSubmit()
     {
-        bool result = await ContactService.CreateContactAsync(Model);
+        bool result = await _contactsService.CreateContactAsync(Model);
 
         if (result)
         {
@@ -60,7 +60,7 @@
 
         var message = "Name or account number already exists";
 
-        MudDialogService.Show<Dialog>(message, parameters);
+        _dialogService.Show<Dialog>(message, parameters);
     }
 }
 

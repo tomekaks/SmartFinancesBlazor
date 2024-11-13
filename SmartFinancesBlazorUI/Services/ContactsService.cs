@@ -3,7 +3,6 @@ using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Services.Base;
-using System.Net.Http.Json;
 
 namespace SmartFinancesBlazorUI.Services
 {
@@ -18,7 +17,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> CreateContactAsync(NewContactVM newContact)
         {
-            bool exists = await CheckIfExistsAsync(newContact.Name, newContact.AccountNumber);
+            bool exists = await CheckIfContactExistsAsync(newContact.Name, newContact.AccountNumber);
             if (exists)
             {
                 return false;
@@ -45,16 +44,21 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<ContactVM>> GetContactsAsync()
         {
-            var contacts = await _client.ContactsAllAsync();
+            var contactsDto = await _client.ContactsAllAsync();
 
-            var contactList = _mapper.Map<List<ContactVM>>(contacts);
+            if (contactsDto == null || !contactsDto.Any())
+            {
+                return new List<ContactVM>();
+            }
 
-            return contactList ?? new List<ContactVM>();
+            var contactsVM = _mapper.Map<List<ContactVM>>(contactsDto);
+
+            return contactsVM;
         }
 
         public async Task<bool> UpdateContactAsync(ContactVM contact)
         {
-            bool exists = await CheckIfExistsAsync(contact.Name, contact.AccountNumber, contact.Id);
+            bool exists = await CheckIfContactExistsAsync(contact.Name, contact.AccountNumber);
             if (exists)
             {
                 return false;
@@ -74,18 +78,17 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        private async Task<bool> CheckIfExistsAsync(string name, string accountNumber, int currentContactId = 0)
+        private async Task<bool> CheckIfContactExistsAsync(string name, string accountNumber)
         {
             var contacts = await GetContactsAsync();
 
-            var existingContact = contacts.FirstOrDefault(q => 
-            (q.Name == name || q.AccountNumber == accountNumber) && q.Id != currentContactId);
+            bool contactsExists = contacts.Any(q =>
+            q.Name == name || q.AccountNumber == accountNumber);
 
-            if (existingContact != null)
-            {
-                return true;
-            }
-            return false;
+            //var existingContact = contacts.FirstOrDefault(q => 
+            //q.Name == name || q.AccountNumber == accountNumber);
+
+            return contactsExists;
         }
     }
 }

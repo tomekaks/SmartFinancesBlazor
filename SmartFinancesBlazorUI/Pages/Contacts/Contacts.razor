@@ -107,11 +107,6 @@ else
         Model = await _contactsService.GetContactsAsync();
     }
 
-    private void NavigateToEditContact(int id)
-    {
-        _navigationManager.NavigateTo($"/contacts/editcontact/{id}");
-    }
-
     private void NavigateToAddContact()
     {
         _navigationManager.NavigateTo("/contacts/addcontact");
