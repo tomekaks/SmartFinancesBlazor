@@ -1,17 +1,15 @@
-﻿<MudCard>
-    <MudCardHeader>
-        <CardHeaderContent>
-            <MudText Align="Align.Center" Typo="Typo.h6">Current account</MudText>
-        </CardHeaderContent>
-    </MudCardHeader>
-    <MudCardContent>
-        <MudStack Row="true" Justify="Justify.SpaceBetween">
-            <MudText>@CurrentAccount.Name </MudText>
-            <MudText>@CurrentAccount.Balance EUR</MudText>
-        </MudStack>
-        <MudText Typo="Typo.caption">@CurrentAccount.Number</MudText>
-    </MudCardContent>
-</MudCard>
+﻿<div class="card shadow">
+    <div class="card-header text-center">
+        <h6 class="mb-0">Current account</h6>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0">@CurrentAccount.Name</p>
+            <p class="mb-0">@CurrentAccount.Balance EUR</p>
+        </div>
+        <p class="text-muted mt-2 mb-0">@CurrentAccount.Number</p>
+    </div>
+</div>
 
 @code {
     [Parameter]

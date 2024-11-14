@@ -6,12 +6,12 @@
 
 @if(Model.GroupedTransfers is null)
 {
-    <div>Loading data...</div>
+    <_LoadingData Message="Loading transfers..."></_LoadingData>
 }
 else
 {
     <div class="container mt-4">
-        <div class="row mb-2 justify-content-center">
+        <div class="row mb-5 justify-content-center">
             <div class="col-8">
                 <_CurrentAccountCard CurrentAccount="@Model.CurrentAccount" />
             </div>
@@ -32,10 +32,13 @@ else
 
 @code {
     private TransfersOverviewVM Model = new();
+    bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
         Model = await TransfersService.GenerateTransfersOverviewVM();
+        isLoading = false;
     }
 
     private async Task ReloadDataAsync(int pageNumber)

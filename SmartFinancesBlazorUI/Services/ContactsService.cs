@@ -90,5 +90,6 @@ namespace SmartFinancesBlazorUI.Services
 
             return contactsExists;
         }
+
     }
 }

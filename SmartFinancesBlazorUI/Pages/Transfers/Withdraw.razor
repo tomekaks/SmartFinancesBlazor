@@ -5,70 +5,66 @@
 
 <PageTitle>Withdraw</PageTitle>
 
-@if (Model.TransactionalAccount == null || Model.SavingsAccount == null)
+@if (isLoading)
 {
-    <p>Loading...</p>
+    <_LoadingData></_LoadingData>
 }
 else
 {
     <div class="container">
         <div class="row mb-3 mt-2 d-flex justify-content-center">
             <div class="col-3">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.h5">Current account</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                    <MudCardContent>
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <h6 class="mb-0">Current account</h6>
+                    </div>
+                    <div class="card-body">
                         <MudText>@Model.TransactionalAccount.Name</MudText>
                         <MudText>@Model.TransactionalAccount.Number</MudText>
                         <MudText>Balance: @Model.TransactionalAccount.Balance</MudText>
-                    </MudCardContent>
-                </MudCard>
+                    </div>
+                </div>
             </div>
             <div class="col-3">
-                <MudCard>
-                    <MudCardHeader>
-                        <CardHeaderContent>
-                            <MudText Typo="Typo.h5">Savings account</MudText>
-                        </CardHeaderContent>
-                    </MudCardHeader>
-                    <MudCardContent>
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <h6 class="mb-0">Current account</h6>
+                    </div>
+                    <div class="card-body">
                         <MudText>@Model.SavingsAccount.Name</MudText>
                         <MudText>@Model.SavingsAccount.Number</MudText>
                         <MudText>Balance: @Model.SavingsAccount.Balance</MudText>
-                    </MudCardContent>
-                </MudCard>
+                    </div>
+                </div>
             </div>
-        </div>       
-
-        <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-            <DataAnnotationsValidator />
-            <MudGrid Justify="Justify.Center">
-                <MudItem xs="12" sm="6">
-                    <MudCard>
-                        <MudCardHeader>
-                            <CardHeaderContent >
-                                <MudText Class="text-center" Typo="Typo.h4">Withdraw</MudText>
-                            </CardHeaderContent>
-                        </MudCardHeader>
-                        <MudCardContent>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="card shadow">
+                        <div class="card-header mb-2">
+                            <div class="text-center">
+                                <h3>Withdraw</h3>
+                            </div>
+                        </div>
+                        <div class="card-body mb-2">
                             <MudTextField Label="Amount" @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
-                        </MudCardContent>
-                        <MudCardActions>
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToTransfers">Back</MudButton>
-                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Withdraw</MudButton>
-                        </MudCardActions>
-                    </MudCard>
-                </MudItem>
-            </MudGrid>
-        </EditForm>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="NavigateToTransfers">Back</MudButton>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Success">Withdraw</MudButton>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
     </div>
 }
 
 @code {
     public WithdrawVM Model { get; set; } = new();
+    bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,8 +73,10 @@ else
 
     private async Task LoadModel()
     {
+        isLoading = true;
         Model.TransactionalAccount = await _transfersService.GetCurrentAccountAsync();
         Model.SavingsAccount = await _transfersService.GetSavingsAccountAsync();
+        isLoading = false;
     }
 
     private async Task HandleSubmit()

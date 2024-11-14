@@ -1,7 +1,7 @@
 ﻿@page "/transfers/contactbook"
-@inject IContactsService ContactsService
-@inject NavigationManager NavigationManager
-@inject IDialogService DialogService
+@inject IContactsService _contactsService
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
 
 <PageTitle>Saved Contacts</PageTitle>
 
@@ -11,28 +11,34 @@
 }
 else
 {
-    <div class="container mt-2">
-        <div class="row mb-2">
-            <div class="col-10">
-                <MudDataGrid T="ContactVM" Items="Contacts" ReadOnly="true" Bordered="true">
-                    <ToolBarContent>
-                        <MudText Typo="Typo.h4">Contacts</MudText>
-                    </ToolBarContent>
-                    <Columns>
-                        <PropertyColumn Property="q => q.Name"></PropertyColumn>
-                        <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
-                        <TemplateColumn>
-                            <CellTemplate>
-                                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="() => ConfirmUseContact(context.Item)">Use</MudButton>
-                            </CellTemplate>
-                        </TemplateColumn>
-                    </Columns>
-                </MudDataGrid>
-            </div>
-        </div>
-        <div class="row">
-            <div class="d-flex flex-wrap mt-4">
-                <MudButton Variant="Variant.Filled" Color="@Color.Primary" OnClick="NavigateToNewTransfer">Back</MudButton>
+    <div class="container mt-5">
+        <div class="row mb-2 justify-content-center">
+            <div class="col-8">
+                <div class="card shadow">
+                    <div class="card-header d-flex justify-content-center">
+                        <h2>Contacts</h2>
+                    </div>
+                    <div class="card-body">
+                        <MudDataGrid T="ContactVM" Items="Model" ReadOnly="false" Bordered="true" Dense="true">
+                            <Columns>
+                                <PropertyColumn Property="q => q.Name"></PropertyColumn>
+                                <PropertyColumn Property="q => q.AccountNumber" Title="Account Number"></PropertyColumn>
+                                <TemplateColumn>
+                                    <CellTemplate>
+                                        <MudButton 
+                                            Variant="Variant.Filled" 
+                                            Color="Color.Success" 
+                                            Size="Size.Small"
+                                            OnClick="() => ConfirmUseContact(context.Item)">
+                                            Use
+                                        </MudButton>
+                                    </CellTemplate>
+                                </TemplateColumn>
+                            </Columns>
+                        </MudDataGrid>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -41,13 +47,13 @@ else
 
 
 @code {
-    private List<ContactVM> Contacts = new();
+    private List<ContactVM> Model = new();
     bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
-        Contacts = await ContactsService.GetContactsAsync();
+        Model = await _contactsService.GetContactsAsync();
         isLoading = false;
     }
 
@@ -60,7 +66,7 @@ else
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
 
-        var dialog = DialogService.Show<Dialog>("Delete", parameters, options);
+        var dialog = _dialogService.Show<Dialog>("Delete", parameters, options);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -71,11 +77,11 @@ else
 
     private void UseContact(ContactVM contactVM)
     {
-        NavigationManager.NavigateTo($"/transfers/newtransfer/{contactVM.Name}/{contactVM.AccountNumber}");
+        _navigationManager.NavigateTo($"/transfers/newtransfer/{contactVM.Name}/{contactVM.AccountNumber}");
     }
 
     private void NavigateToNewTransfer()
     {
-        NavigationManager.NavigateTo("/transfers/newtransfer");
+        _navigationManager.NavigateTo("/transfers/newtransfer");
     }
 }
