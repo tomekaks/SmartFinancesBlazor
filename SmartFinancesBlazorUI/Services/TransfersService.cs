@@ -163,5 +163,5 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
-    }
+    } 
 }

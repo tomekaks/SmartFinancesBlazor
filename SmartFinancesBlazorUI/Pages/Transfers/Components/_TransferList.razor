@@ -1,4 +1,4 @@
-﻿@inject NavigationManager NavigationManager
+﻿@inject NavigationManager _navigationManager
 
     <div class="card shadow">
         <div class="card-header d-flex justify-content-center">
@@ -10,17 +10,13 @@
                     New Transfer
                 </MudButton>
             </div>
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-end">
-                    <div>EUR</div>
-                </li>
-            </ul>
             @foreach(var group in GroupedTransfers)
             {
                 <ul class="list-group list-group">
 
-                    <li class="list-group-item">
-                        <div>@group.Key.ToString()</div>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div><strong>@group.Key.ToString()</strong></div>
+                        <div><strong>EUR</strong></div>
                     </li>
 
                     @foreach (var transfer in group)
@@ -69,6 +65,6 @@
 
     private void NavigateToNewTransfer()
     {
-        NavigationManager.NavigateTo("/transfers/newtransfer");
+        _navigationManager.NavigateTo("/transfers/newtransfer");
     }
 }

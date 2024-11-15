@@ -1,7 +1,7 @@
 ﻿@page "/transfers"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
-@inject ITransfersService TransfersService
-@inject NavigationManager NavigationManager
+@inject ITransfersService _transfersService
+@inject NavigationManager _navigationManager
 
 
 @if(Model.GroupedTransfers is null)
@@ -37,17 +37,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
-        Model = await TransfersService.GenerateTransfersOverviewVM();
+        Model = await _transfersService.GenerateTransfersOverviewVM();
         isLoading = false;
     }
 
     private async Task ReloadDataAsync(int pageNumber)
     {
-        Model = await TransfersService.GenerateTransfersOverviewVM(pageNumber);
+        Model = await _transfersService.GenerateTransfersOverviewVM(pageNumber);
     }
 
     private void NavigateToNewTransfer()
     {
-        NavigationManager.NavigateTo("/transfers/newtransfer");
+        _navigationManager.NavigateTo("/transfers/newtransfer");
     }
 }

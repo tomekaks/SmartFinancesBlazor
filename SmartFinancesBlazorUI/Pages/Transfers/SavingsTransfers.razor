@@ -1,11 +1,10 @@
 ﻿@page "/savingstransfers"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
-@inject ITransfersService TransfersService
-@inject NavigationManager NavigationManager
+@inject ITransfersService _transfersService
 
-@if (Model.SavingsAccount is null)
+@if (isLoading)
 {
-    <div>Loading data...</div>
+    <_LoadingData Message="Loading transactions..."></_LoadingData>
 }
 else
 {
@@ -29,14 +28,17 @@ else
 
 @code {
     private SavingsTransfersOverviewVM Model = new();
+    private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await TransfersService.GenerateSavingsTransfersOverviewVM();
+        isLoading = true;
+        Model = await _transfersService.GenerateSavingsTransfersOverviewVM();
+        isLoading = false;
     }
 
     private async Task ReloadDataAsync(int pageNumber)
     {
-        Model = await TransfersService.GenerateSavingsTransfersOverviewVM(pageNumber);
+        Model = await _transfersService.GenerateSavingsTransfersOverviewVM(pageNumber);
     }
 }

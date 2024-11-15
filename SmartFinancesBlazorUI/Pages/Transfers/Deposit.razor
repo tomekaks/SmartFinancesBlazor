@@ -1,4 +1,5 @@
 ﻿@page "/transfers/deposit"
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject NavigationManager _navManager
 @inject ITransfersService _transfersService
 @inject IDialogService _mudDialogService
@@ -28,7 +29,7 @@ else
             <div class="col-3">
                 <div class="card shadow">
                     <div class="card-header text-center">
-                        <h6 class="mb-0">Current account</h6>
+                        <h6 class="mb-0">Savings account</h6>
                     </div>
                     <div class="card-body">
                         <MudText>@Model.SavingsAccount.Name</MudText>

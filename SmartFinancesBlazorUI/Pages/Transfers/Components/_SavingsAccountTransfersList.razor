@@ -1,4 +1,4 @@
-﻿@inject NavigationManager NavigationManager
+﻿@inject NavigationManager _navigationManager
 
 <div class="card shadow">
     <div class="card-header d-flex justify-content-center">
@@ -19,8 +19,8 @@
             <ul class="list-group list-group">
 
                 <li class="list-group-item d-flex justify-content-between">
-                    <div>@group.Key.ToString()</div>
-                    <div>EUR</div>
+                    <div><strong>@group.Key.ToString()</strong></div>
+                    <div><strong>EUR</strong></div>
                 </li>
 
                 @foreach (var transfer in group)
@@ -69,11 +69,11 @@
 
     private void NavigateToWithdraw()
     {
-        NavigationManager.NavigateTo("/transfers/withdraw");
+        _navigationManager.NavigateTo("/transfers/withdraw");
     }
 
     private void NavigateToDeposit()
     {
-        NavigationManager.NavigateTo("/transfers/deposit");
+        _navigationManager.NavigateTo("/transfers/deposit");
     }
 }

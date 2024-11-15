@@ -1,14 +1,15 @@
 ﻿@page "/transfers/newtransfer"
 @page "/transfers/newtransfer/{Name}/{AccountNumber}"
-@inject NavigationManager NavigationManager
-@inject ITransfersService TransferService
-@inject IDialogService MudDialogService
+@attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
+@inject NavigationManager _navigationManager
+@inject ITransfersService _transferService
+@inject IDialogService _mudDialogService
 
 <PageTitle>New Transfer</PageTitle>
 
-@if(Model.CurrentAccountVM == null)
+@if(isLoading)
 {
-    <p>Loading...</p>
+    <_LoadingData></_LoadingData>
 }
 else
 {
@@ -17,43 +18,54 @@ else
             <_CurrentAccountCard CurrentAccount="@Model.CurrentAccountVM" />
         </div>
     </div>
+
+    <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <div class="container mt-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-5">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <MudText Class="text-center" Typo="Typo.h4">New Transfer</MudText>
+                        </div>
+                        <div class="card-body mb-2">
+                            <MudTextField Label="Receiver name"
+                                          @bind-Value="Model.ReceiverName" For="@(() => Model.ReceiverName)"
+                                          Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Contacts"
+                                          OnAdornmentClick="NavigateToContacts"
+                                          Disabled="@(!string.IsNullOrEmpty(Name))" />
+                            <MudTextField Label="Receiver account number" Class="mt-3"
+                                          @bind-Value="Model.ReceiverAccountNumber" For="@(() => Model.ReceiverAccountNumber)"
+                                          Disabled="@(!string.IsNullOrEmpty(AccountNumber))" />
+                            <MudTextField Label="Amount" Class="mt-3"
+                                          @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
+                            <MudTextField Label="Title" Class="mt-3"
+                                          @bind-Value="Model.Title" For="@(() => Model.Title)" />
+                            <MudCheckBox @bind-Value="addToContacts" Label="Add to Contacts"></MudCheckBox>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <MudButton 
+                                Variant="Variant.Filled" 
+                                Color="Color.Primary" 
+                                Class="me-0" 
+                                OnClick="NavigateToTransfers">
+                                Back
+                            </MudButton>
+                            <MudButton 
+                                ButtonType="ButtonType.Submit" 
+                                Variant="Variant.Filled"
+                                EndIcon="@Icons.Material.Filled.Send"
+                                Class="ml-auto" 
+                                Color="Color.Success">
+                                Send
+                            </MudButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </EditForm>
 }
-
-<EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-    <MudGrid Justify="Justify.Center">
-        <MudItem xs="12" sm="5">
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h4">New Transfer</MudText>
-                    </CardHeaderContent>
-                    <CardHeaderActions>
-                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="NavigateToContacts">Contacts</MudButton>
-                    </CardHeaderActions>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTextField Label="Receiver name"
-                                  @bind-Value="Model.ReceiverName" For="@(() => Model.ReceiverName)" 
-                                  Disabled="@(!string.IsNullOrEmpty(Name))" />
-                    <MudTextField Label="Receiver account number" Class="mt-3"
-                                  @bind-Value="Model.ReceiverAccountNumber" For="@(() => Model.ReceiverAccountNumber)" 
-                                  Disabled="@(!string.IsNullOrEmpty(AccountNumber))" />
-                    <MudTextField Label="Amount" Class="mt-3"
-                                  @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
-                    <MudTextField Label="Title" Class="mt-3"
-                                  @bind-Value="Model.Title" For="@(() => Model.Title)" />
-                    <MudCheckBox @bind-Value="addToContacts" Label="Add to Contacts"></MudCheckBox>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToTransfers">Back</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Send</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
-</EditForm>
-
 
 @code {
     [Parameter]
@@ -62,23 +74,21 @@ else
     public string AccountNumber { get; set; } = string.Empty;
 
     private NewTransferVM Model = new NewTransferVM();
+    private bool isLoading = false;
     private bool addToContacts;
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
         Model.ReceiverName = Name;
         Model.ReceiverAccountNumber = AccountNumber;
-        Model.CurrentAccountVM = await TransferService.GetCurrentAccountAsync();
-    }
-
-    private void NavigateToContacts()
-    {
-        NavigationManager.NavigateTo("/transfers/contactbook");
-    }
-
-    private void NavigateToTransfers()
-    {
-        NavigationManager.NavigateTo("/transfers");
+        Model.CurrentAccountVM = await _transferService.GetCurrentAccountAsync();
+        isLoading = false;
     }
 
     private async Task HandleSubmit()
@@ -89,7 +99,7 @@ else
             return;
         }
 
-        bool accountExists = await TransferService.CreateTransferAsync(Model);
+        bool accountExists = await _transferService.CreateTransferAsync(Model);
         if (!accountExists)
         {
             OpenDialog("Account with this number does not exist.");
@@ -98,7 +108,7 @@ else
 
         if(addToContacts)
         {
-            bool contactAdded =  await TransferService.AddToContactsAsync(Model);
+            bool contactAdded = await _transferService.AddToContactsAsync(Model);
             if(!contactAdded)
             {
                 string message = "Contact with this name or account number already exists.";
@@ -115,7 +125,17 @@ else
         parameters.Add(x => x.ButtonText, "Ok");
         parameters.Add(x => x.Color, Color.Primary);
 
-        MudDialogService.Show<Dialog>(message, parameters);
+        _mudDialogService.Show<Dialog>(message, parameters);
+    }
+
+    private void NavigateToContacts()
+    {
+        _navigationManager.NavigateTo("/transfers/contactbook");
+    }
+
+    private void NavigateToTransfers()
+    {
+        _navigationManager.NavigateTo("/transfers");
     }
 }
 
