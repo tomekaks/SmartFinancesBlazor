@@ -12,15 +12,15 @@ namespace SmartFinancesBlazorUI.Services
     {
         private readonly IMapper _mapper;
         private readonly IAccountRequestService _accountRequestService;
-        private readonly IAccountService _accountService;
+        private readonly IAccountsService _accountsService;
 
         public AdminService(IClient client, ILocalStorageService localStorage, IMapper mapper,
-            IAccountRequestService accountRequestService, IAccountService accountService)
+            IAccountRequestService accountRequestService, IAccountsService accountsService)
             : base(client, localStorage)
         {
             _mapper = mapper;
             _accountRequestService = accountRequestService;
-            _accountService = accountService;
+            _accountsService = accountsService;
         }
 
         public async Task ApproveAccountRequestAsync(int accountRequestId)
@@ -31,11 +31,11 @@ namespace SmartFinancesBlazorUI.Services
 
             if (accountRequest.AccountTypeVM.Name == Constants.ACCOUNTTYPE_SAVINGS)
             {
-                await _accountService.CreateSavingsAccountAcync(accountRequest.AccountTypeVM, accountRequest.UserId);
+                await _accountsService.CreateSavingsAccountAcync(accountRequest.AccountTypeVM, accountRequest.UserId);
             }
             else
             {
-                await _accountService.CreateTransactionalAccountAsync(accountRequest.AccountTypeVM, accountRequest.UserId);
+                await _accountsService.CreateTransactionalAccountAsync(accountRequest.AccountTypeVM, accountRequest.UserId);
             }
         }
 

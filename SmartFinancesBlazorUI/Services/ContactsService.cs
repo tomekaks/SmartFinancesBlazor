@@ -17,14 +17,20 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> CreateContactAsync(NewContactVM newContact)
         {
-            bool exists = await CheckIfContactExistsAsync(newContact.Name, newContact.AccountNumber);
-            if (exists)
-            {
-                return false;
-            }
-
             var contactDto = _mapper.Map<ContactDto>(newContact);
 
+            await _client.ContactsPOSTAsync(contactDto);
+
+            return true;
+        }
+
+        public async Task<bool> CreateContactAsync(string accountName, string accountNumber)
+        {
+            var contactDto = new ContactDto()
+            {
+                Name = accountName,
+                AccountNumber = accountNumber
+            };
             await _client.ContactsPOSTAsync(contactDto);
 
             return true;
@@ -78,7 +84,7 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        private async Task<bool> CheckIfContactExistsAsync(string name, string accountNumber)
+        public async Task<bool> CheckIfContactExistsAsync(string name, string accountNumber)
         {
             var contacts = await GetContactsAsync();
 

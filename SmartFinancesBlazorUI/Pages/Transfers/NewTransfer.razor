@@ -2,7 +2,9 @@
 @page "/transfers/newtransfer/{Name}/{AccountNumber}"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject NavigationManager _navigationManager
-@inject ITransfersService _transferService
+@inject ITransfersService _transfersService
+@inject IAccountsService _accountsService
+@inject IContactsService _contactsService
 @inject IDialogService _mudDialogService
 
 <PageTitle>New Transfer</PageTitle>
@@ -87,7 +89,7 @@ else
         isLoading = true;
         Model.ReceiverName = Name;
         Model.ReceiverAccountNumber = AccountNumber;
-        Model.CurrentAccountVM = await _transferService.GetCurrentAccountAsync();
+        Model.CurrentAccountVM = await _accountsService.GetCurrentAccountAsync();
         isLoading = false;
     }
 
@@ -99,24 +101,33 @@ else
             return;
         }
 
-        bool accountExists = await _transferService.CreateTransferAsync(Model);
+        bool accountExists = await _accountsService.CheckIfTransactionalAccountExistsAsync(Model.ReceiverAccountNumber);
         if (!accountExists)
         {
             OpenDialog("Account with this number does not exist.");
             return;
         }
 
+        await _transfersService.CreateTransferAsync(Model);
+
         if(addToContacts)
         {
-            bool contactAdded = await _transferService.AddToContactsAsync(Model);
-            if(!contactAdded)
-            {
-                string message = "Contact with this name or account number already exists.";
-                OpenDialog(message);
-            }
+            await HandleAddingContact();
         }
 
         NavigateToTransfers();
+    }
+
+    private async Task HandleAddingContact()
+    {
+        bool contactExists = await _contactsService.CheckIfContactExistsAsync(Model.ReceiverName, Model.ReceiverAccountNumber);
+        if (contactExists)
+        {
+            string message = "Contact with this name or account number already exists.";
+            OpenDialog(message);
+            return;
+        }
+        await _contactsService.CreateContactAsync(Model.ReceiverName, Model.ReceiverAccountNumber);
     }
 
     private void OpenDialog(string message)

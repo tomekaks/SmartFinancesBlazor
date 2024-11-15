@@ -11,17 +11,17 @@ namespace SmartFinancesBlazorUI.Services
     public class DashboardService : BaseHttpService, IDashboardService
     {
         private readonly IAccountRequestService _accountRequestService;
-        private readonly IAccountService _accountService;
+        private readonly IAccountsService _accountsService;
         private readonly ITransfersService _transfersService;
         private readonly IAccountTypesService _accountTypesService;
 
         public DashboardService(IClient client, ILocalStorageService localStorage,
-                                IAccountRequestService accountRequestService, IAccountService accountService, 
+                                IAccountRequestService accountRequestService, IAccountsService accountsService, 
                                 ITransfersService transfersService, IAccountTypesService accountTypesService)
                                 : base(client, localStorage)
         {
             _accountRequestService = accountRequestService;
-            _accountService = accountService;
+            _accountsService = accountsService;
             _transfersService = transfersService;
             _accountTypesService = accountTypesService;
         }
@@ -31,7 +31,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<List<TransactionalAccountVM>> GetTransactionalAccountsAsync()
         {
-            var userAccounts = await _accountService.GetTransactionalAccountsAsync();
+            var userAccounts = await _accountsService.GetUsersTransactionalAccountsAsync();
             UserAccounts = userAccounts;
 
             return userAccounts;
@@ -39,7 +39,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<SavingsAccountVM> GetSavingsAccountAsync()
         {
-            var savingsAccount = await _accountService.GetSavingsAccountAsync();
+            var savingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
             SavingsAccount = savingsAccount;
 
             return savingsAccount;
@@ -71,7 +71,7 @@ namespace SmartFinancesBlazorUI.Services
 
             var accountNumber = await GetCurrentAccountNumberAsync();
 
-            return await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
+            return await _accountsService.GetTransactionalAccountByNumberAsync(accountNumber);
         }
 
         public async Task<bool> AddFundsAsync(int accountId, decimal funds)
@@ -80,7 +80,7 @@ namespace SmartFinancesBlazorUI.Services
 
             account.Balance += funds;
 
-            await _accountService.UpdateTransactionalAccountAsync(accountId, account.Balance);
+            await _accountsService.UpdateTransactionalAccountAsync(accountId, account.Balance);
 
             return true;
         }

@@ -2,6 +2,7 @@
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject NavigationManager _navManager
 @inject ITransfersService _transfersService
+@inject IAccountsService _accountsService
 @inject IDialogService _mudDialogService
 
 <PageTitle>Deposit</PageTitle>
@@ -75,8 +76,8 @@ else
     private async Task LoadModel()
     {
         isLoading = true;
-        Model.TransactionalAccount = await _transfersService.GetCurrentAccountAsync();
-        Model.SavingsAccount = await _transfersService.GetSavingsAccountAsync();
+        Model.TransactionalAccount = await _accountsService.GetCurrentAccountAsync();
+        Model.SavingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
         isLoading = false;
     }
 

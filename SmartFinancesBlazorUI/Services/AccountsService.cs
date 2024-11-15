@@ -9,11 +9,11 @@ using System.Net;
 
 namespace SmartFinancesBlazorUI.Services
 {
-    public class AccountService : BaseHttpService, IAccountService
+    public class AccountsService : BaseHttpService, IAccountsService
     {
         private readonly IMapper _mapper;
 
-        public AccountService(IClient client, ILocalStorageService localStorage, IMapper mapper) : base(client, localStorage)
+        public AccountsService(IClient client, ILocalStorageService localStorage, IMapper mapper) : base(client, localStorage)
         {
             _mapper = mapper;
         }
@@ -42,7 +42,7 @@ namespace SmartFinancesBlazorUI.Services
             await _client.TransactionalAccountsPOSTAsync(accountDto);
         }
 
-        public async Task<SavingsAccountVM> GetSavingsAccountAsync()
+        public async Task<SavingsAccountVM> GetUsersSavingsAccountAsync()
         {
             try
             {
@@ -59,6 +59,14 @@ namespace SmartFinancesBlazorUI.Services
             }
         }
 
+        public async Task<TransactionalAccountVM> GetCurrentAccountAsync()
+        {
+            var accountNumber = await GetCurrentAccountNumberAsync();
+            var currentAccount = await GetTransactionalAccountByNumberAsync(accountNumber);
+
+            return currentAccount;
+        }
+
         public async Task<TransactionalAccountVM> GetTransactionalAccountByNumberAsync(string accountNumber)
         {
             var accountDto = await _client.TransactionalAccountsGetByNumberAsync(accountNumber);
@@ -71,13 +79,13 @@ namespace SmartFinancesBlazorUI.Services
             return _mapper.Map<TransactionalAccountVM>(accountDto);
         }
 
-        public async Task<List<TransactionalAccountVM>> GetTransactionalAccountsAsync()
+        public async Task<List<TransactionalAccountVM>> GetUsersTransactionalAccountsAsync()
         {
             var accountsDto = await _client.TransactionalAccountsGetAllAsync();
 
             if (accountsDto is null || accountsDto.Count == 0)
             {
-                throw new Exception("Something went wrong");
+                throw new Exception("No accounts found for this user.");
             }
 
             var transactionalAccounts = _mapper.Map<List<TransactionalAccountVM>>(accountsDto);
@@ -96,17 +104,29 @@ namespace SmartFinancesBlazorUI.Services
             await _client.TransactionalAccountsPUTAsync(accountDto);
         }
 
-        public async Task<TransactionalAccountVM> CheckIfTransactionalAccountExistsAsync(string accountNumber)
+        //public async Task<TransactionalAccountVM> CheckIfTransactionalAccountExistsAsync(string accountNumber)
+        //{
+        //    try
+        //    {
+        //        var account = await _client.TransactionalAccountsCheckIfExistsAsync(accountNumber);
+        //        return _mapper.Map<TransactionalAccountVM>(account);
+        //    }
+        //    catch (ApiException ex) when (ex.StatusCode == 404)
+        //    {
+        //        return null;
+        //    }    
+        //}
+        public async Task<bool> CheckIfTransactionalAccountExistsAsync(string accountNumber)
         {
             try
             {
                 var account = await _client.TransactionalAccountsCheckIfExistsAsync(accountNumber);
-                return _mapper.Map<TransactionalAccountVM>(account);
+                return true;
             }
             catch (ApiException ex) when (ex.StatusCode == 404)
             {
-                return null;
-            }    
+                return false;
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Contacts;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Models.Transfers;
-using SmartFinancesBlazorUI.Pages.Transfers;
 using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Services
@@ -13,27 +12,21 @@ namespace SmartFinancesBlazorUI.Services
     public class TransfersService : BaseHttpService, ITransfersService
     {
         private readonly IMapper _mapper;
-        private readonly IAccountService _accountService;
+        private readonly IAccountsService _accountsService;
         private readonly IContactsService _contactsService;
         public TransfersService(IClient client, IMapper mapper, ILocalStorageService localStorage, 
-            IAccountService accountService, IContactsService contactsService)
+            IAccountsService accountsService, IContactsService contactsService)
             : base(client, localStorage)
         {
             _mapper = mapper;
-            _accountService = accountService;
+            _accountsService = accountsService;
             _contactsService = contactsService;
         }
 
         public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
         {
-            var receiverAccount = await _accountService.CheckIfTransactionalAccountExistsAsync(transferVM.ReceiverAccountNumber);
-            if (receiverAccount == null)
-            {
-                return false;
-            }
-
-            transferVM.SendTime = DateTime.UtcNow;
             var transferDto = _mapper.Map<CreateTransferDto>(transferVM);
+            transferDto.SendTime = DateTime.UtcNow;
             transferDto.SenderAccountNumber = await GetCurrentAccountNumberAsync();
 
             await _client.TransfersPOSTAsync(transferDto);
@@ -41,17 +34,9 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<TransactionalAccountVM> GetCurrentAccountAsync()
-        {
-            var accountNumber = await GetCurrentAccountNumberAsync();
-            var currentAccount = await _accountService.GetTransactionalAccountByNumberAsync(accountNumber);
-
-            return currentAccount;
-        }
-
         public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM(int pageNumber = 1)
         {
-            var currentAccount = await GetCurrentAccountAsync();
+            var currentAccount = await _accountsService.GetCurrentAccountAsync();
 
             var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number, pageNumber);
 
@@ -73,16 +58,9 @@ namespace SmartFinancesBlazorUI.Services
             };
         }
 
-        public async Task<SavingsAccountVM> GetSavingsAccountAsync()
-        {
-            var savingsAccount = await _accountService.GetSavingsAccountAsync();
-
-            return savingsAccount;
-        }
-
         public async Task<SavingsTransfersOverviewVM> GenerateSavingsTransfersOverviewVM(int pageNumber = 1)
         {
-            var savingsAccount = await GetSavingsAccountAsync();
+            var savingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
 
             var transfersVM = await GetPaginatedTransfersAsync(savingsAccount.Number, pageNumber);
 
@@ -118,17 +96,6 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<bool> AddToContactsAsync(NewTransferVM transferVM)
-        {
-            var newContact = new NewContactVM()
-            {
-                Name = transferVM.ReceiverName,
-                AccountNumber = transferVM.ReceiverAccountNumber
-            };
-
-            return await _contactsService.CreateContactAsync(newContact);
-        }
-
         private async Task<PaginatedList<TransferVM>> GetPaginatedTransfersAsync(string accountNumber, int pageNumber = 1, int pageSize = 10)
         {
             var transfersDto = await _client.TransfersGetWithPaginationAsync(accountNumber, pageNumber, pageSize);
@@ -148,8 +115,8 @@ namespace SmartFinancesBlazorUI.Services
 
         private async Task<SavingsAccountTransferDto> GetSavingsAccountTransferDto(decimal amount, string operation)
         {
-            var currentAccount = await GetCurrentAccountAsync();
-            var savingsAccount = await GetSavingsAccountAsync();
+            var currentAccount = await _accountsService.GetCurrentAccountAsync();
+            var savingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
 
             return new SavingsAccountTransferDto()
             {
