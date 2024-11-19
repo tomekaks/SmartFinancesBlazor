@@ -30,20 +30,14 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM(int pageNumber = 1)
+        public async Task<TransfersOverviewVM> GenerateTransfersOverviewVM(string currentAccountNumber, int pageNumber = 1)
         {
-            var currentAccount = await _accountsService.GetCurrentAccountAsync();
+            var transfersVM = await GetPaginatedTransfersAsync(currentAccountNumber, pageNumber);
 
-            var transfersVM = await GetPaginatedTransfersAsync(currentAccount.Number, pageNumber);
-
-            var orderedTransfers = transfersVM.Items.OrderByDescending(q => q.SendTime).ToList();
-
-            foreach (var transfer in orderedTransfers)
-            {
-                transfer.CurrentAccountNumber = currentAccount.Number;
-            }
-
-            var groupedTransfers = orderedTransfers.GroupBy(q => q.SendTime).ToList();
+            var groupedTransfers = transfersVM.Items
+                .OrderByDescending(q => q.SendTime)
+                .GroupBy(q => q.SendTime)
+                .ToList();
 
             return new TransfersOverviewVM()
             {

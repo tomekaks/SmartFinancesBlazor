@@ -22,9 +22,11 @@
                     @foreach (var transfer in group)
                     {
                         <li class="list-group-item d-flex justify-content-between">
-                            <div class="d-inline">@transfer.ReceiverName</div>
                             <div class="d-inline">
-                                @if (transfer.CurrentAccountNumber == transfer.ReceiverAccountNumber)
+                                @(CurrentAccount.Name == transfer.ReceiverName ? transfer.SenderName : transfer.ReceiverName)
+                            </div>
+                            <div class="d-inline">
+                                @if (CurrentAccount.Number == transfer.ReceiverAccountNumber)
                                 {
                                     <div style="@("background: #dff0d8")">+@transfer.Amount</div>
                                 }
@@ -45,6 +47,9 @@
 
 
 @code {
+    [Parameter]
+    public TransactionalAccountVM CurrentAccount { get; set; } = new();
+
     [Parameter]
     public List<IGrouping<DateOnly, TransferVM>> GroupedTransfers { get; set; } = new();
 

@@ -4,16 +4,12 @@ namespace SmartFinancesBlazorUI.Models.Transfers
 {
     public class TransferVM
     {
-        public string SenderName { get; set; }
-        public string SenderAccountNumber { get; set; }
-        public string ReceiverName { get; set; }
-        public string ReceiverAccountNumber { get; set; }
-        public string Title { get; set; }
+        public string SenderName { get; set; } = string.Empty;
+        public string SenderAccountNumber { get; set; } = string.Empty;
+        public string ReceiverName { get; set; } = string.Empty;
+        public string ReceiverAccountNumber { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
         public decimal Amount { get; set; }
         public DateOnly SendTime { get; set; }
-
-        public string CurrentAccountNumber { get; set; }
-        public string OtherPartyName => CurrentAccountNumber == SenderAccountNumber ? ReceiverName : SenderName;
-        public string OtherPartyAccountNumber => CurrentAccountNumber == SenderAccountNumber ? ReceiverAccountNumber : SenderAccountNumber;
     }
 }

@@ -28,7 +28,7 @@
                     <li class="list-group-item d-flex justify-content-between">
                         <div class="d-inline">@transfer.Title</div>
                         <div class="d-inline">
-                            @if (transfer.CurrentAccountNumber == transfer.ReceiverAccountNumber)
+                            @if (SavingsAccount.Number == transfer.ReceiverAccountNumber)
                             {
                                 <div style="@("background: #dff0d8")">+@transfer.Amount</div>
                             }
@@ -49,6 +49,9 @@
 
 
 @code {
+    [Parameter]
+    public SavingsAccountVM SavingsAccount { get; set; } = new();
+
     [Parameter]
     public List<IGrouping<DateOnly, TransferVM>> GroupedTransfers { get; set; } = new();
 

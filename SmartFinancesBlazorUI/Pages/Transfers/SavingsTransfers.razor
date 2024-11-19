@@ -17,10 +17,12 @@ else
         </div>
         <div class="row justify-content-center">
             <div class="col-8">
-                <_SavingsAccountTransfersList GroupedTransfers="@Model.GroupedTransfers"
-                               CurrentPage="@Model.CurrentPage"
-                               TotalPages="@Model.TotalPages"
-                               OnPageChange="ReloadDataAsync">
+                <_SavingsAccountTransfersList
+                    SavingsAccount="@SavingsAccount"
+                    GroupedTransfers="@Model.GroupedTransfers"
+                    CurrentPage="@Model.CurrentPage"
+                    TotalPages="@Model.TotalPages"
+                    OnPageChange="ReloadDataAsync">
                 </_SavingsAccountTransfersList>
             </div>
         </div>
@@ -36,12 +38,12 @@ else
     {
         isLoading = true;
         SavingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
-        Model = await _transfersService.GenerateTransfersOverviewVM();
+        Model = await _transfersService.GenerateTransfersOverviewVM(SavingsAccount.Number);
         isLoading = false;
     }
 
     private async Task ReloadDataAsync(int pageNumber)
     {
-        Model = await _transfersService.GenerateTransfersOverviewVM(pageNumber);
+        Model = await _transfersService.GenerateTransfersOverviewVM(SavingsAccount.Number, pageNumber);
     }
 }
