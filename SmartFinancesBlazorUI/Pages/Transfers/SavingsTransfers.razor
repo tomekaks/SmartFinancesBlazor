@@ -1,6 +1,7 @@
 ﻿@page "/savingstransfers"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject ITransfersService _transfersService
+@inject IAccountsService _accountsService
 
 @if (isLoading)
 {
@@ -11,7 +12,7 @@ else
     <div class="container mt-4">
         <div class="row mb-3 justify-content-center">
             <div class="col-8">
-                <_SavingsAccountView SavingsAccount="Model.SavingsAccount"></_SavingsAccountView>
+                <_SavingsAccountView SavingsAccount="@SavingsAccount"></_SavingsAccountView>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -27,18 +28,20 @@ else
 }
 
 @code {
-    private SavingsTransfersOverviewVM Model = new();
+    private SavingsAccountVM SavingsAccount = new();
+    private TransfersOverviewVM Model = new();
     private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
-        Model = await _transfersService.GenerateSavingsTransfersOverviewVM();
+        SavingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
+        Model = await _transfersService.GenerateTransfersOverviewVM();
         isLoading = false;
     }
 
     private async Task ReloadDataAsync(int pageNumber)
     {
-        Model = await _transfersService.GenerateSavingsTransfersOverviewVM(pageNumber);
+        Model = await _transfersService.GenerateTransfersOverviewVM(pageNumber);
     }
 }

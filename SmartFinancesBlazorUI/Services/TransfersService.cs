@@ -2,8 +2,6 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
-using SmartFinancesBlazorUI.Models.Contacts;
-using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Models.Transfers;
 using SmartFinancesBlazorUI.Services.Base;
 
@@ -13,14 +11,12 @@ namespace SmartFinancesBlazorUI.Services
     {
         private readonly IMapper _mapper;
         private readonly IAccountsService _accountsService;
-        private readonly IContactsService _contactsService;
         public TransfersService(IClient client, IMapper mapper, ILocalStorageService localStorage, 
-            IAccountsService accountsService, IContactsService contactsService)
+            IAccountsService accountsService)
             : base(client, localStorage)
         {
             _mapper = mapper;
             _accountsService = accountsService;
-            _contactsService = contactsService;
         }
 
         public async Task<bool> CreateTransferAsync(NewTransferVM transferVM)
@@ -51,34 +47,9 @@ namespace SmartFinancesBlazorUI.Services
 
             return new TransfersOverviewVM()
             {
-                CurrentAccount = currentAccount,
                 GroupedTransfers = groupedTransfers,
                 TotalPages = transfersVM.TotalPages,
                 CurrentPage= transfersVM.PageNumber
-            };
-        }
-
-        public async Task<SavingsTransfersOverviewVM> GenerateSavingsTransfersOverviewVM(int pageNumber = 1)
-        {
-            var savingsAccount = await _accountsService.GetUsersSavingsAccountAsync();
-
-            var transfersVM = await GetPaginatedTransfersAsync(savingsAccount.Number, pageNumber);
-
-            var orderedTransfers = transfersVM.Items.OrderByDescending(q => q.SendTime).ToList();
-
-            foreach (var transfer in orderedTransfers)
-            {
-                transfer.CurrentAccountNumber = savingsAccount.Number;
-            }
-
-            var groupedTransfers = orderedTransfers.GroupBy(q => q.SendTime).ToList();
-
-            return new SavingsTransfersOverviewVM()
-            {
-                SavingsAccount = savingsAccount,
-                GroupedTransfers = groupedTransfers,
-                TotalPages = transfersVM.TotalPages,
-                CurrentPage = transfersVM.PageNumber
             };
         }
 

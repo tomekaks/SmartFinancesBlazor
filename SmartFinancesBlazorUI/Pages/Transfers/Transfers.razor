@@ -1,6 +1,7 @@
 ﻿@page "/transfers"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
 @inject ITransfersService _transfersService
+@inject IAccountsService _accountsService
 @inject NavigationManager _navigationManager
 
 
@@ -13,7 +14,7 @@ else
     <div class="container mt-4">
         <div class="row mb-5 justify-content-center">
             <div class="col-8">
-                <_CurrentAccountCard CurrentAccount="@Model.CurrentAccount" />
+                <_CurrentAccountCard CurrentAccount="@CurrentAccount" />
             </div>
         </div>
         <div class="row justify-content-center">
@@ -31,12 +32,14 @@ else
 
 
 @code {
+    private TransactionalAccountVM CurrentAccount = new();
     private TransfersOverviewVM Model = new();
     bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
+        CurrentAccount = await _accountsService.GetCurrentAccountAsync();
         Model = await _transfersService.GenerateTransfersOverviewVM();
         isLoading = false;
     }

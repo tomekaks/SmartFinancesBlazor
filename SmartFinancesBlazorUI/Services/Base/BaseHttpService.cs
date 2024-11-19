@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using System.Net.Http.Headers;
 
@@ -8,6 +9,7 @@ namespace SmartFinancesBlazorUI.Services.Base
     {
         protected IClient _client;
         protected readonly ILocalStorageService _localStorage;
+        private readonly IContactsService _contactsService;
 
         public BaseHttpService(IClient client, ILocalStorageService localStorage)
         {
