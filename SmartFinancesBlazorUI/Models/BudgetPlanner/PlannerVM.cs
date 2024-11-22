@@ -6,8 +6,8 @@
         public MonthlySummaryVM? CurrentMonthlySummary { get; set; }
         public List<ExpenseTypeVM> ExpenseTypes { get; set; } = new();
         public decimal Budget { get; set; }
-        public decimal TotalAmount { get => GetTotalAmount(); }
-        public decimal Saved { get => Budget - TotalAmount; }
+        public decimal TotalAmount => GetTotalAmount();
+        public decimal Saved => Budget - TotalAmount;
 
         private decimal GetTotalAmount()
         {

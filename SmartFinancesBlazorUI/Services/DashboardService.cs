@@ -34,6 +34,13 @@ namespace SmartFinancesBlazorUI.Services
             var userAccounts = await _accountsService.GetUsersTransactionalAccountsAsync();
             UserAccounts = userAccounts;
 
+            bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
+
+            if (!isCurrentAccountSet)
+            {
+                await SetMainAccountAsCurrentAsync();
+            }
+
             return userAccounts;
         }
 
@@ -62,16 +69,8 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<TransactionalAccountVM> GetCurrentAccountAsync()
         {
-            bool isCurrentAccountSet = await _localStorage.ContainKeyAsync(Constants.CURRENTACCOUNT);
-
-            if (!isCurrentAccountSet)
-            {
-                return await GetMainAccountAsync();
-            }
-
-            var accountNumber = await GetCurrentAccountNumberAsync();
-
-            return await _accountsService.GetTransactionalAccountByNumberAsync(accountNumber);
+            var currentAccount = await _accountsService.GetCurrentAccountAsync();
+            return currentAccount;
         }
 
         public async Task<bool> AddFundsAsync(int accountId, decimal funds)
@@ -106,25 +105,10 @@ namespace SmartFinancesBlazorUI.Services
             await _client.SavingsAccountsPUTAsync(updateSavingsAccount);
         }
 
-        private async Task<TransactionalAccountVM> GetMainAccountAsync()
+        private async Task SetMainAccountAsCurrentAsync()
         {
             var account = UserAccounts.FirstOrDefault(q => q.Type == Constants.ACCOUNTTYPE_MAIN);
             await _localStorage.SetItemAsync(Constants.CURRENTACCOUNT, account.Number);
-
-            return account;
-        }
-
-        private async Task<TransactionalAccountVM> GetChangedAccountAsync()
-        {
-            var accountNumber = await GetCurrentAccountNumberAsync();
-            var account = UserAccounts.FirstOrDefault(q => q.Number == accountNumber);
-
-            if (account == null)
-            {
-                throw new Exception("Something went wrong");
-            }
-
-            return account;
         }
 
         private TransactionalAccountVM GetTransactionalAccountById(int accountId)
@@ -136,32 +120,6 @@ namespace SmartFinancesBlazorUI.Services
             }
 
             return account;
-        }
-        private TransactionalAccountVM GetTransactionalAccountByNumber(string accountNumber)
-        {
-            var account = UserAccounts.FirstOrDefault(q => q.Number == accountNumber);
-            if (account == null)
-            {
-                throw new Exception("Something went wrong");
-            }
-
-            return account;
-        }
-
-        private async Task<SavingsAccountTransferDto> GetSavingsAccountTransferDto(decimal amount, string operation)
-        {
-            var currentAccount = await GetCurrentAccountAsync();
-
-            return new SavingsAccountTransferDto()
-            {
-                Amount = amount,
-                TransactionalAccountName = currentAccount.Name,
-                TransactionalAccountNumber = currentAccount.Number,
-                SavingsAccountName = SavingsAccount.Name,
-                SavingsAccountNumber = SavingsAccount.Number,
-                SendTime = DateTime.UtcNow,
-                Title = operation
-            };
         }
     }
 }

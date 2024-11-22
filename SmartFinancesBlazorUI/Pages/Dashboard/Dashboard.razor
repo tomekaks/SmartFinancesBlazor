@@ -7,12 +7,9 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-@if (Model.Accounts is null)
+@if (isLoading)
 {
-    <MudContainer MaxWidth="MaxWidth.Medium" Class="text-center mt-4">
-        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Class="my-4" />
-        @* <MudText Typo="Typo.h6">Loading data...</MudText> *@
-    </MudContainer>
+    <_LoadingData Message="Loading Dashboard..."></_LoadingData>
 }
 else
 {
@@ -51,6 +48,7 @@ else
 
 @code {
     public DashboardVM Model { get; set; } = new();
+    bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,9 +57,11 @@ else
 
     private async Task LoadModel()
     {
+        isLoading = true;
         Model.Accounts = await DashboardService.GetTransactionalAccountsAsync();
         Model.CurrentAccount = await DashboardService.GetCurrentAccountAsync();
         Model.SavingsAccount = await DashboardService.GetSavingsAccountAsync();
+        isLoading = false;
     }
 
     private async Task ConfirmSetCurrentAccount(string accountNumber)

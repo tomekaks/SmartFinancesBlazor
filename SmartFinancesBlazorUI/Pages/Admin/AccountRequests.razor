@@ -80,7 +80,6 @@ else
 
     private async Task LoadData()
     {
-        // Model.Requests = await AdminService.GetPendingAccountRequestsAsync();
         isLoading = true;
         Requests = await _adminService.GetAccountRequestsByStatusAsync(_status);
         isLoading = false;

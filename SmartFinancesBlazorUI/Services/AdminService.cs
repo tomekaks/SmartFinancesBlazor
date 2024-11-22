@@ -4,21 +4,18 @@ using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models;
 using SmartFinancesBlazorUI.Models.Admin;
 using SmartFinancesBlazorUI.Services.Base;
-using System.Net.Http.Headers;
 
 namespace SmartFinancesBlazorUI.Services
 {
     public class AdminService : BaseHttpService, IAdminService
     {
-        private readonly IMapper _mapper;
         private readonly IAccountRequestService _accountRequestService;
         private readonly IAccountsService _accountsService;
 
-        public AdminService(IClient client, ILocalStorageService localStorage, IMapper mapper,
+        public AdminService(IClient client, ILocalStorageService localStorage,
             IAccountRequestService accountRequestService, IAccountsService accountsService)
             : base(client, localStorage)
         {
-            _mapper = mapper;
             _accountRequestService = accountRequestService;
             _accountsService = accountsService;
         }
@@ -32,17 +29,10 @@ namespace SmartFinancesBlazorUI.Services
             if (accountRequest.AccountTypeVM.Name == Constants.ACCOUNTTYPE_SAVINGS)
             {
                 await _accountsService.CreateSavingsAccountAcync(accountRequest.AccountTypeVM, accountRequest.UserId);
+                return;
             }
-            else
-            {
-                await _accountsService.CreateTransactionalAccountAsync(accountRequest.AccountTypeVM, accountRequest.UserId);
-            }
-        }
 
-        public async Task<List<AccountRequestVM>> GetPendingAccountRequestsAsync()
-        {
-            var pendingAccountRequests = await _accountRequestService.GetAllByStatusAsync(Constants.STATUS_PENDING);
-            return pendingAccountRequests;
+            await _accountsService.CreateTransactionalAccountAsync(accountRequest.AccountTypeVM, accountRequest.UserId);
         }
 
         public async Task<List<AccountRequestVM>> GetAccountRequestsByStatusAsync(string status)
