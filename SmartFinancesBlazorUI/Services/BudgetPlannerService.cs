@@ -56,11 +56,11 @@ namespace SmartFinancesBlazorUI.Services
             return monthlySummaryVM;
         }
 
-        public async Task<bool> SetBudgetAsync(decimal budget)
+        public async Task<bool> SetBudgetAsync(int monthlySummaryId, decimal budget)
         {
             var updateDto = new UpdateMonthlySummaryDto()
             {
-                Id = CurrentMonthlySummary.Id,
+                Id = monthlySummaryId,
                 Budget = budget
             };
             await _client.MonthlySummariesPUTAsync(updateDto);
@@ -120,7 +120,7 @@ namespace SmartFinancesBlazorUI.Services
         {
             var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
             expenseDto.ExpenseTypeId = addExpenseVM.ExpenseTypeId;
-            expenseDto.MonthlySummaryId = CurrentMonthlySummary.Id;
+            expenseDto.MonthlySummaryId = addExpenseVM.MonthlySummaryId;
 
             await _client.ExpensesPOSTAsync(expenseDto);
 

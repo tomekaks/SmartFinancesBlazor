@@ -62,10 +62,9 @@
 
     private async Task SetBudget(decimal newBudget)
     {
-        await BudgetPlannerService.SetBudgetAsync(newBudget);
         MonthlyBudget = newBudget;
 
         _settingBudget = false;
-        await OnConfirmBudget.InvokeAsync();
+        await OnConfirmBudget.InvokeAsync(newBudget);
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/budgetplanner/addexpense"
+﻿@page "/budgetplanner/addexpense/{MonthlySummaryId:int}"
 @inject NavigationManager NavigationManager
 @inject IBudgetPlannerService BudgetPlannerService
 
@@ -39,6 +39,9 @@
 
 
 @code {
+    [Parameter]
+    public int MonthlySummaryId { get; set; }
+
     private AddExpenseVM Model = new AddExpenseVM();
 
     protected override async Task OnInitializedAsync()
@@ -48,6 +51,7 @@
 
     private async Task HandleSubmit()
     {
+        Model.MonthlySummaryId = MonthlySummaryId;
         bool response = await BudgetPlannerService.AddExpenseAsync(Model);
 
         if (Model.IsRegular)
@@ -66,81 +70,3 @@
         NavigationManager.NavigateTo("/budgetplanner");
     }
 }
-
-
-
-@* <div class="row">
-    <div class="col-md-4">
-        <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
-            <DataAnnotationsValidator />
-
-            <div class="form-group">
-                <label for="Name" class="control-label">Name</label>
-                <InputText id="Name" @bind-Value="Model.Name" class="form-control" />
-                <ValidationMessage For="@(() => Model.Name)" />
-            </div>
-
-            <div class="form-group">
-                <label for="Amount" class="control-label">Amout</label>
-                <InputNumber id="Amount" @bind-Value="Model.Amount" class="form-control" />
-                <ValidationMessage For="@(() => Model.Amount)" />
-            </div>
-
-            <div class="form-group">
-                <label for="Type" class="control-label">Expense Type</label>
-                <InputSelect id="Type" @bind-Value="Model.ExpenseTypeId" class="form-control">
-                    <option value="0">Select an expense type</option>
-                    @foreach (var type in Model.ExpenseTypes)
-                    {
-                        <option value="@type.Id">@type.Name</option>
-                    }
-                </InputSelect>
-                <ValidationMessage For="@(() => Model.ExpenseTypeId)" />
-            </div>
-
-            <div class="form-group">
-                <label for="IsRegular">
-                    <InputCheckbox id="IsRegular" @bind-Value="Model.IsRegular" /> Regular expense
-                </label>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-success" />
-            </div>
-        </EditForm>
-    </div>
-</div> *@
-
-
-@* <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-    <MudGrid Justify="Justify.Center">
-        <MudItem xs="12" sm="5">
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Class="text-center" Typo="Typo.h4">Add expense</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTextField Label="Name"
-                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
-                    <MudTextField Label="Amount" Class="mt-3"
-                                  @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
-                    <MudSelect T="int" Label="Expense type" @bind-Value="Model.ExpenseTypeId" For="@(() => Model.ExpenseTypeId)">
-                        <MudSelectItem Value="0">Select expense type</MudSelectItem>
-                        @foreach (var type in Model.ExpenseTypes)
-                        {
-                            <MudSelectItem T="int" Value="type.Id">@type.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                    <MudCheckBox T="bool" @bind-Checked="Model.IsRegular" Label="Regular expense"></MudCheckBox>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToIndex">Back</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Add</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
-</EditForm> *@

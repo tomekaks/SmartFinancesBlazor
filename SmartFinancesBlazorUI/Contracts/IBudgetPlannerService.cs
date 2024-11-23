@@ -4,7 +4,7 @@ namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IBudgetPlannerService
     {
-        Task<bool> SetBudgetAsync(decimal budget);
+        Task<bool> SetBudgetAsync(int monthlySummaryId, decimal budget);
 
         Task<EditExpenseVM> GetExpenseAsync(int id);
         Task<List<RegularExpenseVM>> GetRegularExpensesAsync();

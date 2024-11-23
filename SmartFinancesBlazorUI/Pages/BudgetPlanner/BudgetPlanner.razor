@@ -31,18 +31,28 @@ else
                 <_SummaryNavigation 
                     CurrentMonthlySummary="@Model.CurrentMonthlySummary" 
                     OnNextMonthClick="MoveMonthForward" 
-                    OnPreviousMonthClick="MoveMonthBack" />
+                    OnPreviousMonthClick="MoveMonthBack">
+                </_SummaryNavigation>
             </div>
         </div>
         <div class="row mb-5 d-flex justify-content-center align-items-stretch">
             <div class="col-3 d-flex">
-                <_BudgetCard MonthlyBudget="@Model.CurrentMonthlySummary.Budget" OnConfirmBudget="ConfirmBudget" />
+                <_BudgetCard 
+                    MonthlyBudget="@Model.CurrentMonthlySummary.Budget"
+                    OnConfirmBudget="ConfirmBudget">
+                </_BudgetCard>
             </div>
             <div class="col-3 d-flex">
-                <_SingleValueCard Title="Expenses" Value="@Model.TotalAmount"></_SingleValueCard>
+                <_SingleValueCard 
+                    Title="Expenses" 
+                    Value="@Model.TotalAmount">
+                </_SingleValueCard>
             </div>
             <div class="col-3 d-flex">
-                <_SingleValueCard Title="Saved" Value="@Model.Saved"></_SingleValueCard>
+                <_SingleValueCard 
+                    Title="Saved" 
+                    Value="@Model.Saved">
+                </_SingleValueCard>
             </div>
         </div>
         <div class="row mb-5 justify-content-center">
@@ -52,7 +62,10 @@ else
                         <h2 class="text-center">Expenses</h2>
                     </div>
                     <div class="card-body">
-                        <_ExpensesDataGrid Expenses="Model.CurrentMonthlySummary.Expenses" OnExpenseDelete="LoadModel"></_ExpensesDataGrid>
+                        <_ExpensesDataGrid 
+                            CurrentMonthlySummary="Model.CurrentMonthlySummary" 
+                            OnExpenseDelete="LoadModel">
+                        </_ExpensesDataGrid>
                     </div>
                 </div>
                   
@@ -118,6 +131,7 @@ else
 
     private async Task ConfirmBudget(decimal newBudget)
     {
+        await _budgetPlannerService.SetBudgetAsync(Model.CurrentMonthlySummary.Id, newBudget);
         await LoadModel();
     }
 }

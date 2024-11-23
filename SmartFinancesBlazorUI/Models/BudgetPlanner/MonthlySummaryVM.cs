@@ -9,6 +9,6 @@
         public decimal AmountSpent { get; set; }
         public decimal AmountSaved { get; set; }
         public int YearlySummaryId { get; set; }
-        public List<ExpenseVM> Expenses { get; set; }
+        public List<ExpenseVM> Expenses { get; set; } = new();
     }
 }

@@ -2,7 +2,7 @@
 @inject NavigationManager _navigationManager
 @inject IDialogService _dialogService
 
-<MudDataGrid T="ExpenseVM" Items="Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
+<MudDataGrid T="ExpenseVM" Items="CurrentMonthlySummary.Expenses" ReadOnly="false" EditMode="DataGridEditMode.Form"
              Bordered="true" Groupable="true" GroupExpanded="true" Dense="true"
              StartedEditingItem="@StartedEditingItem" CommittedItemChanges="CommittedItemChanges">
     <ToolBarContent>
@@ -47,12 +47,12 @@
 
 @code {
     [Parameter]
-    public List<ExpenseVM> Expenses { get; set; } = new();
+    public MonthlySummaryVM CurrentMonthlySummary { get; set; } = new();
 
     [Parameter]
     public EventCallback OnExpenseDelete { get; set; }
 
-    public List<ExpenseTypeVM> ExpenseTypes { get; set; }
+    public List<ExpenseTypeVM> ExpenseTypes { get; set; } = new();
 
     private async Task StartedEditingItem()
     {
@@ -90,7 +90,7 @@
 
     private void NavigateToAddExpense()
     {
-        _navigationManager.NavigateTo("/budgetplanner/addexpense");
+        _navigationManager.NavigateTo($"/budgetplanner/addexpense/{CurrentMonthlySummary.Id}");
     }
 
     private void NavigateToRegularExpenses()
