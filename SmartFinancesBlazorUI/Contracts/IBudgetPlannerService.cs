@@ -4,7 +4,6 @@ namespace SmartFinancesBlazorUI.Contracts
 {
     public interface IBudgetPlannerService
     {
-        Task<PlannerVM> GetPlannerVMAsync();
         Task<bool> SetBudgetAsync(decimal budget);
 
         Task<EditExpenseVM> GetExpenseAsync(int id);
@@ -24,12 +23,8 @@ namespace SmartFinancesBlazorUI.Contracts
         Task UseRegularExpenseAsync(RegularExpenseVM regularExpenseVM);
         Task<bool> DeleteRegularExpenseAsync(int id);
 
-        Task<YearlySummaryVM> GetYearlySummaryAsync();
-        Task StartNewYearlySummary();
+        Task<YearlySummaryVM> GetYearlySummaryAsync(int currentAccountId, int currentYear);
+        Task StartNewYearlySummary(int currentAccountId, int currentYear);
         Task<MonthlySummaryVM> GetMonthlySummaryAsync(int id);
-        Task<List<MonthlySummaryVM>> GetMonthlySummariesByYearAsync(int yearlySummaryId);
-
-        public void MoveMonthForward();
-        public void MoveMonthBack();
     }
 }

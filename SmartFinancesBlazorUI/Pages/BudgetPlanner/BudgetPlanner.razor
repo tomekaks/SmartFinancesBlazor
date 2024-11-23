@@ -1,15 +1,16 @@
 ﻿@page "/budgetplanner"
 @attribute [Authorize(Roles = $"{Constants.USER} , {Constants.TESTUSER}")]
-@inject IBudgetPlannerService BudgetPlannerService
-@inject NavigationManager NavigationManager
-@inject IDialogService DialogService
+@inject IBudgetPlannerService _budgetPlannerService
+@inject IAccountsService _accountsService
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
 
 <PageTitle>Budget planner</PageTitle>
 
 
-@if(Model == null)
+@if(isLoading)
 {
-    <p>Loading data...</p>
+    <_LoadingData Message ="Loading budget planner..."></_LoadingData>
 }
 else if(Model.YearlySummary == null)
 {
@@ -27,7 +28,10 @@ else
     <div class="container mt-4">
         <div class="row mb-2 justify-content-center">
             <div class="col-9">
-                <_SummaryNavigation CurrentMonthlySummary="@Model.CurrentMonthlySummary" OnNextMonthClick="NextMonth" OnPreviousMonthClick="PreviousMonth" />
+                <_SummaryNavigation 
+                    CurrentMonthlySummary="@Model.CurrentMonthlySummary" 
+                    OnNextMonthClick="MoveMonthForward" 
+                    OnPreviousMonthClick="MoveMonthBack" />
             </div>
         </div>
         <div class="row mb-5 d-flex justify-content-center align-items-stretch">
@@ -58,34 +62,58 @@ else
 }
 
 @code {
-    private PlannerVM Model;
+    private PlannerVM Model = new();
+    private bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        await LoadModel();
     }
 
     private async Task LoadModel()
     {
-        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        isLoading = true;
+        Model.CurrentAccount = await _accountsService.GetCurrentAccountAsync();
+        Model.YearlySummary = await _budgetPlannerService.GetYearlySummaryAsync(Model.CurrentAccount.Id, Model.CurrentYear);
+        if(Model.YearlySummary is null)
+        {
+            isLoading = false;
+            return;
+        }
+
+        Model.CurrentMonthlySummary = GetCurrentMonthlySummary();
+
+        isLoading = false;
+    }
+
+    private MonthlySummaryVM GetCurrentMonthlySummary()
+    {
+        var currentMonthlySummary = Model.YearlySummary?.MonthlySummaries.FirstOrDefault(q => q.Month == Model.CurrentMonth);
+        return currentMonthlySummary ?? new MonthlySummaryVM();
     }
 
     private async Task StartNewYearlySummary()
     {
-        await BudgetPlannerService.StartNewYearlySummary();
-        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        await _budgetPlannerService.StartNewYearlySummary(Model.CurrentAccount.Id, Model.CurrentYear);
+        await LoadModel();
     }
 
-    private async Task PreviousMonth()
+    public void MoveMonthForward()
     {
-        BudgetPlannerService.MoveMonthBack();
-        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        if (Model.CurrentMonth < 12)
+        {
+            Model.CurrentMonth++;
+            Model.CurrentMonthlySummary = GetCurrentMonthlySummary();
+        }
     }
 
-    private async Task NextMonth()
+    public void MoveMonthBack()
     {
-        BudgetPlannerService.MoveMonthForward();
-        Model = await BudgetPlannerService.GetPlannerVMAsync();
+        if (Model.CurrentMonth > 1)
+        {
+            Model.CurrentMonth--;
+            Model.CurrentMonthlySummary = GetCurrentMonthlySummary();
+        }
     }
 
     private async Task ConfirmBudget(decimal newBudget)

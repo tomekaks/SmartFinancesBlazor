@@ -7,7 +7,7 @@
         public decimal Budget { get; set; }
         public decimal AmountSpent { get; set; }
         public decimal AmountSaved { get; set; }
-        public List<MonthlySummaryVM> MonthlySummaries { get; set; }
+        public List<MonthlySummaryVM> MonthlySummaries { get; set; } = new();
         public int AccountId { get; set; }
     }
 }
