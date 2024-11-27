@@ -3,6 +3,7 @@ using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Dashboard;
+using SmartFinancesBlazorUI.Pages.BudgetPlanner;
 using SmartFinancesBlazorUI.Services.Base;
 
 namespace SmartFinancesBlazorUI.Services
@@ -66,42 +67,18 @@ namespace SmartFinancesBlazorUI.Services
             await _client.MonthlySummariesPUTAsync(updateDto);
 
             return true;
-        }
-        
-        public async Task<EditExpenseVM> GetExpenseAsync(int id)
+        }  
+
+        public async Task<List<RegularExpenseVM>> GetRegularExpensesAsync(int currentAccountId)
         {
-            var expenseDto = await _client.ExpensesGETAsync(id);
+            var regularExpensesDto = await _client.RegularExpensesAllAsync(currentAccountId);
 
-            if (expenseDto == null)
-            {
-                return new EditExpenseVM();
-            }
-
-            return _mapper.Map<EditExpenseVM>(expenseDto);
-        }
-
-        public async Task<List<RegularExpenseVM>> GetRegularExpensesAsync()
-        {
-            var regularExpensesDto = await _client.RegularExpensesAllAsync(CurrentAccount.Id);
-
-            if (regularExpensesDto == null)
+            if (regularExpensesDto == null || regularExpensesDto.Count < 1)
             {
                 return new List<RegularExpenseVM>();
             }
 
             return _mapper.Map<List<RegularExpenseVM>>(regularExpensesDto);
-        }
-
-        public async Task<EditRegularExpenseVM> GetRegularExpenseAsync(int id)
-        {
-            var regularExpenseDto = await _client.RegularExpensesGETAsync(id);
-
-            if (regularExpenseDto == null)
-            {
-                return new EditRegularExpenseVM();
-            }
-
-            return _mapper.Map<EditRegularExpenseVM>(regularExpenseDto);
         }
 
         public async Task<List<ExpenseTypeVM>> GetExpenseTypesAsync()
@@ -118,19 +95,16 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> AddExpenseAsync(AddExpenseVM addExpenseVM)
         {
-            var expenseDto = _mapper.Map<ExpenseDto>(addExpenseVM);
-            expenseDto.ExpenseTypeId = addExpenseVM.ExpenseTypeId;
-            expenseDto.MonthlySummaryId = addExpenseVM.MonthlySummaryId;
+            var expenseDto = new ExpenseDto()
+            {
+                Name = addExpenseVM.Name,
+                Amount = addExpenseVM.Amount,
+                ExpenseTypeId = addExpenseVM.ExpenseTypeId,
+                MonthlySummaryId = addExpenseVM.MonthlySummaryId,
+                IsRegular = addExpenseVM.IsRegular
+            };
 
             await _client.ExpensesPOSTAsync(expenseDto);
-
-            return true;
-        }
-
-        public async Task<bool> EditExpenseAsync(EditExpenseVM editExpenseVM)
-        {
-            var expenseDto = _mapper.Map<EditExpenseDto>(editExpenseVM);
-            await _client.ExpensesPUTAsync(expenseDto);
 
             return true;
         }
@@ -158,8 +132,13 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> AddRegularExpenseAsync(AddRegularExpenseVM addRegularExpenseVM)
         {
-            var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addRegularExpenseVM);
-            regularExpenseDto.TransactionalAccountId = CurrentAccount.Id;
+            var regularExpenseDto = new RegularExpenseDto()
+            {
+                Name = addRegularExpenseVM.Name,
+                Amount = addRegularExpenseVM.Amount,
+                ExpenseTypeId = addRegularExpenseVM.ExpenseTypeId,
+                TransactionalAccountId = addRegularExpenseVM.CurrentAccountId
+            };
 
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
 
@@ -168,18 +147,13 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM)
         {
-            var regularExpenseDto = _mapper.Map<RegularExpenseDto>(addExpenseVM);
-            regularExpenseDto.TransactionalAccountId = CurrentAccount.Id;
-
+            var regularExpenseDto = new RegularExpenseDto()
+            {
+                Name = addExpenseVM.Name,
+                Amount = addExpenseVM.Amount,
+                ExpenseTypeId = addExpenseVM.ExpenseTypeId,
+            };
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
-
-            return true;
-        }
-
-        public async Task<bool> EditRegularExpenseAsync(EditRegularExpenseVM editRegularExpenseVM)
-        {
-            var regularExpenseDto = _mapper.Map<EditRegularExpenseDto>(editRegularExpenseVM);
-            await _client.RegularExpensesPUTAsync(regularExpenseDto);
 
             return true;
         }

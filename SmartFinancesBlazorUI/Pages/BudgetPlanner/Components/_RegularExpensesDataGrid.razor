@@ -46,6 +46,9 @@
 
 @code {
     [Parameter]
+    public TransactionalAccountVM CurrentAccount { get; set; } = new();
+
+    [Parameter]
     public List<RegularExpenseVM> RegularExpenses { get; set; } = new();
 
     public List<ExpenseTypeVM> ExpenseTypes { get; set; } = new();
@@ -81,7 +84,7 @@
     private async Task DeleteExpense(int id)
     {
         await _budgetPlannerService.DeleteRegularExpenseAsync(id);
-        RegularExpenses = await _budgetPlannerService.GetRegularExpensesAsync();
+        RegularExpenses = await _budgetPlannerService.GetRegularExpensesAsync(CurrentAccount.Id);
     }
 
     private async Task UseRegularExpense(RegularExpenseVM regularExpenseVM)
@@ -93,7 +96,7 @@
 
     private void NavigateToAddRegularExpense()
     {
-        _navigationManager.NavigateTo("/budgetplanner/addregularexpense");
+        _navigationManager.NavigateTo($"/budgetplanner/addregularexpense/{CurrentAccount.Id}");
     }
 
     private void NavigateToPlanner()

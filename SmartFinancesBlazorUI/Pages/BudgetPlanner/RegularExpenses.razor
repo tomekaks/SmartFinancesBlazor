@@ -1,27 +1,44 @@
 ﻿@page "/budgetplanner/regularexpenses"
 @inject IBudgetPlannerService _budgetPlannerService
+@inject IAccountsService _accountsService
 
-<div class="container mt-4">
-    <div class="row mb-2 justify-content-center">
-        <div class="col-10">
-            <div class="card shadow">
-                <div class="card-header">
-                    <h2 class="text-center">Regular expenses</h2>
-                </div>
-                <div class="card-body">
-                    <_RegularExpensesDataGrid RegularExpenses="Model.RegularExpenses"></_RegularExpensesDataGrid>
+@if (isLoading)
+{
+    <_LoadingData Message="Loading regular expenses..."></_LoadingData>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="row mb-2 justify-content-center">
+            <div class="col-10">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h2 class="text-center">Regular expenses</h2>
+                    </div>
+                    <div class="card-body">
+                        <_RegularExpensesDataGrid 
+                            RegularExpenses="Model"
+                            CurrentAccount="CurrentAccount">
+                        </_RegularExpensesDataGrid>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+
 
 @code 
 {
-    private RegularExpensesVM Model = new();
+    private List<RegularExpenseVM> Model = new();
+    private TransactionalAccountVM CurrentAccount = new();
+    bool isLoading = false;
 
     protected override async Task OnInitializedAsync()
     {
-        Model.RegularExpenses = await _budgetPlannerService.GetRegularExpensesAsync();
+        isLoading = true;
+        CurrentAccount = await _accountsService.GetCurrentAccountAsync();
+        Model = await _budgetPlannerService.GetRegularExpensesAsync(CurrentAccount.Id);
+        isLoading = false;
     }
 }

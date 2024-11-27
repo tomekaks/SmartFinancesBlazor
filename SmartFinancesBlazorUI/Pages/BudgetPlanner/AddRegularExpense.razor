@@ -1,6 +1,6 @@
-﻿@page "/budgetplanner/addregularexpense"
-@inject NavigationManager NavigationManager
-@inject IBudgetPlannerService BudgetPlannerService
+﻿@page "/budgetplanner/addregularexpense/{CurrentAccountId:int}"
+@inject NavigationManager _navigationManager
+@inject IBudgetPlannerService _budgetPlannerService
 
 <PageTitle>Add regular expense</PageTitle>
 
@@ -40,16 +40,20 @@
 
 
 @code {
-    private AddRegularExpenseVM Model = new AddRegularExpenseVM();
+    [Parameter]
+    public int CurrentAccountId { get; set; }
+    private AddRegularExpenseVM Model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
+        Model.ExpenseTypes = await _budgetPlannerService.GetExpenseTypesAsync();
     }
 
     private async Task HandleSubmit()
     {
-        bool response = await BudgetPlannerService.AddRegularExpenseAsync(Model);
+        Model.CurrentAccountId = CurrentAccountId;
+
+        bool response = await _budgetPlannerService.AddRegularExpenseAsync(Model);
          if (response)
          {
              NavigateToRegularExpenses();
@@ -58,39 +62,6 @@
 
     private void NavigateToRegularExpenses()
     {
-        NavigationManager.NavigateTo("/budgetplanner/regularexpenses");
+        _navigationManager.NavigateTo("/budgetplanner/regularexpenses");
     }
 }
-
-
-@* <EditForm Model="@Model" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
-    <MudGrid Justify="Justify.Center">
-        <MudItem xs="12" sm="5">
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h4">Add regular expense</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTextField Label="Name"
-                                  @bind-Value="Model.Name" For="@(() => Model.Name)" />
-                    <MudTextField Label="Amount" Class="mt-3"
-                                  @bind-Value="Model.Amount" For="@(() => Model.Amount)" />
-                    <MudSelect T="int" Label="Expense type" @bind-Value="Model.ExpenseTypeId" For="@(() => Model.ExpenseTypeId)">
-                        <MudSelectItem Value="0">Select expense type</MudSelectItem>
-                        @foreach (var type in Model.ExpenseTypes)
-                        {
-                            <MudSelectItem T="int" Value="type.Id">@type.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="me-0" OnClick="NavigateToRegularExpenses">Back</MudButton>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Class="ml-auto" Color="Color.Success">Add</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
-</EditForm> *@
