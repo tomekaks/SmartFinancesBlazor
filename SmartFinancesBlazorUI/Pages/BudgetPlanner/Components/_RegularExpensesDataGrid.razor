@@ -51,6 +51,9 @@
     [Parameter]
     public List<RegularExpenseVM> RegularExpenses { get; set; } = new();
 
+    [Parameter]
+    public int MonthlySummaryId { get; set; }
+
     public List<ExpenseTypeVM> ExpenseTypes { get; set; } = new();
 
     private async Task StartedEditingItem()
@@ -89,7 +92,7 @@
 
     private async Task UseRegularExpense(RegularExpenseVM regularExpenseVM)
     {
-        await _budgetPlannerService.UseRegularExpenseAsync(regularExpenseVM);
+        await _budgetPlannerService.UseRegularExpenseAsync(regularExpenseVM, MonthlySummaryId);
         _snackbar.Add("Added to current expenses.", Severity.Success,
         config => { config.SnackbarVariant = Variant.Filled; config.CloseAfterNavigation = true; });
     }

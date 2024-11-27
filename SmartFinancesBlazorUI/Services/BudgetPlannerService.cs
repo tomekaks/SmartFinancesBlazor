@@ -5,6 +5,7 @@ using SmartFinancesBlazorUI.Models.BudgetPlanner;
 using SmartFinancesBlazorUI.Models.Dashboard;
 using SmartFinancesBlazorUI.Pages.BudgetPlanner;
 using SmartFinancesBlazorUI.Services.Base;
+using System.ComponentModel;
 
 namespace SmartFinancesBlazorUI.Services
 {
@@ -145,13 +146,14 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM)
+        public async Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM, int currentAccountId)
         {
             var regularExpenseDto = new RegularExpenseDto()
             {
                 Name = addExpenseVM.Name,
                 Amount = addExpenseVM.Amount,
                 ExpenseTypeId = addExpenseVM.ExpenseTypeId,
+                TransactionalAccountId = currentAccountId
             };
             await _client.RegularExpensesPOSTAsync(regularExpenseDto);
 
@@ -166,14 +168,14 @@ namespace SmartFinancesBlazorUI.Services
             return true;
         }
 
-        public async Task UseRegularExpenseAsync(RegularExpenseVM regularExpenseVM)
+        public async Task UseRegularExpenseAsync(RegularExpenseVM regularExpenseVM, int monthlySummaryId)
         {
             var expenseDto = new ExpenseDto()
             {
                 Name = regularExpenseVM.Name,
                 Amount = regularExpenseVM.Amount,
                 ExpenseTypeId = regularExpenseVM.ExpenseTypeVM.Id,
-                MonthlySummaryId = CurrentMonthlySummary.Id
+                MonthlySummaryId = monthlySummaryId
             };
             await _client.ExpensesPOSTAsync(expenseDto);
         }

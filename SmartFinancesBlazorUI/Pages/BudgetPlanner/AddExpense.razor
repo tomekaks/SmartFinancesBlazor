@@ -1,6 +1,7 @@
 ﻿@page "/budgetplanner/addexpense/{MonthlySummaryId:int}"
-@inject NavigationManager NavigationManager
-@inject IBudgetPlannerService BudgetPlannerService
+@inject NavigationManager _navigationManager
+@inject IBudgetPlannerService _budgetPlannerService
+@inject IAccountsService _accountsService
 
 <PageTitle>Add expense</PageTitle>
 
@@ -43,20 +44,22 @@
     public int MonthlySummaryId { get; set; }
 
     private AddExpenseVM Model = new AddExpenseVM();
+    private TransactionalAccountVM CurrentAccount = new();
 
     protected override async Task OnInitializedAsync()
     {
-        Model.ExpenseTypes = await BudgetPlannerService.GetExpenseTypesAsync();
+        Model.ExpenseTypes = await _budgetPlannerService.GetExpenseTypesAsync();
+        CurrentAccount = await _accountsService.GetCurrentAccountAsync();
     }
 
     private async Task HandleSubmit()
     {
         Model.MonthlySummaryId = MonthlySummaryId;
-        bool response = await BudgetPlannerService.AddExpenseAsync(Model);
+        bool response = await _budgetPlannerService.AddExpenseAsync(Model);
 
         if (Model.IsRegular)
         {
-            await BudgetPlannerService.AddRegularExpenseAsync(Model);
+            await _budgetPlannerService.AddRegularExpenseAsync(Model, CurrentAccount.Id);
         }
 
         if(response)
@@ -67,6 +70,6 @@
 
     private void NavigateToIndex()
     {
-        NavigationManager.NavigateTo("/budgetplanner");
+        _navigationManager.NavigateTo("/budgetplanner");
     }
 }

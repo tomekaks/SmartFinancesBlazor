@@ -1,4 +1,4 @@
-﻿@page "/budgetplanner/regularexpenses"
+﻿@page "/budgetplanner/regularexpenses/{MonthlySummaryId:int}"
 @inject IBudgetPlannerService _budgetPlannerService
 @inject IAccountsService _accountsService
 
@@ -18,7 +18,8 @@ else
                     <div class="card-body">
                         <_RegularExpensesDataGrid 
                             RegularExpenses="Model"
-                            CurrentAccount="CurrentAccount">
+                            CurrentAccount="CurrentAccount"
+                            MonthlySummaryId="MonthlySummaryId">
                         </_RegularExpensesDataGrid>
                     </div>
                 </div>
@@ -30,6 +31,9 @@ else
 
 @code 
 {
+    [Parameter]
+    public int MonthlySummaryId { get; set; }
+
     private List<RegularExpenseVM> Model = new();
     private TransactionalAccountVM CurrentAccount = new();
     bool isLoading = false;

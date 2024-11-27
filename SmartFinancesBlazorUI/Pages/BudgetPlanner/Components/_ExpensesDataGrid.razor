@@ -95,6 +95,6 @@
 
     private void NavigateToRegularExpenses()
     {
-        _navigationManager.NavigateTo("/budgetplanner/regularexpenses");
+        _navigationManager.NavigateTo($"/budgetplanner/regularexpenses/{CurrentMonthlySummary.Id}");
     }
 }

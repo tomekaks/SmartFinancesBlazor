@@ -14,9 +14,9 @@ namespace SmartFinancesBlazorUI.Contracts
         Task<bool> DeleteExpenseAsync(int id);
 
         Task<bool> AddRegularExpenseAsync(AddRegularExpenseVM addRegularExpenseVM);
-        Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM);
+        Task<bool> AddRegularExpenseAsync(AddExpenseVM addExpenseVM, int currentAccountId);
         Task<bool> EditRegularExpenseAsync(RegularExpenseVM regularExpenseVM);
-        Task UseRegularExpenseAsync(RegularExpenseVM regularExpenseVM);
+        Task UseRegularExpenseAsync(RegularExpenseVM regularExpenseVM, int monthlySummaryId);
         Task<bool> DeleteRegularExpenseAsync(int id);
 
         Task<YearlySummaryVM> GetYearlySummaryAsync(int currentAccountId, int currentYear);
