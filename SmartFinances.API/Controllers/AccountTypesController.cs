@@ -1,13 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Features.AccountTypes.Dtos;
 using SmartFinances.Application.Features.AccountTypes.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/account-types")]
     [ApiController]
     [Authorize]
     public class AccountTypesController : BaseController

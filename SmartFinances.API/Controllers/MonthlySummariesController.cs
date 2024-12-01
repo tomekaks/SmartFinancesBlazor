@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/monthy-summaries")]
     [ApiController]
     public class MonthlySummariesController : BaseController
     {
@@ -25,7 +25,7 @@ namespace SmartFinances.API.Controllers
             return Ok(monthlySummaryDto);
         }
 
-        [HttpGet("byyear/{id}")]
+        [HttpGet("by-year/{id}")]
         [SwaggerOperation(OperationId = "MonthlySummaryGetByYear")]
         public async Task<ActionResult<List<MonthlySummaryDto>>> GetAllByYearAsync(int id)
         {

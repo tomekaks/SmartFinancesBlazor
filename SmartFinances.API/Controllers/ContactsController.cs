@@ -7,7 +7,7 @@ using SmartFinances.Application.Features.Contacts.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/contacts")]
     [ApiController]
     [Authorize]
     public class ContactsController : BaseController

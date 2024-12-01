@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/transfers")]
     [ApiController]
     [Authorize]
     public class TransfersController : ControllerBase
@@ -23,7 +23,7 @@ namespace SmartFinances.API.Controllers
 
 
         [HttpGet]
-        [Route("transfersGetAll/{accountNumber}")]
+        [Route("by-account/{accountNumber}")]
         public async Task<ActionResult<List<TransferDto>>> GetAllAsync(string accountNumber)
         {
             var transfers = await _mediator.Send(new GetTransferListQuery { AccountNumber = accountNumber });
@@ -31,7 +31,7 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpGet]
-        [Route("get-with-pagination/{accountNumber}")]
+        [Route("by-account-with-pagination/{accountNumber}")]
         [SwaggerOperation(OperationId = "TransfersGetWithPagination")]
         public async Task<ActionResult<PaginatedList<TransferDto>>> GetPaginatedAsync(
             string accountNumber,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)

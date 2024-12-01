@@ -5,7 +5,7 @@ using SmartFinances.Application.Interfaces.Services;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {

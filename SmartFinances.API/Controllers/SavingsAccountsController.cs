@@ -4,14 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Features.SavingsAccounts.Dtos;
 using SmartFinances.Application.Features.SavingsAccounts.Requests.Commands;
 using SmartFinances.Application.Features.SavingsAccounts.Requests.Queries;
-using SmartFinances.Application.Features.TransactionalAccounts.Dtos;
-using SmartFinances.Application.Features.TransactionalAccounts.Requests.Commands;
-using SmartFinances.Application.Features.TransactionalAccounts.Requests.Queries;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/savings-accounts")]
     [ApiController]
     [Authorize]
     public class SavingsAccountsController : BaseController
@@ -31,6 +27,7 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateAsync(CreateSavingsAccountDto accountDto)
         {
             await _mediator.Send(new CreateSavingsAccountCommand { AccountDto = accountDto });

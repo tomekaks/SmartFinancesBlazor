@@ -7,7 +7,7 @@ using SmartFinances.Application.Features.RegularExpenses.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/regular-expenses")]
     [ApiController]
     [Authorize]
     public class RegularExpensesController : ControllerBase

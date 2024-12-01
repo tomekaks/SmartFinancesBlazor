@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartFinances.Application.Features.YearlySummaries.Dtos;
 using SmartFinances.Application.Features.YearlySummaries.Requests.Commands;
@@ -8,7 +7,7 @@ using SmartFinances.Application.Features.YearlySummaries.Requests.Queries;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/yearly-summaries")]
     [ApiController]
     [Authorize]
     public class YearlySummariesController : BaseController
@@ -24,7 +23,7 @@ namespace SmartFinances.API.Controllers
         public async Task<ActionResult<YearlySummaryDto>> GetAsync(int accountId, int year)
         {
             var yearlySummaryDto = await _mediator.Send(new GetYearlySummaryQuery { TransactionalAccountId = accountId, Year = year });
-            if(yearlySummaryDto == null)
+            if(yearlySummaryDto is null)
             {
                 return NotFound();
             }

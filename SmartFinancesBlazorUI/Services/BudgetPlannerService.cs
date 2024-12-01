@@ -2,27 +2,18 @@
 using Blazored.LocalStorage;
 using SmartFinancesBlazorUI.Contracts;
 using SmartFinancesBlazorUI.Models.BudgetPlanner;
-using SmartFinancesBlazorUI.Models.Dashboard;
-using SmartFinancesBlazorUI.Pages.BudgetPlanner;
 using SmartFinancesBlazorUI.Services.Base;
-using System.ComponentModel;
 
 namespace SmartFinancesBlazorUI.Services
 {
     public class BudgetPlannerService : BaseHttpService, IBudgetPlannerService
     {
         private readonly IMapper _mapper;
-        private readonly IAccountsService _accountsService;
         public BudgetPlannerService(IClient client, IMapper mapper, 
-                                    ILocalStorageService localStorage, IAccountsService accountsService) : 
-                                    base(client, localStorage)
+                                    ILocalStorageService localStorage) : base(client, localStorage)
         {
             _mapper = mapper;
-            _accountsService = accountsService;
         }
-
-        public TransactionalAccountVM CurrentAccount { get; set; } = new();
-        public MonthlySummaryVM? CurrentMonthlySummary { get; set; }
 
         public async Task<YearlySummaryVM> GetYearlySummaryAsync(int currentAccountId, int currentYear)
         {

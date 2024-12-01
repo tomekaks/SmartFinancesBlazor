@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/transactional-accounts")]
     [ApiController]
     [Authorize]
     public class TransactionalAccountsController : BaseController
@@ -35,7 +35,7 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetByAccountNumber/{accountNumber}")]
+        [Route("by-number/{accountNumber}")]
         [SwaggerOperation(OperationId = "TransactionalAccountsGetByNumber")]
         public async Task<ActionResult<TransactionalAccountDto>> GetByNumberAsync(string accountNumber)
         {
@@ -44,13 +44,13 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpGet]
-        [Route("CheckIfExists/{accountNumber}")]
+        [Route("check-if-exists/{accountNumber}")]
         [SwaggerOperation(OperationId = "TransactionalAccountsCheckIfExists")]
         public async Task<ActionResult<TransactionalAccountDto>> CheckIfExistsAsync(string accountNumber)
         {
             var account = await _mediator.Send(new CheckIfTransactionalAccountExistsQuery { AccountNumber = accountNumber });
 
-            if (account == null)
+            if (account is null)
             {
                 return NotFound($"Account with number {accountNumber} does not exist.");
             }
@@ -60,6 +60,7 @@ namespace SmartFinances.API.Controllers
 
         [HttpGet]
         [SwaggerOperation(OperationId = "TransactionalAccountsGetAll")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<List<TransactionalAccountDto>>> GetAllAsync()
         {
             var accounts = await _mediator.Send(new GetUsersTransactionalAccountsQuery { UserId = CurrentUserId });
@@ -67,6 +68,7 @@ namespace SmartFinances.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateAsync(CreateTransactionalAccountDto accountDto)
         {
             await _mediator.Send(new CreateTransactionalAccountCommand { AccountDto = accountDto });

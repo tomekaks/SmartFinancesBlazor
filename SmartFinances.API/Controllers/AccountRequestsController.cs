@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartFinances.Application.Exceptions;
 using SmartFinances.Application.Features.AccountRequests.Dtos;
 using SmartFinances.Application.Features.AccountRequests.Requests.Commands;
 using SmartFinances.Application.Features.AccountRequests.Requests.Queries;
@@ -9,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/account-requests")]
     [ApiController]
     [Authorize]
     public class AccountRequestsController : BaseController
@@ -28,7 +27,7 @@ namespace SmartFinances.API.Controllers
             return Ok(accountRequests);
         }
 
-        [HttpGet("UsersAccountRequests")]
+        [HttpGet("by-user")]
         [SwaggerOperation(OperationId = "AccountRequestsGetByUser")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByUserAsync()
         {
@@ -37,7 +36,7 @@ namespace SmartFinances.API.Controllers
             return Ok(accountRequests);
         }
 
-        [HttpGet("UsersAccountRequests/{status}")]
+        [HttpGet("by-user-and-status/{status}")]
         [SwaggerOperation(OperationId = "AccountRequestsGetByUserAndStatus")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByUserAndStatusAsync(string status)
         {
@@ -46,7 +45,7 @@ namespace SmartFinances.API.Controllers
             return Ok(accountRequests);
         }
 
-        [HttpGet("AccountRequestsByStatus/{status}")]
+        [HttpGet("by-status/{status}")]
         [SwaggerOperation(OperationId = "AccountRequestsGetByStatus")]
         public async Task<ActionResult<List<AccountRequestDto>>> GetByStatusAsync(string status)
         {
@@ -58,16 +57,8 @@ namespace SmartFinances.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AccountRequestDto>> GetAsync(int id)
         {
-            try
-            {
-                var accountRequest = await _mediator.Send(new GetAccountRequestQuery { AccountRequestId = id });
-                return Ok(accountRequest);
-            }
-            catch (NotFoundException ex)
-            {
-
-                return NotFound(ex.Message);
-            }           
+            var accountRequest = await _mediator.Send(new GetAccountRequestQuery { AccountRequestId = id });
+            return Ok(accountRequest); 
         }
 
         [HttpPost]
