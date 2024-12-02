@@ -60,7 +60,6 @@ namespace SmartFinances.API.Controllers
 
         [HttpGet]
         [SwaggerOperation(OperationId = "TransactionalAccountsGetAll")]
-        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<List<TransactionalAccountDto>>> GetAllAsync()
         {
             var accounts = await _mediator.Send(new GetUsersTransactionalAccountsQuery { UserId = CurrentUserId });

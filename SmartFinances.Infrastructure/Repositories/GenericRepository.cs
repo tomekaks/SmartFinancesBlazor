@@ -18,7 +18,7 @@ namespace SmartFinances.Infrastructure.Repositories
 
         public async Task AddAsync(T entity)
         {
-            await _context.AddAsync(entity);
+            await _db.AddAsync(entity);
         }
 
         public void Delete(T entity)

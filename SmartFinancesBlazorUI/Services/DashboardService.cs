@@ -96,7 +96,7 @@ namespace SmartFinancesBlazorUI.Services
 
         public async Task SetSavingsGoalAsync(decimal goal)
         {
-            var updateSavingsAccount = new UpdateSavingsAccountDto()
+            var updateSavingsAccount = new UpdateSavingsGoalDto()
             {
                 Id = SavingsAccount.Id,
                 Goal = goal

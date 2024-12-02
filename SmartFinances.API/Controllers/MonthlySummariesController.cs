@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SmartFinances.API.Controllers
 {
-    [Route("api/monthy-summaries")]
+    [Route("api/monthly-summaries")]
     [ApiController]
     public class MonthlySummariesController : BaseController
     {

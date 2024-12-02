@@ -21,7 +21,7 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Queries
 
         public async Task<List<AccountRequestDto>> Handle(GetUsersAccountRequestsQuery request, CancellationToken cancellationToken)
         {
-            List<AccountRequest> accountRequests;
+            List<AccountRequest> accountRequests = new();
 
             if (request.Status.IsNullOrEmpty())
             {
@@ -33,7 +33,6 @@ namespace SmartFinances.Application.Features.AccountRequests.Handlers.Queries
                 accountRequests = (await _unitOfWork.AccountRequests.GetAllAsync(q =>
                 q.UserId == request.UserId && q.Status == request.Status, includeProperties: Constants.ACCOUNTTYPE)).ToList();
             }
-
 
             if (accountRequests == null || !accountRequests.Any())
             {

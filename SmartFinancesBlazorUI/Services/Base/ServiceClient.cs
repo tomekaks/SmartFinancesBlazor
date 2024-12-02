@@ -351,12 +351,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsAccountDto body);
+        System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsGoalDto body);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsAccountDto body, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsGoalDto body, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -423,12 +423,12 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetAllAsync(string accountNumber);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> ByAccountAsync(string accountNumber);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetAllAsync(string accountNumber, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> ByAccountAsync(string accountNumber, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -568,8 +568,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests"
-                    urlBuilder_.Append("api/AccountRequests");
+                    // Operation Path: "api/account-requests"
+                    urlBuilder_.Append("api/account-requests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -649,8 +649,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests"
-                    urlBuilder_.Append("api/AccountRequests");
+                    // Operation Path: "api/account-requests"
+                    urlBuilder_.Append("api/account-requests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -725,8 +725,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests"
-                    urlBuilder_.Append("api/AccountRequests");
+                    // Operation Path: "api/account-requests"
+                    urlBuilder_.Append("api/account-requests");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -798,8 +798,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests/UsersAccountRequests"
-                    urlBuilder_.Append("api/AccountRequests/UsersAccountRequests");
+                    // Operation Path: "api/account-requests/by-user"
+                    urlBuilder_.Append("api/account-requests/by-user");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -879,8 +879,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests/UsersAccountRequests/{status}"
-                    urlBuilder_.Append("api/AccountRequests/UsersAccountRequests/");
+                    // Operation Path: "api/account-requests/by-user-and-status/{status}"
+                    urlBuilder_.Append("api/account-requests/by-user-and-status/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -961,8 +961,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests/AccountRequestsByStatus/{status}"
-                    urlBuilder_.Append("api/AccountRequests/AccountRequestsByStatus/");
+                    // Operation Path: "api/account-requests/by-status/{status}"
+                    urlBuilder_.Append("api/account-requests/by-status/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1043,8 +1043,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountRequests/{id}"
-                    urlBuilder_.Append("api/AccountRequests/");
+                    // Operation Path: "api/account-requests/{id}"
+                    urlBuilder_.Append("api/account-requests/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1122,8 +1122,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/AccountTypes"
-                    urlBuilder_.Append("api/AccountTypes");
+                    // Operation Path: "api/account-types"
+                    urlBuilder_.Append("api/account-types");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1204,8 +1204,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Authentication/register"
-                    urlBuilder_.Append("api/Authentication/register");
+                    // Operation Path: "api/authentication/register"
+                    urlBuilder_.Append("api/authentication/register");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1302,8 +1302,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Authentication/login"
-                    urlBuilder_.Append("api/Authentication/login");
+                    // Operation Path: "api/authentication/login"
+                    urlBuilder_.Append("api/authentication/login");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1396,8 +1396,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Contacts"
-                    urlBuilder_.Append("api/Contacts");
+                    // Operation Path: "api/contacts"
+                    urlBuilder_.Append("api/contacts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1477,8 +1477,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Contacts"
-                    urlBuilder_.Append("api/Contacts");
+                    // Operation Path: "api/contacts"
+                    urlBuilder_.Append("api/contacts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1553,8 +1553,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Contacts"
-                    urlBuilder_.Append("api/Contacts");
+                    // Operation Path: "api/contacts"
+                    urlBuilder_.Append("api/contacts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1625,8 +1625,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Contacts"
-                    urlBuilder_.Append("api/Contacts");
+                    // Operation Path: "api/contacts"
+                    urlBuilder_.Append("api/contacts");
                     urlBuilder_.Append('?');
                     if (id != null)
                     {
@@ -1707,8 +1707,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Contacts/{id}"
-                    urlBuilder_.Append("api/Contacts/");
+                    // Operation Path: "api/contacts/{id}"
+                    urlBuilder_.Append("api/contacts/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1786,8 +1786,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Expenses"
-                    urlBuilder_.Append("api/Expenses");
+                    // Operation Path: "api/expenses"
+                    urlBuilder_.Append("api/expenses");
                     urlBuilder_.Append('?');
                     if (monthlySummaryId != null)
                     {
@@ -1873,8 +1873,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Expenses"
-                    urlBuilder_.Append("api/Expenses");
+                    // Operation Path: "api/expenses"
+                    urlBuilder_.Append("api/expenses");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1949,8 +1949,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Expenses"
-                    urlBuilder_.Append("api/Expenses");
+                    // Operation Path: "api/expenses"
+                    urlBuilder_.Append("api/expenses");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2021,8 +2021,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Expenses"
-                    urlBuilder_.Append("api/Expenses");
+                    // Operation Path: "api/expenses"
+                    urlBuilder_.Append("api/expenses");
                     urlBuilder_.Append('?');
                     if (id != null)
                     {
@@ -2103,8 +2103,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Expenses/{id}"
-                    urlBuilder_.Append("api/Expenses/");
+                    // Operation Path: "api/expenses/{id}"
+                    urlBuilder_.Append("api/expenses/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2182,8 +2182,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/ExpenseTypes"
-                    urlBuilder_.Append("api/ExpenseTypes");
+                    // Operation Path: "api/expense-types"
+                    urlBuilder_.Append("api/expense-types");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2263,8 +2263,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/ExpenseTypes"
-                    urlBuilder_.Append("api/ExpenseTypes");
+                    // Operation Path: "api/expense-types"
+                    urlBuilder_.Append("api/expense-types");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2339,8 +2339,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/ExpenseTypes"
-                    urlBuilder_.Append("api/ExpenseTypes");
+                    // Operation Path: "api/expense-types"
+                    urlBuilder_.Append("api/expense-types");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2411,8 +2411,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/ExpenseTypes"
-                    urlBuilder_.Append("api/ExpenseTypes");
+                    // Operation Path: "api/expense-types"
+                    urlBuilder_.Append("api/expense-types");
                     urlBuilder_.Append('?');
                     if (id != null)
                     {
@@ -2493,8 +2493,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/ExpenseTypes/{id}"
-                    urlBuilder_.Append("api/ExpenseTypes/");
+                    // Operation Path: "api/expense-types/{id}"
+                    urlBuilder_.Append("api/expense-types/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2575,8 +2575,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummaries/{id}"
-                    urlBuilder_.Append("api/MonthlySummaries/");
+                    // Operation Path: "api/monthly-summaries/{id}"
+                    urlBuilder_.Append("api/monthly-summaries/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2657,8 +2657,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummaries/byyear/{id}"
-                    urlBuilder_.Append("api/MonthlySummaries/byyear/");
+                    // Operation Path: "api/monthly-summaries/by-year/{id}"
+                    urlBuilder_.Append("api/monthly-summaries/by-year/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -2739,8 +2739,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummaries"
-                    urlBuilder_.Append("api/MonthlySummaries");
+                    // Operation Path: "api/monthly-summaries"
+                    urlBuilder_.Append("api/monthly-summaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2815,8 +2815,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/MonthlySummaries"
-                    urlBuilder_.Append("api/MonthlySummaries");
+                    // Operation Path: "api/monthly-summaries"
+                    urlBuilder_.Append("api/monthly-summaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -2888,8 +2888,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/RegularExpenses"
-                    urlBuilder_.Append("api/RegularExpenses");
+                    // Operation Path: "api/regular-expenses"
+                    urlBuilder_.Append("api/regular-expenses");
                     urlBuilder_.Append('?');
                     if (accuntId != null)
                     {
@@ -2975,8 +2975,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/RegularExpenses"
-                    urlBuilder_.Append("api/RegularExpenses");
+                    // Operation Path: "api/regular-expenses"
+                    urlBuilder_.Append("api/regular-expenses");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3051,8 +3051,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/RegularExpenses"
-                    urlBuilder_.Append("api/RegularExpenses");
+                    // Operation Path: "api/regular-expenses"
+                    urlBuilder_.Append("api/regular-expenses");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3123,8 +3123,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/RegularExpenses"
-                    urlBuilder_.Append("api/RegularExpenses");
+                    // Operation Path: "api/regular-expenses"
+                    urlBuilder_.Append("api/regular-expenses");
                     urlBuilder_.Append('?');
                     if (id != null)
                     {
@@ -3205,8 +3205,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/RegularExpenses/{id}"
-                    urlBuilder_.Append("api/RegularExpenses/");
+                    // Operation Path: "api/regular-expenses/{id}"
+                    urlBuilder_.Append("api/regular-expenses/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -3284,8 +3284,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/SavingsAccounts"
-                    urlBuilder_.Append("api/SavingsAccounts");
+                    // Operation Path: "api/savings-accounts"
+                    urlBuilder_.Append("api/savings-accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3365,8 +3365,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/SavingsAccounts"
-                    urlBuilder_.Append("api/SavingsAccounts");
+                    // Operation Path: "api/savings-accounts"
+                    urlBuilder_.Append("api/savings-accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3417,7 +3417,7 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsAccountDto body)
+        public virtual System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsGoalDto body)
         {
             return SavingsAccountsPUTAsync(body, System.Threading.CancellationToken.None);
         }
@@ -3425,7 +3425,7 @@ namespace SmartFinancesBlazorUI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsAccountDto body, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task SavingsAccountsPUTAsync(UpdateSavingsGoalDto body, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -3441,8 +3441,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/SavingsAccounts"
-                    urlBuilder_.Append("api/SavingsAccounts");
+                    // Operation Path: "api/savings-accounts"
+                    urlBuilder_.Append("api/savings-accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3517,8 +3517,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts/{id}"
-                    urlBuilder_.Append("api/TransactionalAccounts/");
+                    // Operation Path: "api/transactional-accounts/{id}"
+                    urlBuilder_.Append("api/transactional-accounts/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -3596,8 +3596,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts/mainaccount"
-                    urlBuilder_.Append("api/TransactionalAccounts/mainaccount");
+                    // Operation Path: "api/transactional-accounts/mainaccount"
+                    urlBuilder_.Append("api/transactional-accounts/mainaccount");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3677,8 +3677,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts/GetByAccountNumber/{accountNumber}"
-                    urlBuilder_.Append("api/TransactionalAccounts/GetByAccountNumber/");
+                    // Operation Path: "api/transactional-accounts/by-number/{accountNumber}"
+                    urlBuilder_.Append("api/transactional-accounts/by-number/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(accountNumber, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -3759,8 +3759,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts/CheckIfExists/{accountNumber}"
-                    urlBuilder_.Append("api/TransactionalAccounts/CheckIfExists/");
+                    // Operation Path: "api/transactional-accounts/check-if-exists/{accountNumber}"
+                    urlBuilder_.Append("api/transactional-accounts/check-if-exists/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(accountNumber, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -3838,8 +3838,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts"
-                    urlBuilder_.Append("api/TransactionalAccounts");
+                    // Operation Path: "api/transactional-accounts"
+                    urlBuilder_.Append("api/transactional-accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3919,8 +3919,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts"
-                    urlBuilder_.Append("api/TransactionalAccounts");
+                    // Operation Path: "api/transactional-accounts"
+                    urlBuilder_.Append("api/transactional-accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -3995,8 +3995,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/TransactionalAccounts"
-                    urlBuilder_.Append("api/TransactionalAccounts");
+                    // Operation Path: "api/transactional-accounts"
+                    urlBuilder_.Append("api/transactional-accounts");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4047,15 +4047,15 @@ namespace SmartFinancesBlazorUI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetAllAsync(string accountNumber)
+        public virtual System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> ByAccountAsync(string accountNumber)
         {
-            return TransfersGetAllAsync(accountNumber, System.Threading.CancellationToken.None);
+            return ByAccountAsync(accountNumber, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> TransfersGetAllAsync(string accountNumber, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<TransferDto>> ByAccountAsync(string accountNumber, System.Threading.CancellationToken cancellationToken)
         {
             if (accountNumber == null)
                 throw new System.ArgumentNullException("accountNumber");
@@ -4071,8 +4071,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers/transfersGetAll/{accountNumber}"
-                    urlBuilder_.Append("api/Transfers/transfersGetAll/");
+                    // Operation Path: "api/transfers/by-account/{accountNumber}"
+                    urlBuilder_.Append("api/transfers/by-account/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(accountNumber, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -4153,8 +4153,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers/get-with-pagination/{accountNumber}"
-                    urlBuilder_.Append("api/Transfers/get-with-pagination/");
+                    // Operation Path: "api/transfers/by-account-with-pagination/{accountNumber}"
+                    urlBuilder_.Append("api/transfers/by-account-with-pagination/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(accountNumber, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('?');
                     if (pageNumber != null)
@@ -4245,8 +4245,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers/{id}"
-                    urlBuilder_.Append("api/Transfers/");
+                    // Operation Path: "api/transfers/{id}"
+                    urlBuilder_.Append("api/transfers/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -4327,8 +4327,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers"
-                    urlBuilder_.Append("api/Transfers");
+                    // Operation Path: "api/transfers"
+                    urlBuilder_.Append("api/transfers");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4403,8 +4403,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers"
-                    urlBuilder_.Append("api/Transfers");
+                    // Operation Path: "api/transfers"
+                    urlBuilder_.Append("api/transfers");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4479,8 +4479,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers/deposit"
-                    urlBuilder_.Append("api/Transfers/deposit");
+                    // Operation Path: "api/transfers/deposit"
+                    urlBuilder_.Append("api/transfers/deposit");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4555,8 +4555,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/Transfers/withdraw"
-                    urlBuilder_.Append("api/Transfers/withdraw");
+                    // Operation Path: "api/transfers/withdraw"
+                    urlBuilder_.Append("api/transfers/withdraw");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4634,8 +4634,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/YearlySummaries/{accountId}/{year}"
-                    urlBuilder_.Append("api/YearlySummaries/");
+                    // Operation Path: "api/yearly-summaries/{accountId}/{year}"
+                    urlBuilder_.Append("api/yearly-summaries/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(accountId, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append('/');
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(year, System.Globalization.CultureInfo.InvariantCulture)));
@@ -4718,8 +4718,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/YearlySummaries"
-                    urlBuilder_.Append("api/YearlySummaries");
+                    // Operation Path: "api/yearly-summaries"
+                    urlBuilder_.Append("api/yearly-summaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -4794,8 +4794,8 @@ namespace SmartFinancesBlazorUI.Services.Base
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "api/YearlySummaries"
-                    urlBuilder_.Append("api/YearlySummaries");
+                    // Operation Path: "api/yearly-summaries"
+                    urlBuilder_.Append("api/yearly-summaries");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -5578,14 +5578,11 @@ namespace SmartFinancesBlazorUI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.1.0.0 (NJsonSchema v11.0.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class UpdateSavingsAccountDto
+    public partial class UpdateSavingsGoalDto
     {
 
         [System.Text.Json.Serialization.JsonPropertyName("id")]
         public int Id { get; set; }
-
-        [System.Text.Json.Serialization.JsonPropertyName("balance")]
-        public decimal Balance { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("goal")]
         public decimal Goal { get; set; }
